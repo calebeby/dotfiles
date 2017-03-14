@@ -1,2 +1,5 @@
+# vim: set ft=sh:
+
 fresh freshshell/fresh bin/fresh --bin
-fresh calebeby/fresh-dotfiles vimrc --file=~/.config/nvim/init.vim
+
+fresh vimrc --file=~/.config/nvim/init.vim
