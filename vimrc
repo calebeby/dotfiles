@@ -4,18 +4,21 @@ call plug#begin('~/.vim/plugged')
 
 " functionality
 " Plug 'FredKSchott/CoVim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'rafi/vim-tinyline'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch', { 'on': 'Dispatch' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
 " completion
 Plug 'jiangmiao/auto-pairs'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'yarn global add tern', 'for': [ 'javascript.jsx' ]}
 
 " text objects
 Plug 'kana/vim-textobj-user'
@@ -26,11 +29,13 @@ Plug 'morhetz/gruvbox'
 
 " syntax
 Plug 'sheerun/vim-polyglot'
-Plug 'ap/vim-css-color', { 'for': [ 'css', 'styl' ] }
+Plug 'ap/vim-css-color', { 'for': [ 'css', 'stylus' ] }
 
 call plug#end()
 
-call deoplete#enable()
+let g:deoplete#enable_at_startup = 1
+
+let mapleader = ","
 
 " use tab to forward cycle
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -137,6 +142,9 @@ nnoremap gs :Gstatus<CR>
 nnoremap gca :Git commit -a<CR>
 nnoremap gaa :Git add -A<CR>
 nnoremap gp :Gpush<CR>
+
+nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " change cursor shape on entering insert or replace mode
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
