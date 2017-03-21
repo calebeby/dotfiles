@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 
 " functionality
 " Plug 'FredKSchott/CoVim'
+" Plug 'jaxbot/github-issues.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'rafi/vim-tinyline'
 Plug 'tpope/vim-commentary'
@@ -144,7 +145,7 @@ nnoremap gaa :Git add -A<CR>
 nnoremap gp :Gpush<CR>
 
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
-nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <c-n> :NERDTreeToggle<CR>
 
 " change cursor shape on entering insert or replace mode
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
