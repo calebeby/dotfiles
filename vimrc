@@ -69,6 +69,10 @@ colorscheme onedark
 " colorscheme caleb
 " set background=dark
 
+nnoremap <leader>t :botright 10 new <bar> call termopen('ava') <bar> startinsert<cr>
+nnoremap <leader>T :botright 10 new <bar> call termopen('ava --watch') <bar> startinsert<cr>
+nnoremap <leader>l :botright 10 new <bar> call termopen('xo --fix') <bar> startinsert<cr>
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
