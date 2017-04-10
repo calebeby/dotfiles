@@ -41,8 +41,9 @@ alias update='sudo echo & yaourt -Syu --aur'
 alias mmv='noglob zmv -W'
 alias pullall='~/dotfiles/pullall.sh'
 alias commitstats='git log --format=format:%s%b | tr "[:upper:]" "[:lower:]" | tr -c "[:alnum:]" "[\n*]" | sort | uniq -c | sort -nr | head -25'
-# alias glog='gl'
-# alias gl='git pull'
+alias glog='gl'
+alias gl='git pull'
+
 j() {
   local dir
   dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
@@ -73,7 +74,7 @@ export PREFIX=~/.yarn-global
 unset MANPATH  # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
-source $HOME/.cargo/env
+# source $HOME/.cargo/env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
