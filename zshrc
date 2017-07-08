@@ -10,6 +10,8 @@
 export EDITOR='nvim'
 export BROWSER='google-chrome-stable'
 
+# export PGDATA='/var/lib/postgres/data'
+
 # Disable beep
 xset -b
 

@@ -1,24 +1,30 @@
 set nocompatible
 
 " auto-install vim-plug
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  echo "installing vim-plug"
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
-" " functionality
-" " Plug 'FredKSchott/CoVim'
-" " Plug 'jaxbot/github-issues.vim'
+" functionality
+" Plug 'FredKSchott/CoVim'
+" Plug 'jaxbot/github-issues.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch', { 'on': 'Dispatch' }
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'mattn/emmet-vim'
+Plug 'sbdchd/neoformat'
+Plug 'radenling/vim-dispatch-neovim'
+Plug 'alvan/vim-closetag'
+Plug 'fatih/vim-go'
+" Plug 'flowtype/vim-flow'
 
 Plug 'joshdick/onedark.vim'
 
@@ -28,22 +34,24 @@ Plug 'vim-scripts/SyntaxAttr.vim'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-" " completion
+" completion
 Plug 'jiangmiao/auto-pairs'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/nvim-cm-tern', {'do': 'yarn'}
 
 Plug 'guns/xterm-color-table.vim'
 
-" " text objects
+" text objects
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 
-" " theming
+" theming
 " Plug 'morhetz/gruvbox'
 
-" " syntax
+" syntax
 Plug 'sheerun/vim-polyglot'
 Plug 'ap/vim-css-color'
+Plug 'hhsnopek/vim-sugarss'
 
 call plug#end()
 
@@ -73,21 +81,17 @@ nnoremap <leader>t :botright 10 new <bar> call termopen('ava') <bar> startinsert
 nnoremap <leader>T :botright 10 new <bar> call termopen('ava --watch') <bar> startinsert<cr>
 nnoremap <leader>l :botright 10 new <bar> call termopen('xo --fix') <bar> startinsert<cr>
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " open a new file in a new buffer
 nmap <c-t> :FZF<cr>
 vmap <c-t> <esc><c-t>gv
 imap <c-t> <esc><c-t>
 tmap <c-t> <esc><c-t>
+
+" emmet
+imap <c-b> <c-y>,
 
 " quit
 noremap <c-q> :xall<CR>
@@ -124,15 +128,15 @@ imap <c-s> <Esc>:up<CR>a
 set relativenumber number
 
 " no arrow keys
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" noremap <Up> <NOP>
+" noremap <Down> <NOP>
+" noremap <Left> <NOP>
+" noremap <Right> <NOP>
 
-imap <up> <NOP>
-imap <down> <NOP>
-imap <left> <NOP>
-imap <right> <NOP>
+" imap <up> <NOP>
+" imap <down> <NOP>
+" imap <left> <NOP>
+" imap <right> <NOP>
 
 " adjust numbers
 noremap + <C-a>
@@ -184,7 +188,7 @@ nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
 
 " change cursor shape on entering insert or replace mode
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+" let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 let &t_SI = "\<esc>[5 q"
 let &t_SR = "\<esc>[5 q"
@@ -206,3 +210,21 @@ autocmd BufLeave term://* stopinsert
 
 " read when changing buffers
 au FocusGained,BufEnter * :silent! !
+
+autocmd FileType javascript.jsx,javascript setlocal formatprg=prettier-eslint\ --stdin
+let g:neoformat_try_formatprg = 1
+
+" nmap <leader>f :Neoformat<cr>
+nmap <leader>f :Dispatch! prettier-eslint --write %<cr>
+
+" autocmd BufWritePre *.js Dispatch! prettier-eslint % --write
+
+set mouse=a
+
+augroup filetypedetect
+  au BufRead,BufNewFile *.sgr setfiletype pug
+  au BufRead,BufNewFile *.sml setfiletype pug
+augroup END
+
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.js"
+let g:go_def_mapping_enabled = 0
