@@ -2,15 +2,8 @@
 # User configuration sourced by interactive shells
 #
 
-# Source zim
-# if [[ -s ${ZDOTDIR:-${HOME}}/.zim/init.zsh ]]; then
-#   source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
-# fi
-
 export EDITOR='nvim'
 export BROWSER='google-chrome-stable'
-
-# export PGDATA='/var/lib/postgres/data'
 
 # Disable beep
 xset -b
@@ -20,7 +13,6 @@ autoload zmv
 alias gaa='git add -A'
 alias p="bashpodder && ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
-# alias cat='fun () {highlight -O ansi -i $1 2>/dev/null || command cat $1;}; fun'
 alias apt-get="sudo apt-get"
 alias dotbot='~/dotfiles/install -d ~/dotfiles/'
 alias cp='cp --verbose'
@@ -58,8 +50,6 @@ export PATH="$PATH:$HOME/.local/bin"
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export QT_STYLE_OVERRIDE='gtk'
-
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source $HOME/.rvm/scripts/rvm
 
 export GOPATH=~/go
 export GOBIN=$GOPATH/bin
