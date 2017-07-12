@@ -10,8 +10,6 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 " functionality
-" Plug 'FredKSchott/CoVim'
-" Plug 'jaxbot/github-issues.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -24,13 +22,11 @@ Plug 'sbdchd/neoformat'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'alvan/vim-closetag'
 Plug 'fatih/vim-go'
-" Plug 'flowtype/vim-flow'
 
 Plug 'joshdick/onedark.vim'
 
 Plug 'vim-scripts/SyntaxAttr.vim'
 
-" Plug 'neomake/neomake'
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
