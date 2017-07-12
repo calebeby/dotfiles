@@ -10,6 +10,8 @@ xset -b
 
 autoload zmv
 
+fpath=("$HOME/.zfunctions" $fpath)
+
 alias gaa='git add -A'
 alias p="bashpodder && ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
@@ -69,6 +71,9 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+
+autoload -U promptinit; promptinit
+prompt pure
 
 autoload -U compinit; compinit
 
