@@ -1,0 +1,6 @@
+xmodmap -e "clear lock" #disable caps lock switch
+xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
+
+[ -f ~/.Xresources ] && xrdb ~/.Xresources
+
+exec i3

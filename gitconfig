@@ -1,0 +1,11 @@
+[user]
+	email = caleb.eby01@gmail.com
+	name = Caleb Eby
+[credential]
+	helper = store
+[core]
+	editor = nvim
+	excludesfile = ~/.gitignore
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[hub]
+	protocol = https

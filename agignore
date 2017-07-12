@@ -1,0 +1,11 @@
+platforms/
+node_modules/
+.git/
+.cordova/
+.cache/
+.bundle/
+/Pictures/
+/.*/
+build/
+public/
+elm-stuff/

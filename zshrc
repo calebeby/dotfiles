@@ -81,9 +81,6 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
-source ~/.fresh/build/shell.sh
-
-fpath=(~/.fresh/build/completion $fpath)
 autoload -U compinit; compinit
 
 zmodload -i zsh/complist
