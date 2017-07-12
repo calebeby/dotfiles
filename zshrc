@@ -17,7 +17,6 @@ xset -b
 
 autoload zmv
 
-alias git='hub'
 alias gaa='git add -A'
 alias p="bashpodder && ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
@@ -29,7 +28,7 @@ alias rerun='~/dotfiles/rerun'
 alias ls='ls -v --color=tty'
 alias busy="cat /dev/urandom | hexdump -C | ag --color 'ce e'"
 alias mm='bundle exec middleman'
-alias gs='hub status'
+alias gs='git status'
 alias e='if [ -s Session.vim ] ; then; nvim -S; else; nvim; fi'
 alias b='halt -p'
 alias ag='ag --path-to-ignore ~/.agignore --hidden'
