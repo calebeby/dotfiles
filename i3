@@ -8,7 +8,7 @@ font pango:Lato, Icons 11
 #font pango:DejaVu Sans Mono 8
 
 assign [class="google-chrome-stable"] 1
-exec --no-startup-id connman-ui-gtk --tray
+exec --no-startup-id nm-applet
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome-stable; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id dunst
 exec --no-startup-id albert
