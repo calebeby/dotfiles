@@ -17,16 +17,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'mattn/emmet-vim'
-Plug 'sbdchd/neoformat'
 Plug 'radenling/vim-dispatch-neovim'
 Plug 'alvan/vim-closetag'
 Plug 'fatih/vim-go'
-
-Plug 'joshdick/onedark.vim'
-
-Plug 'vim-scripts/SyntaxAttr.vim'
-
 
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
@@ -35,43 +28,39 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/nvim-cm-tern', {'do': 'yarn'}
 
+Plug 'tweekmonster/startuptime.vim'
+
 Plug 'guns/xterm-color-table.vim'
 
 " text objects
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 
-" theming
-" Plug 'morhetz/gruvbox'
-
 " syntax
 Plug 'sheerun/vim-polyglot'
 Plug 'ap/vim-css-color'
 Plug 'hhsnopek/vim-sugarss'
 
+Plug 'joshdick/onedark.vim'
+" Plug 'rakr/vim-one'
+" Plug 'larsbs/vimtom'
+" Plug 'patrickw276/one-dark.vim'
+" Plug '~/Programming/color/onedark/'
+Plug 'vim-scripts/SyntaxAttr.vim'
+
 call plug#end()
 
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
-  if (has("nvim"))
-    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
-  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  if (has("termguicolors"))
-    set termguicolors
-  endif
+colorscheme onedark
+set background=dark
+
+" Show syntax highlighting groups for word under cursor
+nmap <C-S-P> :call SyntaxAttr()<CR>
+
+if (has("termguicolors"))
+  set termguicolors
 endif
 
 let g:onedark_terminal_italics = 1
-
-colorscheme onedark
-" colorscheme caleb
-" set background=dark
 
 nnoremap <leader>t :botright 10 new <bar> call termopen('ava') <bar> startinsert<cr>
 nnoremap <leader>T :botright 10 new <bar> call termopen('ava --watch') <bar> startinsert<cr>
@@ -85,9 +74,6 @@ nmap <c-t> :FZF<cr>
 vmap <c-t> <esc><c-t>gv
 imap <c-t> <esc><c-t>
 tmap <c-t> <esc><c-t>
-
-" emmet
-imap <c-b> <c-y>,
 
 " quit
 noremap <c-q> :xall<CR>
@@ -123,21 +109,6 @@ imap <c-s> <Esc>:up<CR>a
 " show relative numbers and current line on 0
 set relativenumber number
 
-" no arrow keys
-" noremap <Up> <NOP>
-" noremap <Down> <NOP>
-" noremap <Left> <NOP>
-" noremap <Right> <NOP>
-
-" imap <up> <NOP>
-" imap <down> <NOP>
-" imap <left> <NOP>
-" imap <right> <NOP>
-
-" adjust numbers
-noremap + <C-a>
-noremap - <C-x>
-
 " use system clipboard
 " requires xsel
 set clipboard=unnamedplus
@@ -155,6 +126,7 @@ set splitright
 " vertical split character
 set fillchars=stl:―,stlnc:―,vert:│
 
+" switch panes
 nnoremap <m-j> <c-w><c-j>
 nnoremap <m-k> <c-w><c-k>
 nnoremap <m-l> <c-w><c-l>
@@ -183,19 +155,14 @@ nnoremap gp :Gpush<CR>
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
 
-" change cursor shape on entering insert or replace mode
-" let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+" let &t_SI = "\<esc>[5 q"
+" let &t_SR = "\<esc>[5 q"
+" let &t_EI = "\<esc>[2 q"
 
-let &t_SI = "\<esc>[5 q"
-let &t_SR = "\<esc>[5 q"
-let &t_EI = "\<esc>[2 q"
-
-map -a	:call SyntaxAttr()<CR>
-
-if exists('$TMUX')
-  let &t_SI = "\ePtmux;\e" . &t_SI . "\e\\"
-  let &t_EI = "\ePtmux;\e" . &t_EI . "\e\\"
-endif
+" if exists('$TMUX')
+"   let &t_SI = "\ePtmux;\e" . &t_SI . "\e\\"
+"   let &t_EI = "\ePtmux;\e" . &t_EI . "\e\\"
+" endif
 
 " ; === :
 nnoremap ; :
@@ -207,13 +174,7 @@ autocmd BufLeave term://* stopinsert
 " read when changing buffers
 au FocusGained,BufEnter * :silent! !
 
-autocmd FileType javascript.jsx,javascript setlocal formatprg=prettier-eslint\ --stdin
-let g:neoformat_try_formatprg = 1
-
-" nmap <leader>f :Neoformat<cr>
 nmap <leader>f :Dispatch! prettier-eslint --write %<cr>
-
-" autocmd BufWritePre *.js Dispatch! prettier-eslint % --write
 
 set mouse=a
 
@@ -223,4 +184,5 @@ augroup filetypedetect
 augroup END
 
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.js"
+
 let g:go_def_mapping_enabled = 0
