@@ -39,12 +39,7 @@ alias commitstats='git log --format=format:%s%b | tr "[:upper:]" "[:lower:]" | t
 alias glog='gl'
 alias gl='git pull'
 
-j() {
-  local dir
-  dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
-}
 alias nuke='jst-nuke'
-alias n='nvim $(fzf)'
 
 export PATH="$PATH:$HOME/.rvm/bin:/usr/local/bin"
 
@@ -70,7 +65,7 @@ export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # source $HOME/.cargo/env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+which rg > /dev/null && export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 autoload -U promptinit; promptinit
 prompt pure
