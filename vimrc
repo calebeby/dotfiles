@@ -54,25 +54,16 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-let g:onedark_terminal_italics = 1
-
-nnoremap <leader>t :botright 10 new <bar> call termopen('ava') <bar> startinsert<cr>
-nnoremap <leader>T :botright 10 new <bar> call termopen('ava --watch') <bar> startinsert<cr>
-nnoremap <leader>l :botright 10 new <bar> call termopen('xo --fix') <bar> startinsert<cr>
+let mapleader = ","
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " open a new file in a new buffer
-nmap <c-t> :FZF<cr>
-vmap <c-t> <esc><c-t>gv
-imap <c-t> <esc><c-t>
-tmap <c-t> <esc><c-t>
+nmap <c-o> :FZF<cr>
 
 " quit
 noremap <c-q> :xall<CR>
-
-let mapleader = ","
 
 " switch buffers without saving
 set hidden
@@ -141,9 +132,9 @@ tmap <c-q> <esc><c-q>
 " close FZF buffer with <esc>
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c><esc>:q<CR>
 
-nnoremap gs :Gina status<CR>
-nnoremap gc :Gina commit<CR>
-nnoremap gp :Gina push<CR>
+nmap <leader>s :Gina status<CR>
+nmap <leader>c :Gina commit<CR>
+nmap <leader>p :Gina push<CR>
 
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
@@ -191,6 +182,3 @@ augroup filetypedetect
   au BufRead,BufNewFile *.sgr setfiletype pug
   au BufRead,BufNewFile *.sml setfiletype pug
 augroup END
-
-" I use ctrl-t elsewhere
-let g:go_def_mapping_enabled = 0
