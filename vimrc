@@ -34,14 +34,18 @@ Plug 'b4winckler/vim-angry'
 Plug 'ap/vim-css-color'
 Plug 'hhsnopek/vim-sugarss'
 Plug 'fatih/vim-go'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
-Plug '~/Programming/color/caleb/'
+Plug '~/dotfiles/caleb'
 Plug 'vim-scripts/SyntaxAttr.vim'
 
 call plug#end()
 
 colorscheme caleb
 set background=dark
+
+let g:jsx_ext_required = 0
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call SyntaxAttr()<CR>
