@@ -114,8 +114,13 @@ nnoremap <silent> <esc> :noh<return><esc>
 set splitbelow
 set splitright
 
-" vertical split character
+" split character
 set fillchars=stl:─,stlnc:─,vert:│
+
+" case insensitive suggestions for files and directories
+set wildignorecase
+" case insensitive suggestions for :command suggestions
+set ignorecase
 
 " switch panes
 nnoremap <m-j> <c-w><c-j>
