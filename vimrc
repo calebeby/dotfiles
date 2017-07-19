@@ -13,7 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-" Plug 'tpope/vim-fugitive'
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
