@@ -36,6 +36,7 @@ Plug 'hhsnopek/vim-sugarss'
 Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'PotatoesMaster/i3-vim-syntax'
 
 Plug '~/dotfiles/caleb'
 Plug 'vim-scripts/SyntaxAttr.vim'
@@ -88,6 +89,11 @@ set autoread
 
 " highlight current line
 set cursorline
+
+augroup vimrc
+  au!
+  au BufWritePost vimrc,.vimrc source ~/.config/nvim/init.vim
+augroup END
 
 " save file
 nmap <c-s> :up<CR>
