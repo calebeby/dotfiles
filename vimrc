@@ -13,44 +13,35 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
+Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'radenling/vim-dispatch-neovim'
-Plug 'alvan/vim-closetag'
-Plug 'fatih/vim-go'
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 " completion
-Plug 'jiangmiao/auto-pairs'
 Plug 'roxma/nvim-completion-manager'
 Plug 'roxma/nvim-cm-tern', {'do': 'yarn'}
 
 Plug 'tweekmonster/startuptime.vim'
 
-Plug 'guns/xterm-color-table.vim'
-
 " text objects
-Plug 'kana/vim-textobj-user'
-Plug 'sgur/vim-textobj-parameter'
+Plug 'b4winckler/vim-angry'
 
-" syntax
-Plug 'sheerun/vim-polyglot'
+" language
 Plug 'ap/vim-css-color'
 Plug 'hhsnopek/vim-sugarss'
+Plug 'fatih/vim-go'
 
-Plug 'joshdick/onedark.vim'
-" Plug 'rakr/vim-one'
-" Plug 'larsbs/vimtom'
-" Plug 'patrickw276/one-dark.vim'
-" Plug '~/Programming/color/onedark/'
+Plug '~/Programming/color/caleb/'
 Plug 'vim-scripts/SyntaxAttr.vim'
 
 call plug#end()
 
-colorscheme onedark
+colorscheme caleb
 set background=dark
 
 " Show syntax highlighting groups for word under cursor
@@ -101,6 +92,9 @@ syntax enable
 " reload files changed outside vim
 set autoread
 
+" highlight current line
+set cursorline
+
 " save file
 nmap <c-s> :up<CR>
 vmap <c-s> <Esc>:up<CR>gv
@@ -113,9 +107,6 @@ set relativenumber number
 " requires xsel
 set clipboard=unnamedplus
 
-" enable italic
-let g:gruvbox_italic=1
-
 " clear search by pressing <esc>
 nnoremap <silent> <esc> :noh<return><esc>
 
@@ -124,7 +115,7 @@ set splitbelow
 set splitright
 
 " vertical split character
-set fillchars=stl:―,stlnc:―,vert:│
+set fillchars=stl:─,stlnc:─,vert:│
 
 " switch panes
 nnoremap <m-j> <c-w><c-j>
@@ -155,21 +146,37 @@ nnoremap gp :Gpush<CR>
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
 
-" let &t_SI = "\<esc>[5 q"
-" let &t_SR = "\<esc>[5 q"
-" let &t_EI = "\<esc>[2 q"
-
-" if exists('$TMUX')
-"   let &t_SI = "\ePtmux;\e" . &t_SI . "\e\\"
-"   let &t_EI = "\ePtmux;\e" . &t_EI . "\e\\"
-" endif
-
 " ; === :
 nnoremap ; :
 
 " enter insert mode automatically in terminal buffers
 autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd BufLeave term://* stopinsert
+
+" don't show -- INSERT --, etc.
+set noshowmode
+
+" always show statusline
+set laststatus=2
+
+function! ModifiedIndicator()
+  return &modified ? '*' : ''
+endfunction
+
+function! ReadOnlyIndicator()
+  return &readonly ? '🔒' : ''
+endfunction
+
+"tail
+set statusline=%t
+"file modified
+set statusline+=%#WarningMsg#
+set statusline+=%{ModifiedIndicator()}
+set statusline+=%*\  
+" read only
+set statusline+=%{ReadOnlyIndicator()}
+" git branch
+" set statusline+=%{fugitive#statusline()}
 
 " read when changing buffers
 au FocusGained,BufEnter * :silent! !
@@ -183,6 +190,5 @@ augroup filetypedetect
   au BufRead,BufNewFile *.sml setfiletype pug
 augroup END
 
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.php,*.js"
-
+" I use ctrl-t elsewhere
 let g:go_def_mapping_enabled = 0
