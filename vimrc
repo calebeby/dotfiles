@@ -132,10 +132,15 @@ tmap <c-q> <esc><c-q>
 " close FZF buffer with <esc>
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c><esc>:q<CR>
 
-nmap <leader>s :Gina status<CR>
-nmap <leader>c :Gina commit --verbose<CR>
-nmap <leader>p :Gina push<CR>
-nmap <leader>l :Gina pull<CR>
+xmap <leader>c  <Plug>Commentary
+nmap <leader>c  <Plug>Commentary
+omap <leader>c  <Plug>Commentary
+nmap <leader>cc <Plug>CommentaryLine
+
+nmap gs :Gina status<CR>
+nnoremap gc :Gina commit --verbose<CR>
+nmap gp :Gina push<CR>
+nmap gl :Gina pull<CR>
 
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
