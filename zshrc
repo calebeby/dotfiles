@@ -41,8 +41,6 @@ alias gl='git pull'
 
 alias nuke='jst-nuke'
 
-export PATH="$PATH:$HOME/.rvm/bin:/usr/local/bin"
-
 export PATH="$PATH:$HOME/.local/bin"
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
