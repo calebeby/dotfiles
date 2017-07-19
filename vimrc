@@ -133,8 +133,9 @@ tmap <c-q> <esc><c-q>
 autocmd! FileType fzf tnoremap <buffer> <esc> <c-c><esc>:q<CR>
 
 nmap <leader>s :Gina status<CR>
-nmap <leader>c :Gina commit<CR>
+nmap <leader>c :Gina commit --verbose<CR>
 nmap <leader>p :Gina push<CR>
+nmap <leader>l :Gina pull<CR>
 
 nnoremap <leader>r :source ~/.config/nvim/init.vim<CR>
 nnoremap <c-n> :NERDTreeToggle<CR>
