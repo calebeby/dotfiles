@@ -55,6 +55,11 @@ export PATH=~/.npm-global/bin:$PATH
 export PATH=~/.yarn-global/bin:$PATH
 export PREFIX=~/.yarn-global
 
+export FZF_DEFAULT_COMMAND='
+  (git ls-tree -r --name-only HEAD ||
+   find . -path "*/\.*" -prune -o -type f -print -o -type l -print |
+      sed s/^..//) 2> /dev/null'
+
 # Unset manpath so we can inherit from /etc/manpath via the `manpath`
 # command
 unset MANPATH  # delete if you already modified MANPATH elsewhere in your config
