@@ -1,0 +1,128 @@
+snippet fires
+alias f
+regexp '* f'
+	@fires ${1:event}
+
+snippet returns
+alias r
+regexp '* r'
+	@returns {${2:type}} ${2:description}
+
+snippet param
+alias p
+regexp '* p'
+	@param {${2:type}} ${1:name} - ${3:description}
+
+snippet /**
+	/**
+	 * ${0}
+	 */
+
+snippet test
+	test('${1:description}', async t => {
+		${2:body}
+	})
+
+snippet #!
+	#!/usr/bin/env node
+
+snippet render
+	render(<${1:App} />, document.getElementById("${2:app}"))
+
+snippet preact
+alias ipr
+	import {h${1:, Component}} from 'preact'
+
+snippet sst
+	this.setState({${1}})
+
+snippet import
+alias im
+	import ${1:name} from '${2:$1}'
+
+snippet require
+alias re
+  const ${1:name} = require('${2:$1}')
+
+snippet mex
+	module.exports = 
+
+snippet ex
+	export ${1:default} 
+
+snippet me
+	${1:name}(${2:arguments}) {
+		${3:body}
+	}
+
+snippet ()component
+alias ()co
+  import {h} from 'preact'
+
+  export default ${1:(state, props)} => (
+    ${2}
+  )
+
+snippet component
+alias co
+  import {h, Component} from 'preact'
+
+	export default class ${1:Name} extends Component {
+		constructor() {
+			super()
+			this.state = {
+        ${2}
+      }
+		}
+
+		render() {
+			return (
+				${3}
+			)
+		}
+	}
+
+snippet ()
+options head
+	const ${1:name} = ${2:arguments} => ${3:body}
+
+snippet if
+	if (${1:condition}) {
+		${2:body}
+	}
+
+snippet ife
+	if (${1:condition}) {
+		${2:body}
+	} else {
+		${3:body}
+	}
+
+snippet ifelif
+	if (${1:condition}) {
+		${2:body}
+	} else if (${3:condition}) {
+		${4:body}
+	}
+
+snippet ifelife
+	if (${1:condition}) {
+		${2:body}
+	} else if (${3:condition}) {
+		${4:body}
+	} else {
+		${5:body}
+	}
+
+snippet meow
+	const cli = meow(\`
+		Usage
+			$ ${1:foo} <input>
+
+		Options
+			--rainbow, -r  Include a rainbow
+
+		Examples
+			$ $1 unicorns --rainbow
+			unicorns
+	\`)

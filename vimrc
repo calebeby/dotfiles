@@ -13,7 +13,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'lambdalisue/gina.vim'
+Plug 'lambdalisue/gina.vim', {'on': 'Gina'}
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -22,10 +22,16 @@ Plug 'radenling/vim-dispatch-neovim'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
 " completion
+Plug 'roxma/nvim-cm-tern', {'do': 'yarn', 'for': 'javascript'}
+Plug 'Shougo/neco-vim', {'for': 'vim'}
 Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/nvim-cm-tern', {'do': 'yarn'}
+Plug 'jiangmiao/auto-pairs'
+Plug 'Shougo/neosnippet.vim'
+" Plug 'mattn/emmet-vim'
+Plug '~/Programming/calebeby/emmet-vim-lite'
 
-Plug 'tweekmonster/startuptime.vim'
+" performance
+Plug 'tweekmonster/startuptime.vim', {'on': 'StartupTime'}
 
 " text objects
 Plug 'b4winckler/vim-angry'
@@ -33,17 +39,19 @@ Plug 'b4winckler/vim-angry'
 " language
 Plug 'ap/vim-css-color'
 Plug 'hhsnopek/vim-sugarss'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'reshape/vim-sugarml'
+Plug 'plasticboy/vim-markdown', {'for': ['md', 'markdown']}
 
-Plug '~/dotfiles/caleb'
+Plug 'vim-colorize/one-dark'
 Plug 'vim-scripts/SyntaxAttr.vim'
 
 call plug#end()
 
-colorscheme caleb
+colorscheme one-dark
 set background=dark
 
 let g:jsx_ext_required = 0
@@ -56,9 +64,6 @@ if (has("termguicolors"))
 endif
 
 let mapleader = ","
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " open a new file in a new buffer
 nmap <c-o> :FZF<cr>
@@ -87,8 +92,8 @@ syntax enable
 " reload files changed outside vim
 set autoread
 
-" highlight current line
-set cursorline
+set nofoldenable
+let g:vim_markdown_conceal = 0
 
 augroup vimrc
   au!
@@ -97,11 +102,52 @@ augroup END
 
 " save file
 nmap <c-s> :up<CR>
-vmap <c-s> <Esc>:up<CR>gv
-imap <c-s> <Esc>:up<CR>a
+vmap <c-s> <esc>:up<CR>gv
+imap <c-s> <esc>:up<CR>a
 
-" show relative numbers and current line on 0
+" show relative numbers and current line #
 set relativenumber number
+
+function! OnTab()
+  if neosnippet#expandable()
+    return "\<Plug>(neosnippet_expand)"
+  elseif pumvisible()
+    return "\<C-n>"
+  elseif neosnippet#jumpable()
+    return "\<Plug>(neosnippet_jump)"
+  elseif emmet#isExpandable()
+    return "\<Plug>(emmet-expand-abbr)"
+  else
+    return "\<tab>"
+  endif
+endfunction
+
+imap <expr><tab> OnTab()
+
+imap <expr><enter> pumvisible() ? "\<c-y>" : "\<cr>"
+
+smap <expr><tab> neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "\<tab>"
+
+imap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
+" snippets
+let g:neosnippet#snippets_directory='~/dotfiles/snippets'
+let g:neosnippet#enable_completed_snippet=1
+let g:neosnippet#disable_runtime_snippets = {'_': 1}
+
+autocmd InsertLeave * NeoSnippetClearMarkers
+
+" tab character in neosnippet
+autocmd FileType neosnippet setlocal noexpandtab
+
+nmap <leader>s :NeoSnippetEdit -split -vertical<cr>
+
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" hide markers
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 " use system clipboard
 " requires xsel
@@ -115,7 +161,7 @@ set splitbelow
 set splitright
 
 " split character
-set fillchars=stl:─,stlnc:─,vert:│
+set fillchars=stl:─,stlnc:─,vert:│,fold:۰,diff:·
 
 " case insensitive suggestions for files and directories
 set wildignorecase
@@ -123,11 +169,10 @@ set wildignorecase
 set ignorecase
 
 " switch panes
+nnoremap <m-h> <c-w><c-h>
 nnoremap <m-j> <c-w><c-j>
 nnoremap <m-k> <c-w><c-k>
 nnoremap <m-l> <c-w><c-l>
-nnoremap <m-h> <c-w><c-h>
-nnoremap <m-h> <c-w><c-h>
 
 " <esc> as <esc> in terminal
 tmap <esc> <c-\><c-n>
@@ -166,27 +211,13 @@ autocmd BufLeave term://* stopinsert
 " don't show -- INSERT --, etc.
 set noshowmode
 
+" don't show "The only match", "Back at original", etc.
+set shortmess+=c
+
 " always show statusline
 set laststatus=2
 
-function! ModifiedIndicator()
-  return &modified ? '*' : ''
-endfunction
-
-function! ReadOnlyIndicator()
-  return &readonly ? '🔒' : ''
-endfunction
-
-"tail
-set statusline=%t
-"file modified
-set statusline+=%#WarningMsg#
-set statusline+=%{ModifiedIndicator()}
-set statusline+=%*\  
-" read only
-set statusline+=%{ReadOnlyIndicator()}
-" git branch
-" set statusline+=%{fugitive#statusline()}
+set laststatus=0
 
 " read when changing buffers
 au FocusGained,BufEnter * :silent! !
@@ -195,7 +226,5 @@ nmap <leader>f :Dispatch! prettier-eslint --write %<cr>
 
 set mouse=a
 
-augroup filetypedetect
-  au BufRead,BufNewFile *.sgr setfiletype pug
-  au BufRead,BufNewFile *.sml setfiletype pug
-augroup END
+" ctrl-enter
+nmap <c-m> :botright 1split \| term<cr>
