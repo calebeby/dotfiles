@@ -194,7 +194,8 @@ omap <leader>c  <Plug>Commentary
 nmap <leader>cc <Plug>CommentaryLine
 
 nmap gs :Gina status<CR>
-nnoremap gc :Gina commit --verbose<CR>
+nmap gc :Gina commit --verbose<CR>
+nmap gaa :Gina add -A<CR>
 nmap gp :Gina push<CR>
 nmap gl :Gina pull<CR>
 

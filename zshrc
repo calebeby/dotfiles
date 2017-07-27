@@ -1,7 +1,3 @@
-#
-# User configuration sourced by interactive shells
-#
-
 export EDITOR='nvim'
 export BROWSER='google-chrome-stable'
 
@@ -12,39 +8,25 @@ autoload zmv
 
 fpath=("$HOME/.zfunctions" $fpath)
 
-alias gaa='git add -A'
-alias p="bashpodder && ~/Podcasts/speedup.sh"
-alias t="~/Podcasts/transfer.sh"
-alias apt-get="sudo apt-get"
-alias dotbot='~/dotfiles/install -d ~/dotfiles/'
-alias cp='cp --verbose'
-alias rerun='~/dotfiles/rerun'
-alias ls='ls -v --color=tty'
-alias busy="cat /dev/urandom | hexdump -C | ag --color 'ce e'"
-alias mm='bundle exec middleman'
 alias gs='git status'
-alias e='if [ -s Session.vim ] ; then; nvim -S; else; nvim; fi'
-alias b='halt -p'
-alias ag='ag --path-to-ignore ~/.agignore --hidden'
-alias work='tmux attach -t'
-alias install='yaourt -S'
-alias uninstall='yaourt -Rs'
-alias remove='yaourt -Rs'
-alias coala='coala -n'
-alias open='xdg-open'
-alias update='sudo echo; yaourt -Syu --aur'
-alias mmv='noglob zmv -W'
-alias pullall='~/dotfiles/pullall.sh'
-alias commitstats='git log --format=format:%s%b | tr "[:upper:]" "[:lower:]" | tr -c "[:alnum:]" "[\n*]" | sort | uniq -c | sort -nr | head -25'
-alias glog='gl'
+alias gc='git commit --verbose'
+alias gaa='git add -A'
+alias gp='git push'
 alias gl='git pull'
 
-alias nuke='jst-nuke'
+alias p="bashpodder && ~/Podcasts/speedup.sh"
+alias t="~/Podcasts/transfer.sh"
+
+alias pacman="sudo bb-wrapper --aur"
+alias install="pacman -S"
+alias uninstall="pacman -Rs"
+alias update="pacman -Syu"
+alias ls='ls -v --color=tty'
+alias e='if [ -s Session.vim ] ; then; nvim -S; else; nvim; fi'
+alias b='halt -p'
+alias mmv='noglob zmv -W'
 
 export PATH="$PATH:$HOME/.local/bin"
-
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export QT_STYLE_OVERRIDE='gtk'
 
 export GOPATH=~/go
 export GOBIN=$GOPATH/bin
@@ -55,18 +37,27 @@ export PATH=~/.npm-global/bin:$PATH
 export PATH=~/.yarn-global/bin:$PATH
 export PREFIX=~/.yarn-global
 
-# Unset manpath so we can inherit from /etc/manpath via the `manpath`
-# command
-unset MANPATH  # delete if you already modified MANPATH elsewhere in your config
-export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 which rg > /dev/null && export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 autoload -U promptinit; promptinit
 prompt pure
 
-autoload -U compinit; compinit
+# On slow systems, checking the cached .zcompdump file to see if it must be 
+# regenerated adds a noticable delay to zsh startup.  This little hack restricts 
+# it to once a day.  It should be pasted into your own completion file.
+#
+# The globbing is a little complicated here:
+# - '#q' is an explicit glob qualifier that makes globbing work within zsh's [[ ]] construct.
+# - 'N' makes the glob pattern evaluate to nothing when it doesn't match (rather than throw a globbing error)
+# - '.' matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are older than 24 hours.
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit
+else
+	compinit -C
+fi
 
 zmodload -i zsh/complist
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
