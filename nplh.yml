@@ -15,3 +15,4 @@ bashrc: ~/.bashrc
 dunstrc: ~/.config/dunst/dunstrc
 pure.zsh: ~/.zfunctions/prompt_pure_setup
 async.zsh: ~/.zfunctions/async
+eslintrc.js: ~/.eslintrc.js
