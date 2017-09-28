@@ -9,8 +9,8 @@ font pango:Lato, Icons 11
 
 assign [class="google-chrome-stable"] 1
 exec --no-startup-id nm-applet
+exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome-stable; workspace 2; exec --no-startup-id sakura'
-exec --no-startup-id dunst
 exec --no-startup-id albert
 exec --no-startup-id redshift
 
