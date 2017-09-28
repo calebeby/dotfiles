@@ -1,0 +1,14 @@
+# ignore
+.git/
+build/
+public/
+elm-stuff/
+/.*/
+/.config/google-chrome/
+/go/src/
+
+# include
+!/.vim/
+!/.config/
+
+# vim: ft=gitignore
