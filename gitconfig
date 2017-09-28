@@ -9,3 +9,5 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [hub]
 	protocol = https
+
+# vim: ft=gitconfig
