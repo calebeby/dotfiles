@@ -1,7 +1,10 @@
-**/Session.vim
+Session.vim
 node_modules
 build/
+public/
 elm-stuff/
-plugged/
-Pictures
-**/jstransformer-*/yarn.lock
+/plugged/
+jstransformer-*/yarn.lock
+.tern-port
+
+# vim: ft=gitignore
