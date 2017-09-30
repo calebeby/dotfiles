@@ -4,8 +4,8 @@ snippet if
 	endif
 
 snippet function
-	function! ${1:name}()
-		${2:body}
+	function! ${1:name}(${2:arguments})
+		${3:body}
 	endfunction
 
 snippet P
@@ -15,3 +15,12 @@ snippet for
 	for ${1:i} in ${2:array}
 	  ${3:body}
 	endfor
+
+snippet autocmd
+alias augroup
+alias au
+	augroup ${1:name}
+		autocmd!
+		autocmd! ${2}
+	augroup END
+

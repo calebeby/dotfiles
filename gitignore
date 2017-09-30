@@ -3,7 +3,7 @@ node_modules
 build/
 public/
 elm-stuff/
-/plugged/
+/vim/plugged/
 jstransformer-*/yarn.lock
 .tern-port
 

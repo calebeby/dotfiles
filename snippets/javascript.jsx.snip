@@ -1,37 +1,30 @@
-snippet fires
-alias f
-regexp '* f'
-	@fires ${1:event}
-
-snippet returns
-alias r
-regexp '* r'
-	@returns {${2:type}} ${2:description}
-
-snippet param
-alias p
-regexp '* p'
-	@param {${2:type}} ${1:name} - ${3:description}
-
-snippet /**
-	/**
-	 * ${0}
-	 */
+snippet bind
+  this.${1:method} = this.$1.bind(this)
 
 snippet test
-	test('${1:description}', async t => {
-		${2:body}
+alias t
+	test('${1:description}', () => {
+		${2}
 	})
+
+snippet describe
+alias des
+	describe('${1:name}', () => {
+		${2}
+	})
+
+snippet ava
+	import test from 'ava'
 
 snippet #!
 	#!/usr/bin/env node
 
 snippet render
-	render(<${1:App} />, document.getElementById("${2:app}"))
+	render(<${1:App} />, document.getElementById('${2:app}'))
 
 snippet preact
 alias ipr
-	import {h${1:, Component}} from 'preact'
+	import { h${1:, Component} } from 'preact'
 
 snippet sst
 	this.setState({${1}})
@@ -57,22 +50,20 @@ snippet me
 
 snippet ()component
 alias ()co
-  import {h} from 'preact'
+  import { h } from 'preact'
 
-  export default ${1:(state, props)} => (
-    ${2}
-  )
+  const ${1:name} = ${2:(props, state)} => ${3}
+
+	export default $1
 
 snippet component
 alias co
-  import {h, Component} from 'preact'
+  import { h, Component } from 'preact'
 
-	export default class ${1:Name} extends Component {
+	class ${1:Name} extends Component {
 		constructor() {
 			super()
-			this.state = {
-        ${2}
-      }
+			this.state = {${2}}
 		}
 
 		render() {
@@ -82,7 +73,10 @@ alias co
 		}
 	}
 
+  export default $1
+
 snippet ()
+alias (
 options head
 	const ${1:name} = ${2:arguments} => ${3:body}
 

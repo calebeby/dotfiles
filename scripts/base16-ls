@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ls ~/dotfiles/base16/templates/shell/scripts | sed -e 's/base16-\(.*\).sh/\1/'

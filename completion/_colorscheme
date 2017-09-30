@@ -1,0 +1,3 @@
+#compdef colorscheme
+ 
+_arguments "1: :($(base16-ls))"

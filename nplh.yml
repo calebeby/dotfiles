@@ -1,14 +1,16 @@
-vimrc:
-  - ~/.config/nvim/init.vim
-  - ~/.vimrc
+vim/init.vim: ~/.vimrc
+vim:
+  - ~/.config/nvim
+  - ~/.vim
 zshrc: ~/.zshrc
+fish: ~/.config/fish
 i3: ~/.config/i3/config
 i3status: ~/.config/i3status/config
 xinitrc: ~/.xinitrc
 zprofile: ~/.zprofile
 gtkrc-2.0: ~/.gtkrc-2.0
 gtk-3.0: ~/.config/gtk-3.0
-agignore: ~/.agignore
+ignore: ~/.ignore
 gitconfig: ~/.gitconfig
 gitignore: ~/.gitignore
 bashrc: ~/.bashrc
@@ -16,3 +18,4 @@ dunstrc: ~/.config/dunst/dunstrc
 pure.zsh: ~/.zfunctions/prompt_pure_setup
 async.zsh: ~/.zfunctions/async
 eslintrc.js: ~/.eslintrc.js
+tern-config.json: ~/.tern-config

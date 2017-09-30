@@ -1,0 +1,1 @@
+/home/caleb/.config/fisherman/await/functions/await.fish
