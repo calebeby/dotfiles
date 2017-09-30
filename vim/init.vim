@@ -49,7 +49,7 @@ Plug 'thinca/vim-textobj-between', { 'on': '<Plug>(textobj-between' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs', { 'on': [] }
 
 source $HOME/.config/nvim/completion.vim
 source $HOME/.config/nvim/linting.vim
@@ -69,11 +69,17 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
 Plug 'gisphm/vim-gitignore', { 'for': 'gitignore' }
 Plug 'dag/vim-fish'
-Plug 'HerringtonDarkholme/yats.vim'
-
-Plug 'vim-scripts/SyntaxAttr.vim'
 
 call plug#end()
+
+augroup insertplugins
+  autocmd!
+  autocmd InsertEnter * call plug#load(
+    \'neosnippet.vim',
+    \'neco-syntax',
+    \'auto-pairs'
+  \) | call deoplete#enable() | autocmd! insertplugins
+augroup END
 
 let mapleader = "\\"
 map <space> \
@@ -93,9 +99,6 @@ let g:jsdoc_allow_input_prompt = 1
 let g:jsdoc_enable_es6 = 1
 let NERDTreeQuitOnOpen=1
 nmap <leader>d :JsDoc<cr>
-
-" show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call SyntaxAttr()<cr>
 
 " navigate tabs
 nnoremap tj :tabprevious<cr>

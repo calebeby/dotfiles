@@ -3,15 +3,15 @@
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'carlitux/deoplete-ternjs', { 'do': 'yarn global add tern', 'for': 'javascript' }
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neco-syntax'
-Plug 'mhartington/nvim-typescript', { 'do': 'yarn global add typescript'}
+Plug 'Shougo/neosnippet.vim', { 'on': [] }
+Plug 'Shougo/neco-syntax', { 'on': [] }
 " Plug '~/Programming/calebeby/emmet-vim-lite'
 " Plug '~/Programming/calebeby/ncm-css'
 
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
 let g:deoplete#sources#ternjs#types = 1
-let g:deoplete#sources#ternjs#docs = 1
+" let g:deoplete#sources#ternjs#docs = 1
+let g:deoplete#sources#ternjs#include_keywords = 1
 
 function! OnTab()
   if neosnippet#expandable()
