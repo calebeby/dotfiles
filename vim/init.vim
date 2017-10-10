@@ -29,7 +29,6 @@ Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 Plug 'easymotion/vim-easymotion', { 'on': '<Plug>(easymotion-' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript', 'on': 'JsDoc' }
-Plug '~/Programming/calebeby/nvim-test', { 'on': [ 'TestFile', 'TestAll' ] }
 Plug 'guns/xterm-color-table.vim', { 'on': 'XtermColorTable' }
 Plug 'AndrewRadev/sideways.vim', { 'on': [ 'SidewaysLeft', 'SidewaysRight', '<Plug>Sideways' ] }
 Plug 'jremmen/vim-ripgrep', { 'on': 'Rg' }
