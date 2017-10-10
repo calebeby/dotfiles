@@ -48,7 +48,7 @@ Plug 'thinca/vim-textobj-between', { 'on': '<Plug>(textobj-between' }
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
-Plug 'jiangmiao/auto-pairs', { 'on': [] }
+Plug 'jiangmiao/auto-pairs'
 
 source $HOME/.config/nvim/completion.vim
 source $HOME/.config/nvim/linting.vim
@@ -75,8 +75,7 @@ augroup insertplugins
   autocmd!
   autocmd InsertEnter * call plug#load(
     \'neosnippet.vim',
-    \'neco-syntax',
-    \'auto-pairs'
+    \'neco-syntax'
   \) | call deoplete#enable() | autocmd! insertplugins
 augroup END
 
