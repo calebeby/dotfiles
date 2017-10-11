@@ -41,3 +41,10 @@ if status --is-login
     exec startx -- -keeptty
   end
 end
+
+fish_vi_key_bindings
+set fish_bind_mode insert
+function fish_mode_prompt; end
+set fish_cursor_default block
+set fish_cursor_insert line
+set fish_cursor_visual block
