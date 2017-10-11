@@ -34,3 +34,10 @@ set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 set -x FZF_DEFAULT_OPTS '--color fg:7,bg:0,hl:6,fg+:7,bg+:0,hl+:6,info:240,prompt:4,pointer:1,marker:5,spinner:2,header:4 --preview "cat {}  | head -50"'
 
 set fish_greeting ""
+
+# Start X at login
+if status --is-login
+  if test -z "$DISPLAY" -a $XDG_VTNR = 1
+    exec startx -- -keeptty
+  end
+end
