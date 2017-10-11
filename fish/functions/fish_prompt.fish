@@ -39,5 +39,9 @@ function fish_prompt
 
   set -l git (__fish_git_prompt "%s")
 
-  echo -e "\n$pwd $git\n$char "
+  if test $CMD_DURATION -ge 2000
+    set duration (set_color yellow)(echo "$CMD_DURATION 1000" | awk '{printf "%.1fs", $1 / $2}')(set_color normal)
+  end
+
+  echo -e "\n$pwd $git$duration \n$char "
 end
