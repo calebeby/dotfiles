@@ -16,5 +16,4 @@ gitignore: ~/.gitignore
 bashrc: ~/.bashrc
 pure.zsh: ~/.zfunctions/prompt_pure_setup
 async.zsh: ~/.zfunctions/async
-eslintrc.js: ~/.eslintrc.js
 tern-config.json: ~/.tern-config
