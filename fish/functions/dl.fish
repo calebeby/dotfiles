@@ -1,11 +1,20 @@
 function dl
-  set url https://github.com/$argv[1]
-  set path ~/Programming/github.com/$argv[1]
-  if test -d $path
-    echo "$argv[1] already downloaded"
-  else
-    mkdir -p ~/Programming
-    git clone $url $path
+  set path (string replace -r "https?://" '' "$argv[1]" | tr '[:upper:]' '[:lower:]')
+  # if not a url
+  if not string match -r '[-A-Za-z0-9]*\.[A-Za-z]*' $path
+    # if not user/repo
+    if not string match -r '.*/.*' $path
+      set path "calebeby/$path"
+    end
+    set path "github.com/$path"
   end
-  cd $path
+  set folder "$HOME/Programming/$path"
+  set url "https://$path"
+  if test -d $folder
+    echo "$url already downloaded"
+  else
+    mkdir -p $folder
+    git clone $url $folder
+  end
+  cd $folder
 end

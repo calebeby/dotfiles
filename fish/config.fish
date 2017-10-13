@@ -3,7 +3,7 @@ set -x BROWSER 'google-chrome-stable'
 
 set -x PREFIX $HOME/.yarn-global
 
-set -x PATH $HOME/.config/yarn/global/node_modules/.bin $PATH
+set -x PATH $HOME/.config/yarn/global/node_modules/.bin $HOME/.local/bin $PATH
 
 if type -q hub
   alias git='hub'
@@ -42,9 +42,9 @@ if status --is-login
   end
 end
 
-fish_vi_key_bindings
-set fish_bind_mode insert
-function fish_mode_prompt; end
-set fish_cursor_default block
-set fish_cursor_insert line
-set fish_cursor_visual block
+# fish_vi_key_bindings
+# set fish_bind_mode insert
+# function fish_mode_prompt; end
+# set fish_cursor_default block
+# set fish_cursor_insert line
+# set fish_cursor_visual block

@@ -1,1 +1,0 @@
-/home/caleb/.config/fisherman/getopts/getopts.fish

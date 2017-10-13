@@ -1,1 +1,0 @@
-/home/caleb/.config/fisherman/z/functions/__z.fish
