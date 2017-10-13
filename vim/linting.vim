@@ -30,7 +30,7 @@ let g:ale_typescript_prettier_use_local_config = 1
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fixers['typescript'] = ['prettier']
-let g:ale_fixers['python'] = ['yapf', 'isort', 'autopep8']
+let g:ale_fixers['python'] = ['yapf', 'isort']
 
 let g:ale_linters = {}
 let g:ale_linters['javascript'] = ['eslint']

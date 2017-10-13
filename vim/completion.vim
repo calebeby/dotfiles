@@ -2,6 +2,7 @@
 " Plug 'roxma/nvim-completion-manager'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'carlitux/deoplete-ternjs', { 'do': 'yarn global add tern', 'for': 'javascript' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
 Plug 'Shougo/neosnippet.vim', { 'on': [] }
 Plug 'Shougo/neco-syntax', { 'on': [] }
