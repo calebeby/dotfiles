@@ -11,3 +11,5 @@
 	protocol = https
 
 # vim: ft=gitconfig
+[push]
+	default = current
