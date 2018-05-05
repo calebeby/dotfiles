@@ -1,18 +1,32 @@
 # Use super (Windows) key
 set $mod Mod4
 
+# Use alt key
+# set $mod Mod1
+
 new_window 1pixel
 hide_edge_borders smart
 # Font for window titles and bar
-font pango:Lato, Icons 11
+font pango:Lato, Font Awesome 5 Free Solid 10
 #font pango:DejaVu Sans Mono 8
 
-assign [class="google-chrome-stable"] 1
+assign [class="chromium"] 1
 exec --no-startup-id nm-applet
 exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome-stable; workspace 2; exec --no-startup-id sakura'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
 exec --no-startup-id redshift
+exec --no-startup-id compton -b
+exec --no-startup-id deluge
+exec --no-startup-id hsetroot -solid "#282828"
+
+workspace 1 output HDMI1
+
+bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/one-monitor.sh
+bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/two-monitors.sh
+bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
+
+bindsym $mod+i exec emacs
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -28,6 +42,9 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightnes
 
 # start a terminal
 bindsym $mod+Return exec sakura
+
+# lock
+bindsym $mod+m exec i3lock --ignore-empty-password --color '#282828'
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -92,16 +109,16 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace 1; workspace 1
+bindsym $mod+Shift+2 move container to workspace 2; workspace 2
+bindsym $mod+Shift+3 move container to workspace 3; workspace 3
+bindsym $mod+Shift+4 move container to workspace 4; workspace 4
+bindsym $mod+Shift+5 move container to workspace 5; workspace 5
+bindsym $mod+Shift+6 move container to workspace 6; workspace 6
+bindsym $mod+Shift+7 move container to workspace 7; workspace 7
+bindsym $mod+Shift+8 move container to workspace 8; workspace 8
+bindsym $mod+Shift+9 move container to workspace 9; workspace 9
+bindsym $mod+Shift+0 move container to workspace 10; workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

@@ -1,13 +1,26 @@
 set -x EDITOR 'nvim'
-set -x BROWSER 'google-chrome-stable'
+set -x BROWSER 'chromium'
+set -x JAVA_HOME /usr/lib/jvm/java-8-jdk
 
-set -x PREFIX $HOME/.yarn-global
+set -x MOZ_USE_XINPUT2 1
 
-set -x PATH $HOME/.config/yarn/global/node_modules/.bin $HOME/.local/bin $PATH
+set -x GOPATH $HOME/Programming
+
+set -x PATH $HOME/.pnpm-global/bin $HOME/Programming/bin $JAVA_HOME/bin $PATH
 
 if type -q hub
   alias git='hub'
 end
+
+abbr ns npm start
+abbr ni npm install
+abbr nt npm test
+abbr ntw npm run test:watch
+
+abbr y yarn
+abbr ys yarn start
+abbr yt yarn test
+abbr ytw yarn test:watch
 
 alias gs='git status'
 alias gc='git commit --verbose'
@@ -19,7 +32,7 @@ alias gcl='git clone'
 alias p="bashpodder; and ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
 
-alias pacman="sudo bb-wrapper --aur"
+alias pacman="bb-wrapper --aur"
 alias install="pacman -S"
 alias uninstall="pacman -Rs"
 alias update="pacman -Syu"

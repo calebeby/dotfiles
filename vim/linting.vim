@@ -23,13 +23,8 @@ let g:ale_javascript_prettier_executable = 'prettier'
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_prettier_use_local_config = 1
 
-let g:ale_typescript_prettier_executable = 'prettier_d'
-let g:ale_typescript_eslint_executable = 'eslint_d'
-let g:ale_typescript_prettier_use_local_config = 1
-
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['typescript'] = ['prettier']
 let g:ale_fixers['python'] = ['yapf', 'isort']
 
 let g:ale_linters = {}

@@ -1,5 +1,6 @@
 " Plug 'roxma/nvim-cm-tern', [ 'do': 'yarn', 'for': 'javascript' ]
 " Plug 'roxma/nvim-completion-manager'
+Plug 'ternjs/tern_for_vim', { 'on': ['TernDef', 'TernDoc', 'TernType', 'TernRefs', 'TernRename'], 'do': 'yarn' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'carlitux/deoplete-ternjs', { 'do': 'yarn global add tern', 'for': 'javascript' }
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }

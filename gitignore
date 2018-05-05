@@ -7,5 +7,7 @@ elm-stuff/
 jstransformer-*/yarn.lock
 .tern-port
 .netrwhist
+shrinkwrap.yaml
+.projectile
 
 # vim: ft=gitignore

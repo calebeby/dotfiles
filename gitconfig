@@ -10,6 +10,9 @@
 [hub]
 	protocol = https
 
-# vim: ft=gitconfig
 [push]
 	default = current
+
+# vim: ft=gitconfig
+[github]
+	user = calebeby

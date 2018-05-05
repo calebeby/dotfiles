@@ -8,7 +8,7 @@ function dl
     end
     set path "github.com/$path"
   end
-  set folder "$HOME/Programming/$path"
+  set folder "$HOME/Programming/src/$path"
   set url "https://$path"
   if test -d $folder
     echo "$url already downloaded"

@@ -1,6 +1,15 @@
 {
   "plugins": {
+    "es_modules": {},
     "node": {},
-    "es_modules": {}
-  }
+    "webpack": {},
+    "node_resolve": {},
+    "doc_comment": {},
+    "jsx": {}
+  },
+  "libs": [
+    "ecmascript",
+    "browser"
+  ],
+  "ecmaVersion": 6
 }

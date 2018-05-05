@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: require
+# key: re
+# group: es6
+# `(require 'string-inflection)`
+# --
+const ${2:${1:$(string-inflection-lower-camelcase-function yas-text)}} = require('${1:module}')
