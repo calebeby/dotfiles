@@ -5,8 +5,8 @@
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 
 (setq-default indent-tabs-mode nil)
-(setq tab-width 2)
-(setq indent-tabs-mode 2)
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode 2)
 
 (windmove-default-keybindings)
 
@@ -35,6 +35,8 @@
 
 (require 'electric)
 (electric-pair-mode 1)
+
+(global-auto-revert-mode t)
 
 (use-package general
   :config
@@ -254,15 +256,11 @@
 
 (use-package yasnippet
   :config
+    (setq yas-snippet-dirs "/home/caleb/dotfiles/emacs-snippets")
+    (define-key yas-minor-mode-map [(tab)] nil)
+    (define-key yas-minor-mode-map (kbd "TAB") nil)
     (yas-global-mode 1)
-    (define-key yas-keymap [(tab)]       nil)
-    (define-key yas-keymap (kbd "TAB")   nil)
-    (define-key yas-keymap [(shift tab)] nil)
-    (define-key yas-keymap [backtab]     nil)
-    ;; and instead use C-f / C-b (forward / backwards) instead
-    (define-key yas-keymap (kbd "C-f") #'yas-next-field-or-maybe-expand)
-    (define-key yas-keymap (kbd "C-b") #'yas-prev-field)
-    (yas-load-directory "/home/caleb/dotfiles/emacs-snippets"))
+    (define-key yas-minor-mode-map (kbd "C-SPC") 'yas-expand))
 
 (use-package string-inflection)
 

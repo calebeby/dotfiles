@@ -3,7 +3,7 @@ vim:
   - ~/.config/nvim
   - ~/.vim
 zshrc: ~/.zshrc
-emacs: ~/.emacs
+.emacs: ~/.emacs
 fish: ~/.config/fish
 i3: ~/.config/i3/config
 i3status: ~/.config/i3status/config

@@ -1,6 +1,5 @@
-# -*- mode: snippet; require-final-newline: nil -*-
+# -*- mode: snippet -*-
 # name: import
 # key: im
-# `(require 'string-inflection)`
 # --
 import ${2:${1:$(string-inflection-lower-camelcase-function yas-text)}} from '${1:module}'
