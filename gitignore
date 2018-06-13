@@ -9,5 +9,7 @@ jstransformer-*/yarn.lock
 .netrwhist
 shrinkwrap.yaml
 .projectile
+.tool-versions
+.vscode
 
 # vim: ft=gitignore

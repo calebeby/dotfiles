@@ -7,7 +7,6 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode 2)
-(setq save-interprogram-paste-before-kill t)
 
 (windmove-default-keybindings)
 
@@ -49,12 +48,7 @@
 		(general-define-key "C-w C-l" 'evil-window-right)))
 
 (use-package evil
-	:init (setq evil-want-integration nil)
 	:config (evil-mode 1))
-
-(use-package evil-collection
-	:after evil
-	:config (evil-collection-init))
 
 (use-package gruvbox-theme
 	:config (set-face-background 'highlight "#484341"))
@@ -441,9 +435,9 @@ point forward out of the read-only sections."
 					'move-point-on-insert-to-writeable-last-line)
 
 ;; (add-hook 'eshell-mode-hook
-;; 					(define-key evil-normal-state-local-map (kbd "<tab>") 'company-complete-common-or-cycle))
+;;    (define-key evil-normal-state-local-map (kbd "<tab>") 'company-complete-common-or-cycle))
 
-;; refresh config
+																				; refresh config
 (define-key evil-normal-state-map (kbd "C-S-r") '(lambda() (interactive) (load-file "~/.emacs")))
 
 (define-key evil-normal-state-map (kbd ";") 'evil-ex)
@@ -454,9 +448,10 @@ point forward out of the read-only sections."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-	 (quote
-		(evil-collection evil-nerd-commenter which-key use-package treemacs-projectile tide tern string-inflection rjsx-mode prettier-js origami nlinum-relative meghanada markdown-mode js2-refactor hl-todo gruvbox-theme groovy-mode general flow-minor-mode expand-region evil-surround evil-magit evil-commentary evil-args emmet-mode elpy counsel-projectile counsel-dash company-quickhelp company-go add-node-modules-path))))
+ '(;; package-selected-packages
+	 ;; (quote
+	 ;; 	(evil-nerd-commenter which-key use-package treemacs-projectile tide tern string-inflection rjsx-mode prettier-js origami nlinum-relative meghanada markdown-mode js2-refactor hl-todo gruvbox-theme groovy-mode general flow-minor-mode expand-region evil-surround evil-magit evil-commentary evil-args emmet-mode elpy counsel-projectile counsel-dash company-quickhelp company-go add-node-modules-path))
+	 ))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -10,15 +10,19 @@ hide_edge_borders smart
 font pango:Lato, Font Awesome 5 Free Solid 10
 #font pango:DejaVu Sans Mono 8
 
+for_window [class="lxqt-notificationd"] floating enable
+
 assign [class="chromium"] 1
 exec --no-startup-id nm-applet
-exec --no-startup-id /usr/lib/xfce4/notifyd/xfce4-notifyd
+exec --no-startup-id volumeicon
+exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
 exec --no-startup-id redshift
 exec --no-startup-id compton -b
 exec --no-startup-id deluge
 exec --no-startup-id hsetroot -solid "#282828"
+exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
 
 workspace 1 output HDMI1
 
@@ -28,17 +32,21 @@ bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
 
 bindsym $mod+i exec emacs
 
+# Chrome Play/Pause
+bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+p
+
+# Chrome Next
+bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+period
+
+# Chrome Previous
+bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+comma
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # toggle mute
-
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
 
 # start a terminal
 bindsym $mod+Return exec sakura
@@ -62,9 +70,7 @@ bindsym $mod+Right focus right
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+k move up bindsym $mod+Shift+l move right bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
@@ -157,7 +163,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   separator_symbol " "
-  status_command i3status
+  status_command ~/dotfiles/i3bar.fish
 	position top
   colors {
     separator #928374

@@ -1,12 +1,13 @@
 set -x EDITOR 'nvim'
 set -x BROWSER 'chromium'
 set -x JAVA_HOME /usr/lib/jvm/java-8-jdk
+set -x QT_QPA_PLATFORMTHEME qt5ct
+
+set -x PATH $PATH ~/.yarn/bin /home/caleb/.cargo/bin
 
 set -x MOZ_USE_XINPUT2 1
 
 set -x GOPATH $HOME/Programming
-
-set -x PATH $HOME/.pnpm-global/bin $HOME/Programming/bin $JAVA_HOME/bin $PATH
 
 if type -q hub
   alias git='hub'
@@ -61,3 +62,4 @@ end
 # set fish_cursor_default block
 # set fish_cursor_insert line
 # set fish_cursor_visual block
+source ~/.asdf/asdf.fish
