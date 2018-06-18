@@ -23,12 +23,12 @@ abbr ys yarn start
 abbr yt yarn test
 abbr ytw yarn test:watch
 
-alias gs='git status'
-alias gc='git commit --verbose'
-alias gaa='git add -A'
-alias gp='git push'
-alias gl='git pull'
-alias gcl='git clone'
+abbr gs git status
+abbr gc git commit --verbose
+abbr gaa git add -A
+abbr gp git push
+abbr gl git pull
+abbr gcl git clone
 
 alias p="bashpodder; and ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
