@@ -165,6 +165,7 @@ bar {
   separator_symbol " "
   status_command ~/dotfiles/i3bar.fish
 	position top
+  tray_output primary
   colors {
     separator #928374
     background #282828
