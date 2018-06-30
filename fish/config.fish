@@ -21,7 +21,7 @@ abbr ntw npm run test:watch
 abbr y yarn
 abbr ys yarn start
 abbr yt yarn test
-abbr ytw yarn test:watch
+abbr ytw yarn test --watch
 
 abbr gs git status
 abbr gc git commit --verbose
