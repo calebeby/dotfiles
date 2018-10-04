@@ -1,18 +1,19 @@
 [user]
-	email = caleb.eby01@gmail.com
-	name = Caleb Eby
+  email = caleb.eby01@gmail.com
+  name = Caleb Eby
 [credential]
-	helper = store
+  helper = store
 [core]
-	editor = nvim
-	excludesfile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+  editor = nvim
+  excludesfile = ~/.gitignore
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [hub]
-	protocol = https
-
+  protocol = https
 [push]
-	default = current
+  default = current
+[github]
+  user = calebeby
+[fetch]
+  prune = true
 
 # vim: ft=gitconfig
-[github]
-	user = calebeby

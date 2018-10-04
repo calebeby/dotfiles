@@ -19,18 +19,20 @@ exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
 exec --no-startup-id redshift
-exec --no-startup-id compton -b
-exec --no-startup-id deluge
+exec --no-startup-id compton -b --no-fading-openclose
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
 
-workspace 1 output HDMI1
+workspace 10 output HDMI1
 
 bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/one-monitor.sh
 bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/two-monitors.sh
 bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
 
-bindsym $mod+i exec emacs
+bindsym $mod+i exec code-insiders
+
+# Screenshot
+bindsym --release Print exec scrot -s '/home/caleb/Screenshots/screenshot-%s.png'
 
 # Chrome Play/Pause
 bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+p
@@ -57,6 +59,9 @@ bindsym $mod+m exec i3lock --ignore-empty-password --color '#282828'
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# when a window requests focus, give it focus
+focus_on_window_activation focus
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -70,7 +75,9 @@ bindsym $mod+Right focus right
 # move focused window
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up bindsym $mod+Shift+l move right bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
