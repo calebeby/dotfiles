@@ -19,3 +19,4 @@ pure.zsh: ~/.zfunctions/prompt_pure_setup
 async.zsh: ~/.zfunctions/async
 tern-config.json: ~/.tern-config
 alacritty.yml: ~/.config/alacritty/alacritty.yml
+.Xresources: ~/.Xresources
