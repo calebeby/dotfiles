@@ -13,14 +13,17 @@ font pango:Lato, Font Awesome 5 Free Solid 10
 for_window [class="lxqt-notificationd"] floating enable
 
 assign [class="chromium"] 1
+assign [class="google-chrome"] 1
 exec --no-startup-id nm-applet
 exec --no-startup-id volumeicon
+exec --no-startup-id xfsettingsd
 exec --no-startup-id cbatticon
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium; workspace 2; exec --no-startup-id sakura'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
-exec --no-startup-id redshift
+exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
 exec --no-startup-id compton -b --no-fading-openclose
 exec --no-startup-id hsetroot -solid "#282828"
+exec --no-startup-id xsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
 
 workspace 10 output HDMI1
@@ -28,6 +31,7 @@ workspace 10 output HDMI1
 bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/one-monitor.sh
 bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/two-monitors.sh
 bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
+exec --no-startup-id setxkbmap -layout us -option caps:escape
 
 bindsym $mod+i exec code-insiders
 
@@ -35,13 +39,13 @@ bindsym $mod+i exec code-insiders
 bindsym --release Print exec scrot -s '/home/caleb/Screenshots/screenshot-%s.png'
 
 # Chrome Play/Pause
-bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+p
+bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+p
 
 # Chrome Next
-bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+period
+bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+period
 
 # Chrome Previous
-bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium) && sleep 0.1 && xdotool key alt+shift+comma
+bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+comma
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

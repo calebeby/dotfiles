@@ -1,11 +1,11 @@
 set -x EDITOR 'nvim'
-set -x BROWSER 'chromium'
+set -x BROWSER 'google-chrome'
 set -x JAVA_HOME /usr/lib/jvm/java-10-jdk
 set -x QT_QPA_PLATFORMTHEME qt5ct
 
 set -x GOPATH $HOME/Programming
 
-set -x PATH $PATH ~/.yarn/bin /home/caleb/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
+set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
 
 set -x MOZ_USE_XINPUT2 1
 

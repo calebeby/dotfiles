@@ -23,7 +23,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': ['yarn global add neovim typescript', './install --all', ':UpdateRemotePlugins' ], 'on': 'FZF' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale', { 'on': [] }
 Plug 'Shougo/neco-vim'

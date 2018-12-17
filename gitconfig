@@ -6,7 +6,7 @@
 [core]
   editor = nvim
   excludesfile = ~/.gitignore
-  pager = diff-so-fancy | less --tabs=4 -RFX
+#  pager = diff-so-fancy | less --tabs=4 -RFX
 [hub]
   protocol = https
 [push]
@@ -17,3 +17,6 @@
   prune = true
 
 # vim: ft=gitconfig
+[merge "npm-merge-driver"]
+	name = automatically merge npm lockfiles
+	driver = npx npm-merge-driver merge %A %O %B %P
