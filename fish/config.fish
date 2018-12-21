@@ -1,6 +1,6 @@
 set -x EDITOR 'nvim'
 set -x BROWSER 'google-chrome'
-set -x JAVA_HOME /usr/lib/jvm/java-10-jdk
+set -x JAVA_HOME /usr/lib/jvm/jre-11
 set -x QT_QPA_PLATFORMTHEME qt5ct
 
 set -x GOPATH $HOME/Programming
