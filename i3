@@ -25,6 +25,7 @@ exec --no-startup-id compton -b --no-fading-openclose
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id xsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
+exec nitrogen --set-zoom-fill ~/dotfiles/wallpapers/lake.jpg
 
 workspace 10 output HDMI1
 

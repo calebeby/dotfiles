@@ -20,3 +20,4 @@ async.zsh: ~/.zfunctions/async
 tern-config.json: ~/.tern-config
 alacritty.yml: ~/.config/alacritty/alacritty.yml
 .Xresources: ~/.Xresources
+volumeicon: ~/.config/volumeicon
