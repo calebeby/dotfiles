@@ -13,5 +13,8 @@ shrinkwrap.yaml
 .vscode
 .vs
 yarn-error.log
+.classpath
+.project
+.settings
 
 # vim: ft=gitignore

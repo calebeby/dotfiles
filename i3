@@ -15,13 +15,14 @@ for_window [class="lxqt-notificationd"] floating enable
 assign [class="chromium"] 1
 assign [class="google-chrome"] 1
 exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id xfsettingsd
 exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
-exec --no-startup-id compton -b --no-fading-openclose
+# exec --no-startup-id compton -b --no-fading-openclose
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id xsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
@@ -52,8 +53,8 @@ bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 -
 floating_modifier $mod
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 2 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 2 # decrease screen brightness
 
 # start a terminal
 bindsym $mod+Return exec sakura

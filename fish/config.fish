@@ -1,6 +1,7 @@
 set -x EDITOR 'nvim'
 set -x BROWSER 'google-chrome'
-set -x JAVA_HOME /usr/lib/jvm/jre-11
+# set -x JAVA_HOME /usr/lib/jvm/jre-11
+set -x JAVA_HOME /usr/lib/jvm/java-openjdk
 set -x QT_QPA_PLATFORMTHEME qt5ct
 
 set -x GOPATH $HOME/Programming
@@ -35,35 +36,11 @@ abbr gcl git clone
 alias p="bashpodder; and ~/Podcasts/speedup.sh"
 alias t="~/Podcasts/transfer.sh"
 
-alias pacman="bb-wrapper --aur"
-alias install="pacman -S"
-alias uninstall="pacman -Rs"
-alias update="pacman -Syu"
+alias install="sudo dnf install"
+alias uninstall="sudo dnf remove"
+alias update="sudo dnf update"
 alias ls='ls -v --color=tty'
-alias b='halt -p'
-
-function latest-vs-code-version
-  if [ "$CARCH" = "x86_64" ]
-    set LATEST_VS_URL (curl -LIs -o /dev/null -w "%{url_effective}" https://vscode-update.azurewebsites.net/latest/linux-x64/insider)
-  else
-    set LATEST_VS_URL (curl -LIs -o /dev/null -w "%{url_effective}" https://vscode-update.azurewebsites.net/latest/linux-ia32/insider)
-  end
-  echo $LATEST_VS_URL | sed 's/.*insider\///g' | sed 's/\/.*//g'
-end
-
-function vsnew
-  pushd "$HOME/build/visual-studio-code-insiders"
-  set -l LATEST_VS_VERSION (latest-vs-code-version)
-  set -l CURRENT_VS_VERSION (code-insiders --version | sed -n '2p')
-  if [ "$LATEST_VS_VERSION" = "$CURRENT_VS_VERSION" ]
-    echo "already up to date"
-    code-insiders --version
-  else
-    sudo echo "Updating Visual Studio Code Insiders"
-    makepkg -si
-  end
-  popd
-end
+alias b='systemctl poweroff'
 
 if type -q rg
   set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow 2>/dev/null'
