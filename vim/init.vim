@@ -24,30 +24,11 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
-Plug 'jiangmiao/auto-pairs'
-Plug 'w0rp/ale', { 'on': [] }
-Plug 'Shougo/neco-vim'
-
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" Colors
 Plug 'chriskempson/base16-vim'
-
-" Language
-
-"" General
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-"" Typescript
-Plug 'HerringtonDarkholme/yats.vim', { 'for': [ 'typescript', 'typescriptreact' ] }
-Plug 'mhartington/nvim-typescript', { 'do': './install.sh', 'on': [] }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'herringtondarkholme/yats.vim'
 
 call plug#end()
-
-""""""""""" Base
 
 set background=dark
 
@@ -128,33 +109,32 @@ set mouse=a
 
 colorscheme base16-oceanicnext
 
-""""""""""" End Base
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint']
 
-let g:deoplete#enable_at_startup = 1
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <C-Space> "\<C-n>"
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" Use the popup menu by default; only insert the longest common text of the completion matches
-" don't automatically show extra information in the preview window
-set completeopt=menu,longest
-
-let g:nvim_typescript#javascript_support = 1
-
-let g:ale_fixers = {}
-let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers['typescript'] = ['prettier']
-let g:ale_fixers['typescriptreact'] = ['prettier']
-let g:ale_fixers['json'] = ['prettier']
-
-let g:ale_fix_on_save = 1
-
-function! LoadInsertModePlugins()
-  call plug#load('ale', 'nvim-typescript', 'neco-vim')
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-augroup load_insert_mode_plugins
-  autocmd!
-  autocmd InsertEnter * call LoadInsertModePlugins()
-augroup END
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Delay before highlighting word under cursor
+set updatetime=150
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nmap <silent> <c-enter> <Plug>(coc-definition)
