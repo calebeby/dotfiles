@@ -38,7 +38,7 @@ exec --no-startup-id setxkbmap -layout us -option caps:escape
 bindsym $mod+i exec code-insiders
 
 # Screenshot
-bindsym --release Print exec scrot -s '/home/caleb/Screenshots/screenshot-%s.png'
+bindsym --release Print exec scrot -s /home/caleb/Screenshots/screenshot.png
 
 # Chrome Play/Pause
 bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+p
