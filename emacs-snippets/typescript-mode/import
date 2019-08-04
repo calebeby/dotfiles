@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: import
-# key: im
-# --
-import ${2:${1:$(string-inflection-lower-camelcase-function yas-text)}} from '${1:module}'
