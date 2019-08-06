@@ -1,3 +1,4 @@
 {
-  "coc.preferences.noselect": false
+  "prettier.requireConfig": true,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "Markdown", "typescript", "javascript", "typescriptreact", "javascriptreact"]
 }

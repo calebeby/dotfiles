@@ -44,7 +44,10 @@ if (has("termguicolors"))
 endif
 
 " open a file
-nmap <silent><c-p> :FZF<cr>
+nmap <silent><c-i> :FZF<cr>
+
+" Coc command list (like ctrl+shift+p menu in vscode)
+nmap <silent><c-s-p> :CocCommand<cr>
 
 " close FZF buffer with <esc>
 augroup fzfclose
@@ -109,7 +112,7 @@ set mouse=a
 
 colorscheme base16-oceanicnext
 
-let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint']
+let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -138,3 +141,8 @@ set updatetime=150
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap <silent> <c-enter> <Plug>(coc-definition)
+
+" Allow comments in json
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
