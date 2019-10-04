@@ -20,3 +20,6 @@ tern-config.json: ~/.tern-config
 alacritty.yml: ~/.config/alacritty/alacritty.yml
 .Xresources: ~/.Xresources
 volumeicon: ~/.config/volumeicon
+.hyper.js:
+  - ~/.config/Hyper/.hyper.js
+  - ~/.hyper.js
