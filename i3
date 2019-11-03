@@ -53,8 +53,8 @@ bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 -
 floating_modifier $mod
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 2 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 2 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightness
 
 # start a terminal
 bindsym $mod+Return exec sakura
