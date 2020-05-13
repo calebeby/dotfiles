@@ -1,4 +1,17 @@
 {
   "prettier.requireConfig": true,
-  "coc.preferences.formatOnSaveFiletypes": ["css", "Markdown", "typescript", "javascript", "typescriptreact", "javascriptreact"]
+  "coc.preferences.formatOnSaveFiletypes": ["css", "Markdown", "typescript", "javascript", "typescriptreact", "javascriptreact"],
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls"
+         }
+       }
+    }
+  },
+  "coc.preferences.extensionUpdateCheck": "never"
 }

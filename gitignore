@@ -10,7 +10,6 @@ jstransformer-*/yarn.lock
 shrinkwrap.yaml
 .projectile
 .tool-versions
-.vscode
 .vs
 yarn-error.log
 .classpath

@@ -6,10 +6,9 @@ function dl
     if not string match -r '.*/.*' $path
       set path "calebeby/$path"
     end
-    set path "github.com/$path"
   end
-  set folder "$HOME/Programming/src/$path"
-  set url "https://$path"
+  set folder "$HOME/Programming/$path"
+  set url "https://github.com/$path"
   if test -d $folder
     echo "$url already downloaded"
   else

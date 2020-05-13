@@ -1,47 +1,11 @@
-set __fish_git_prompt_color 555
-
-set __fish_git_prompt_char_prefix ''
-
-set __fish_git_prompt_char_stateseparator ''
-
-set __fish_git_prompt_showdirtystate 'yes'
-set __fish_git_prompt_showuntrackedfiles 'yes'
-set __fish_git_prompt_char_dirtystate '*'
-set __fish_git_prompt_char_untrackedfiles '*'
-
-set __fish_git_prompt_char_upstream_prefix ' '
-
-set __fish_git_prompt_color_upstream cyan
-set __fish_git_prompt_showupstream 'yes'
-set __fish_git_prompt_char_upstream_equal ''
-set __fish_git_prompt_char_upstream_ahead '⇡'
-set __fish_git_prompt_char_upstream_behind '⇣'
-set __fish_git_prompt_char_upstream_diverged '⇡⇣'
-
-set __fish_git_prompt_char_stagedstate '+'
-set __fish_git_prompt_char_stashstate ''
-
-# Don't shorten path
-set -x fish_prompt_pwd_dir_length 0
-
 function fish_prompt
-  set exitstatus $status
+    set --local exit_code $status  # save previous exit code
 
-  set -l dir (prompt_pwd)
+    echo -e -n (_pure_prompt_beginning)  # init prompt context (clear current line, etc.)
+    echo -e (_pure_prompt_first_line)  # print current path, git branch/status, command duration
+    _pure_place_iterm2_prompt_mark # place iTerm shell integration mark
+    echo -e -n (_pure_prompt $exit_code)  # print prompt
+    echo -e (_pure_prompt_ending)  # reset colors and end prompt
 
-  if test $exitstatus -eq 0
-    set char (set_color magenta)(echo ❯)(set_color normal)
-  else
-    set char (set_color red)(echo ❯)(set_color normal)
-  end
-
-  set -l pwd (set_color blue)(echo $dir)(set_color normal)
-
-  set -l git (__fish_git_prompt "%s")
-
-  if test $CMD_DURATION -ge 2000
-    set duration (set_color yellow)(echo "$CMD_DURATION 1000" | awk '{printf "%.1fs", $1 / $2}')(set_color normal)
-  end
-
-  echo -e "\n$pwd $git$duration \n$char "
+    set _pure_fresh_session false
 end

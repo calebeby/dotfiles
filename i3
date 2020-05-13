@@ -22,7 +22,7 @@ exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id sakura'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
-# exec --no-startup-id compton -b --no-fading-openclose
+exec --no-startup-id picom -b --config /home/caleb/dotfiles/picom.conf
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id xsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd
@@ -38,7 +38,8 @@ exec --no-startup-id setxkbmap -layout us -option caps:escape
 bindsym $mod+i exec code-insiders
 
 # Screenshot
-bindsym --release Print exec scrot -s /home/caleb/Screenshots/screenshot.png
+# bindsym --release Print exec scrot -s /home/caleb/Screenshots/screenshot.png
+bindsym --release Print exec gnome-screenshot -a -f ~/Screenshots/screenshot.png
 
 # Chrome Play/Pause
 bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+p

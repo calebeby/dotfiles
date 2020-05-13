@@ -141,6 +141,7 @@ set updatetime=150
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap <silent> <c-enter> <Plug>(coc-definition)
+nmap <silent> <enter> <Plug>(coc-definition)
 
 " Allow comments in json
 autocmd FileType json syntax match Comment +\/\/.\+$+

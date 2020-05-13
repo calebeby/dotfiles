@@ -6,6 +6,7 @@ set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk
 set -x QT_QPA_PLATFORMTHEME qt5ct
 
 set -x GOPATH $HOME/Programming
+set -x QT_QPA_PLATFORM xcb
 
 set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
 
@@ -16,10 +17,13 @@ if type -q hub
 end
 
 abbr ns npm start
+alias code code-insiders
 abbr nd npm run dev
 abbr ni npm install
 abbr nt npm test
 abbr ntw npm run test:watch
+abbr ny npm type
+abbr nyw npm run type:watch
 
 abbr y yarn
 abbr ys yarn start
@@ -63,7 +67,7 @@ end
 function __check_nvm --on-variable PWD --description 'Check node version'
   status --is-command-substitution; and return
   if [ -e ".nvmrc" ]
-    nvm use
+    nvm
   end
 end
 
@@ -73,4 +77,3 @@ end
 # set fish_cursor_default block
 # set fish_cursor_insert line
 # set fish_cursor_visual block
-nvm use node
