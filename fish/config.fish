@@ -1,5 +1,5 @@
 set -x EDITOR 'nvim'
-set -x BROWSER 'google-chrome'
+set -x BROWSER 'chromium-browser'
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
 set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk
@@ -17,7 +17,7 @@ if type -q hub
 end
 
 abbr ns npm start
-alias code code-insiders
+# alias code code-insiders
 abbr nd npm run dev
 abbr ni npm install
 abbr nt npm test
@@ -53,7 +53,11 @@ end
 
 set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 # set -x FZF_DEFAULT_OPTS '--color fg:7,bg:0,hl:6,fg+:7,bg+:0,hl+:6,info:240,prompt:4,pointer:1,marker:5,spinner:2,header:4 --preview "cat {}  | head -50"'
-set -x FZF_DEFAULT_OPTS '--preview "cat {}  | head -50"'
+if type -q bat
+  set -x FZF_DEFAULT_OPTS '--preview "bat {} --color always --paging never --style plain"'
+else
+  set -x FZF_DEFAULT_OPTS '--preview "cat {}'
+end
 
 set fish_greeting ""
 

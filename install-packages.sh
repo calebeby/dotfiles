@@ -22,19 +22,16 @@ if [[ $SHELL != *"fish"* ]]; then
   chsh -s $(which fish)
 fi
 
-echo "Uninstall Gnome"
-sudo dnf remove "gnome" "libreoffice-*"
-
 echo "Themes and icons"
 sudo dnf install lxappearance arc-theme paper-icon-theme
 
 echo "Applications"
 sudo dnf install gimp audacity blender
 
-sudo dnf install redshift redshift-gtk scrot blueman cups epson-inkjet-printer-escpr
+sudo dnf install redshift redshift-gtk gnome-screenshot
 
 echo "Programming"
-sudo dnf install nodejs python3 ripgrep aria2 p7zip
+sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta
 pip3 install --user neovim
 pip2 install --user neovim
 npm i -g neovim

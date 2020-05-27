@@ -2,6 +2,7 @@ vim/init.vim: ~/.vimrc
 vim:
   - ~/.config/nvim
   - ~/.vim
+bat: ~/.config/bat
 zshrc: ~/.zshrc
 fish: ~/.config/fish
 i3: ~/.config/i3/config
@@ -16,7 +17,6 @@ gitignore: ~/.gitignore
 bashrc: ~/.bashrc
 pure.zsh: ~/.zfunctions/prompt_pure_setup
 async.zsh: ~/.zfunctions/async
-tern-config.json: ~/.tern-config
 alacritty.yml: ~/.config/alacritty/alacritty.yml
 .Xresources: ~/.Xresources
 volumeicon: ~/.config/volumeicon
