@@ -23,3 +23,5 @@ volumeicon: ~/.config/volumeicon
 .hyper.js:
   - ~/.config/Hyper/.hyper.js
   - ~/.hyper.js
+kitty.conf:
+  - ~/.config/kitty/kitty.conf

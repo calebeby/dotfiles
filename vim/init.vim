@@ -31,13 +31,17 @@ Plug 'easymotion/vim-easymotion', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'chriskempson/base16-vim', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'AndrewRadev/sideways.vim' " <s-l>, <s-h> for moving arguments left/right
+Plug 'AndrewRadev/sideways.vim' " J, K for moving arguments left/right/up/down
+Plug 'tpope/vim-fugitive', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'tpope/vim-dispatch', exists('g:vscode') ? { 'on': [] } : {} " used by git push
+Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Shougo/deol.nvim', { 'on': 'Deol' }
 
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter' " i, / a,
 Plug 'michaeljsmith/vim-indent-object' " ii / ai / iI / aI
 Plug 'Julian/vim-textobj-variable-segment' " iv / av
-Plug 'terryma/vim-expand-region' " K / J
 Plug 'glts/vim-textobj-comment' " ic, ac
 Plug 'kana/vim-textobj-entire' " ie, ae
 
@@ -47,31 +51,14 @@ call plug#end()
 
 set title titlestring=
 
-nnoremap <s-h> :SidewaysLeft<cr>
-nnoremap <s-l> :SidewaysRight<cr>
+nnoremap <s-j> :SidewaysLeft<cr>
+nnoremap <s-k> :SidewaysRight<cr>
 
 let mapleader=","
 
 " sensible up/down (go down visual line for wrapping)
 nmap j gj
 nmap k gk
-
-map K <Plug>(expand_region_expand)
-map J <Plug>(expand_region_shrink)
-
-" 1 means allow nesting
-let g:expand_region_text_objects = {
-      \ 'iw'  :0,
-      \ 'i"'  :0,
-      \ 'i''' :0,
-      \ 'i,'  :1,
-      \ 'i]'  :1,
-      \ 'i)'  :1,
-      \ 'i}'  :1,
-      \ 'a]'  :1,
-      \ 'a)'  :1,
-      \ 'a}'  :1,
-      \ }
 
 " switch buffers without saving
 set hidden
@@ -107,6 +94,13 @@ if exists('g:vscode')
   nmap gc  <Plug>VSCodeCommentaryLine
   omap gc  <Plug>VSCodeCommentaryLine
   nmap gcc <Plug>VSCodeCommentaryLine
+
+  nmap <silent> <leader>gs :<C-u>call VSCodeNotify('workbench.view.scm')<CR>
+  nmap <silent> <leader>gp :<C-u>call VSCodeNotify('git.push')<CR>
+  nmap <silent> <leader>gl :<C-u>call VSCodeNotify('git.pull')<CR>
+  nmap <silent> <leader>gf :<C-u>call VSCodeNotify('git.fetch')<CR>
+
+  nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
 endif
 
 map <Leader> <Plug>(easymotion-prefix)
@@ -139,6 +133,9 @@ if !exists('g:vscode')
 
   " Coc command list (like ctrl+shift+p menu in vscode)
   nmap <silent><c-s-p> :CocCommand<cr>
+  nmap <silent> gd <Plug>(coc-definition)
+  " 'quick-fix'
+  nmap <silent> <leader>a :CocAction<cr>
 
   " close FZF buffer with <esc>
   augroup fzfclose
@@ -147,7 +144,7 @@ if !exists('g:vscode')
   augroup END
 
   " quit
-  noremap <c-q> :xall<cr>
+  noremap <silent> <c-q> :xall<cr>
 
   " auto-refresh vimrc
   augroup vimrc
@@ -163,7 +160,7 @@ if !exists('g:vscode')
   nmap <c-z> u
   imap <c-z> <esc>u
 
-  noremap <c-s-r> :source $MYVIMRC \| call InstallPlugins()<cr>
+  noremap <leader>r :source $MYVIMRC \| call InstallPlugins()<cr>
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -182,6 +179,17 @@ if !exists('g:vscode')
 
   " On pressing tab, insert 2 spaces
   set expandtab
+
+  " Git
+  nmap <silent> <leader>gs :Git<cr>
+  nmap <silent> <leader>gp :Git push<cr>
+  nmap <silent> <leader>gl :Git pull<cr>
+  nmap <silent> <leader>gf :Git fetch<cr>
+
+  map <silent><C-n> :NERDTreeToggle<CR>
+  let NERDTreeQuitOnOpen=1
+  map <silent> <c-j> :Deol -split=vertical<cr>
+  tmap <silent> <c-j> <c-\><c-n>:q<cr>
 
   let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
 
@@ -210,9 +218,6 @@ if !exists('g:vscode')
 
   " Highlight symbol under cursor on CursorHold
   autocmd CursorHold * silent call CocActionAsync('highlight')
-
-  nmap <silent> <c-enter> <Plug>(coc-definition)
-  nmap <silent> <enter> <Plug>(coc-definition)
 
   " Allow comments in json
   autocmd FileType json syntax match Comment +\/\/.\+$+

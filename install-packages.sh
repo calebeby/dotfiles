@@ -35,3 +35,7 @@ sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta
 pip3 install --user neovim
 pip2 install --user neovim
 npm i -g neovim
+
+echo "fonts"
+
+sudo dnf install fira-code-fonts adobe-source-code-pro-fonts

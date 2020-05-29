@@ -19,7 +19,7 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id xfsettingsd
 exec --no-startup-id cbatticon
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium-browser; workspace 2; exec --no-startup-id sakura'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium-browser; workspace 2; exec --no-startup-id kitty'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
 exec --no-startup-id picom -b --config /home/caleb/dotfiles/picom.conf
@@ -58,7 +58,7 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightness
 
 # start a terminal
-bindsym $mod+Return exec sakura
+bindsym $mod+Return exec kitty
 
 # lock
 bindsym $mod+m exec i3lock --ignore-empty-password --color '#282828'

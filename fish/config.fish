@@ -75,9 +75,8 @@ function __check_nvm --on-variable PWD --description 'Check node version'
   end
 end
 
-# fish_vi_key_bindings
-# set fish_bind_mode insert
-# function fish_mode_prompt; end
+# fish_vi_key_bindings insert
 # set fish_cursor_default block
 # set fish_cursor_insert line
+# set fish_cursor_replace_one underscore
 # set fish_cursor_visual block

@@ -13,5 +13,6 @@
        }
     }
   },
-  "coc.preferences.extensionUpdateCheck": "never"
+  "coc.preferences.extensionUpdateCheck": "weekly",
+  "coc.preferences.jumpCommand": "drop"
 }
