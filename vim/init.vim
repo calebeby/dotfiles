@@ -128,20 +128,11 @@ if !exists('g:vscode')
   vnoremap <a-up> :m '<-2<CR>gv
   vnoremap <a-down> :m '>+1<CR>gv
 
-  " open a file
-  nmap <silent><c-i> :FZF<cr>
-
   " Coc command list (like ctrl+shift+p menu in vscode)
   nmap <silent><c-s-p> :CocCommand<cr>
   nmap <silent> gd <Plug>(coc-definition)
   " 'quick-fix'
   nmap <silent> <leader>a :CocAction<cr>
-
-  " close FZF buffer with <esc>
-  augroup fzfclose
-    autocmd!
-    autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-  augroup END
 
   " quit
   noremap <silent> <c-q> :xall<cr>
@@ -188,6 +179,8 @@ if !exists('g:vscode')
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
+  
+  " terminal toggle
   map <silent> <c-j> :Deol -split=vertical<cr>
   tmap <silent> <c-j> <c-\><c-n>:q<cr>
 
@@ -223,4 +216,36 @@ if !exists('g:vscode')
   autocmd FileType json syntax match Comment +\/\/.\+$+
 
   command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+  " floating fzf
+  if has('nvim')
+    " open a file
+    nmap <silent><c-i> :FZF<cr>
+
+    " close FZF buffer with <esc>
+    augroup fzfclose
+      autocmd!
+      autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+    augroup END
+
+    let $FZF_DEFAULT_OPTS .= ' --layout=reverse'
+
+    function! FloatingFZF()
+      let height = &lines / 2
+      let width = min([&columns - 6, 100])
+      let col = (&columns - width) / 2
+      let opts = {
+            \ 'relative': 'editor',
+            \ 'row': 1,
+            \ 'col': col,
+            \ 'width': width,
+            \ 'height': height,
+            \ 'style': 'minimal'
+            \ }
+      let buf = nvim_create_buf(v:false, v:true)
+      let win = nvim_open_win(buf, v:true, opts)
+    endfunction
+
+    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+  endif
 endif
