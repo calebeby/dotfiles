@@ -66,8 +66,8 @@ nnoremap <silent> <c-l> :SidewaysRight<cr>
 let mapleader=","
 
 " sensible up/down (go down visual line for wrapping)
-nmap j gj
-nmap k gk
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
 
 " switch buffers without saving
 set hidden
