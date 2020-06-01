@@ -26,33 +26,42 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-commentary', exists('g:vscode') ? { 'on': [] } : {} " gcc gcip (there is alternative for vscode)
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'asvetliakov/vim-easymotion', exists('g:vscode') ? { 'as': 'vscode-easymotion' } : { 'on': [], 'as': 'vscode-easymotion' }
-Plug 'easymotion/vim-easymotion', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all', 'on': 'FZF' }
+Plug 'asvetliakov/vim-easymotion', { 'as': 'vscode-easymotion', 'on': exists('g:vscode') ? '<Plug>(easymotion-' : [] }
+Plug 'easymotion/vim-easymotion', { 'on': exists('g:vscode') ? [] : '<Plug>(easymotion-' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
-Plug 'chriskempson/base16-vim', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'AndrewRadev/sideways.vim' " J, K for moving arguments left/right/up/down
-Plug 'tpope/vim-fugitive', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'tpope/vim-dispatch', exists('g:vscode') ? { 'on': [] } : {} " used by git push
-Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
+Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
+set rtp+=$HOME/dotfiles/vim-colors
+Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down c-h c-l, also argument text object i, a,
+Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
+" TODO: conflicts with gr for go to references, shouldn't be in g namespace
+" Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Shougo/deol.nvim', { 'on': 'Deol' }
+Plug 'Shougo/deol.nvim', { 'on': 'Deol' } " terminal
+Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers
+Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
+Plug 'vim-scripts/SyntaxAttr.vim'
+Plug 'chrisbra/Colorizer'
 
 Plug 'kana/vim-textobj-user'
-Plug 'sgur/vim-textobj-parameter' " i, / a,
-Plug 'michaeljsmith/vim-indent-object' " ii / ai / iI / aI
-Plug 'Julian/vim-textobj-variable-segment' " iv / av
-Plug 'glts/vim-textobj-comment' " ic, ac
-Plug 'kana/vim-textobj-entire' " ie, ae
+Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
+Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
+Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
+Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsf daf cif caf csf (surrounding function call / around function call)
 
+" Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
+" Plug 'peitalin/vim-jsx-typescript', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'herringtondarkholme/yats.vim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'pangloss/vim-javascript', exists('g:vscode') ? { 'on': [] } : {}
 
 call plug#end()
 
 set title titlestring=
 
-nnoremap <s-j> :SidewaysLeft<cr>
-nnoremap <s-k> :SidewaysRight<cr>
+nnoremap <silent> <c-h> :SidewaysLeft<cr>
+nnoremap <silent> <c-l> :SidewaysRight<cr>
 
 let mapleader=","
 
@@ -105,7 +114,46 @@ endif
 
 map <Leader> <Plug>(easymotion-prefix)
 " s finds character forwards or backwards
-nmap s <Plug>(easymotion-s2)
+nmap s <Plug>(easymotion-s)
+
+" Text Objects
+xmap ic <Plug>(textobj-comment-i)
+omap ic <Plug>(textobj-comment-i)
+xmap ac <Plug>(textobj-comment-a)
+omap ac <Plug>(textobj-comment-a)
+
+xmap ie <Plug>(textobj-entire-i)
+omap ie <Plug>(textobj-entire-i)
+xmap ae <Plug>(textobj-entire-a)
+omap ae <Plug>(textobj-entire-a)
+
+xmap iv <Plug>(textobj-variable-i)
+omap iv <Plug>(textobj-variable-i)
+xmap av <Plug>(textobj-variable-a)
+omap av <Plug>(textobj-variable-a)
+
+omap a, <Plug>SidewaysArgumentTextobjA
+xmap a, <Plug>SidewaysArgumentTextobjA
+omap i, <Plug>SidewaysArgumentTextobjI
+xmap i, <Plug>SidewaysArgumentTextobjI
+
+" Like the default pattern, but it allows <> in function name for type
+" arguments
+let g:dsf_function_pattern = '[a-zA-Z.#<>]\+[?!]\='
+let g:dsf_brackets = '('
+let g:dsf_no_mappings = 1
+nmap dsf <Plug>DsfDelete
+nmap csf <Plug>DsfChange
+omap af <Plug>DsfTextObjectA
+xmap af <Plug>DsfTextObjectA
+omap if <Plug>DsfTextObjectI
+xmap if <Plug>DsfTextObjectI
+
+" delete previous word with ctrl-backspace (terminal sees it as c-h)
+imap <C-h> <C-W>
+imap <C-BS> <C-W>
+
+nmap -a :call SyntaxAttr()<cr>
 
 if !exists('g:vscode')
   " use hex colors
@@ -115,7 +163,7 @@ if !exists('g:vscode')
 
   set background=dark
 
-  colorscheme base16-tomorrow-night-eighties
+  colorscheme one_dark
 
   " Don't highlight library/DOM keywords specially
   let g:yats_host_keyword = 0
@@ -130,9 +178,44 @@ if !exists('g:vscode')
 
   " Coc command list (like ctrl+shift+p menu in vscode)
   nmap <silent><c-s-p> :CocCommand<cr>
+
   nmap <silent> gd <Plug>(coc-definition)
-  " 'quick-fix'
+  nmap <silent> gr <Plug>(coc-references)
+
+  " 'quick-fix' ,a
   nmap <silent> <leader>a :CocAction<cr>
+
+  " alt-j/k next/prev error/warning. +shift for just errors
+  nmap <silent> <a-j> <Plug>(coc-diagnostic-next)
+  nmap <silent> <a-k> <Plug>(coc-diagnostic-prev)
+  nmap <silent> <a-s-j> <Plug>(coc-diagnostic-next-error)
+  nmap <silent> <a-s-k> <Plug>(coc-diagnostic-prev-error)
+
+  nmap <silent> <leader>rn <Plug>(coc-rename)
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  " red
+  highlight link CocErrorHighlight SpellBad
+  " blue
+  highlight link CocWarningHighlight SpellCap
+  " green
+  highlight link CocHintHighlight SpellLocal
+  " blue
+  highlight link CocInfoHighlight SpellCap
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  let g:signify_sign_show_text = 0
+  let g:signify_sign_show_count = 0
+  " TODO: Once nvim supports signcolumn=number, use that
+  " - (puts the sign in place of the number)
+  set signcolumn=no
 
   " quit
   noremap <silent> <c-q> :xall<cr>
@@ -151,7 +234,8 @@ if !exists('g:vscode')
   nmap <c-z> u
   imap <c-z> <esc>u
 
-  noremap <leader>r :source $MYVIMRC \| call InstallPlugins()<cr>
+  " reload vimrc ,rr
+  noremap <leader>rr :source $MYVIMRC \| call InstallPlugins()<cr>
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -171,7 +255,7 @@ if !exists('g:vscode')
   " On pressing tab, insert 2 spaces
   set expandtab
 
-  " Git
+  " Git / Fugitive
   nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
   nmap <silent> <leader>gl :Git pull<cr>
@@ -179,7 +263,7 @@ if !exists('g:vscode')
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
-  
+
   " terminal toggle
   map <silent> <c-j> :Deol -split=vertical<cr>
   tmap <silent> <c-j> <c-\><c-n>:q<cr>
@@ -206,11 +290,14 @@ if !exists('g:vscode')
   " Coc only does snippet and additional edit on confirm.
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-  " Delay before highlighting word under cursor
+  " Delay before highlighting word under cursor (and writing swap files)
   set updatetime=150
 
   " Highlight symbol under cursor on CursorHold
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  augroup highlightWordUnderCursor
+    autocmd!
+    autocmd! CursorHold * silent call CocActionAsync('highlight')
+  augroup END
 
   " Allow comments in json
   autocmd FileType json syntax match Comment +\/\/.\+$+
@@ -230,9 +317,10 @@ if !exists('g:vscode')
 
     let $FZF_DEFAULT_OPTS .= ' --layout=reverse'
 
-    function! FloatingFZF()
-      let height = &lines / 2
-      let width = min([&columns - 6, 100])
+    function! FloatingFZF(...)
+      let maxWidth = a:0 > 0 ? a:1 : 100
+      let height = a:0 > 1 ? a:2 : &lines / 2
+      let width = min([&columns - 6, maxWidth])
       let col = (&columns - width) / 2
       let opts = {
             \ 'relative': 'editor',
@@ -248,4 +336,87 @@ if !exists('g:vscode')
 
     let g:fzf_layout = { 'window': 'call FloatingFZF()' }
   endif
+
+  function! ThemePicker()
+    let colors = split(globpath(&rtp, "colors/*.vim"), "\n")
+    if has('packages')
+      let colors += split(globpath(&packpath, "pack/*/opt/*/colors/*.vim"), "\n")
+    endif
+    let filtered = []
+    " Don't show built-in themes; they are bad
+    for l in colors
+      if match(l, "/usr/") == -1
+        call add(filtered, l)
+      endif
+    endfor
+    return fzf#run({
+          \ 'source':  fzf#vim#_uniq(map(filtered, "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')")),
+          \ 'sink':    'colo',
+          \ 'options': '+m --prompt="Themes> " --preview ""',
+          \ 'window': 'call FloatingFZF(30, 20)',
+          \}, 0)
+  endfunction
+
+  map <c-k><c-t> :call ThemePicker()<cr>
 endif
+
+hi link typescriptVariable Keyword
+hi link typescriptAliasDeclaration Type
+hi link typescriptTypeReference Type
+hi link typescriptBraces Normal
+hi link typescriptCall Normal
+hi link typescriptVariableDeclaration Identifier
+hi link typescriptImport Keyword
+hi link typescriptAmbientDeclaration Keyword
+hi link typescriptExport Keyword
+hi link typescriptArrowFunc Keyword
+hi link typescriptGlobal Normal
+hi link typescriptCastKeyword Keyword
+hi link typescriptObjectLabel Normal
+hi link typescriptFuncCallArg Normal
+hi link typescriptBlock Normal
+hi link typescriptOperator Keyword " new keyword
+hi link typescriptBinaryOp Operator
+hi link typescriptTernaryOp Operator
+
+hi link tsxAttrib xmlAttrib
+hi link tsxTag xmlTag
+hi link tsxCloseTag xmlCloseTag
+hi link tsxCloseString xmlTag " />
+hi link tsxTagName Type " custom components
+hi link tsxIntrinsicTagName xmlTagName
+
+hi link htmlArg xmlAttrib
+hi link htmlTitle Normal
+hi link htmlTag xmlTag
+hi link htmlEndTag xmlEndTag
+hi link htmlTagName xmlTagName
+hi link htmlSpecialTagName xmlTagName
+
+hi link javascriptBraces Normal
+hi link jsStorageClass Keyword
+hi link jsGlobalObjects Normal
+hi link jsGlobalNodeObjects Normal
+hi link jsParen Identifier " not paren, idk why its called that
+hi link jsParenIfElse Identifier " not paren, idk why its called that
+hi link jsTemplateExpression Identifier
+hi link jsDestructuringBlock Identifier
+hi link jsDestructuringPropertyValue Identifier
+hi link jsRepeatBlock Identifier
+hi link jsParenRepeat Identifier
+hi link jsIfElseBlock Identifier
+hi link jsBracket Identifier
+hi link jsTernaryIf Identifier
+hi link jsFuncArgs Identifier
+hi link jsVariableDef Identifier
+hi link jsFuncBlock Identifier
+hi link jsObjectValue Identifier
+hi link jsObjectShorthandProp Identifier
+hi link jsImport Keyword
+hi link jsExport Keyword
+hi link jsExportDefault Keyword
+hi link jsFrom Keyword
+hi link jsModuleAs Keyword
+hi link jsModuleKeyword Identifier
+hi link jsObjectProp Identifier
+hi link jsArrowFunction Operator
