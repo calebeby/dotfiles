@@ -378,6 +378,9 @@ hi link typescriptBlock Normal
 hi link typescriptOperator Keyword " new keyword
 hi link typescriptBinaryOp Operator
 hi link typescriptTernaryOp Operator
+hi link typescriptExceptions Keyword
+hi link typescriptTry Keyword
+hi link typescriptInterfaceName Type
 
 hi link tsxAttrib xmlAttrib
 hi link tsxTag xmlTag
