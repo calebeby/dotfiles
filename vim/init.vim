@@ -370,17 +370,22 @@ hi link typescriptImport Keyword
 hi link typescriptAmbientDeclaration Keyword
 hi link typescriptExport Keyword
 hi link typescriptArrowFunc Keyword
-hi link typescriptGlobal Normal
+hi link typescriptGlobal Identifier
 hi link typescriptCastKeyword Keyword
 hi link typescriptObjectLabel Normal
-hi link typescriptFuncCallArg Normal
-hi link typescriptBlock Normal
 hi link typescriptOperator Keyword " new keyword
 hi link typescriptBinaryOp Operator
 hi link typescriptTernaryOp Operator
 hi link typescriptExceptions Keyword
 hi link typescriptTry Keyword
 hi link typescriptInterfaceName Type
+hi link typescriptBlock Identifier
+hi link typescriptConditionalParen Identifier
+hi link typescriptLoopParen Identifier
+hi link typescriptCall Identifier
+hi link typescriptTemplateSubstitution Identifier
+hi link typescriptParenExp Identifier
+hi link typescriptMember Identifier
 
 hi link tsxAttrib xmlAttrib
 hi link tsxTag xmlTag
@@ -398,8 +403,8 @@ hi link htmlSpecialTagName xmlTagName
 
 hi link javascriptBraces Normal
 hi link jsStorageClass Keyword
-hi link jsGlobalObjects Normal
-hi link jsGlobalNodeObjects Normal
+hi link jsGlobalObjects Identifier
+hi link jsGlobalNodeObjects Identifier
 hi link jsParen Identifier " not paren, idk why its called that
 hi link jsParenIfElse Identifier " not paren, idk why its called that
 hi link jsTemplateExpression Identifier
