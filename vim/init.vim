@@ -268,6 +268,10 @@ if !exists('g:vscode')
   map <silent> <c-j> :Deol -split=vertical<cr>
   tmap <silent> <c-j> <c-\><c-n>:q<cr>
 
+  " Make <c-w> in terminal go out of terminal "insert" mode so
+  " window-switching commands can be used
+  tmap <silent> <c-w> <c-\><c-n><c-w>
+
   let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
 
   " Use tab for trigger completion with characters ahead and navigate.
