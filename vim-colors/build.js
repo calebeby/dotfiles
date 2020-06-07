@@ -7,7 +7,7 @@ const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 const mkdir = promisify(fs.mkdir)
 const glob = require('tiny-glob')
-const { mix } = require('polished')
+const { mix, parseToHsl } = require('polished')
 
 const outdir = path.join(__dirname, 'colors')
 
@@ -152,7 +152,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Error', base00, base08, '', '')
   highlight('Underlined', base08, '', '', '')
   highlight('Title', base0D, '', 'none', '')
-  highlight('TabLine', base03, base00, 'none', '')
+  highlight('TabLine', base04, base00, 'none', '')
   highlight('TabLineFill', base03, base00, 'none', '')
   highlight('TabLineSel', base05, base01, 'bold', '')
 
@@ -187,9 +187,14 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('CocHintSign', base0B, '', '', '')
   highlight('CocInfoSign', base0D, '', '', '')
 
-  const diffAdd = mix(0.25, base0B, base00)
-  const diffDelete = mix(0.25, base08, base00)
-  const diffDeletedLine = mix(0.85, base00, base08)
+  // This allows us to use red and green for diffs,
+  // even if a color scheme changes which colors are red and green
+  const greenest = findClosest(colorscheme.colors, '#74a14f')
+  const reddest = findClosest(colorscheme.colors, 'red')
+
+  const diffAdd = mix(0.25, greenest, base00)
+  const diffDelete = mix(0.25, reddest, base00)
+  const diffDeletedLine = mix(0.85, base00, reddest)
   const diffChange = mix(0.25, base0D, base00)
 
   // diff buffer
@@ -199,11 +204,11 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('DiffText', '', diffAdd, 'none', '')
 
   // fugitive uses this, signify diff hunk as well
-  highlight('DiffAdded', base0B, base00, '', '')
-  highlight('DiffFile', base08, base00, '', '')
-  highlight('DiffNewFile', base0B, base00, '', '')
+  highlight('DiffAdded', greenest, base00, '', '')
+  highlight('DiffFile', reddest, base00, '', '')
+  highlight('DiffNewFile', greenest, base00, '', '')
   highlight('DiffLine', base0D, base00, '', '')
-  highlight('DiffRemoved', base08, base00, '', '')
+  highlight('DiffRemoved', reddest, base00, '', '')
 
   highlight('SignifySignAdd', base04, diffAdd, '', '')
   highlight('SignifySignChange', base04, diffChange, '', '')
@@ -221,3 +226,27 @@ const generateVimText = async (colorscheme, vimName) => {
 }
 
 main()
+
+/**
+ * Finds which of the given colors are closest to the target color
+ * @param {ColorScheme["colors"]} colors
+ * @param {string} targetColor
+ */
+const findClosest = (colors, targetColor) => {
+  const allColors = Object.values(colors).slice(8) // only use the color colors, not the base colors
+  const target = parseToHsl(targetColor)
+  let closestColor = allColors[0]
+  let closestColorDiff = 1000
+  for (const color of allColors) {
+    const current = parseToHsl(color)
+    const colorDiff = Math.min(
+      Math.abs(current.hue - target.hue),
+      Math.abs(current.hue - (360 + target.hue)), // allow wrapping
+    )
+    if (colorDiff < closestColorDiff) {
+      closestColorDiff = colorDiff
+      closestColor = color
+    }
+  }
+  return closestColor
+}

@@ -18,7 +18,7 @@ hi QuickFixLine guibg=#323537 gui=none
 hi Error guifg=#1e1e1e guibg=#cf6a4c
 hi Underlined guifg=#cf6a4c
 hi Title guifg=#7587a6 gui=none
-hi TabLine guifg=#5f5a60 guibg=#1e1e1e gui=none
+hi TabLine guifg=#838184 guibg=#1e1e1e gui=none
 hi TabLineFill guifg=#5f5a60 guibg=#1e1e1e gui=none
 hi TabLineSel guifg=#a7a7a7 guibg=#323537 gui=bold
 hi IncSearch guifg=#323537 guibg=#cda869 gui=none
