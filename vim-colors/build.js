@@ -152,6 +152,9 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Error', base00, base08, '', '')
   highlight('Underlined', base08, '', '', '')
   highlight('Title', base0D, '', 'none', '')
+  highlight('TabLine', base03, base00, 'none', '')
+  highlight('TabLineFill', base03, base00, 'none', '')
+  highlight('TabLineSel', base05, base01, 'bold', '')
 
   highlight('IncSearch', base01, base09, 'none', '')
   highlight('Search', base01, base0A, '', '')
