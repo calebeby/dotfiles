@@ -18,6 +18,9 @@ hi QuickFixLine guibg=#E7EAEC gui=none
 hi Error guifg=#FAFAFA guibg=#FF5370
 hi Underlined guifg=#FF5370
 hi Title guifg=#6182B8 gui=none
+hi TabLine guifg=#8796B0 guibg=#FAFAFA gui=none
+hi TabLineFill guifg=#CCD7DA guibg=#FAFAFA gui=none
+hi TabLineSel guifg=#80CBC4 guibg=#E7EAEC gui=bold
 hi IncSearch guifg=#E7EAEC guibg=#F76D47 gui=none
 hi Search guifg=#E7EAEC guibg=#FFB62C
 hi Comment guifg=#CCD7DA gui=italic
@@ -46,16 +49,16 @@ hi CocHintSign guifg=#91B859
 hi CocInfoSign guifg=#6182B8
 hi DiffAdd guibg=#dfe9d1 gui=none
 hi DiffChange guibg=#FAFAFA
-hi DiffDelete guifg=#fae0e5 guibg=#fae0e5 gui=none
+hi DiffDelete guifg=#f6dddc guibg=#f6dddc gui=none
 hi DiffText guibg=#dfe9d1 gui=none
 hi DiffAdded guifg=#91B859 guibg=#FAFAFA
-hi DiffFile guifg=#FF5370 guibg=#FAFAFA
+hi DiffFile guifg=#E53935 guibg=#FAFAFA
 hi DiffNewFile guifg=#91B859 guibg=#FAFAFA
 hi DiffLine guifg=#6182B8 guibg=#FAFAFA
-hi DiffRemoved guifg=#FF5370 guibg=#FAFAFA
+hi DiffRemoved guifg=#E53935 guibg=#FAFAFA
 hi SignifySignAdd guifg=#8796B0 guibg=#dfe9d1
 hi SignifySignChange guifg=#8796B0 guibg=#d3dce9
-hi SignifySignDelete guifg=#8796B0 guibg=#fbd0d7
+hi SignifySignDelete guifg=#8796B0 guibg=#f4c9c8
 hi PMenu guifg=#80CBC4 guibg=#E7EAEC gui=none
 hi PMenuSel guifg=#E7EAEC guibg=#80CBC4
 hi Todo guifg=#FFB62C guibg=#E7EAEC
