@@ -272,6 +272,8 @@ if !exists('g:vscode')
   " window-switching commands can be used
   tmap <silent> <c-w> <c-\><c-n><c-w>
 
+  au TermOpen * setlocal nonumber norelativenumber
+
   let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
 
   " Use tab for trigger completion with characters ahead and navigate.
