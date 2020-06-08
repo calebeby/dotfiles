@@ -1,6 +1,6 @@
 {
   "prettier.requireConfig": true,
-  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "typescript", "javascript", "typescriptreact", "javascriptreact"],
+  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "typescript", "javascript", "typescriptreact", "javascriptreact", "yaml"],
   "prettier.onlyUseLocalVersion": true,
   "languageserver": {
     "ccls": {

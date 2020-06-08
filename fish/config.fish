@@ -44,7 +44,6 @@ alias t="~/Podcasts/transfer.sh"
 alias install="sudo dnf install"
 alias uninstall="sudo dnf remove"
 alias update="sudo dnf update"
-alias ls='ls -v --color=tty'
 alias b='systemctl poweroff'
 
 if type -q rg
@@ -61,12 +60,12 @@ end
 
 set fish_greeting ""
 
-# Start X at login
-if status --is-login
-  if test -z "$DISPLAY" -a $XDG_VTNR = 1
-    exec startx -- -keeptty
-  end
-end
+# # Start X at login
+# if status --is-login
+#   if test -z "$DISPLAY" -a $XDG_VTNR = 1
+#     exec startx -- -keeptty
+#   end
+# end
 
 function __check_nvm --on-variable PWD --description 'Check node version'
   status --is-command-substitution; and return
