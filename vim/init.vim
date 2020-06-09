@@ -35,6 +35,7 @@ Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down c-h c-l, also argument text object i, a,
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
+Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
 " Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
