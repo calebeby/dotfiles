@@ -33,7 +33,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
-Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down c-h c-l, also argument text object i, a,
+Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
@@ -61,10 +61,10 @@ call plug#end()
 
 set title titlestring=
 
-nnoremap <silent> <c-h> :SidewaysLeft<cr>
-nnoremap <silent> <c-l> :SidewaysRight<cr>
+let mapleader=" "
 
-let mapleader=","
+nnoremap <silent> <leader> h :SidewaysLeft<cr>
+nnoremap <silent> <leader> l :SidewaysRight<cr>
 
 " sensible up/down (go down visual line for wrapping)
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -113,7 +113,8 @@ if exists('g:vscode')
   nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
 endif
 
-map <Leader> <Plug>(easymotion-prefix)
+" TODO: put this on another sub key, it takes up to many keys after leader
+" map <Leader> <Plug>(easymotion-prefix)
 " s finds character forwards or backwards
 nmap s <Plug>(easymotion-s)
 
@@ -177,9 +178,6 @@ if !exists('g:vscode')
   vnoremap <a-up> :m '<-2<CR>gv
   vnoremap <a-down> :m '>+1<CR>gv
 
-  " Coc command list (like ctrl+shift+p menu in vscode)
-  nmap <silent><c-s-p> :CocCommand<cr>
-
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gr <Plug>(coc-references)
 
@@ -187,10 +185,8 @@ if !exists('g:vscode')
   nmap <silent> <leader>a :CocAction<cr>
 
   " alt-j/k next/prev error/warning. +shift for just errors
-  nmap <silent> <a-j> <Plug>(coc-diagnostic-next)
-  nmap <silent> <a-k> <Plug>(coc-diagnostic-prev)
-  nmap <silent> <a-s-j> <Plug>(coc-diagnostic-next-error)
-  nmap <silent> <a-s-k> <Plug>(coc-diagnostic-prev-error)
+  nmap <silent> <leader>j <Plug>(coc-diagnostic-next)
+  nmap <silent> <leader>k <Plug>(coc-diagnostic-prev)
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
   " Use K to show documentation in preview window
@@ -228,15 +224,18 @@ if !exists('g:vscode')
   augroup END
 
   " save file
-  nmap <c-s> :up<cr>
-  vmap <c-s> <esc>:up<cr>gv
-  imap <c-s> <esc>:up<cr>a
+  nmap <leader>s :up<cr>
 
   nmap <c-z> u
   imap <c-z> <esc>u
 
-  " reload vimrc ,rr
-  noremap <leader>rr :source $MYVIMRC \| call InstallPlugins()<cr>
+  " reload vimrc leader kr
+  noremap <leader>kr :source $MYVIMRC \| call InstallPlugins()<cr>
+
+  " window mappings
+  noremap <leader>w <c-w>
+
+  noremap <leader>; :
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -314,7 +313,7 @@ if !exists('g:vscode')
   " floating fzf
   if has('nvim')
     " open a file
-    nmap <silent><c-i> :FZF<cr>
+    nmap <silent> <leader>o :FZF<cr>
 
     " close FZF buffer with <esc>
     augroup fzfclose
@@ -364,7 +363,7 @@ if !exists('g:vscode')
           \}, 0)
   endfunction
 
-  map <c-k><c-t> :call ThemePicker()<cr>
+  map <leader>kt :call ThemePicker()<cr>
 endif
 
 hi link typescriptVariable Keyword
