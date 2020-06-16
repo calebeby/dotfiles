@@ -222,6 +222,28 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Folded', base03, base01, '', '')
   highlight('FoldColumn', base0C, base00, '', '')
 
+  file +=
+`
+let g:terminal_color_0 =  "${base00}"
+let g:terminal_color_1 =  "${base08}"
+let g:terminal_color_2 =  "${base0B}"
+let g:terminal_color_3 =  "${base0A}"
+let g:terminal_color_4 =  "${base0D}"
+let g:terminal_color_5 =  "${base0E}"
+let g:terminal_color_6 =  "${base0C}"
+let g:terminal_color_7 =  "${base05}"
+let g:terminal_color_8 =  "${base03}"
+let g:terminal_color_9 =  "${base08}"
+let g:terminal_color_10 = "${base0B}"
+let g:terminal_color_11 = "${base0A}"
+let g:terminal_color_12 = "${base0D}"
+let g:terminal_color_13 = "${base0E}"
+let g:terminal_color_14 = "${base0C}"
+let g:terminal_color_15 = "${base07}"
+let g:terminal_color_background = g:terminal_color_0
+let g:terminal_color_foreground = g:terminal_color_5
+`
+
   return file
 }
 

@@ -64,3 +64,22 @@ hi PMenuSel guifg=#3B4252 guibg=#E5E9F0
 hi Todo guifg=#5E81AC guibg=#3B4252
 hi Folded guifg=#4C566A guibg=#3B4252
 hi FoldColumn guifg=#D08770 guibg=#2E3440
+
+let g:terminal_color_0 =  "#2E3440"
+let g:terminal_color_1 =  "#88C0D0"
+let g:terminal_color_2 =  "#A3BE8C"
+let g:terminal_color_3 =  "#5E81AC"
+let g:terminal_color_4 =  "#EBCB8B"
+let g:terminal_color_5 =  "#BF616A"
+let g:terminal_color_6 =  "#D08770"
+let g:terminal_color_7 =  "#E5E9F0"
+let g:terminal_color_8 =  "#4C566A"
+let g:terminal_color_9 =  "#88C0D0"
+let g:terminal_color_10 = "#A3BE8C"
+let g:terminal_color_11 = "#5E81AC"
+let g:terminal_color_12 = "#EBCB8B"
+let g:terminal_color_13 = "#BF616A"
+let g:terminal_color_14 = "#D08770"
+let g:terminal_color_15 = "#8FBCBB"
+let g:terminal_color_background = g:terminal_color_0
+let g:terminal_color_foreground = g:terminal_color_5

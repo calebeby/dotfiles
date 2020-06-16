@@ -2,3 +2,4 @@ fish/fishd.*
 emacs.d/elpa
 vim/plugged/
 fish/fish_variables
+node_modules/
