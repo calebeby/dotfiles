@@ -39,7 +39,6 @@ Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
 " Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Shougo/deol.nvim', { 'on': 'Deol' } " terminal
 Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers
 Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
@@ -264,13 +263,9 @@ if !exists('g:vscode')
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
 
-  " terminal toggle
-  map <silent> <c-j> :Deol -split=vertical<cr>
-  tmap <silent> <c-j> <c-\><c-n>:q<cr>
-
   " Make <c-w> in terminal go out of terminal "insert" mode so
   " window-switching commands can be used
-  tmap <silent> <c-w> <c-\><c-n><c-w>
+  tmap <silent> <esc> <c-\><c-n>
 
   au TermOpen * setlocal nonumber norelativenumber
 
