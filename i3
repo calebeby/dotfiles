@@ -19,7 +19,7 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id xfsettingsd
 exec --no-startup-id cbatticon
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id chromium-browser; workspace 2; exec --no-startup-id kitty'
+exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id kitty'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
 exec --no-startup-id picom -b --config /home/caleb/dotfiles/picom.conf
@@ -42,13 +42,13 @@ bindsym $mod+i exec code-insiders
 bindsym --release Print exec gnome-screenshot -a -f ~/Screenshots/screenshot.png
 
 # Chrome Play/Pause
-bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium-browser) && sleep 0.1 && xdotool key alt+shift+p
+bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+p
 
 # Chrome Next
-bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium-browser) && sleep 0.1 && xdotool key alt+shift+period
+bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+period
 
 # Chrome Previous
-bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class chromium-browser) && sleep 0.1 && xdotool key alt+shift+comma
+bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+comma
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod

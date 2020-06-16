@@ -1,5 +1,5 @@
 set -x EDITOR 'nvim'
-set -x BROWSER 'chromium-browser'
+set -x BROWSER 'google-chrome'
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
 set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk
@@ -37,9 +37,6 @@ abbr gaa git add -A
 abbr gp git push
 abbr gl git pull
 abbr gcl git clone
-
-alias p="bashpodder; and ~/Podcasts/speedup.sh"
-alias t="~/Podcasts/transfer.sh"
 
 alias install="sudo dnf install"
 alias uninstall="sudo dnf remove"
