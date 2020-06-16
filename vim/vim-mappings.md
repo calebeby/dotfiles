@@ -12,6 +12,7 @@
   - <leader>kt : select theme
 
 - <leader>w : window (all mappings from ctrl-w)
+- <leader>q<leader>q : close all windows
 
 - <leader>; : : (command mode, to reduce pinkie shift)
 

@@ -232,6 +232,7 @@ if !exists('g:vscode')
 
   " window mappings
   noremap <leader>w <c-w>
+  noremap <leader>q<leader>q :qall<cr>
 
   noremap <leader>; :
 
