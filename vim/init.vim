@@ -112,10 +112,9 @@ if exists('g:vscode')
   nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
 endif
 
-" TODO: put this on another sub key, it takes up to many keys after leader
-" map <Leader> <Plug>(easymotion-prefix)
+nmap , <Plug>(easymotion-prefix)
 " s finds character forwards or backwards
-nmap s <Plug>(easymotion-s)
+nmap <leader><leader> <Plug>(easymotion-s)
 
 " Text Objects
 xmap ic <Plug>(textobj-comment-i)

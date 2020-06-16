@@ -20,4 +20,8 @@
 - <leader>j : COC next error
 - <leader>k : COC prev error
 
-TODO: Terminal mappings
+- <leader><leader> : easymotion s motion (search for character anywhere)
+
+# Non-leader mappings
+
+- ,: easymotion prefix (use motion after it)
