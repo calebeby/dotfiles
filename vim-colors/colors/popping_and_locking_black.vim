@@ -22,16 +22,16 @@ hi TabLine guifg=#d5c4a1 guibg=#000000 gui=none
 hi TabLineFill guifg=#506899 guibg=#000000 gui=none
 hi TabLineSel guifg=#f2e5bc guibg=#000000 gui=bold
 hi IncSearch guifg=#000000 guibg=#d3869b gui=none
-hi Search guifg=#000000 guibg=#d79921
+hi Search guifg=#000000 guibg=#fabd2f
 hi Comment guifg=#506899 gui=italic
 hi String guifg=#b8bb26
 hi Statement guifg=#f42c3e gui=none
-hi Type guifg=#d79921 gui=none
+hi Type guifg=#fabd2f gui=none
 hi Operator guifg=#f42c3e gui=none
 hi Identifier guifg=#99c6ca gui=none
 hi Special guifg=#7ec16e gui=none
 hi Constant guifg=#d3869b gui=none
-hi PreProc guifg=#d79921
+hi PreProc guifg=#fabd2f
 hi Function guifg=#fabd2f
 hi xmlTag guifg=#f2e5bc
 hi xmlEndTag guifg=#f2e5bc
@@ -61,14 +61,14 @@ hi SignifySignChange guifg=#d5c4a1 guibg=#3e2f0b
 hi SignifySignDelete guifg=#d5c4a1 guibg=#3d0b0f
 hi PMenu guifg=#f2e5bc guibg=#000000 gui=none
 hi PMenuSel guifg=#000000 guibg=#f2e5bc
-hi Todo guifg=#d79921 guibg=#000000
+hi Todo guifg=#fabd2f guibg=#000000
 hi Folded guifg=#506899 guibg=#000000
 hi FoldColumn guifg=#7ec16e guibg=#000000
 
 let g:terminal_color_0 =  "#000000"
 let g:terminal_color_1 =  "#99c6ca"
 let g:terminal_color_2 =  "#b8bb26"
-let g:terminal_color_3 =  "#d79921"
+let g:terminal_color_3 =  "#fabd2f"
 let g:terminal_color_4 =  "#fabd2f"
 let g:terminal_color_5 =  "#f42c3e"
 let g:terminal_color_6 =  "#7ec16e"
@@ -76,7 +76,7 @@ let g:terminal_color_7 =  "#f2e5bc"
 let g:terminal_color_8 =  "#506899"
 let g:terminal_color_9 =  "#99c6ca"
 let g:terminal_color_10 = "#b8bb26"
-let g:terminal_color_11 = "#d79921"
+let g:terminal_color_11 = "#fabd2f"
 let g:terminal_color_12 = "#fabd2f"
 let g:terminal_color_13 = "#f42c3e"
 let g:terminal_color_14 = "#7ec16e"
