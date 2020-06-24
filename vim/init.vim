@@ -179,12 +179,13 @@ if !exists('g:vscode')
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gr <Plug>(coc-references)
 
-  " 'quick-fix' ,a
+  " 'quick-fix'
   nmap <silent> <leader>a :CocAction<cr>
 
-  " alt-j/k next/prev error/warning. +shift for just errors
-  nmap <silent> <leader>j <Plug>(coc-diagnostic-next)
-  nmap <silent> <leader>k <Plug>(coc-diagnostic-prev)
+  " next/prev error/warning
+  " These aren't under leader because leader-k is already used
+  nmap <silent> ,j <Plug>(coc-diagnostic-next)
+  nmap <silent> ,k <Plug>(coc-diagnostic-prev)
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
   " Use K to show documentation in preview window

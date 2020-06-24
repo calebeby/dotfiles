@@ -18,11 +18,11 @@
 
 - <leader>o : open (fzf)
 
-- <leader>j : COC next error
-- <leader>k : COC prev error
-
 - <leader><leader> : easymotion s motion (search for character anywhere)
 
 # Non-leader mappings
 
 - ,: easymotion prefix (use motion after it)
+- ,j : COC next error
+- ,k : COC prev error
+
