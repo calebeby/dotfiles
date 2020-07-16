@@ -138,6 +138,11 @@ xmap a, <Plug>SidewaysArgumentTextobjA
 omap i, <Plug>SidewaysArgumentTextobjI
 xmap i, <Plug>SidewaysArgumentTextobjI
 
+omap ih <plug>(signify-motion-inner-pending)
+xmap ih <plug>(signify-motion-inner-visual)
+omap ah <plug>(signify-motion-outer-pending)
+xmap ah <plug>(signify-motion-outer-visual)
+
 " Like the default pattern, but it allows <> in function name for type
 " arguments
 let g:dsf_function_pattern = '[a-zA-Z.#<>]\+[?!]\='
@@ -210,6 +215,10 @@ if !exists('g:vscode')
 
   let g:signify_sign_show_text = 0
   let g:signify_sign_show_count = 0
+
+  nmap gj <plug>(signify-next-hunk)
+  nmap gk <plug>(signify-prev-hunk)
+
   " TODO: Once nvim supports signcolumn=number, use that
   " - (puts the sign in place of the number)
   set signcolumn=no
