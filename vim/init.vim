@@ -50,6 +50,7 @@ Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } 
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
 Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsf daf cif caf csf (surrounding function call / around function call)
+Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
 " Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
 " Plug 'peitalin/vim-jsx-typescript', exists('g:vscode') ? { 'on': [] } : {}
@@ -361,6 +362,16 @@ if !exists('g:vscode')
 
   map <leader>kt :call ThemePicker()<cr>
 endif
+
+" disable the default highlight group
+let g:conflict_marker_highlight_group = ''
+let g:conflict_marker_begin = '^<<<<<<< .*$'
+let g:conflict_marker_end   = '^>>>>>>> .*$'
+highlight ConflictMarkerBegin guibg=#2f7366
+highlight ConflictMarkerOurs guibg=#2e5049
+highlight ConflictMarkerTheirs guibg=#344f69
+highlight ConflictMarkerEnd guibg=#2f628e
+
 
 hi link typescriptVariable Keyword
 hi link typescriptAliasDeclaration Type
