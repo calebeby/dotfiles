@@ -111,6 +111,7 @@ if exists('g:vscode')
   nmap <silent> <leader>gf :<C-u>call VSCodeNotify('git.fetch')<CR>
 
   nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
+  vmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
 endif
 
 nmap , <Plug>(easymotion-prefix)
@@ -187,6 +188,7 @@ if !exists('g:vscode')
 
   " 'quick-fix'
   nmap <silent> <leader>a :CocAction<cr>
+  vmap <silent> <leader>a :CocAction<cr>
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
