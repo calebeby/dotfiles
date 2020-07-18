@@ -7,22 +7,22 @@ hi Normal guifg=#f2e5bc guibg=#000000
 hi Visual guibg=#26261c
 hi VertSplit guifg=#26261c guibg=#26261c gui=none
 hi StatusLine guifg=#d5c4a1 guibg=#26261c gui=none
-hi StatusLineNC guifg=#506899 guibg=#000000 gui=none
+hi StatusLineNC guifg=#506899 guibg=#1a1a1a gui=none
 hi LineNr guifg=#506899 guibg=#000000
 hi CursorLineNr guifg=#d5c4a1 guibg=#000000
 hi Cursor guifg=#000000 guibg=#f2e5bc
 hi Cursor guifg=#000000 guibg=#f2e5bc
-hi CursorLine guibg=#000000 gui=none
+hi CursorLine guibg=#1a1a1a gui=none
 hi NonText guifg=#506899
-hi QuickFixLine guibg=#000000 gui=none
+hi QuickFixLine guibg=#1a1a1a gui=none
 hi Error guifg=#000000 guibg=#99c6ca
 hi Underlined guifg=#99c6ca
 hi Title guifg=#fabd2f gui=none
 hi TabLine guifg=#d5c4a1 guibg=#000000 gui=none
 hi TabLineFill guifg=#506899 guibg=#000000 gui=none
-hi TabLineSel guifg=#f2e5bc guibg=#000000 gui=bold
-hi IncSearch guifg=#000000 guibg=#d3869b gui=none
-hi Search guifg=#000000 guibg=#fabd2f
+hi TabLineSel guifg=#f2e5bc guibg=#1a1a1a gui=bold
+hi IncSearch guifg=#1a1a1a guibg=#d3869b gui=none
+hi Search guifg=#1a1a1a guibg=#fabd2f
 hi Comment guifg=#506899 gui=italic
 hi String guifg=#b8bb26
 hi Statement guifg=#f42c3e gui=none
@@ -42,7 +42,7 @@ hi SpellBad gui=undercurl guisp=#99c6ca
 hi SpellLocal gui=undercurl guisp=#7ec16e
 hi SpellCap gui=undercurl guisp=#fabd2f
 hi SpellRare gui=undercurl guisp=#f42c3e
-hi CocHighlightText guibg=#000000
+hi CocHighlightText guibg=#1a1a1a
 hi CocErrorSign guifg=#99c6ca
 hi CocWarningSign guifg=#d3869b
 hi CocHintSign guifg=#b8bb26
@@ -59,10 +59,10 @@ hi DiffRemoved guifg=#f42c3e guibg=#000000
 hi SignifySignAdd guifg=#d5c4a1 guibg=#1f301b
 hi SignifySignChange guifg=#d5c4a1 guibg=#3e2f0b
 hi SignifySignDelete guifg=#d5c4a1 guibg=#3d0b0f
-hi PMenu guifg=#f2e5bc guibg=#000000 gui=none
-hi PMenuSel guifg=#000000 guibg=#f2e5bc
-hi Todo guifg=#fabd2f guibg=#000000
-hi Folded guifg=#506899 guibg=#000000
+hi PMenu guifg=#f2e5bc guibg=#1a1a1a gui=none
+hi PMenuSel guifg=#1a1a1a guibg=#f2e5bc
+hi Todo guifg=#fabd2f guibg=#1a1a1a
+hi Folded guifg=#506899 guibg=#1a1a1a
 hi FoldColumn guifg=#7ec16e guibg=#000000
 
 let g:terminal_color_0 =  "#000000"

@@ -1,18 +1,18 @@
-scheme: "Popping and Locking Black"
-author: "philsinatra"
-base00: "#000000"
-base01: "#000000"
-base02: "#26261c" # I adjusted the opacity from the original theme
-base03: "#506899"
-base04: "#d5c4a1"
-base05: "#f2e5bc"
-base06: "#fbf1c7"
-base07: "#f9f5d7"
-base08: "#99c6ca"
-base09: "#d3869b"
-base0A: "#fabd2f"
-base0B: "#b8bb26"
-base0C: "#7ec16e"
-base0D: "#fabd2f"
-base0E: "#f42c3e"
-base0F: "#928374"
+scheme: 'Popping and Locking Black'
+author: 'philsinatra'
+base00: '#000000'
+base01: '#1a1a1a' # I made up this color
+base02: '#26261c' # I adjusted the opacity from the original theme
+base03: '#506899'
+base04: '#d5c4a1'
+base05: '#f2e5bc'
+base06: '#fbf1c7'
+base07: '#f9f5d7'
+base08: '#99c6ca'
+base09: '#d3869b'
+base0A: '#fabd2f'
+base0B: '#b8bb26'
+base0C: '#7ec16e'
+base0D: '#fabd2f'
+base0E: '#f42c3e'
+base0F: '#928374'

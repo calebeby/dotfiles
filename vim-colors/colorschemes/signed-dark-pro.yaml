@@ -1,18 +1,18 @@
-scheme: "Signed Dark Pro"
-author: "Caleb Eby"
-base00: "000000"
-base01: "353b45"
-base02: "3e4451"
-base03: "545862"
-base04: "565c64"
-base05: "ffffff"
-base06: "ffffff"
-base07: "ffffff"
-base08: "ef596f"
-base09: "d19a66"
-base0A: "e5c07b"
-base0B: "89ca78"
-base0C: "2bbac5"
-base0D: "61afef"
-base0E: "d55fde"
-base0F: "be5046"
+scheme: 'Signed Dark Pro'
+author: 'Caleb Eby'
+base00: '000000'
+base01: '1c1f25' # I darkened this
+base02: '3e4451'
+base03: '545862'
+base04: '565c64'
+base05: 'ffffff'
+base06: 'ffffff'
+base07: 'ffffff'
+base08: 'ef596f'
+base09: 'd19a66'
+base0A: 'e5c07b'
+base0B: '89ca78'
+base0C: '2bbac5'
+base0D: '61afef'
+base0E: 'd55fde'
+base0F: 'be5046'
