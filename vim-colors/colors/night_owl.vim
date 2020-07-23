@@ -12,7 +12,8 @@ hi LineNr guifg=#637777 guibg=#011627
 hi CursorLineNr guifg=#80a4c2 guibg=#011627
 hi Cursor guifg=#011627 guibg=#abb2bf
 hi Cursor guifg=#011627 guibg=#abb2bf
-hi CursorLine guibg=#1d3b53 gui=none
+hi CursorLine guibg=#092134 gui=none
+hi ColorColumn guibg=#092134 gui=none
 hi NonText guifg=#637777
 hi QuickFixLine guibg=#1d3b53 gui=none
 hi Error guifg=#011627 guibg=#abb2bf

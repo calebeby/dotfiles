@@ -171,6 +171,7 @@ if !exists('g:vscode')
   set background=dark
 
   colorscheme one_dark
+  set colorcolumn=80
 
   " Don't highlight library/DOM keywords specially
   let g:yats_host_keyword = 0

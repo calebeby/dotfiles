@@ -146,7 +146,8 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('CursorLineNr', base04, base00, '', '')
   highlight('Cursor', base00, base05, '', '')
   highlight('Cursor', base00, base05, '', '')
-  highlight('CursorLine', '', base01, 'none', '')
+  highlight('CursorLine', '', mix(0.7, base00, base01), 'none', '')
+  highlight('ColorColumn', '', mix(0.7, base00, base01), 'none', '')
   highlight('NonText', base03, '', '', '')
   highlight('QuickFixLine', '', base01, 'none', '')
   highlight('Error', base00, base08, '', '')
@@ -222,8 +223,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Folded', base03, base01, '', '')
   highlight('FoldColumn', base0C, base00, '', '')
 
-  file +=
-`
+  file += `
 let g:terminal_color_0 =  "${base00}"
 let g:terminal_color_1 =  "${base08}"
 let g:terminal_color_2 =  "${base0B}"
