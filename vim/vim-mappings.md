@@ -5,6 +5,9 @@
   - <leader>gp : git push
   - <leader>gl : git pull
 
+- <leader>l : sideways right
+- <leader>h : sideways left
+
 - <leader>s : save
 
 - <leader>k : editor (like vscode c-k)
