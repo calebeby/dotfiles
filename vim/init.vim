@@ -49,7 +49,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
-Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsf daf cif caf csf (surrounding function call / around function call)
+Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf', 'branch': 'multiline-support' } " dsf daf cif caf csf (surrounding function call / around function call)
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
 " Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
@@ -146,7 +146,7 @@ xmap ah <plug>(signify-motion-outer-visual)
 
 " Like the default pattern, but it allows <> in function name for type
 " arguments
-let g:dsf_function_pattern = '[a-zA-Z.#<>]\+[?!]\='
+let g:dsf_function_pattern = '[a-zA-Z.#<>_]\+[?!]\='
 let g:dsf_brackets = '('
 let g:dsf_no_mappings = 1
 nmap dsf <Plug>DsfDelete
