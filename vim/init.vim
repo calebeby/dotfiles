@@ -49,6 +49,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
+Plug 'mattn/vim-textobj-url', { 'on': '<Plug>(textobj-url' }
 Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf', 'branch': 'multiline-support' } " dsf daf cif caf csf (surrounding function call / around function call)
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
@@ -128,6 +129,11 @@ xmap ie <Plug>(textobj-entire-i)
 omap ie <Plug>(textobj-entire-i)
 xmap ae <Plug>(textobj-entire-a)
 omap ae <Plug>(textobj-entire-a)
+
+xmap iu <Plug>(textobj-url-i)
+omap iu <Plug>(textobj-url-i)
+xmap au <Plug>(textobj-url-a)
+omap au <Plug>(textobj-url-a)
 
 xmap iv <Plug>(textobj-variable-i)
 omap iv <Plug>(textobj-variable-i)
@@ -280,6 +286,9 @@ if !exists('g:vscode')
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
+
+  " open url under cursor
+  nmap go yiu :!open <c-r>"<cr><cr>
 
   " Make <c-w> in terminal go out of terminal "insert" mode so
   " window-switching commands can be used
