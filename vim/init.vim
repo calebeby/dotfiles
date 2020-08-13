@@ -310,7 +310,10 @@ if !exists('g:vscode')
   " window-switching commands can be used
   tmap <silent> <esc> <c-\><c-n>
 
-  au TermOpen * setlocal nonumber norelativenumber
+  augroup custom_term
+      autocmd!
+      autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber wfw wfh
+  augroup END
 
   let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
 
