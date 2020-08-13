@@ -37,7 +37,7 @@ Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'Sid
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
-" Plug 'vim-scripts/ReplaceWithRegister' " grMOTION for 'paste on top of' other text, and discards the overridden text
+Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers
 Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
@@ -155,6 +155,10 @@ omap af <Plug>DsfTextObjectA
 xmap af <Plug>DsfTextObjectA
 omap if <Plug>DsfTextObjectI
 xmap if <Plug>DsfTextObjectI
+
+nmap R <Plug>ReplaceWithRegisterOperator
+nmap RR <Plug>ReplaceWithRegisterLine
+xmap R <Plug>ReplaceWithRegisterVisual
 
 " delete previous word with ctrl-backspace (terminal sees it as c-h)
 imap <C-h> <C-W>
