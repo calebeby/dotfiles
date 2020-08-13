@@ -140,15 +140,20 @@ omap iv <Plug>(textobj-variable-i)
 xmap av <Plug>(textobj-variable-a)
 omap av <Plug>(textobj-variable-a)
 
-omap a, <Plug>SidewaysArgumentTextobjA
 xmap a, <Plug>SidewaysArgumentTextobjA
-omap i, <Plug>SidewaysArgumentTextobjI
+omap a, <Plug>SidewaysArgumentTextobjA
 xmap i, <Plug>SidewaysArgumentTextobjI
+omap i, <Plug>SidewaysArgumentTextobjI
 
-omap ih <plug>(signify-motion-inner-pending)
-xmap ih <plug>(signify-motion-inner-visual)
-omap ah <plug>(signify-motion-outer-pending)
-xmap ah <plug>(signify-motion-outer-visual)
+xmap ih <Plug>(signify-motion-inner-visual)
+omap ih <Plug>(signify-motion-inner-pending)
+xmap ah <Plug>(signify-motion-outer-visual)
+omap ah <Plug>(signify-motion-outer-pending)
+
+" Go to next/prev word segment
+" creates visual selection and then goes to beginning/end of that selection
+nmap gw viv<esc>`>l
+nmap gb hviv<esc>`<
 
 " Like the default pattern, but it allows <> in function name for type
 " arguments
