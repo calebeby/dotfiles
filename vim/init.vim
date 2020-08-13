@@ -229,8 +229,8 @@ if !exists('g:vscode')
   let g:signify_sign_show_text = 0
   let g:signify_sign_show_count = 0
 
-  nmap gj <plug>(signify-next-hunk)
-  nmap gk <plug>(signify-prev-hunk)
+  nmap ) <plug>(signify-next-hunk)
+  nmap ( <plug>(signify-prev-hunk)
 
   " TODO: Once nvim supports signcolumn=number, use that
   " - (puts the sign in place of the number)
@@ -289,6 +289,17 @@ if !exists('g:vscode')
 
   " open url under cursor
   nmap go yiu :!open <c-r>"<cr><cr>
+
+  " tabs
+  nmap g1 1gt
+  nmap g2 2gt
+  nmap g3 3gt
+  nmap g4 4gt
+  nmap g5 5gt
+  nmap g6 6gt
+  nmap g7 7gt
+  nmap g8 8gt
+  nmap g9 9gt
 
   " Make <c-w> in terminal go out of terminal "insert" mode so
   " window-switching commands can be used
