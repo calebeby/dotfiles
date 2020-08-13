@@ -64,8 +64,8 @@ set title titlestring=
 
 let mapleader=" "
 
-nnoremap <silent> <leader> h :SidewaysLeft<cr>
-nnoremap <silent> <leader> l :SidewaysRight<cr>
+nmap <silent> <leader>h :SidewaysLeft<cr>
+nmap <silent> <leader>l :SidewaysRight<cr>
 
 " sensible up/down (go down visual line for wrapping)
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
