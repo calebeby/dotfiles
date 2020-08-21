@@ -312,7 +312,7 @@ if !exists('g:vscode')
 
   augroup custom_term
       autocmd!
-      autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber wfw wfh
+      autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber winfixwidth winfixheight
   augroup END
 
   let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
