@@ -33,6 +33,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
+set rtp+=$HOME/dotfiles/vim-ts-highlight
 Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
@@ -55,8 +56,8 @@ Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
 " Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
 " Plug 'peitalin/vim-jsx-typescript', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'herringtondarkholme/yats.vim', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'pangloss/vim-javascript', exists('g:vscode') ? { 'on': [] } : {}
+" Plug 'herringtondarkholme/yats.vim', exists('g:vscode') ? { 'on': [] } : {}
+" Plug 'pangloss/vim-javascript', exists('g:vscode') ? { 'on': [] } : {}
 
 call plug#end()
 
@@ -213,7 +214,7 @@ if !exists('g:vscode')
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
   " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  nnoremap <silent> K :call CocAction('doHover')<CR>
   " red
   highlight link CocErrorHighlight SpellBad
   " blue
@@ -222,14 +223,6 @@ if !exists('g:vscode')
   highlight link CocHintHighlight SpellLocal
   " blue
   highlight link CocInfoHighlight SpellCap
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
 
   let g:signify_sign_show_text = 0
   let g:signify_sign_show_count = 0
@@ -417,71 +410,71 @@ highlight ConflictMarkerTheirs guibg=#344f69
 highlight ConflictMarkerEnd guibg=#2f628e
 
 
-hi link typescriptVariable Keyword
-hi link typescriptAliasDeclaration Type
-hi link typescriptTypeReference Type
-hi link typescriptBraces Normal
-hi link typescriptCall Normal
-hi link typescriptVariableDeclaration Identifier
-hi link typescriptImport Keyword
-hi link typescriptAmbientDeclaration Keyword
-hi link typescriptExport Keyword
-hi link typescriptArrowFunc Keyword
-hi link typescriptGlobal Identifier
-hi link typescriptCastKeyword Keyword
-hi link typescriptObjectLabel Normal
-hi link typescriptOperator Keyword " new keyword
-hi link typescriptBinaryOp Operator
-hi link typescriptTernaryOp Operator
-hi link typescriptExceptions Keyword
-hi link typescriptTry Keyword
-hi link typescriptInterfaceName Type
-hi link typescriptBlock Identifier
-hi link typescriptConditionalParen Identifier
-hi link typescriptLoopParen Identifier
-hi link typescriptCall Identifier
-hi link typescriptTemplateSubstitution Identifier
-hi link typescriptParenExp Identifier
-hi link typescriptMember Identifier
+" hi link typescriptVariable Keyword
+" hi link typescriptAliasDeclaration Type
+" hi link typescriptTypeReference Type
+" hi link typescriptBraces Normal
+" hi link typescriptCall Normal
+" hi link typescriptVariableDeclaration Identifier
+" hi link typescriptImport Keyword
+" hi link typescriptAmbientDeclaration Keyword
+" hi link typescriptExport Keyword
+" hi link typescriptArrowFunc Keyword
+" hi link typescriptGlobal Identifier
+" hi link typescriptCastKeyword Keyword
+" hi link typescriptObjectLabel Normal
+" hi link typescriptOperator Keyword " new keyword
+" hi link typescriptBinaryOp Operator
+" hi link typescriptTernaryOp Operator
+" hi link typescriptExceptions Keyword
+" hi link typescriptTry Keyword
+" hi link typescriptInterfaceName Type
+" hi link typescriptBlock Identifier
+" hi link typescriptConditionalParen Identifier
+" hi link typescriptLoopParen Identifier
+" hi link typescriptCall Identifier
+" hi link typescriptTemplateSubstitution Identifier
+" hi link typescriptParenExp Identifier
+" hi link typescriptMember Identifier
 
-hi link tsxAttrib xmlAttrib
-hi link tsxTag xmlTag
-hi link tsxCloseTag xmlCloseTag
-hi link tsxCloseString xmlTag " />
-hi link tsxTagName Type " custom components
-hi link tsxIntrinsicTagName xmlTagName
+" hi link tsxAttrib xmlAttrib
+" hi link tsxTag xmlTag
+" hi link tsxCloseTag xmlCloseTag
+" hi link tsxCloseString xmlTag " />
+" hi link tsxTagName Type " custom components
+" hi link tsxIntrinsicTagName xmlTagName
 
-hi link htmlArg xmlAttrib
-hi link htmlTitle Normal
-hi link htmlTag xmlTag
-hi link htmlEndTag xmlEndTag
-hi link htmlTagName xmlTagName
-hi link htmlSpecialTagName xmlTagName
+" hi link htmlArg xmlAttrib
+" hi link htmlTitle Normal
+" hi link htmlTag xmlTag
+" hi link htmlEndTag xmlEndTag
+" hi link htmlTagName xmlTagName
+" hi link htmlSpecialTagName xmlTagName
 
-hi link javascriptBraces Normal
-hi link jsStorageClass Keyword
-hi link jsGlobalObjects Identifier
-hi link jsGlobalNodeObjects Identifier
-hi link jsParen Identifier " not paren, idk why its called that
-hi link jsParenIfElse Identifier " not paren, idk why its called that
-hi link jsTemplateExpression Identifier
-hi link jsDestructuringBlock Identifier
-hi link jsDestructuringPropertyValue Identifier
-hi link jsRepeatBlock Identifier
-hi link jsParenRepeat Identifier
-hi link jsIfElseBlock Identifier
-hi link jsBracket Identifier
-hi link jsTernaryIf Identifier
-hi link jsFuncArgs Identifier
-hi link jsVariableDef Identifier
-hi link jsFuncBlock Identifier
-hi link jsObjectValue Identifier
-hi link jsObjectShorthandProp Identifier
-hi link jsImport Keyword
-hi link jsExport Keyword
-hi link jsExportDefault Keyword
-hi link jsFrom Keyword
-hi link jsModuleAs Keyword
-hi link jsModuleKeyword Identifier
-hi link jsObjectProp Identifier
-hi link jsArrowFunction Operator
+" hi link javascriptBraces Normal
+" hi link jsStorageClass Keyword
+" hi link jsGlobalObjects Identifier
+" hi link jsGlobalNodeObjects Identifier
+" hi link jsParen Identifier " not paren, idk why its called that
+" hi link jsParenIfElse Identifier " not paren, idk why its called that
+" hi link jsTemplateExpression Identifier
+" hi link jsDestructuringBlock Identifier
+" hi link jsDestructuringPropertyValue Identifier
+" hi link jsRepeatBlock Identifier
+" hi link jsParenRepeat Identifier
+" hi link jsIfElseBlock Identifier
+" hi link jsBracket Identifier
+" hi link jsTernaryIf Identifier
+" hi link jsFuncArgs Identifier
+" hi link jsVariableDef Identifier
+" hi link jsFuncBlock Identifier
+" hi link jsObjectValue Identifier
+" hi link jsObjectShorthandProp Identifier
+" hi link jsImport Keyword
+" hi link jsExport Keyword
+" hi link jsExportDefault Keyword
+" hi link jsFrom Keyword
+" hi link jsModuleAs Keyword
+" hi link jsModuleKeyword Identifier
+" hi link jsObjectProp Identifier
+" hi link jsArrowFunction Operator

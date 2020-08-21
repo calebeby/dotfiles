@@ -27,6 +27,7 @@ hi Search guifg=#E7EAEC guibg=#FFB62C
 hi Comment guifg=#CCD7DA gui=italic
 hi String guifg=#91B859
 hi Statement guifg=#7C4DFF gui=none
+hi StorageClass guifg=#7C4DFF gui=none
 hi Type guifg=#FFB62C gui=none
 hi Operator guifg=#7C4DFF gui=none
 hi Identifier guifg=#FF5370 gui=none

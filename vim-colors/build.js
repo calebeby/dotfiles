@@ -163,6 +163,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Comment', base03, '', 'italic', '')
   highlight('String', base0B, '', '', '')
   highlight('Statement', base0E, '', 'none', '')
+  highlight('StorageClass', base0E, '', 'none', '')
   highlight('Type', base0A, '', 'none', '')
   highlight('Operator', base0E, '', 'none', '') // this one deviates, i like operators to have colors
   highlight('Identifier', base08, '', 'none', '')
