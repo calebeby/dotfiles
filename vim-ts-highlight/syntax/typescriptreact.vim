@@ -44,6 +44,12 @@ hi def link tsNumber Number
 syn keyword tsThrow throw skipwhite skipempty nextgroup=@tsExpression
 hi def link tsThrow Keyword
 
+syn keyword tsTry try skipwhite skipempty nextgroup=tsBlock
+hi def link tsTry Keyword
+
+syn keyword tsCatch catch skipwhite skipempty nextgroup=tsArgsList
+hi def link tsCatch Keyword
+
 syn keyword tsNew new skipwhite skipempty nextgroup=@tsExpression
 hi def link tsNew Keyword
 
@@ -162,7 +168,7 @@ hi def link tsObjectMethod tsFuncName
 syn cluster tsArgs contains=tsTypeAnnotation,tsComment,tsDestructuringArray,tsDestructuringObject,tsRest,tsDefaultValue,tsIdentifier
 
 " This shold be the same as tsArrowParens. The difference should only be the
-" nextgroup. This one is used in regular functions, and tsArrowParens is for
+" nextgroup. This one is used in regular functions and in catch clauses, and tsArrowParens is for
 " arrow functions only
 syn region tsArgsList contained start="(" end=")" contains=@tsArgs extend fold skipwhite skipempty nextgroup=tsBlock
 
@@ -312,6 +318,8 @@ syn region tsEnumBody contained start="{" end="}" contains=tsComment,tsEnumIniti
 
 syn match tsEnumInitializer contained "=" skipwhite skipempty nextgroup=@tsExpression
 
+syn keyword tsAsKeyword as contained skipwhite skipempty nextgroup=@tsType
+
 syn cluster tsType contains=tsTypeName,tsTypePrimitive,tsTypeOperator,tsTypeNumber,tsTypeString,tsTypeComment,tsTypeObject,tsTypeParens
 
 " /end 
@@ -402,8 +410,8 @@ syn match tsArrowFunctionGenericDeclaration "<\s*\K\k*.\{-}\(,\|extends\).\{-}>\
 " This has everything that is an statement that can also be used as an expression
 " You probably shouldn't use this directly
 syn cluster tsStatementExpression contains=tsArrowFunc,tsCPEAAPL,tsString,tsTemplateString,tsNumber,tsBoolean,tsComment,tsFunctionKeyword,tsFuncCallName,tsAssignment,tsArrayLiteral,tsUndefined,tsNull,tsArrowFunctionGenericDeclaration,tsAsyncKeyword,tsAwaitKeyword,tsxRegion,tsTernaryTruthy,tsOperator,tsOptionalChain,tsNew,tsIdentifier
-syn cluster tsExpression contains=@tsStatementExpression,tsObject
-syn cluster tsStatement contains=tsConditional,tsReturn,tsThrow,tsVarDeclaration,tsBlock,@tsStatementExpression
+syn cluster tsExpression contains=@tsStatementExpression,tsObject,tsAsKeyword
+syn cluster tsStatement contains=tsConditional,tsReturn,tsThrow,tsVarDeclaration,tsBlock,tsTry,tsCatch,@tsStatementExpression
 
 let b:current_syntax = 'typescriptreact'
 if main_syntax == 'typescriptreact'
