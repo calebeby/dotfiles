@@ -283,8 +283,8 @@ hi def link tsTypeComment Comment
 syn region tsInterfaceBody contained start="{" end="}" contains=tsComment,tsTypeKey,tsTypeKeyComputed,tsTypeKeyString
 syn region tsTypeObject contained start="{" end="}" contains=tsComment,tsTypeKey,tsTypeKeyComputed,tsTypeKeyString
 
-syn region tsTypeObjectValue contained matchgroup=tsObjectColon start=/:/ end=/./ nextgroup=@tsType extend
-syn match tsTypeKey contained "\<\K\k*\>\s*\ze:" skipwhite skipempty nextgroup=tsTypeObjectValue
+syn region tsTypeObjectValue contained matchgroup=tsObjectColon start="?:" start=":" end="." nextgroup=@tsType extend
+syn match tsTypeKey contained "\<\K\k*\>\s*\ze?\?:" skipwhite skipempty nextgroup=tsTypeObjectValue
 syn region tsTypeKeyComputed contained matchgroup=tsObjectKeyBrackets start="\[" end="]" contains=tsIdentifier skipwhite skipempty nextgroup=tsTypeObjectValue
 syn region tsTypeKeyString contained start=+\z(["']\)+ skip=+\\\%(\z1\|$\)+ end=+\z1\|$+ contains=tsSpecial extend skipwhite skipempty nextgroup=tsTypeObjectValue
 hi def link tsTypeKeyString tsString
