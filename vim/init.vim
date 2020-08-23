@@ -201,7 +201,9 @@ if !exists('g:vscode')
   vnoremap <a-down> :m '>+1<CR>gv
 
   nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gD <Plug>(coc-type-definition)
   nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> gi <Plug>(coc-implementation)
 
   " 'quick-fix'
   nmap <silent> <leader>a :CocAction<cr>
