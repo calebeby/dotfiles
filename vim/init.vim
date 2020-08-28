@@ -45,6 +45,7 @@ Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
 Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'chrisbra/Colorizer'
+Plug 'tpope/vim-obsession'
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
