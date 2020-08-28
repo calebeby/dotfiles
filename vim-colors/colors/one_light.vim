@@ -37,9 +37,9 @@ hi PreProc guifg=#c18401
 hi Function guifg=#4078f2
 hi xmlTag guifg=#383a42
 hi xmlEndTag guifg=#383a42
-hi xmlTagName guifg=#ca1243
-hi xmlTagN guifg=#ca1243
-hi xmlAttrib guifg=#4078f2
+hi xmlTagName guifg=#4078f2
+hi xmlTagN guifg=#4078f2
+hi xmlAttrib guifg=#986801
 hi SpellBad gui=undercurl guisp=#ca1243
 hi SpellLocal gui=undercurl guisp=#0184bc
 hi SpellCap gui=undercurl guisp=#4078f2

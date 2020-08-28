@@ -5,7 +5,7 @@
   helper = store
 [core]
   editor = nvim
-  excludesfile = ~/.gitignore
+  excludesfile = ~/dotfiles/gitignore
   pager = delta --theme="Tomorrow-Night-Eighties"
 [hub]
   protocol = https
@@ -16,7 +16,10 @@
 [fetch]
   prune = true
 
-# vim: ft=gitconfig
 [merge "npm-merge-driver"]
 	name = automatically merge npm lockfiles
 	driver = npx npm-merge-driver merge %A %O %B %P
+
+# vim: ft=gitconfig
+[pull]
+	rebase = false

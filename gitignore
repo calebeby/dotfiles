@@ -1,19 +1,4 @@
 Session.vim
 node_modules
-build/
-public/
-elm-stuff/
-/vim/plugged/
-jstransformer-*/yarn.lock
-.tern-port
-.netrwhist
-shrinkwrap.yaml
-.projectile
-.tool-versions
-.vs
-yarn-error.log
-.classpath
-.project
-.settings
 
 # vim: ft=gitignore

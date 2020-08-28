@@ -174,9 +174,9 @@ const generateVimText = async (colorscheme, vimName) => {
 
   highlight('xmlTag', base05, '', '', '')
   highlight('xmlEndTag', base05, '', '', '')
-  highlight('xmlTagName', base08, '', '', '')
-  highlight('xmlTagN', base08, '', '', '')
-  highlight('xmlAttrib', base0D, '', '', '')
+  highlight('xmlTagName', base0D, '', '', '')
+  highlight('xmlTagN', base0D, '', '', '')
+  highlight('xmlAttrib', base0F, '', '', '')
 
   highlight('SpellBad', '', '', 'undercurl', base08)
   highlight('SpellLocal', '', '', 'undercurl', base0C)

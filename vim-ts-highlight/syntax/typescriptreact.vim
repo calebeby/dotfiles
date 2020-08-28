@@ -56,6 +56,28 @@ hi def link tsNew Keyword
 syn keyword tsVarDeclaration var let skipwhite skipempty nextgroup=tsVarDeclarationId
 hi def link tsVarDeclaration StorageClass
 
+" This is needed to disambiguate ternaries else conditions from type
+" annotations within CPEAAPL's
+" const s = (foo ? bar : baz)
+"                ~~~~~~~
+syn region tsTernaryTruthy matchgroup=tsTernary start="?" end=":" contains=@tsExpression skipwhite skipempty nextgroup=@tsExpression
+hi def link tsTernary Operator
+
+" Used so that ternary does not trigger on optional chain
+syn match tsOptionalChain "?\."
+
+" This is needed so that identifiers on following lines get matched:
+" const foo = asdf *
+"   asdf2
+" Regex makes sure that the operator match is the entirety of the operator,
+" so things like !=== are not matched
+syn match tsOperator "\_[^+\-*/%=|?&!<>]\@<=\(+\|-\|*\|/\|%\|===\|==\|!==\|!=\|||\|??\|&&\|<\|>\|>=\|<=\||\|&\)\ze\_[^+\-*/%=|?&!<>]" skipwhite skipempty nextgroup=@tsExpression
+hi def link tsOperator Operator
+
+
+syn region tsRegexp start="/" end="/" skip="\\/"
+hi def link tsRegexp String
+
 " const foo=bar
 " or
 " const enum
@@ -176,24 +198,6 @@ syn region tsArgsList contained start="(" end=")" contains=@tsArgs extend fold s
 " For example if the async keyword is before it
 " or type generics is before it
 syn region tsArrowParens contained matchgroup=tsParen start="(" end=")" contains=@tsArgs skipwhite skipempty nextgroup=tsArrow
-
-" This is needed to disambiguate ternaries else conditions from type
-" annotations within CPEAAPL's
-" const s = (foo ? bar : baz)
-"                ~~~~~~~
-syn region tsTernaryTruthy matchgroup=tsTernary start="?" end=":" contains=@tsExpression skipwhite skipempty nextgroup=@tsExpression
-hi def link tsTernary Operator
-
-" Used so that ternary does not trigger on optional chain
-syn match tsOptionalChain "?\."
-
-" This is needed so that identifiers on following lines get matched:
-" const foo = asdf *
-"   asdf2
-" Regex makes sure that the operator match is the entirety of the operator,
-" so things like !=== are not matched
-syn match tsOperator "\_[^+\-*/%=|?&!<>]\@<=\(+\|-\|*\|/\|%\|===\|==\|!==\|!=\|||\|??\|&&\|<\|>\|>=\|<=\||\|&\)\ze\_[^+\-*/%=|?&!<>]" skipwhite skipempty nextgroup=@tsExpression
-hi def link tsOperator Operator
 
 " Either a parenethesized expression
 " or the parameters for an arrow function
@@ -409,7 +413,7 @@ syn match tsArrowFunctionGenericDeclaration "<\s*\K\k*.\{-}\(,\|extends\).\{-}>\
 
 " This has everything that is an statement that can also be used as an expression
 " You probably shouldn't use this directly
-syn cluster tsStatementExpression contains=tsArrowFunc,tsCPEAAPL,tsString,tsTemplateString,tsNumber,tsBoolean,tsComment,tsFunctionKeyword,tsFuncCallName,tsAssignment,tsArrayLiteral,tsUndefined,tsNull,tsArrowFunctionGenericDeclaration,tsAsyncKeyword,tsAwaitKeyword,tsxRegion,tsTernaryTruthy,tsOperator,tsOptionalChain,tsNew,tsIdentifier
+syn cluster tsStatementExpression contains=tsArrowFunc,tsCPEAAPL,tsString,tsTemplateString,tsNumber,tsBoolean,tsComment,tsFunctionKeyword,tsFuncCallName,tsAssignment,tsArrayLiteral,tsUndefined,tsNull,tsArrowFunctionGenericDeclaration,tsAsyncKeyword,tsAwaitKeyword,tsxRegion,tsTernaryTruthy,tsOperator,tsOptionalChain,tsNew,tsIdentifier,tsRegexp
 syn cluster tsExpression contains=@tsStatementExpression,tsObject,tsAsKeyword
 syn cluster tsStatement contains=tsConditional,tsReturn,tsThrow,tsVarDeclaration,tsBlock,tsTry,tsCatch,@tsStatementExpression
 
