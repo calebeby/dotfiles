@@ -52,7 +52,7 @@ Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } 
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
 Plug 'mattn/vim-textobj-url', { 'on': '<Plug>(textobj-url' }
-Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf', 'branch': 'multiline-support' } " dsf daf cif caf csf (surrounding function call / around function call)
+Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsf daf cif caf csf (surrounding function call / around function call)
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
 " Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
