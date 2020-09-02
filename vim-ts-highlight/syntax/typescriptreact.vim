@@ -13,12 +13,6 @@ set cpo&vim
 
 syn sync fromstart
 
-" TODO List:
-" - arrow functions
-" - types
-" - tagged template literal
-" - import/export scope from/as
-
 syntax iskeyword @,48-57,_,192-255,$
 
 syn keyword tsConditional if else switch
@@ -27,27 +21,29 @@ hi def link tsConditional Conditional
 syn keyword tsReturn return skipwhite nextgroup=@tsExpression
 hi def link tsReturn Statement
 
-syn keyword tsBoolean true false
+syn keyword tsBoolean true false skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsBoolean Boolean
 
-syn keyword tsUndefined undefined
+syn keyword tsUndefined undefined skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsUndefined Constant
 
-syn keyword tsNull null
+syn keyword tsNull null skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsNull Constant
 
-syn keyword tsNumber Infinity
-syn keyword tsNumber NaN
-syn match tsNumber "\<[0-9.]\+\>"
+syn keyword tsNumber Infinity skipwhite skipempty nextgroup=tsBinaryOperator
+syn keyword tsNumber NaN skipwhite skipempty nextgroup=tsBinaryOperator
+syn match tsNumber "\<[0-9.]\+\>" skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsNumber Number
 
 syn keyword tsThrow throw skipwhite skipempty nextgroup=@tsExpression
 hi def link tsThrow Keyword
 
-syn keyword tsTry try skipwhite skipempty nextgroup=tsBlock
+syn keyword tsTry try skipwhite skipempty nextgroup=tsCatchBlock
 hi def link tsTry Keyword
 
-syn keyword tsCatch catch skipwhite skipempty nextgroup=tsArgsList
+syn region tsCatchBlock start="{" end="}" contained contains=@tsStatement fold skipwhite skipempty nextgroup=tsCatch
+
+syn keyword tsCatch catch contained skipwhite skipempty nextgroup=tsArgsList
 hi def link tsCatch Keyword
 
 syn keyword tsNew new skipwhite skipempty nextgroup=@tsExpression
@@ -71,8 +67,8 @@ syn match tsOptionalChain "?\."
 "   asdf2
 " Regex makes sure that the operator match is the entirety of the operator,
 " so things like !=== are not matched
-syn match tsOperator "\_[^+\-*/%=|?&!<>]\@<=\(+\|-\|*\|/\|%\|===\|==\|!==\|!=\|||\|??\|&&\|<\|>\|>=\|<=\||\|&\)\ze\_[^+\-*/%=|?&!<>]" skipwhite skipempty nextgroup=@tsExpression
-hi def link tsOperator Operator
+syn match tsBinaryOperator "\_[^+\-*/%=|?&!<>]\@<=\(+\|-\|*\|/\|%\|===\|==\|!==\|!=\|||\|??\|&&\|<\|>\|>=\|<=\||\|&\)\ze\_[^+\-*/%=|?&!<>]" skipwhite skipempty contained nextgroup=@tsExpression
+hi def link tsBinaryOperator Operator
 
 
 syn region tsRegexp start="/" end="/" skip="\\/"
@@ -95,20 +91,42 @@ syn region tsComment start=+//+ end=/$/ extend keepend contains=tsTODO
 syn region tsComment start=+/\*+ end=+\*/+ fold contains=tsTODO,tsJSDoc
 hi def link tsComment Comment
 
-syn match tsJSDoc '@type' skipwhite skipempty nextgroup=tsJSDocType
-syn match tsJSDoc '@typedef' skipwhite skipempty nextgroup=tsJSDocType
+syn match tsJSDoc '@type\>' skipwhite skipempty nextgroup=tsJSDocTypeCastType
+syn match tsJSDoc '@typedef\>' skipwhite skipempty nextgroup=tsJSDocTypedefType
 
 " @param { Foo } asdf
 " ~~~~~~
-syn match tsJSDoc '@param' skipwhite skipempty nextgroup=tsJSDocType,tsIdentifier
+syn match tsJSDoc '@param\>' skipwhite skipempty nextgroup=tsJSDocParamType,tsIdentifier
+syn match tsJSDoc '@property\>' skipwhite skipempty nextgroup=tsJSDocPropertyType,tsIdentifier
+syn match tsJSDoc '@returns\>' skipwhite skipempty nextgroup=tsJSDocReturnType
+syn match tsJSDoc '@template\>' skipwhite skipempty nextgroup=tsTypeName
+syn match tsJSDoc '@todo\>' skipwhite skipempty contains=tsJSDocTodo
+syn match tsJSDoc '@see\>' skipwhite skipempty
+syn match tsJSDoc '@this\>' skipwhite skipempty nextgroup=tsJSDocThisType
 hi def link tsJSDoc SpecialComment
+
+syn keyword tsJSDocTodo contained todo
+hi def link tsJSDocTodo TODO
+
+" "any" type that is not allowed in normal TS types, just in jsdoc
+syn match tsJSDocStar "*"  contained
+hi def link tsJSDocStar tsTypeName
 
 
 " @param { Foo } asdf
 "        ~~~~~~~
-syn region tsJSDocType contained matchgroup=tsComment start="{" end="}" contains=@tsType skipwhite skipempty nextgroup=tsIdentifier
+syn region tsJSDocParamType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty nextgroup=tsJSDocParamName
+syn region tsJSDocReturnType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty
+syn region tsJSDocPropertyType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty nextgroup=tsJSDocPropertyName
+syn region tsJSDocTypeCastType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty
+syn region tsJSDocTypedefType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty nextgroup=tsTypeName
+syn region tsJSDocThisType contained matchgroup=tsComment start="{" end="}" contains=@tsJSDocType skipwhite skipempty
+syn cluster tsJSDocType contains=@tsType,tsJSDocStar
 
-syn keyword tsTODO contained TODO FIXME XXX TBD NOTE
+syn match tsJSDocPropertyName contained "\<\K\k*\>"
+syn match tsJSDocParamName contained "\<\K[a-zA-Z0-9._]*\>" contains=tsIdentifier
+
+syn keyword tsTODO contained TODO FIXME XXX NOTE
 hi def link tsTODO TODO
 
 syn keyword tsImportExport import export
@@ -121,9 +139,9 @@ hi def link tsFromKeyword Keyword
 syn keyword tsAsKeyword as
 hi def link tsAsKeyword Keyword
 
-syn region tsString start=+\z(["']\)+ skip=+\\\%(\z1\|$\)+ end=+\z1+ end=+$+ contains=tsSpecial extend
+syn region tsString start=+\z(["']\)+ skip=+\\\%(\z1\|$\)+ end=+\z1+ end=+$+ contains=tsSpecial extend skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsString String
-syn region tsTemplateString start=+`+ skip=+\\`+ end=+`+ contains=tsTemplateExpression,tsSpecial extend
+syn region tsTemplateString start=+`+ skip=+\\`+ end=+`+ contains=tsTemplateExpression,tsSpecial extend skipwhite skipempty nextgroup=tsBinaryOperator
 hi def link tsTemplateString tsString
 
 syn region tsTemplateExpression contained matchgroup=tsTemplateBraces start=+${+ end=+}+ contains=@tsExpression keepend
@@ -209,7 +227,7 @@ syn region tsArrowParens contained matchgroup=tsParen start="(" end=")" contains
 "  ~~~~~~~~~
 " (a, b, c) =>
 " ~~~~~~~~~
-syn region tsCPEAAPL matchgroup=tsParen start="(" end=")" contains=@tsArgs,@tsExpression skipwhite skipempty nextgroup=tsArrow,tsArrowReturnTypeAnnotation
+syn region tsCPEAAPL matchgroup=tsParen start="(" end=")" contains=@tsArgs,@tsExpression skipwhite skipempty nextgroup=tsArrow,tsArrowReturnTypeAnnotation,tsBinaryOperator
 " () =>
 syn match tsArrowFunc "()\ze\s*=>" skipwhite skipempty nextgroup=tsArrow
 " foo =>
@@ -221,8 +239,7 @@ syn match tsArrow extend contained "=>" skipwhite skipempty nextgroup=@tsExpress
 syn match tsArrow extend contained "=>\ze\_s*{" skipwhite skipempty nextgroup=tsBlock
 hi def link tsArrow Keyword
 
-syn region tsBlock start="{" end="}" contains=@tsStatement extend fold
-
+syn region tsBlock start="{" end="}" contains=@tsStatement extend fold skipwhite skipempty nextgroup=tsBinaryOperator
 
 " TS Specific below here
 
@@ -266,7 +283,7 @@ syn keyword tsTypePrimitive contained undefined null number string boolean skipw
 hi def link tsTypePrimitive Type
 
 syn match tsTypeOperator "|\|&" contained skipwhite skipempty nextgroup=@tsType
-hi def link tsTypeOperator tsOperator
+hi def link tsTypeOperator tsBinaryOperator
 
 syn keyword tsTypeNumber Infinity contained skipwhite skipempty nextgroup=tsTypeOperator
 syn keyword tsTypeNumber NaN contained skipwhite skipempty nextgroup=tsTypeOperator
@@ -277,6 +294,10 @@ hi def link tsTypeNumber tsNumber
 syn region tsTypeString contained start=+\z(["']\)+ skip=+\\\%(\z1\|$\)+ end=+\z1+ end=+$+ contains=tsSpecial extend skipwhite skipempty nextgroup=tsTypeOperator
 syn region tsTypeString contained start=+`+ skip=+\\`+ end=+`+ contains=tsSpecial extend skipwhite skipempty nextgroup=tsTypeOperator
 hi def link tsTypeString tsString
+
+syn region tsTypeDynamicImport start="import\ze\s*(" end=")\@<=" contains=tsTypeDynamicImportParens contained skipwhite skipempty nextgroup=tsTypeOperator
+hi def link tsTypeDynamicImport tsFuncCallName
+syn region tsTypeDynamicImportParens start="(" end=")" contained contains=tsTypeString
 
 " Specialized Comments - Used to maintain/forward nextgroup
 syn region tsTypeComment contained start=+//+ end=/$/ extend keepend contains=tsTODO nextgroup=@tsType
@@ -324,7 +345,7 @@ syn match tsEnumInitializer contained "=" skipwhite skipempty nextgroup=@tsExpre
 
 syn keyword tsAsKeyword as contained skipwhite skipempty nextgroup=@tsType
 
-syn cluster tsType contains=tsTypeName,tsTypePrimitive,tsTypeOperator,tsTypeNumber,tsTypeString,tsTypeComment,tsTypeObject,tsTypeParens
+syn cluster tsType contains=tsTypeName,tsTypePrimitive,tsTypeNumber,tsTypeString,tsTypeComment,tsTypeObject,tsTypeParens,tsTypeDynamicImport
 
 " /end 
 
@@ -413,9 +434,9 @@ syn match tsArrowFunctionGenericDeclaration "<\s*\K\k*.\{-}\(,\|extends\).\{-}>\
 
 " This has everything that is an statement that can also be used as an expression
 " You probably shouldn't use this directly
-syn cluster tsStatementExpression contains=tsArrowFunc,tsCPEAAPL,tsString,tsTemplateString,tsNumber,tsBoolean,tsComment,tsFunctionKeyword,tsFuncCallName,tsAssignment,tsArrayLiteral,tsUndefined,tsNull,tsArrowFunctionGenericDeclaration,tsAsyncKeyword,tsAwaitKeyword,tsxRegion,tsTernaryTruthy,tsOperator,tsOptionalChain,tsNew,tsIdentifier,tsRegexp
+syn cluster tsStatementExpression contains=tsArrowFunc,tsCPEAAPL,tsString,tsTemplateString,tsNumber,tsBoolean,tsComment,tsFunctionKeyword,tsFuncCallName,tsAssignment,tsArrayLiteral,tsUndefined,tsNull,tsArrowFunctionGenericDeclaration,tsAsyncKeyword,tsAwaitKeyword,tsxRegion,tsTernaryTruthy,tsOptionalChain,tsNew,tsIdentifier,tsRegexp
 syn cluster tsExpression contains=@tsStatementExpression,tsObject,tsAsKeyword
-syn cluster tsStatement contains=tsConditional,tsReturn,tsThrow,tsVarDeclaration,tsBlock,tsTry,tsCatch,@tsStatementExpression
+syn cluster tsStatement contains=tsConditional,tsReturn,tsThrow,tsVarDeclaration,tsBlock,tsTry,@tsStatementExpression
 
 let b:current_syntax = 'typescriptreact'
 if main_syntax == 'typescriptreact'
