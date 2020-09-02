@@ -118,8 +118,9 @@ hi def link tsImportExport Keyword
 syn keyword tsFromKeyword from
 hi def link tsFromKeyword Keyword
 
-syn keyword tsAsKeyword as
-hi def link tsAsKeyword Keyword
+" TODO: differentiate from type as
+" syn keyword tsAsKeyword as
+" hi def link tsAsKeyword Keyword
 
 syn region tsString start=+\z(["']\)+ skip=+\\\%(\z1\|$\)+ end=+\z1+ end=+$+ contains=tsSpecial extend
 hi def link tsString String
