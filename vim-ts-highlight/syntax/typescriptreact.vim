@@ -190,8 +190,8 @@ syn region tsRest contained start="\.\.\." end="\ze[\]),]" contains=@tsExpressio
 syn match tsFuncCallName /\<\K\k*\ze\_s*(/ skipwhite skipempty nextgroup=tsCPEAAPL
 hi def link tsFuncCallName tsFuncName
 " foo<asdf>()
-" TODO: something better than .* for generic?
-syn match tsFuncCallName /\<\K\k*\s*\ze<.*>\_s*(/ skipwhite skipempty nextgroup=tsGeneric,tsCPEAAPL
+" TODO: something better for generic?
+syn match tsFuncCallName /\<\K\k*\s*\ze<\_.\{-}>\_s*(/ skipwhite skipempty nextgroup=tsGeneric,tsCPEAAPL
 hi def link tsFuncCallName tsFuncName
 
 syn region tsObject contained matchgroup=tsObjectBraces start=/{/ end=/}/ contains=tsObjectKey,tsObjectKeyComputed,tsObjectStringKey,tsObjectMethod,tsObjectShorthandProp,tsComment
