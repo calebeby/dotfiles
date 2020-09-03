@@ -282,6 +282,7 @@ if !exists('g:vscode')
   " Git / Fugitive
   nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
+  nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
   nmap <silent> <leader>gl :Git pull<cr>
   nmap <silent> <leader>gf :Git fetch<cr>
 

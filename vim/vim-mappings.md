@@ -3,6 +3,7 @@
 - <leader>g : git
   - <leader>gs : git status
   - <leader>gp : git push
+  - <leader>gP : git push -u origin HEAD
   - <leader>gl : git pull
 
 - <leader>l : sideways right
