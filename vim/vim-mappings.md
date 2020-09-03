@@ -29,4 +29,6 @@
 - ,: easymotion prefix (use motion after it)
 - ,j : COC next error
 - ,k : COC prev error
+- ) next hunk
+- ( prev hunk
 
