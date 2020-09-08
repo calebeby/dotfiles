@@ -15,7 +15,7 @@ sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/ho
 sudo dnf install i3 i3lock albert
 
 echo "Terminal"
-sudo dnf install sakura neovim fish
+sudo dnf install kitty neovim fish util-linux-user
 
 if [[ $SHELL != *"fish"* ]]; then
   echo "Changing shell to fish"

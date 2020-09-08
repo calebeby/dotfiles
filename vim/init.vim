@@ -28,7 +28,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'asvetliakov/vim-easymotion', { 'as': 'vscode-easymotion', 'on': exists('g:vscode') ? '<Plug>(easymotion-' : [] }
 Plug 'easymotion/vim-easymotion', { 'on': exists('g:vscode') ? [] : '<Plug>(easymotion-' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf', { 'do': 'yes \| ./install', 'dir': '~/.fzf' }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
