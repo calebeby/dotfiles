@@ -22,6 +22,13 @@
 
 - <leader>o : open (fzf)
 
+- <leader>t : test
+  - <leader>tn : Run nearest test
+  - <leader>tf : Run current test file
+  - <leader>ts : Run current test suite
+  - <leader>tl : Run previously-ran tests
+  - <leader>tg : Go to previously-ran test file
+
 - <leader><leader> : easymotion s motion (search for character anywhere)
 
 # Non-leader mappings

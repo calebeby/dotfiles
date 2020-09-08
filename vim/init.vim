@@ -39,6 +39,7 @@ Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
+Plug 'vim-test/vim-test'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers
 Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
@@ -179,6 +180,17 @@ imap <C-BS> <C-W>
 
 nmap -a :call SyntaxAttr()<cr>
 
+" save file
+nmap <leader>s :up<cr>
+
+let test#strategy = "neovim"
+let test#neovim#term_position = "botright 15"
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+
 if !exists('g:vscode')
   " use hex colors
   if (has("termguicolors"))
@@ -245,9 +257,6 @@ if !exists('g:vscode')
     au!
     au BufWritePost vimrc,.vimrc source $MYVIMRC | call InstallPlugins()
   augroup END
-
-  " save file
-  nmap <leader>s :up<cr>
 
   nmap <c-z> u
   imap <c-z> <esc>u
