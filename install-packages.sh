@@ -32,9 +32,6 @@ sudo dnf install redshift redshift-gtk gnome-screenshot
 
 echo "Programming"
 sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta fd-find
-pip3 install --user neovim
-pip2 install --user neovim
-npm i -g neovim
 
 echo "fonts"
 
