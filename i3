@@ -34,7 +34,7 @@ bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/one-monitor.sh
 bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/two-monitors.sh
 bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
 exec --no-startup-id setxkbmap -layout us -option caps:escape
-exec xinput set-prop 14 "libinput Tapping Enabled" 1
+exec xinput set-prop 15 "libinput Tapping Enabled" 1
 
 bindsym $mod+i exec code-insiders
 
