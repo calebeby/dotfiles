@@ -89,6 +89,7 @@ syn region tsArrayLiteral matchgroup=tsArrayBrackets start=/\[/ end=/\]/ contain
 
 syn region tsComment start=+//+ end=/$/ extend keepend contains=tsTODO
 syn region tsComment start=+/\*+ end=+\*/+ fold contains=tsTODO,tsJSDoc
+syn region tsComment start="#!" end="$"
 hi def link tsComment Comment
 
 syn match tsJSDoc '@type\>' skipwhite skipempty nextgroup=tsJSDocTypeCastType
