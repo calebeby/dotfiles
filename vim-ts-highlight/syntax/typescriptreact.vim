@@ -130,9 +130,6 @@ syn match tsJSDocParamName contained "\<\K[a-zA-Z0-9._]*\>" contains=tsIdentifie
 syn keyword tsTODO contained TODO FIXME XXX NOTE
 hi def link tsTODO TODO
 
-syn keyword tsImportExport import export
-hi def link tsImportExport Keyword
-
 " TODO: From and As should be contained
 syn keyword tsFromKeyword from
 hi def link tsFromKeyword Keyword
@@ -156,6 +153,12 @@ syn match tsIdentifier "\(\.\_s*\)\@<!\<\K\k*\>"
 " Lookbehind to match ...foo
 syn match tsIdentifier "\(\.\.\.\s*\)\@<=\<\K\k*\>"
 hi def link tsIdentifier Identifier
+
+syn match tsImport "import"
+syn match tsImport "import\s\+type"
+syn keyword tsExport export
+hi def link tsImport Keyword
+hi def link tsExport Keyword
 
 syn keyword tsAsyncKeyword async skipwhite skipempty nextgroup=tsArrowParens
 hi def link tsAsyncKeyword Keyword
