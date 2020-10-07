@@ -120,7 +120,7 @@ endif
 
 nmap , <Plug>(easymotion-prefix)
 " s finds character forwards or backwards
-nmap <leader><leader> <Plug>(easymotion-s)
+nmap <leader><leader> <Plug>(easymotion-s2)
 
 " Text Objects
 xmap ic <Plug>(textobj-comment-i)
