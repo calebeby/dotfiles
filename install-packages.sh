@@ -22,6 +22,9 @@ if [[ $SHELL != *"fish"* ]]; then
   chsh -s $(which fish)
 fi
 
+echo "Battery stuff"
+sudo dnf install acpi tlp tlp-rdw
+
 echo "Themes and icons"
 sudo dnf install lxappearance arc-theme paper-icon-theme
 
@@ -31,7 +34,8 @@ sudo dnf install gimp audacity blender
 sudo dnf install redshift redshift-gtk gnome-screenshot
 
 echo "Programming"
-sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta fd-find
+# moreutils for vidir
+sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta fd-find moreutils
 
 echo "fonts"
 

@@ -16,6 +16,8 @@ if type -q hub
   alias git='hub'
 end
 
+abbr n nvim -S
+
 abbr ns npm start
 # alias code code-insiders
 abbr nd npm run dev

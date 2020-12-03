@@ -294,12 +294,14 @@ if !exists('g:vscode')
   nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
   nmap <silent> <leader>gl :Git pull<cr>
   nmap <silent> <leader>gf :Git fetch<cr>
+  nmap <silent> <leader>gh :SignifyHunkDiff<cr>
+  nmap <silent> <leader>gd :tabnew<cr><c-o> :Gdiffsplit!<cr>
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
 
   " open url under cursor
-  nmap go yiu :!open <c-r>"<cr><cr>
+  nmap go yiu :!open (xsel -b)<cr><cr>
 
   " tabs
   nmap g1 1gt
