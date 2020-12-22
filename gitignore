@@ -1,4 +1,5 @@
 Session.vim
 node_modules
+.cache
 
 # vim: ft=gitignore

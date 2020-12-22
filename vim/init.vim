@@ -47,6 +47,7 @@ Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi li
 Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
@@ -219,8 +220,8 @@ if !exists('g:vscode')
   nmap <silent> gi <Plug>(coc-implementation)
 
   " 'quick-fix'
-  xmap <leader>a  <Plug>(coc-codeaction-selected)
-  nmap <leader>a  <Plug>(coc-codeaction-line)
+  xmap <silent> <leader>a <Plug>(coc-codeaction-selected)
+  nmap <silent> <leader>a <Plug>(coc-codeaction-line)
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
