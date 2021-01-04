@@ -181,6 +181,8 @@ imap <C-BS> <C-W>
 
 nmap -a :call SyntaxAttr()<cr>
 
+autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
+
 " save file
 nmap <leader>s :up<cr>
 
@@ -209,6 +211,9 @@ if !exists('g:vscode')
   " alt-up alt-down for moving this line up or down
   nnoremap <a-up> :m .-2<CR>
   nnoremap <a-down> :m .+1<CR>
+  " alt-up alt-down for moving this line up or down
+  imap <a-up> <esc>:m .-2<CR>i
+  imap <a-down> <esc>:m .+1<CR>i
 
   " alt-up alt-down for moving visual selection up or down
   vnoremap <a-up> :m '<-2<CR>gv
