@@ -182,6 +182,7 @@ imap <C-BS> <C-W>
 nmap -a :call SyntaxAttr()<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
+au BufRead,BufNewFile *.cjs set filetype=javascript
 
 " save file
 nmap <leader>s :up<cr>
