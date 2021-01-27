@@ -34,7 +34,8 @@ Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 set rtp+=$HOME/dotfiles/vim-ts-highlight
-Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] } " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
+" moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
+Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] }
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 " TODO: conflicts with gr for go to references, shouldn't be in g namespace
@@ -48,6 +49,7 @@ Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
+Plug 'mg979/vim-visual-multi' " multple cursors
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
@@ -120,8 +122,12 @@ if exists('g:vscode')
 endif
 
 nmap , <Plug>(easymotion-prefix)
-" s finds character forwards or backwards
-nmap <leader><leader> <Plug>(easymotion-s2)
+omap , <Plug>(easymotion-prefix)
+" finds character forwards or backwards
+nmap ,, <Plug>(easymotion-s2)
+omap ,, <Plug>(easymotion-s2)
+autocmd User EasyMotionPromptBegin silent! CocDisable
+autocmd User EasyMotionPromptEnd   silent! CocEnable
 
 " Text Objects
 xmap ic <Plug>(textobj-comment-i)
@@ -231,8 +237,8 @@ if !exists('g:vscode')
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
-  nmap <silent> ,j <Plug>(coc-diagnostic-next)
-  nmap <silent> ,k <Plug>(coc-diagnostic-prev)
+  nmap <silent> gj <Plug>(coc-diagnostic-next)
+  nmap <silent> gk <Plug>(coc-diagnostic-prev)
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
   " Use K to show documentation in preview window
@@ -430,7 +436,6 @@ highlight ConflictMarkerBegin guibg=#2f7366
 highlight ConflictMarkerOurs guibg=#2e5049
 highlight ConflictMarkerTheirs guibg=#344f69
 highlight ConflictMarkerEnd guibg=#2f628e
-
 
 " hi link typescriptVariable Keyword
 " hi link typescriptAliasDeclaration Type
