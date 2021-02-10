@@ -10,5 +10,6 @@ elm-stuff/
 # include
 !/.vim/
 !/.config/
+!/dist
 
 # vim: ft=gitignore

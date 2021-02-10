@@ -302,13 +302,14 @@ if !exists('g:vscode')
   set expandtab
 
   " Git / Fugitive
-  nmap <silent> <leader>gs :Git<cr>
+  nmap <silent> <leader>gs :tabnew %<cr> :Git<cr> :only<cr>
+  " nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
   nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
   nmap <silent> <leader>gl :Git pull<cr>
   nmap <silent> <leader>gf :Git fetch<cr>
   nmap <silent> <leader>gh :SignifyHunkDiff<cr>
-  nmap <silent> <leader>gd :tabnew<cr><c-o> :Gdiffsplit!<cr>
+  nmap <silent> <leader>gd :tabnew %<cr> :Gdiffsplit!<cr>
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
