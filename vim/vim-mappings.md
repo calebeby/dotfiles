@@ -29,13 +29,15 @@
   - <leader>tl : Run previously-ran tests
   - <leader>tg : Go to previously-ran test file
 
-- <leader><leader> : easymotion s motion (search for character anywhere)
+- <leader><leader> : visual multi prefix
 
 # Non-leader mappings
 
 - ,: easymotion prefix (use motion after it)
-- ,j : COC next error
-- ,k : COC prev error
+- ,, easymotion search for two characters everywhere
+- gj : COC next error
+- gk : COC prev error
 - ) next hunk
 - ( prev hunk
-
+- ]v go to next word segment
+- [v go to prev word segment

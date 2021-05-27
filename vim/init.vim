@@ -49,7 +49,7 @@ Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
-Plug 'mg979/vim-visual-multi' " multple cursors
+Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
@@ -162,8 +162,8 @@ omap ah <Plug>(signify-motion-outer-pending)
 
 " Go to next/prev word segment
 " creates visual selection and then goes to beginning/end of that selection
-nmap gw viv<esc>`>l
-nmap gb hviv<esc>`<
+nmap ]v viv<esc>`>l
+nmap [v hviv<esc>`<
 
 " Like the default pattern, but it allows <> in function name for type
 " arguments
@@ -212,6 +212,14 @@ if !exists('g:vscode')
   colorscheme one_dark
   set colorcolumn=80
 
+  " Visual Multi Cursor
+  let g:VM_default_mappings = 1
+  let g:VM_maps = {}
+  let g:VM_maps["Find Under"] = '' " force remove the <c-n> mapping
+  let g:VM_maps["Find Subword Under"] = '' " force remove the <c-n> mapping
+  nmap <leader><leader> <Plug>(VM-Visual-Cursors)
+  vmap <leader><leader> <Plug>(VM-Visual-Cursors)
+
   " Don't highlight library/DOM keywords specially
   let g:yats_host_keyword = 0
 
@@ -241,8 +249,21 @@ if !exists('g:vscode')
   nmap <silent> gk <Plug>(coc-diagnostic-prev)
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call CocAction('doHover')<CR>
+  " " Use K to show documentation in preview window
+  " nnoremap <silent> K :call CocAction('doHover')<CR>
+  " Use K to show documentation in preview window.
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+      call CocActionAsync('doHover')
+    else
+      execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+  endfunction
+
   " red
   highlight link CocErrorHighlight SpellBad
   " blue
