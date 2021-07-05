@@ -215,7 +215,6 @@ const generateVimText = async (colorscheme, vimName) => {
 
   highlight('SignifySignAdd', greenest, diffAdd, '', '')
   highlight('SignifySignChange', base0D, diffChange, '', '')
-  // highlight('SignifySignDelete', reddest, diffDelete, '', '')
   highlight('SignifySignDelete', reddest, '', 'underline', '')
   highlight('SignifySignDeleteFirstLine', reddest, '', '', '')
 
