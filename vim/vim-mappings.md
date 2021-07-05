@@ -5,6 +5,7 @@
   - <leader>gp : git push
   - <leader>gP : git push -u origin HEAD
   - <leader>gl : git pull
+  - <leader>gh : git hunk diff popup
 
 - <leader>l : sideways right
 - <leader>h : sideways left
@@ -20,7 +21,8 @@
 
 - <leader>; : : (command mode, to reduce pinkie shift)
 
-- <leader>o : open (fzf)
+- <leader>o : File fuzzy search (Telescope)
+- <leader><leader> : symbol fuzzy search (Telescope)
 
 - <leader>t : test
   - <leader>tn : Run nearest test
@@ -28,8 +30,6 @@
   - <leader>ts : Run current test suite
   - <leader>tl : Run previously-ran tests
   - <leader>tg : Go to previously-ran test file
-
-- <leader><leader> : visual multi prefix
 
 # Non-leader mappings
 
@@ -41,3 +41,9 @@
 - ( prev hunk
 - ]v go to next word segment
 - [v go to prev word segment
+- c-q close all windows
+
+- gd : Go to definition
+- gD : Go to type-definition
+- gr : Go to references
+- gi : Go to implementation
