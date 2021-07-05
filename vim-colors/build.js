@@ -186,9 +186,13 @@ const generateVimText = async (colorscheme, vimName) => {
 
   highlight('CocHighlightText', '', base01, '', '')
   highlight('CocErrorSign', base08, '', '', '')
+  highlight('CocErrorHighlight', '', '', 'undercurl', base08)
   highlight('CocWarningSign', base09, '', '', '')
+  highlight('CocWarningHighlight', '', '', 'undercurl', base09)
   highlight('CocHintSign', base0B, '', '', '')
+  highlight('CocHintHighlight', '', '', 'undercurl', base0B)
   highlight('CocInfoSign', base0D, '', '', '')
+  highlight('CocInfoHighlight', '', '', 'undercurl', base0D)
 
   // This allows us to use red and green for diffs,
   // even if a color scheme changes which colors are red and green
@@ -196,7 +200,6 @@ const generateVimText = async (colorscheme, vimName) => {
   const reddest = findClosest(colorscheme.colors, 'red')
 
   const diffAdd = mix(0.25, greenest, base00)
-  const diffDelete = mix(0.25, reddest, base00)
   const diffDeletedLine = mix(0.85, base00, reddest)
   const diffChange = mix(0.25, base0D, base00)
 

@@ -47,9 +47,13 @@ hi SpellCap gui=undercurl guisp=#83a598
 hi SpellRare gui=undercurl guisp=#d3869b
 hi CocHighlightText guibg=#3c3836
 hi CocErrorSign guifg=#fb4934
+hi CocErrorHighlight gui=undercurl guisp=#fb4934
 hi CocWarningSign guifg=#fe8019
+hi CocWarningHighlight gui=undercurl guisp=#fe8019
 hi CocHintSign guifg=#b8bb26
+hi CocHintHighlight gui=undercurl guisp=#b8bb26
 hi CocInfoSign guifg=#83a598
+hi CocInfoHighlight gui=undercurl guisp=#83a598
 hi DiffAdd guibg=#495442 gui=none
 hi DiffChange guibg=#32302f
 hi DiffDelete guifg=#50332f guibg=#50332f gui=none

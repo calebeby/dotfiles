@@ -277,15 +277,6 @@ EOF
     endif
   endfunction
 
-  " red
-  highlight link CocErrorHighlight SpellBad
-  " blue
-  highlight link CocWarningHighlight SpellCap
-  " green
-  highlight link CocHintHighlight SpellLocal
-  " blue
-  highlight link CocInfoHighlight SpellCap
-
   " let g:signify_sign_show_text = 0
   " let g:signify_sign_show_count = 0
   let g:signify_sign_change = '~'
