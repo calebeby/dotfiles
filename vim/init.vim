@@ -241,7 +241,7 @@ if !exists('g:vscode')
 
   " 'quick-fix'
   xmap <silent> <leader>a <Plug>(coc-codeaction-selected)
-  nmap <silent> <leader>a <Plug>(coc-codeaction-line)
+  nmap <silent> <leader>a :CocAction<CR>
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
