@@ -44,6 +44,8 @@ alias install="sudo dnf install"
 alias uninstall="sudo dnf remove"
 alias update="sudo dnf update"
 alias b='systemctl poweroff'
+alias backup-programming='rclone sync ~/Programming b2:caleb-backup/Programming/current --fast-list -P --filter-from ~/dotfiles/rclone-filter'
+alias backup-cad='rclone sync ~/CAD b2:caleb-backup/CAD --fast-list -P'
 
 if type -q rg
   set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow 2>/dev/null'

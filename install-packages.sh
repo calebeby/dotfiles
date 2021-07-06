@@ -35,7 +35,7 @@ sudo dnf install redshift redshift-gtk gnome-screenshot
 
 echo "Programming"
 # moreutils for vidir
-sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta fd-find moreutils
+sudo dnf install nodejs python3 ripgrep aria2 p7zip bat git-delta fd-find moreutils httpie
 
 echo "fonts"
 

@@ -25,6 +25,7 @@ hi TabLineSel guifg=#C0C5CE guibg=#343D46 gui=bold
 hi IncSearch guifg=#343D46 guibg=#F99157 gui=none
 hi Search guifg=#343D46 guibg=#FAC863
 hi Comment guifg=#65737E gui=italic
+hi Delimiter guifg=#929ca6
 hi String guifg=#99C794
 hi Statement guifg=#C594C5 gui=none
 hi StorageClass guifg=#C594C5 gui=none
@@ -46,9 +47,13 @@ hi SpellCap gui=undercurl guisp=#6699CC
 hi SpellRare gui=undercurl guisp=#C594C5
 hi CocHighlightText guibg=#343D46
 hi CocErrorSign guifg=#EC5f67
+hi CocErrorHighlight gui=undercurl guisp=#EC5f67
 hi CocWarningSign guifg=#F99157
+hi CocWarningHighlight gui=undercurl guisp=#F99157
 hi CocHintSign guifg=#99C794
+hi CocHintHighlight gui=undercurl guisp=#99C794
 hi CocInfoSign guifg=#6699CC
+hi CocInfoHighlight gui=undercurl guisp=#6699CC
 hi DiffAdd guibg=#3a524c gui=none
 hi DiffChange guibg=#1B2B34
 hi DiffDelete guifg=#3a323b guibg=#3a323b gui=none
@@ -58,9 +63,10 @@ hi DiffFile guifg=#EC5f67 guibg=#1B2B34
 hi DiffNewFile guifg=#99C794 guibg=#1B2B34
 hi DiffLine guifg=#6699CC guibg=#1B2B34
 hi DiffRemoved guifg=#EC5f67 guibg=#1B2B34
-hi SignifySignAdd guifg=#A7ADBA guibg=#3a524c
-hi SignifySignChange guifg=#A7ADBA guibg=#2d465a
-hi SignifySignDelete guifg=#A7ADBA guibg=#4f3840
+hi SignifySignAdd guifg=#99C794 guibg=#3a524c
+hi SignifySignChange guifg=#6699CC guibg=#2d465a
+hi SignifySignDelete guifg=#EC5f67 gui=underline
+hi SignifySignDeleteFirstLine guifg=#EC5f67
 hi PMenu guifg=#C0C5CE guibg=#343D46 gui=none
 hi PMenuSel guifg=#343D46 guibg=#C0C5CE
 hi Todo guifg=#FAC863 guibg=#343D46

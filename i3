@@ -22,7 +22,7 @@ exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id kitty'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
-exec --no-startup-id picom -b --config /home/caleb/dotfiles/picom.conf
+exec --no-startup-id picom -b
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id xsetroot -solid "#282828"
 exec --no-startup-id QT_QPA_PLATFORMTHEME=qt5ct lxqt-notificationd

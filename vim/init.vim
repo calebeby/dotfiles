@@ -26,14 +26,10 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-commentary', exists('g:vscode') ? { 'on': [] } : {} " gcc gcip (there is alternative for vscode)
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'asvetliakov/vim-easymotion', { 'as': 'vscode-easymotion', 'on': exists('g:vscode') ? '<Plug>(easymotion-' : [] }
-Plug 'easymotion/vim-easymotion', { 'on': exists('g:vscode') ? [] : '<Plug>(easymotion-' }
-Plug 'junegunn/fzf', { 'do': 'yes \| ./install', 'dir': '~/.fzf' }
-Plug 'junegunn/fzf.vim'
+Plug 'ggandor/lightspeed.nvim' " s motion (like vim-sneak/easymotion)
 Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
-set rtp+=$HOME/dotfiles/vim-ts-highlight
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
 Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] }
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
@@ -42,10 +38,9 @@ Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'vim-test/vim-test'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers
+Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers instead of just the lines
 Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
-Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
@@ -56,13 +51,18 @@ Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } 
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
 Plug 'mattn/vim-textobj-url', { 'on': '<Plug>(textobj-url' }
-Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsf daf cif caf csf (surrounding function call / around function call)
+Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsF ciF csF (surrounding function call / around function call)
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
-" Plug 'leafgarland/typescript-vim', exists('g:vscode') ? { 'on': [] } : {}
-" Plug 'peitalin/vim-jsx-typescript', exists('g:vscode') ? { 'on': [] } : {}
-" Plug 'herringtondarkholme/yats.vim', exists('g:vscode') ? { 'on': [] } : {}
-" Plug 'pangloss/vim-javascript', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/playground'
+Plug 'windwp/nvim-ts-autotag' " auto close/rename xml/html/jsx tags
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'fannheyward/telescope-coc.nvim'
 
 call plug#end()
 
@@ -121,14 +121,6 @@ if exists('g:vscode')
   vmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
 endif
 
-nmap , <Plug>(easymotion-prefix)
-omap , <Plug>(easymotion-prefix)
-" finds character forwards or backwards
-nmap ,, <Plug>(easymotion-s2)
-omap ,, <Plug>(easymotion-s2)
-autocmd User EasyMotionPromptBegin silent! CocDisable
-autocmd User EasyMotionPromptEnd   silent! CocEnable
-
 " Text Objects
 xmap ic <Plug>(textobj-comment-i)
 omap ic <Plug>(textobj-comment-i)
@@ -170,12 +162,10 @@ nmap [v hviv<esc>`<
 let g:dsf_function_pattern = '[a-zA-Z.#<>_]\+[?!]\='
 let g:dsf_brackets = '('
 let g:dsf_no_mappings = 1
-nmap dsf <Plug>DsfDelete
-nmap csf <Plug>DsfChange
-omap af <Plug>DsfTextObjectA
-xmap af <Plug>DsfTextObjectA
-omap if <Plug>DsfTextObjectI
-xmap if <Plug>DsfTextObjectI
+nmap dsF <Plug>DsfDelete
+nmap csF <Plug>DsfChange
+omap iF <Plug>DsfTextObjectI
+xmap iF <Plug>DsfTextObjectI
 
 nmap R <Plug>ReplaceWithRegisterOperator
 nmap RR <Plug>ReplaceWithRegisterLine
@@ -185,7 +175,7 @@ xmap R <Plug>ReplaceWithRegisterVisual
 imap <C-h> <C-W>
 imap <C-BS> <C-W>
 
-nmap -a :call SyntaxAttr()<cr>
+nmap -a :TSHighlightCapturesUnderCursor<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
@@ -212,16 +202,36 @@ if !exists('g:vscode')
   colorscheme one_dark
   set colorcolumn=80
 
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { "typescript", "javascript" },
+  highlight = {
+    enable = true,
+  },
+  autotag = {
+    enable = true,
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = false,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aF"] = "@call.outer",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
+      },
+    },
+  },
+}
+EOF
+
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
   let g:VM_maps = {}
   let g:VM_maps["Find Under"] = '' " force remove the <c-n> mapping
   let g:VM_maps["Find Subword Under"] = '' " force remove the <c-n> mapping
-  nmap <leader><leader> <Plug>(VM-Visual-Cursors)
-  vmap <leader><leader> <Plug>(VM-Visual-Cursors)
-
-  " Don't highlight library/DOM keywords specially
-  let g:yats_host_keyword = 0
 
   " alt-up alt-down for moving this line up or down
   nnoremap <a-up> :m .-2<CR>
@@ -234,9 +244,12 @@ if !exists('g:vscode')
   vnoremap <a-up> :m '<-2<CR>gv
   vnoremap <a-down> :m '>+1<CR>gv
 
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gD <Plug>(coc-type-definition)
-  nmap <silent> gr <Plug>(coc-references)
+  " nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gd :Telescope coc definitions<cr>
+  " nmap <silent> gD <Plug>(coc-type-definition)
+  nmap <silent> gD :Telescope coc type_definitions<cr>
+  " nmap <silent> gr <Plug>(coc-references)
+  nmap <silent> gr :Telescope coc references<cr>
   nmap <silent> gi <Plug>(coc-implementation)
 
   " 'quick-fix'
@@ -264,27 +277,18 @@ if !exists('g:vscode')
     endif
   endfunction
 
-  " red
-  highlight link CocErrorHighlight SpellBad
-  " blue
-  highlight link CocWarningHighlight SpellCap
-  " green
-  highlight link CocHintHighlight SpellLocal
-  " blue
-  highlight link CocInfoHighlight SpellCap
-
-  let g:signify_sign_show_text = 0
-  let g:signify_sign_show_count = 0
+  " let g:signify_sign_show_text = 0
+  " let g:signify_sign_show_count = 0
+  let g:signify_sign_change = '~'
+  let g:signify_sign_delete = 'ㅤ'
 
   nmap ) <plug>(signify-next-hunk)
   nmap ( <plug>(signify-prev-hunk)
 
-  " TODO: Once nvim supports signcolumn=number, use that
-  " - (puts the sign in place of the number)
-  set signcolumn=no
+  set signcolumn=number
 
   " quit
-  noremap <silent> <c-q> :xall<cr>
+  noremap <silent> <c-q> :qall<cr>
 
   " auto-refresh vimrc
   augroup vimrc
@@ -300,7 +304,6 @@ if !exists('g:vscode')
 
   " window mappings
   noremap <leader>w <c-w>
-  noremap <leader>q<leader>q :qall<cr>
 
   noremap <leader>; :
 
@@ -331,6 +334,8 @@ if !exists('g:vscode')
   nmap <silent> <leader>gf :Git fetch<cr>
   nmap <silent> <leader>gh :SignifyHunkDiff<cr>
   nmap <silent> <leader>gd :tabnew %<cr> :Gdiffsplit!<cr>
+  vmap <silent> <leader>gS :diffput<cr>
+  nmap <silent> <leader>gS :diffput<cr>
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
@@ -381,7 +386,7 @@ if !exists('g:vscode')
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
   " Delay before highlighting word under cursor (and writing swap files)
-  set updatetime=150
+  set updatetime=10
 
   " Highlight symbol under cursor on CursorHold
   augroup highlightWordUnderCursor
@@ -394,60 +399,27 @@ if !exists('g:vscode')
 
   command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-  " floating fzf
-  if has('nvim')
-    " open a file
-    nmap <silent> <leader>o :FZF<cr>
+  " open a file
+  nmap <silent> <leader>o :Telescope find_files<cr>
+  nmap <silent> <leader><leader> :Telescope coc document_symbols<cr>
 
-    " close FZF buffer with <esc>
-    augroup fzfclose
-      autocmd!
-      autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-    augroup END
+lua <<EOF
+require('telescope').load_extension('coc')
+local actions = require('telescope.actions')
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+      },
+    },
+  }
+}
+EOF
 
-    let $FZF_DEFAULT_OPTS .= ' --layout=reverse'
 
-    function! FloatingFZF(...)
-      let maxWidth = a:0 > 0 ? a:1 : 100
-      let height = a:0 > 1 ? a:2 : &lines / 2
-      let width = min([&columns - 6, maxWidth])
-      let col = (&columns - width) / 2
-      let opts = {
-            \ 'relative': 'editor',
-            \ 'row': 1,
-            \ 'col': col,
-            \ 'width': width,
-            \ 'height': height,
-            \ 'style': 'minimal'
-            \ }
-      let buf = nvim_create_buf(v:false, v:true)
-      let win = nvim_open_win(buf, v:true, opts)
-    endfunction
 
-    let g:fzf_layout = { 'window': 'call FloatingFZF()' }
-  endif
-
-  function! ThemePicker()
-    let colors = split(globpath(&rtp, "colors/*.vim"), "\n")
-    if has('packages')
-      let colors += split(globpath(&packpath, "pack/*/opt/*/colors/*.vim"), "\n")
-    endif
-    let filtered = []
-    " Don't show built-in themes; they are bad
-    for l in colors
-      if match(l, "/usr/") == -1
-        call add(filtered, l)
-      endif
-    endfor
-    return fzf#run({
-          \ 'source':  fzf#vim#_uniq(map(filtered, "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')")),
-          \ 'sink':    'colo',
-          \ 'options': '+m --prompt="Themes> " --preview ""',
-          \ 'window': 'call FloatingFZF(30, 20)',
-          \}, 0)
-  endfunction
-
-  map <leader>kt :call ThemePicker()<cr>
+  map <leader>kt :Telescope colorscheme<cr>
 endif
 
 " disable the default highlight group
@@ -459,71 +431,17 @@ highlight ConflictMarkerOurs guibg=#2e5049
 highlight ConflictMarkerTheirs guibg=#344f69
 highlight ConflictMarkerEnd guibg=#2f628e
 
-" hi link typescriptVariable Keyword
-" hi link typescriptAliasDeclaration Type
-" hi link typescriptTypeReference Type
-" hi link typescriptBraces Normal
-" hi link typescriptCall Normal
-" hi link typescriptVariableDeclaration Identifier
-" hi link typescriptImport Keyword
-" hi link typescriptAmbientDeclaration Keyword
-" hi link typescriptExport Keyword
-" hi link typescriptArrowFunc Keyword
-" hi link typescriptGlobal Identifier
-" hi link typescriptCastKeyword Keyword
-" hi link typescriptObjectLabel Normal
-" hi link typescriptOperator Keyword " new keyword
-" hi link typescriptBinaryOp Operator
-" hi link typescriptTernaryOp Operator
-" hi link typescriptExceptions Keyword
-" hi link typescriptTry Keyword
-" hi link typescriptInterfaceName Type
-" hi link typescriptBlock Identifier
-" hi link typescriptConditionalParen Identifier
-" hi link typescriptLoopParen Identifier
-" hi link typescriptCall Identifier
-" hi link typescriptTemplateSubstitution Identifier
-" hi link typescriptParenExp Identifier
-" hi link typescriptMember Identifier
+" TS stands for Tree Sitter, not TypeScript
+hi link TSInclude Keyword
+hi link TSVariable Identifier
+hi link TSVariableBuiltin Identifier
+hi link TSProperty Normal
+hi link TSConstant TSVariable
+hi link TSTag xmlTagN
 
-" hi link tsxAttrib xmlAttrib
-" hi link tsxTag xmlTag
-" hi link tsxCloseTag xmlCloseTag
-" hi link tsxCloseString xmlTag " />
-" hi link tsxTagName Type " custom components
-" hi link tsxIntrinsicTagName xmlTagName
+" This gets used for capitalized imports
+hi link typescriptTSConstructor TSVariable
+hi link tsxTSConstructor TSVariable
+hi link javascriptTSConstructor TSVariable
 
-" hi link htmlArg xmlAttrib
-" hi link htmlTitle Normal
-" hi link htmlTag xmlTag
-" hi link htmlEndTag xmlEndTag
-" hi link htmlTagName xmlTagName
-" hi link htmlSpecialTagName xmlTagName
-
-" hi link javascriptBraces Normal
-" hi link jsStorageClass Keyword
-" hi link jsGlobalObjects Identifier
-" hi link jsGlobalNodeObjects Identifier
-" hi link jsParen Identifier " not paren, idk why its called that
-" hi link jsParenIfElse Identifier " not paren, idk why its called that
-" hi link jsTemplateExpression Identifier
-" hi link jsDestructuringBlock Identifier
-" hi link jsDestructuringPropertyValue Identifier
-" hi link jsRepeatBlock Identifier
-" hi link jsParenRepeat Identifier
-" hi link jsIfElseBlock Identifier
-" hi link jsBracket Identifier
-" hi link jsTernaryIf Identifier
-" hi link jsFuncArgs Identifier
-" hi link jsVariableDef Identifier
-" hi link jsFuncBlock Identifier
-" hi link jsObjectValue Identifier
-" hi link jsObjectShorthandProp Identifier
-" hi link jsImport Keyword
-" hi link jsExport Keyword
-" hi link jsExportDefault Keyword
-" hi link jsFrom Keyword
-" hi link jsModuleAs Keyword
-" hi link jsModuleKeyword Identifier
-" hi link jsObjectProp Identifier
-" hi link jsArrowFunction Operator
+hi link regexTSConstant TSStringRegex
