@@ -33,8 +33,7 @@ set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
 Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] }
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
-Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {}
-" TODO: conflicts with gr for go to references, shouldn't be in g namespace
+Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBrowse from fugitive.vim to open GitHub URLs.
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers instead of just the lines
@@ -348,9 +347,15 @@ EOF
   nmap g8 8gt
   nmap g9 9gt
 
+
+  " Fish has too slow a startup time. Using bash speeds up fugitive
+  set shell=/bin/bash\ --login 
+
   " Make <c-w> in terminal go out of terminal "insert" mode so
   " window-switching commands can be used
   tmap <silent> <esc> <c-\><c-n>
+
+  nmap <leader>t :te $SHELL<cr>
 
   augroup custom_term
       autocmd!
