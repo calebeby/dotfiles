@@ -22,6 +22,7 @@ hi Title guifg=#83a598 gui=none
 hi TabLine guifg=#bdae93 guibg=#000000 gui=none
 hi TabLineFill guifg=#665c54 guibg=#000000 gui=none
 hi TabLineSel guifg=#d5c4a1 guibg=#3c3836 gui=bold
+hi MatchParen guibg=#504945
 hi IncSearch guifg=#3c3836 guibg=#fe8019 gui=none
 hi Search guifg=#3c3836 guibg=#fabd2f
 hi Comment guifg=#665c54 gui=italic
@@ -45,7 +46,7 @@ hi SpellBad gui=undercurl guisp=#fb4934
 hi SpellLocal gui=undercurl guisp=#8ec07c
 hi SpellCap gui=undercurl guisp=#83a598
 hi SpellRare gui=undercurl guisp=#d3869b
-hi CocHighlightText guibg=#3c3836
+hi CocHighlightText guifg=#d5c4a1 guibg=#3c3836
 hi CocErrorSign guifg=#fb4934
 hi CocErrorHighlight gui=undercurl guisp=#fb4934
 hi CocWarningSign guifg=#fe8019
@@ -91,3 +92,25 @@ let g:terminal_color_14 = "#8ec07c"
 let g:terminal_color_15 = "#fbf1c7"
 let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
+
+" TS stands for Tree Sitter, not TypeScript
+hi link TSInclude Keyword
+hi link TSVariable Identifier
+hi link TSVariableBuiltin Identifier
+hi link TSProperty Normal
+hi link TSConstant TSVariable
+hi link TSConstBuiltin TSVariable
+hi link TSFuncBuiltin TSFunction
+hi link TSTag xmlTagN
+
+" This gets used for capitalized imports
+hi link typescriptTSConstructor TSVariable
+hi link tsxTSConstructor TSVariable
+hi link javascriptTSConstructor TSVariable
+
+" This gets used for namespace imports
+hi link typescriptTSNamespace TSVariable
+hi link tsxTSNamespace TSVariable
+hi link javascriptTSNamespace TSVariable
+
+hi link regexTSConstant TSStringRegex

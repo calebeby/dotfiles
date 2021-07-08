@@ -156,6 +156,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('TabLine', base04, base00, 'none', '')
   highlight('TabLineFill', base03, base00, 'none', '')
   highlight('TabLineSel', base05, base01, 'bold', '')
+  highlight('MatchParen', '', base02, '', '')
 
   highlight('IncSearch', base01, base09, 'none', '')
   highlight('Search', base01, base0A, '', '')
@@ -184,7 +185,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('SpellCap', '', '', 'undercurl', base0D)
   highlight('SpellRare', '', '', 'undercurl', base0E)
 
-  highlight('CocHighlightText', '', base01, '', '')
+  highlight('CocHighlightText', base05, base01, '', '')
   highlight('CocErrorSign', base08, '', '', '')
   highlight('CocErrorHighlight', '', '', 'undercurl', base08)
   highlight('CocWarningSign', base09, '', '', '')
@@ -248,6 +249,30 @@ let g:terminal_color_14 = "${base0C}"
 let g:terminal_color_15 = "${base07}"
 let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
+`
+
+file += `
+" TS stands for Tree Sitter, not TypeScript
+hi link TSInclude Keyword
+hi link TSVariable Identifier
+hi link TSVariableBuiltin Identifier
+hi link TSProperty Normal
+hi link TSConstant TSVariable
+hi link TSConstBuiltin TSVariable
+hi link TSFuncBuiltin TSFunction
+hi link TSTag xmlTagN
+
+" This gets used for capitalized imports
+hi link typescriptTSConstructor TSVariable
+hi link tsxTSConstructor TSVariable
+hi link javascriptTSConstructor TSVariable
+
+" This gets used for namespace imports
+hi link typescriptTSNamespace TSVariable
+hi link tsxTSNamespace TSVariable
+hi link javascriptTSNamespace TSVariable
+
+hi link regexTSConstant TSStringRegex
 `
 
   return file

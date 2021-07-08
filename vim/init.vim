@@ -46,6 +46,8 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
 
+Plug 'kyazdani42/nvim-web-devicons'
+
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
 Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
@@ -175,7 +177,7 @@ xmap R <Plug>ReplaceWithRegisterVisual
 imap <C-h> <C-W>
 imap <C-BS> <C-W>
 
-nmap -a :TSHighlightCapturesUnderCursor<cr>
+nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
@@ -204,7 +206,7 @@ if !exists('g:vscode')
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex" },
   highlight = {
     enable = true,
   },
@@ -214,7 +216,7 @@ require'nvim-treesitter.configs'.setup {
   textobjects = {
     select = {
       enable = true,
-      lookahead = false,
+      lookahead = true,
       keymaps = {
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
@@ -336,6 +338,7 @@ EOF
   nmap <silent> <leader>gd :tabnew %<cr> :Gdiffsplit!<cr>
   vmap <silent> <leader>gS :diffput<cr>
   nmap <silent> <leader>gS :diffput<cr>
+  nmap <silent> <leader>gb :Telescope git_branches<cr>
 
   map <silent><C-n> :NERDTreeToggle<CR>
   let NERDTreeQuitOnOpen=1
@@ -401,6 +404,7 @@ EOF
 
   " open a file
   nmap <silent> <leader>o :Telescope find_files<cr>
+  nmap <silent> <leader>O :Telescope file_browser<cr>
   nmap <silent> <leader><leader> :Telescope coc document_symbols<cr>
 
 lua <<EOF
@@ -430,18 +434,3 @@ highlight ConflictMarkerBegin guibg=#2f7366
 highlight ConflictMarkerOurs guibg=#2e5049
 highlight ConflictMarkerTheirs guibg=#344f69
 highlight ConflictMarkerEnd guibg=#2f628e
-
-" TS stands for Tree Sitter, not TypeScript
-hi link TSInclude Keyword
-hi link TSVariable Identifier
-hi link TSVariableBuiltin Identifier
-hi link TSProperty Normal
-hi link TSConstant TSVariable
-hi link TSTag xmlTagN
-
-" This gets used for capitalized imports
-hi link typescriptTSConstructor TSVariable
-hi link tsxTSConstructor TSVariable
-hi link javascriptTSConstructor TSVariable
-
-hi link regexTSConstant TSStringRegex
