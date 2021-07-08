@@ -12,9 +12,18 @@ set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linu
 
 set -x MOZ_USE_XINPUT2 1
 
-if type -q hub
-  alias git='hub'
-end
+# git fetch in background
+set --global hydro_fetch true
+set --global hydro_color_prompt magenta
+set --global hydro_color_duration yellow
+set --global hydro_color_pwd blue
+set --global hydro_color_git brblack
+
+set --global hydro_symbol_prompt "\n❯"
+set --global hydro_symbol_git_dirty "*"
+
+set --global hydro_symbol_git_behind "⇣"
+set --global hydro_symbol_git_ahead	"⇡"
 
 abbr n nvim -S
 
@@ -52,7 +61,6 @@ if type -q rg
 end
 
 set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
-# set -x FZF_DEFAULT_OPTS '--color fg:7,bg:0,hl:6,fg+:7,bg+:0,hl+:6,info:240,prompt:4,pointer:1,marker:5,spinner:2,header:4 --preview "cat {}  | head -50"'
 if type -q bat
   set -x FZF_DEFAULT_OPTS '--preview "bat {} --color always --paging never --style plain"'
 else
@@ -60,17 +68,3 @@ else
 end
 
 set fish_greeting ""
-
-# # Start X at login
-# if status --is-login
-#   if test -z "$DISPLAY" -a $XDG_VTNR = 1
-#     exec startx -- -keeptty
-#   end
-# end
-
-function __check_nvm --on-variable PWD --description 'Check node version'
-  status --is-command-substitution; and return
-  if [ -e ".nvmrc" ]
-    nvm
-  end
-end

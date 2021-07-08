@@ -1,11 +1,3 @@
-function fish_prompt
-    set --local exit_code $status  # save previous exit code
-
-    echo -e -n (_pure_prompt_beginning)  # init prompt context (clear current line, etc.)
-    echo -e (_pure_prompt_first_line)  # print current path, git branch/status, command duration
-    _pure_place_iterm2_prompt_mark # place iTerm shell integration mark
-    echo -e -n (_pure_prompt $exit_code)  # print prompt
-    echo -e (_pure_prompt_ending)  # reset colors and end prompt
-
-    set _pure_fresh_session false
+function fish_prompt -d Hydro
+    string unescape "$_hydro_color_pwd$_hydro_pwd\x1b[0m $_hydro_color_git$$_hydro_git\x1b[0m$_hydro_color_duration$_hydro_cmd_duration\x1b[0m$_hydro_prompt\x1b[0m "
 end
