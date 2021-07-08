@@ -24,13 +24,6 @@
 - <leader>o : File fuzzy search (Telescope)
 - <leader><leader> : symbol fuzzy search (Telescope)
 
-- <leader>t : test
-  - <leader>tn : Run nearest test
-  - <leader>tf : Run current test file
-  - <leader>ts : Run current test suite
-  - <leader>tl : Run previously-ran tests
-  - <leader>tg : Go to previously-ran test file
-
 # Non-leader mappings
 
 - ,: easymotion prefix (use motion after it)
