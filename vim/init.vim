@@ -318,7 +318,7 @@ EOF
   set expandtab
 
   " Git / Fugitive
-  nmap <silent> <leader>gs :tabnew %<cr> :Git<cr> :only<cr>
+  nmap <silent> <leader>gs :tabnew .git/index<cr>
   " nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
   nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
