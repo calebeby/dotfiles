@@ -23,7 +23,7 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'tpope/vim-commentary', exists('g:vscode') ? { 'on': [] } : {} " gcc gcip (there is alternative for vscode)
+Plug 'tpope/vim-commentary' " gcc gcip
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'ggandor/lightspeed.nvim' " s motion (like vim-sneak/easymotion)
@@ -59,10 +59,10 @@ Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-ts-autotag' " auto close/rename xml/html/jsx tags
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'fannheyward/telescope-coc.nvim'
+Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
 call plug#end()
 
@@ -107,9 +107,6 @@ set ignorecase
 set smartcase
 
 if exists('g:vscode')
-  xmap gc  <Plug>VsCodeCommentaryLine
-  nmap gc  <Plug>VSCodeCommentaryLine
-  omap gc  <Plug>VSCodeCommentaryLine
   nmap gcc <Plug>VSCodeCommentaryLine
 
   nmap <silent> <leader>gs :<C-u>call VSCodeNotify('workbench.view.scm')<CR>
@@ -119,6 +116,36 @@ if exists('g:vscode')
 
   nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
   vmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
+
+  nmap <leader>o :call VSCodeNotify('workbench.action.quickOpen')<CR>
+
+  nmap <silent> <leader>wq :q<cr>
+  nmap <silent> <leader>ws :sp<cr>
+  nmap <silent> <leader>wv :vsp<cr>
+
+  nmap <silent> <leader>wh <c-w>h<cr>
+  nmap <silent> <leader>wj <c-w>j<cr>
+  nmap <silent> <leader>wk <c-w>k<cr>
+  nmap <silent> <leader>wl <c-w>l<cr>
+
+  nmap <silent> <leader>wH <c-w>H<cr>
+  nmap <silent> <leader>wJ <c-w>J<cr>
+  nmap <silent> <leader>wK <c-w>K<cr>
+  nmap <silent> <leader>wL <c-w>L<cr>
+
+  nmap <silent> <leader>w= <c-w>=<cr>
+
+  nmap <silent> <leader>t :call VSCodeNotify('workbench.action.createTerminalEditor')<cr>
+
+  nmap <silent> <leader>kt :call VSCodeNotify('workbench.action.selectTheme')<cr>
+
+  nmap <silent> gd :call VSCodeNotify('editor.action.revealDefinition')<cr>
+  nmap <silent> gD :call VSCodeNotify('editor.action.goToTypeDefinition')<cr>
+  nmap <silent> gr :call VSCodeNotify('editor.action.goToReferences')<cr>
+  nmap <silent> gi :call VSCodeNotify('editor.action.goToImplementation')<cr>
+
+  nmap <silent> gj :call VSCodeNotify('editor.action.marker.next')<cr>
+  nmap <silent> gk :call VSCodeNotify('editor.action.marker.prev')<cr>
 endif
 
 " Text Objects
@@ -181,24 +208,13 @@ autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
 
 " save file
-nmap <leader>s :up<cr>
-
-if !exists('g:vscode')
-  " use hex colors
-  if (has("termguicolors"))
-    set termguicolors
-  endif
-
-  set background=dark
-
-  colorscheme one_dark
-  set colorcolumn=80
+nmap <leader>s :w<cr>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex" },
   highlight = {
-    enable = true,
+    enable = not vim.g.vscode,
   },
   autotag = {
     enable = true,
@@ -218,6 +234,26 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 EOF
+
+" reload vimrc leader kr
+if exists('g:vscode')
+  noremap <leader>kr :source $MYVIMRC<cr>
+else
+  noremap <leader>kr :source $MYVIMRC \| call InstallPlugins()<cr>
+endif
+
+noremap <leader>; :
+
+if !exists('g:vscode')
+  " use hex colors
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+
+  set background=dark
+
+  colorscheme one_dark
+  set colorcolumn=80
 
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
@@ -291,13 +327,8 @@ EOF
   nmap <c-z> u
   imap <c-z> <esc>u
 
-  " reload vimrc leader kr
-  noremap <leader>kr :source $MYVIMRC \| call InstallPlugins()<cr>
-
   " window mappings
   noremap <leader>w <c-w>
-
-  noremap <leader>; :
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -318,7 +349,7 @@ EOF
   set expandtab
 
   " Git / Fugitive
-  nmap <silent> <leader>gs :tabnew .git/index<cr>
+  nmap <silent> <leader>gs :call plug#load('vim-fugitive') \| :tabnew .git/index<cr>
   " nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
   nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
