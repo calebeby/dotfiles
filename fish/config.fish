@@ -12,8 +12,7 @@ set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linu
 
 set -x MOZ_USE_XINPUT2 1
 
-# git fetch in background
-set --global hydro_fetch true
+set --global hydro_fetch false
 set --global hydro_color_prompt magenta
 set --global hydro_color_duration yellow
 set --global hydro_color_pwd blue

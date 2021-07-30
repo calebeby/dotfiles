@@ -109,17 +109,20 @@ set smartcase
 if exists('g:vscode')
   nmap gcc <Plug>VSCodeCommentaryLine
 
-  nmap <silent> <leader>gs :<C-u>call VSCodeNotify('workbench.view.scm')<CR>
-  nmap <silent> <leader>gp :<C-u>call VSCodeNotify('git.push')<CR>
-  nmap <silent> <leader>gl :<C-u>call VSCodeNotify('git.pull')<CR>
-  nmap <silent> <leader>gf :<C-u>call VSCodeNotify('git.fetch')<CR>
+  nmap <silent> <leader>gs :<C-u>call VSCodeNotify('workbench.view.scm')<cr>
+  nmap <silent> <leader>gp :<C-u>call VSCodeNotify('git.push')<cr>
+  nmap <silent> <leader>gl :<C-u>call VSCodeNotify('git.pull')<cr>
+  nmap <silent> <leader>gf :<C-u>call VSCodeNotify('git.fetch')<cr>
 
-  nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
-  vmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<CR>
+  nmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<cr>
+  vmap <silent> <leader>a :<C-u>call VSCodeNotify('editor.action.quickFix')<cr>
 
-  nmap <leader>o :call VSCodeNotify('workbench.action.quickOpen')<CR>
+  nmap <leader>o :call VSCodeNotify('workbench.action.quickOpen')<cr>
 
-  nmap <silent> <leader>wq :q<cr>
+  nnoremap <silent> <c-o> :call VSCodeCall('workbench.action.navigateBack')<cr>
+  nnoremap <silent> <c-i> :call VSCodeCall('workbench.action.navigateForward')<cr>
+
+  nmap <silent> <leader>wq :call VSCodeNotify('workbench.action.closeEditorsAndGroup')<cr>
   nmap <silent> <leader>ws :sp<cr>
   nmap <silent> <leader>wv :vsp<cr>
 
@@ -262,15 +265,15 @@ if !exists('g:vscode')
   let g:VM_maps["Find Subword Under"] = '' " force remove the <c-n> mapping
 
   " alt-up alt-down for moving this line up or down
-  nnoremap <a-up> :m .-2<CR>
-  nnoremap <a-down> :m .+1<CR>
+  nnoremap <a-up> :m .-2<cr>
+  nnoremap <a-down> :m .+1<cr>
   " alt-up alt-down for moving this line up or down
-  imap <a-up> <esc>:m .-2<CR>i
-  imap <a-down> <esc>:m .+1<CR>i
+  imap <a-up> <esc>:m .-2<cr>i
+  imap <a-down> <esc>:m .+1<cr>i
 
   " alt-up alt-down for moving visual selection up or down
-  vnoremap <a-up> :m '<-2<CR>gv
-  vnoremap <a-down> :m '>+1<CR>gv
+  vnoremap <a-up> :m '<-2<cr>gv
+  vnoremap <a-down> :m '>+1<cr>gv
 
   " nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gd :Telescope coc definitions<cr>
@@ -282,7 +285,7 @@ if !exists('g:vscode')
 
   " 'quick-fix'
   xmap <silent> <leader>a <Plug>(coc-codeaction-selected)
-  nmap <silent> <leader>a :CocAction<CR>
+  nmap <silent> <leader>a :CocAction<cr>
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
@@ -291,9 +294,9 @@ if !exists('g:vscode')
 
   nmap <silent> <leader>rn <Plug>(coc-rename)
   " " Use K to show documentation in preview window
-  " nnoremap <silent> K :call CocAction('doHover')<CR>
+  " nnoremap <silent> K :call CocAction('doHover')<cr>
   " Use K to show documentation in preview window.
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  nnoremap <silent> K :call <SID>show_documentation()<cr>
 
   function! s:show_documentation()
     if (index(['vim','help'], &filetype) >= 0)
@@ -361,7 +364,7 @@ if !exists('g:vscode')
   nmap <silent> <leader>gS :diffput<cr>
   nmap <silent> <leader>gb :Telescope git_branches<cr>
 
-  map <silent><C-n> :NERDTreeToggle<CR>
+  map <silent><C-n> :NERDTreeToggle<cr>
   let NERDTreeQuitOnOpen=1
 
   " open url under cursor
@@ -413,7 +416,7 @@ if !exists('g:vscode')
 
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   " Coc only does snippet and additional edit on confirm.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
 
   " Delay before highlighting word under cursor (and writing swap files)
   set updatetime=10
