@@ -64,6 +64,8 @@ Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
+Plug 'pantharshit00/vim-prisma'
+
 call plug#end()
 
 set title titlestring=
@@ -383,7 +385,7 @@ if !exists('g:vscode')
 
 
   " Fish has too slow a startup time. Using bash speeds up fugitive
-  set shell=/bin/bash\ --login 
+  set shell=/bin/bash
 
   " Make <c-w> in terminal go out of terminal "insert" mode so
   " window-switching commands can be used
