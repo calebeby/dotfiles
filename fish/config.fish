@@ -10,6 +10,9 @@ set -x QT_QPA_PLATFORM xcb
 
 set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
 
+set -x DENO_INSTALL /home/caleb/.deno
+set -x PATH $PATH $DENO_INSTALL/bin
+
 set -x MOZ_USE_XINPUT2 1
 
 set --global hydro_fetch false
@@ -67,3 +70,4 @@ else
 end
 
 set fish_greeting ""
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
