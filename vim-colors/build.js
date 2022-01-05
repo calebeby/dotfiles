@@ -251,12 +251,13 @@ let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
 `
 
-file += `
+  file += `
 " TS stands for Tree Sitter, not TypeScript
 hi link TSInclude Keyword
 hi link TSVariable Identifier
 hi link TSVariableBuiltin Identifier
 hi link TSProperty Normal
+hi link TSField Normal
 hi link TSConstant TSVariable
 hi link TSConstBuiltin TSVariable
 hi link TSFuncBuiltin TSFunction

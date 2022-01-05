@@ -98,6 +98,7 @@ hi link TSInclude Keyword
 hi link TSVariable Identifier
 hi link TSVariableBuiltin Identifier
 hi link TSProperty Normal
+hi link TSField Normal
 hi link TSConstant TSVariable
 hi link TSConstBuiltin TSVariable
 hi link TSFuncBuiltin TSFunction

@@ -65,6 +65,8 @@ Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
 Plug 'pantharshit00/vim-prisma'
 
+Plug 'github/copilot.vim', exists('g:vscode') ? { 'on': [] } : {}
+
 call plug#end()
 
 set title titlestring=
@@ -132,10 +134,20 @@ if exists('g:vscode')
   nmap <silent> <leader>wk <c-w>k<cr>
   nmap <silent> <leader>wl <c-w>l<cr>
 
+  nmap <silent> <a-h> <c-w>h<cr>
+  nmap <silent> <a-j> <c-w>j<cr>
+  nmap <silent> <a-k> <c-w>k<cr>
+  nmap <silent> <a-l> <c-w>l<cr>
+
   nmap <silent> <leader>wH <c-w>H<cr>
   nmap <silent> <leader>wJ <c-w>J<cr>
   nmap <silent> <leader>wK <c-w>K<cr>
   nmap <silent> <leader>wL <c-w>L<cr>
+
+  nmap <silent> <a-H> <c-w>H<cr>
+  nmap <silent> <a-J> <c-w>J<cr>
+  nmap <silent> <a-K> <c-w>K<cr>
+  nmap <silent> <a-L> <c-w>L<cr>
 
   nmap <silent> <leader>w= <c-w>=<cr>
 
@@ -221,7 +233,7 @@ nmap <leader>s :w<cr>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "haskell", "rust" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -238,6 +250,12 @@ require'nvim-treesitter.configs'.setup {
       },
     },
   },
+}
+
+
+require'lightspeed'.setup { 
+  repeat_ft_with_target_char = true,
+  ignore_case = true,
 }
 EOF
 
@@ -260,6 +278,9 @@ if !exists('g:vscode')
 
   colorscheme one_dark
   set colorcolumn=80
+
+  imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+  let g:copilot_no_tab_map = v:true
 
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
@@ -335,6 +356,10 @@ if !exists('g:vscode')
 
   " window mappings
   noremap <leader>w <c-w>
+  noremap <a-h> <c-w>h
+  noremap <a-j> <c-w>j
+  noremap <a-k> <c-w>k
+  noremap <a-l> <c-w>l
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -399,7 +424,7 @@ if !exists('g:vscode')
       autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber winfixwidth winfixheight
   augroup END
 
-  let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier']
+  let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier', 'coc-rls', 'coc-css']
 
   " Use tab for trigger completion with characters ahead and navigate.
   " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
