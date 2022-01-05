@@ -8,7 +8,7 @@ set -x QT_QPA_PLATFORMTHEME qt5ct
 set -x GOPATH $HOME/Programming
 set -x QT_QPA_PLATFORM xcb
 
-set -x PATH $PATH ~/.npm-global/bin /home/caleb/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
+set -x PATH $PATH ~/.npm-global/bin $HOME/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
 
 set -x MOZ_USE_XINPUT2 1
 
