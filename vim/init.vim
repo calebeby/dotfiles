@@ -43,6 +43,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
+Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle'] }
 
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -56,7 +57,6 @@ Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/playground'
-Plug 'windwp/nvim-ts-autotag' " auto close/rename xml/html/jsx tags
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
@@ -233,9 +233,6 @@ require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = not vim.g.vscode,
   },
-  autotag = {
-    enable = true,
-  },
   textobjects = {
     select = {
       enable = true,
@@ -359,6 +356,10 @@ if !exists('g:vscode')
   noremap <a-j> <c-w>j
   noremap <a-k> <c-w>k
   noremap <a-l> <c-w>l
+  tnoremap <a-h> <c-\><c-n><c-w>h
+  tnoremap <a-j> <c-\><c-n><c-w>j
+  tnoremap <a-k> <c-\><c-n><c-w>k
+  tnoremap <a-l> <c-\><c-n><c-w>l
 
   " c-/ comes through as c-_
   nmap <c-_> <Plug>CommentaryLine
@@ -423,7 +424,7 @@ if !exists('g:vscode')
       autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber winfixwidth winfixheight
   augroup END
 
-  let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier', 'coc-rls', 'coc-css']
+  let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier', 'coc-rust-analyzer', 'coc-css']
 
   " Use tab for trigger completion with characters ahead and navigate.
   " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.

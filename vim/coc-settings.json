@@ -63,5 +63,8 @@
   "diagnostic.enableSign": false,
   "eslint.quiet": true,
   "typescript.format.enabled": false,
-  "javascript.format.enabled": false
+  "javascript.format.enabled": false,
+  "rust-analyzer.inlayHints.enable": false,
+  "rust-analyzer.callInfo.full": true,
+  "rust-analyzer.checkOnSave.enable": true
 }
