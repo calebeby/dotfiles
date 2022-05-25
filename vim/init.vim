@@ -228,6 +228,7 @@ nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
+au BufRead,BufNewFile *.twig set filetype=html
 
 " save file
 nmap <leader>s :w<cr>
@@ -252,7 +253,6 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
-
 
 require'lightspeed'.setup { 
   repeat_ft_with_target_char = true,
