@@ -161,8 +161,13 @@ if exists('g:vscode')
   nmap <silent> gr :call VSCodeNotify('editor.action.goToReferences')<cr>
   nmap <silent> gi :call VSCodeNotify('editor.action.goToImplementation')<cr>
 
+  nmap <silent> <leader>rn :call VSCodeNotify('editor.action.rename')<cr>
+
   nmap <silent> gj :call VSCodeNotify('editor.action.marker.next')<cr>
   nmap <silent> gk :call VSCodeNotify('editor.action.marker.prev')<cr>
+
+  nmap <silent> ) :call VSCodeNotify('workbench.action.editor.nextChange')<cr>
+  nmap <silent> ( :call VSCodeNotify('workbench.action.editor.previousChange')<cr>
 endif
 
 " Text Objects
@@ -229,7 +234,7 @@ nmap <leader>s :w<cr>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "haskell", "rust" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -396,7 +401,7 @@ if !exists('g:vscode')
   let NERDTreeQuitOnOpen=1
 
   " open url under cursor
-  nmap go yiu :!open (xsel -b)<cr><cr>
+  nmap go yiu :!open $(command -v xsel &> /dev/null && xsel -b \|\| pbpaste) <cr><cr>
 
   " tabs
   nmap g1 1gt
