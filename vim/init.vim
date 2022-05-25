@@ -233,7 +233,7 @@ nmap <leader>s :w<cr>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json" },
   highlight = {
     enable = not vim.g.vscode,
   },

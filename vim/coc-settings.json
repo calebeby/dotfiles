@@ -9,7 +9,8 @@
     "javascriptreact",
     "yaml",
     "json",
-    "rust"
+    "rust",
+    "svelte"
   ],
   "prettier.onlyUseLocalVersion": true,
   "languageserver": {
@@ -63,5 +64,6 @@
   "diagnostic.enableSign": false,
   "eslint.quiet": true,
   "typescript.format.enabled": false,
-  "javascript.format.enabled": false
+  "javascript.format.enabled": false,
+  "svelte.enable-ts-plugin": true
 }
