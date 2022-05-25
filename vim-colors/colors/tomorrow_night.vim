@@ -55,6 +55,7 @@ hi CocHintSign guifg=#b5bd68
 hi CocHintHighlight gui=undercurl guisp=#b5bd68
 hi CocInfoSign guifg=#81a2be
 hi CocInfoHighlight gui=undercurl guisp=#81a2be
+hi CocUnusedHighlight gui=undercurl guisp=#a3685a
 hi DiffAdd guibg=#434632 gui=none
 hi DiffChange guibg=#1d1f21
 hi DiffDelete guifg=#37292b guibg=#37292b gui=none
