@@ -54,6 +54,7 @@ Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
 Plug 'mattn/vim-textobj-url', { 'on': '<Plug>(textobj-url' }
 Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsF ciF csF (surrounding function call / around function call)
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'https://github.com/AndrewRadev/yankwin.vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/playground'
@@ -229,6 +230,24 @@ nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
 au BufRead,BufNewFile *.twig set filetype=html
+
+let g:yankwin_default_mappings = 0
+
+nnoremap <silent> <leader>wd  :call yankwin#Delete({'path_type': 'relative', 'with_line_number': 0})<cr>
+nnoremap <silent> <leader>wgd :call yankwin#Delete({'path_type': 'absolute', 'with_line_number': 0})<cr>
+nnoremap <silent> <leader>wD  :call yankwin#Delete({'path_type': 'relative', 'with_line_number': 1})<cr>
+nnoremap <silent> <leader>wgD :call yankwin#Delete({'path_type': 'absolute', 'with_line_number': 1})<cr>
+
+nnoremap <silent> <leader>wy  :call yankwin#Yank({'path_type': 'relative', 'with_line_number': 0})<cr>
+nnoremap <silent> <leader>wgy :call yankwin#Yank({'path_type': 'absolute', 'with_line_number': 0})<cr>
+nnoremap <silent> <leader>wY  :call yankwin#Yank({'path_type': 'relative', 'with_line_number': 1})<cr>
+nnoremap <silent> <leader>wgY :call yankwin#Yank({'path_type': 'absolute', 'with_line_number': 1})<cr>
+
+nnoremap <silent> <leader>w<leader>p :call yankwin#Paste({'edit_command': 'edit'})<cr>
+nnoremap <silent> <leader>wp     :call yankwin#Paste({'edit_command': 'rightbelow split'})<cr>
+nnoremap <silent> <leader>wP     :call yankwin#Paste({'edit_command': 'leftabove split'})<cr>
+nnoremap <silent> <leader>wgp    :call yankwin#Paste({'edit_command': 'tab split'})<cr>
+nnoremap <silent> <leader>wgP    :call yankwin#Paste({'edit_command': (tabpagenr() - 1).'tab split'})<cr>
 
 " save file
 nmap <leader>s :w<cr>
