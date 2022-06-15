@@ -229,6 +229,7 @@ nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
+au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
 au BufRead,BufNewFile *.twig set filetype=html
 
 let g:yankwin_default_mappings = 0
