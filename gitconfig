@@ -6,7 +6,7 @@
 [core]
   editor = nvim
   excludesfile = ~/dotfiles/gitignore
-  pager = delta --theme="Tomorrow-Night-Eighties"
+  pager = delta
 [hub]
   protocol = https
 [push]

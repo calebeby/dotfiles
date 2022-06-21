@@ -12,6 +12,7 @@
     "rust",
     "svelte"
   ],
+  "eslint.validate": ["typescript", "javascript", "javascriptreact", "typescriptreact", "mdx"],
   "prettier.onlyUseLocalVersion": true,
   "languageserver": {
     "haskell": {
