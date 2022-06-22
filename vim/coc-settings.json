@@ -12,6 +12,7 @@
     "rust",
     "svelte"
   ],
+  "eslint.validate": ["typescript", "javascript", "javascriptreact", "typescriptreact", "mdx"],
   "prettier.onlyUseLocalVersion": true,
   "languageserver": {
     "haskell": {
@@ -67,4 +68,5 @@
   "javascript.format.enabled": false,
   "rust-analyzer.inlayHints.enable": false,
   "rust-analyzer.checkOnSave.enable": true,
+  "eslint.autoFixOnSave": true
 }

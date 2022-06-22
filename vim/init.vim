@@ -36,7 +36,7 @@ Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBrowse from fugitive.vim to open GitHub URLs.
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'calebeby/vim-signify', exists('g:vscode') ? { 'on': [] } : {} " My fork highlights the line numbers instead of just the lines
+Plug 'mhinz/vim-signify', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
 Plug 'chrisbra/Colorizer'
@@ -229,6 +229,8 @@ nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
 
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
+au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
+au BufRead,BufNewFile *.mdx set filetype=mdx
 au BufRead,BufNewFile *.twig set filetype=html
 
 let g:yankwin_default_mappings = 0
@@ -329,7 +331,8 @@ if !exists('g:vscode')
 
   " 'quick-fix'
   xmap <silent> <leader>a <Plug>(coc-codeaction-selected)
-  nmap <silent> <leader>a <Plug>(coc-codeaction)
+  nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
+  nmap <silent> <leader>A <Plug>(coc-codeaction)
 
   " next/prev error/warning
   " These aren't under leader because leader-k is already used
@@ -352,10 +355,8 @@ if !exists('g:vscode')
     endif
   endfunction
 
-  " let g:signify_sign_show_text = 0
-  " let g:signify_sign_show_count = 0
   let g:signify_sign_change = '~'
-  let g:signify_sign_delete = 'ㅤ'
+  let g:signify_sign_delete = '-'
 
   nmap ) <plug>(signify-next-hunk)
   nmap ( <plug>(signify-prev-hunk)
