@@ -1,4 +1,3 @@
---theme Tomorrow-Night-Eighties
 --style numbers
 --map-syntax "cjs:js"
 --map-syntax "mjs:js"

@@ -66,7 +66,6 @@
   "eslint.quiet": true,
   "typescript.format.enabled": false,
   "javascript.format.enabled": false,
-  "svelte.enable-ts-plugin": true,
   "rust-analyzer.inlayHints.enable": false,
   "rust-analyzer.checkOnSave.enable": true,
   "eslint.autoFixOnSave": true
