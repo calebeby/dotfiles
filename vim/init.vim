@@ -67,8 +67,6 @@ Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
 Plug 'pantharshit00/vim-prisma'
 
-Plug 'github/copilot.vim', exists('g:vscode') ? { 'on': [] } : {}
-
 call plug#end()
 
 set title titlestring=
@@ -300,9 +298,6 @@ if !exists('g:vscode')
 
   colorscheme one_dark
   set colorcolumn=80
-
-  imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
-  let g:copilot_no_tab_map = v:true
 
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
