@@ -232,6 +232,7 @@ au BufRead,BufNewFile *.cjs set filetype=javascript
 au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
 au BufRead,BufNewFile *.mdx set filetype=mdx
 au BufRead,BufNewFile *.twig set filetype=html
+au BufRead,BufNewFile *.astro set filetype=html
 
 let g:yankwin_default_mappings = 0
 
