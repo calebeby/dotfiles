@@ -71,3 +71,8 @@ end
 
 set fish_greeting ""
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
+
+# Bun
+set -Ux BUN_INSTALL "/Users/calebeby/.bun"
+set -px --path PATH "/Users/calebeby/.bun/bin"
+
