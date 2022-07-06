@@ -5,6 +5,9 @@ let colors_name = "night_owl"
 
 hi Normal guifg=#abb2bf guibg=#011627
 hi Visual guibg=#4b6479
+hi LspReferenceText guibg=#1d3b53
+hi LspReferenceRead guibg=#1d3b53
+hi LspReferenceWrite guibg=#1d3b53
 hi VertSplit guifg=#4b6479 guibg=#4b6479 gui=none
 hi StatusLine guifg=#80a4c2 guibg=#4b6479 gui=none
 hi StatusLineNC guifg=#637777 guibg=#1d3b53 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#abb2bf
 hi SpellLocal gui=undercurl guisp=#addb67
 hi SpellCap gui=undercurl guisp=#82aaff
 hi SpellRare gui=undercurl guisp=#c792ea
-hi CocHighlightText guifg=#abb2bf guibg=#1d3b53
-hi CocErrorSign guifg=#abb2bf
-hi CocErrorHighlight gui=undercurl guisp=#abb2bf
-hi CocWarningSign guifg=#f78c6c
-hi CocWarningHighlight gui=undercurl guisp=#f78c6c
-hi CocHintSign guifg=#ecc48d
-hi CocHintHighlight gui=undercurl guisp=#ecc48d
-hi CocInfoSign guifg=#82aaff
-hi CocInfoHighlight gui=undercurl guisp=#82aaff
-hi CocUnusedHighlight gui=undercurl guisp=#ef5350
+hi DiagnosticError guifg=#abb2bf
+hi DiagnosticUnderlineError gui=undercurl guisp=#abb2bf
+hi DianosticWarning guifg=#f78c6c
+hi DianosticUnderlineWarning gui=undercurl guisp=#f78c6c
+hi DiagnosticHint guifg=#ecc48d
+hi DiagnosticUnderlineHint gui=undercurl guisp=#ecc48d
+hi DiagnosticInfo guifg=#82aaff
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#82aaff
 hi DiffAdd guibg=#2c4737 gui=none
 hi DiffChange guibg=#011627
 hi DiffDelete guifg=#241f2d guibg=#241f2d gui=none

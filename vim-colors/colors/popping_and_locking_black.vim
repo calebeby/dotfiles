@@ -5,6 +5,9 @@ let colors_name = "popping_and_locking_black"
 
 hi Normal guifg=#f2e5bc guibg=#000000
 hi Visual guibg=#26261c
+hi LspReferenceText guibg=#1a1a1a
+hi LspReferenceRead guibg=#1a1a1a
+hi LspReferenceWrite guibg=#1a1a1a
 hi VertSplit guifg=#26261c guibg=#26261c gui=none
 hi StatusLine guifg=#d5c4a1 guibg=#26261c gui=none
 hi StatusLineNC guifg=#506899 guibg=#1a1a1a gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#99c6ca
 hi SpellLocal gui=undercurl guisp=#7ec16e
 hi SpellCap gui=undercurl guisp=#fabd2f
 hi SpellRare gui=undercurl guisp=#f42c3e
-hi CocHighlightText guifg=#f2e5bc guibg=#1a1a1a
-hi CocErrorSign guifg=#99c6ca
-hi CocErrorHighlight gui=undercurl guisp=#99c6ca
-hi CocWarningSign guifg=#d3869b
-hi CocWarningHighlight gui=undercurl guisp=#d3869b
-hi CocHintSign guifg=#b8bb26
-hi CocHintHighlight gui=undercurl guisp=#b8bb26
-hi CocInfoSign guifg=#fabd2f
-hi CocInfoHighlight gui=undercurl guisp=#fabd2f
-hi CocUnusedHighlight gui=undercurl guisp=#928374
+hi DiagnosticError guifg=#99c6ca
+hi DiagnosticUnderlineError gui=undercurl guisp=#99c6ca
+hi DianosticWarning guifg=#d3869b
+hi DianosticUnderlineWarning gui=undercurl guisp=#d3869b
+hi DiagnosticHint guifg=#b8bb26
+hi DiagnosticUnderlineHint gui=undercurl guisp=#b8bb26
+hi DiagnosticInfo guifg=#fabd2f
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#fabd2f
 hi DiffAdd guibg=#1f301b gui=none
 hi DiffChange guibg=#000000
 hi DiffDelete guifg=#240609 guibg=#240609 gui=none

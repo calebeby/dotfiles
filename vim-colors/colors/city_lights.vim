@@ -5,6 +5,9 @@ let colors_name = "city_lights"
 
 hi Normal guifg=#b7c5d3 guibg=#1d252c
 hi Visual guibg=#28323a
+hi LspReferenceText guibg=#171d23
+hi LspReferenceRead guibg=#171d23
+hi LspReferenceWrite guibg=#171d23
 hi VertSplit guifg=#28323a guibg=#28323a gui=none
 hi StatusLine guifg=#b7c5d3 guibg=#28323a gui=none
 hi StatusLineNC guifg=#41505E guibg=#171d23 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#8BD49C
 hi SpellLocal gui=undercurl guisp=#e27e8d
 hi SpellCap gui=undercurl guisp=#70e1e8
 hi SpellRare gui=undercurl guisp=#008b94
-hi CocHighlightText guifg=#b7c5d3 guibg=#171d23
-hi CocErrorSign guifg=#8BD49C
-hi CocErrorHighlight gui=undercurl guisp=#8BD49C
-hi CocWarningSign guifg=#e27e8d
-hi CocWarningHighlight gui=undercurl guisp=#e27e8d
-hi CocHintSign guifg=#68a1f0
-hi CocHintHighlight gui=undercurl guisp=#68a1f0
-hi CocInfoSign guifg=#70e1e8
-hi CocInfoHighlight gui=undercurl guisp=#70e1e8
-hi CocUnusedHighlight gui=undercurl guisp=#008b94
+hi DiagnosticError guifg=#8BD49C
+hi DiagnosticUnderlineError gui=undercurl guisp=#8BD49C
+hi DianosticWarning guifg=#e27e8d
+hi DianosticUnderlineWarning gui=undercurl guisp=#e27e8d
+hi DiagnosticHint guifg=#68a1f0
+hi DiagnosticUnderlineHint gui=undercurl guisp=#68a1f0
+hi DiagnosticInfo guifg=#70e1e8
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#70e1e8
 hi DiffAdd guibg=#385048 gui=none
 hi DiffChange guibg=#1d252c
 hi DiffDelete guifg=#3a323a guibg=#3a323a gui=none

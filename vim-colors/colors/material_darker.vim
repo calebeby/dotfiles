@@ -5,6 +5,9 @@ let colors_name = "material_darker"
 
 hi Normal guifg=#EEFFFF guibg=#212121
 hi Visual guibg=#353535
+hi LspReferenceText guibg=#303030
+hi LspReferenceRead guibg=#303030
+hi LspReferenceWrite guibg=#303030
 hi VertSplit guifg=#353535 guibg=#353535 gui=none
 hi StatusLine guifg=#B2CCD6 guibg=#353535 gui=none
 hi StatusLineNC guifg=#4A4A4A guibg=#303030 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#F07178
 hi SpellLocal gui=undercurl guisp=#89DDFF
 hi SpellCap gui=undercurl guisp=#82AAFF
 hi SpellRare gui=undercurl guisp=#C792EA
-hi CocHighlightText guifg=#EEFFFF guibg=#303030
-hi CocErrorSign guifg=#F07178
-hi CocErrorHighlight gui=undercurl guisp=#F07178
-hi CocWarningSign guifg=#F78C6C
-hi CocWarningHighlight gui=undercurl guisp=#F78C6C
-hi CocHintSign guifg=#C3E88D
-hi CocHintHighlight gui=undercurl guisp=#C3E88D
-hi CocInfoSign guifg=#82AAFF
-hi CocInfoHighlight gui=undercurl guisp=#82AAFF
-hi CocUnusedHighlight gui=undercurl guisp=#FF5370
+hi DiagnosticError guifg=#F07178
+hi DiagnosticUnderlineError gui=undercurl guisp=#F07178
+hi DianosticWarning guifg=#F78C6C
+hi DianosticUnderlineWarning gui=undercurl guisp=#F78C6C
+hi DiagnosticHint guifg=#C3E88D
+hi DiagnosticUnderlineHint gui=undercurl guisp=#C3E88D
+hi DiagnosticInfo guifg=#82AAFF
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#82AAFF
 hi DiffAdd guibg=#49523c gui=none
 hi DiffChange guibg=#212121
 hi DiffDelete guifg=#402d2e guibg=#402d2e gui=none

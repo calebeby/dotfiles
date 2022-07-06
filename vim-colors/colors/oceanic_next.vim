@@ -5,6 +5,9 @@ let colors_name = "oceanic_next"
 
 hi Normal guifg=#C0C5CE guibg=#1B2B34
 hi Visual guibg=#4F5B66
+hi LspReferenceText guibg=#343D46
+hi LspReferenceRead guibg=#343D46
+hi LspReferenceWrite guibg=#343D46
 hi VertSplit guifg=#4F5B66 guibg=#4F5B66 gui=none
 hi StatusLine guifg=#A7ADBA guibg=#4F5B66 gui=none
 hi StatusLineNC guifg=#65737E guibg=#343D46 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#EC5f67
 hi SpellLocal gui=undercurl guisp=#5FB3B3
 hi SpellCap gui=undercurl guisp=#6699CC
 hi SpellRare gui=undercurl guisp=#C594C5
-hi CocHighlightText guifg=#C0C5CE guibg=#343D46
-hi CocErrorSign guifg=#EC5f67
-hi CocErrorHighlight gui=undercurl guisp=#EC5f67
-hi CocWarningSign guifg=#F99157
-hi CocWarningHighlight gui=undercurl guisp=#F99157
-hi CocHintSign guifg=#99C794
-hi CocHintHighlight gui=undercurl guisp=#99C794
-hi CocInfoSign guifg=#6699CC
-hi CocInfoHighlight gui=undercurl guisp=#6699CC
-hi CocUnusedHighlight gui=undercurl guisp=#AB7967
+hi DiagnosticError guifg=#EC5f67
+hi DiagnosticUnderlineError gui=undercurl guisp=#EC5f67
+hi DianosticWarning guifg=#F99157
+hi DianosticUnderlineWarning gui=undercurl guisp=#F99157
+hi DiagnosticHint guifg=#99C794
+hi DiagnosticUnderlineHint gui=undercurl guisp=#99C794
+hi DiagnosticInfo guifg=#6699CC
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#6699CC
 hi DiffAdd guibg=#3a524c gui=none
 hi DiffChange guibg=#1B2B34
 hi DiffDelete guifg=#3a323b guibg=#3a323b gui=none

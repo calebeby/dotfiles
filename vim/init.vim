@@ -27,7 +27,6 @@ Plug 'tpope/vim-commentary' " gcc gcip
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'ggandor/lightspeed.nvim' " s motion (like vim-sneak/easymotion)
-Plug 'neoclide/coc.nvim', exists('g:vscode') ? { 'branch': 'release', 'on': [] } : { 'branch': 'release' }
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
@@ -45,7 +44,18 @@ Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
 Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle', 'MundoShow', 'MundoHide'] }
 
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'ray-x/lsp_signature.nvim'
+
+Plug 'editorconfig/editorconfig-vim'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm ci',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
@@ -57,13 +67,14 @@ Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'https://github.com/AndrewRadev/yankwin.vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+
+" Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
 Plug 'pantharshit00/vim-prisma'
 
@@ -277,7 +288,9 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+EOF
 
+lua <<EOF
 require'lightspeed'.setup { 
   repeat_ft_with_target_char = true,
   ignore_case = true,
@@ -322,40 +335,6 @@ if !exists('g:vscode')
   " alt-up alt-down for moving visual selection up or down
   vnoremap <a-up> :m '<-2<cr>gv
   vnoremap <a-down> :m '>+1<cr>gv
-
-  " nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gd :Telescope coc definitions<cr>
-  " nmap <silent> gD <Plug>(coc-type-definition)
-  nmap <silent> gD :Telescope coc type_definitions<cr>
-  " nmap <silent> gr <Plug>(coc-references)
-  nmap <silent> gr :Telescope coc references<cr>
-  nmap <silent> gi <Plug>(coc-implementation)
-
-  " 'quick-fix'
-  xmap <silent> <leader>a <Plug>(coc-codeaction-selected)
-  nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
-  nmap <silent> <leader>A <Plug>(coc-codeaction)
-
-  " next/prev error/warning
-  " These aren't under leader because leader-k is already used
-  nmap <silent> gj <Plug>(coc-diagnostic-next)
-  nmap <silent> gk <Plug>(coc-diagnostic-prev)
-
-  nmap <silent> <leader>rn <Plug>(coc-rename)
-  " " Use K to show documentation in preview window
-  " nnoremap <silent> K :call CocAction('doHover')<cr>
-  " Use K to show documentation in preview window.
-  nnoremap <silent> K :call <SID>show_documentation()<cr>
-
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-      call CocActionAsync('doHover')
-    else
-      execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
-  endfunction
 
   let g:signify_sign_change = '~'
   let g:signify_sign_delete = '-'
@@ -451,49 +430,206 @@ if !exists('g:vscode')
       autocmd TermOpen * setlocal bufhidden=hide nonumber norelativenumber winfixwidth winfixheight
   augroup END
 
-  let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-pairs', 'coc-eslint', 'coc-prettier', 'coc-rust-analyzer', 'coc-css']
+  nmap <silent> <leader><leader> :Telescope lsp_document_symbols<cr>
 
+  nmap <silent> gr :Telescope lsp_references<cr>
+  nmap <silent> gi :Telescope lsp_implementations<cr>
+  nmap <silent> gd :Telescope lsp_definitions<cr>
+  nmap <silent> gD :Telescope lsp_type_definitions<cr>
+
+  " 'quick-fix'
+  " nmap <silent> <leader>a :Telescope lsp
+  " nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
+  " nmap <silent> <leader>A <Plug>(coc-codeaction)
+
+  " next/prev error/warning
+  " These aren't under leader because leader-k is already used
+  " nmap <silent> gj <Plug>(coc-diagnostic-next)
+  " nmap <silent> gk <Plug>(coc-diagnostic-prev)
+
+  " nmap <silent> <leader>rn <Plug>(coc-rename)
+  " " Use K to show documentation in preview window
+  " nnoremap <silent> K :call CocAction('doHover')<cr>
+  " Use K to show documentation in preview window.
+  " nnoremap <silent> K :call <SID>show_documentation()<cr>
+
+  set completeopt=menu,menuone,noselect
+
+  lua << EOF
+
+  require "lsp_signature".setup({})
+
+  local on_attach = function(client)
+    vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
+
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
+
+    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
+
+    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+
+    if client.resolved_capabilities.document_highlight then
+      vim.cmd([[
+        autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      ]])
+    end
+  end
+
+  require("nvim-lsp-installer").setup {
+    automatic_installation = true
+  }
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = false,
+      underline = true,
+      signs = true,
+    }
+  )
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+  local lspconfig = require("lspconfig")
+  lspconfig.tsserver.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+  lspconfig.eslint.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+  lspconfig.vimls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+  lspconfig.sumneko_lua.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          globals = {'vim'},
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        telemetry = {
+          enable = false,
+        },
+      },
+    },
+  }
+  lspconfig.rust_analyzer.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true,
+        },
+        completion = {
+          postfix = {
+            enable = false,
+          },
+        },
+      },
+    },
+  }
+
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<Tab>'] = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end,
+      ['<c-j>'] = function(fallback)
+        if cmp.visible() then
+          cmp.confirm({ select = true })
+        else
+          fallback()
+        end
+      end,
+      ['<s-Tab>'] = function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          fallback()
+        end
+      end,
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<C-Space>'] = function(fallback)
+        if cmp.visible() then
+          fallback()
+        else
+          cmp.select_next_item()
+        end
+      end,
+    }),
+    sources = cmp.config.sources(
+      {
+        { name = 'nvim_lsp' },
+      },
+      {
+        { name = 'buffer' },
+        { name = 'vsnip' },
+      }
+    ),
+    experimental = {
+      ghost_text = true,
+    },
+  })
+EOF
+
+
+  " autocmd CursorHold * lua vim.diagnostic.open_float()
   " Use tab for trigger completion with characters ahead and navigate.
   " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  " inoremap <silent><expr> <TAB>
+  "       \ pumvisible() ? "\<C-n>" :
+  "       \ <SID>check_back_space() ? "\<TAB>" :
+  "       \ coc#refresh()
+  " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
+  " function! s:check_back_space() abort
+  "   let col = col('.') - 1
+  "   return !col || getline('.')[col - 1]  =~# '\s'
+  " endfunction
 
-  " Use <c-space> to trigger completion.
-  inoremap <silent><expr> <c-space> coc#refresh()
+  " " Use <c-space> to trigger completion.
+  " inoremap <silent><expr> <c-space> coc#refresh()
 
   " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
   " Coc only does snippet and additional edit on confirm.
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
+  " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
 
   " Delay before highlighting word under cursor (and writing swap files)
   set updatetime=10
 
-  " Highlight symbol under cursor on CursorHold
-  augroup highlightWordUnderCursor
-    autocmd!
-    autocmd! CursorHold * silent call CocActionAsync('highlight')
-  augroup END
-
   " Allow comments in json
   autocmd FileType json syntax match Comment +\/\/.\+$+
-
-  command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
   " open a file
   nmap <silent> <leader>o :Telescope find_files<cr>
   nmap <silent> <leader>O :Telescope file_browser<cr>
-  nmap <silent> <leader><leader> :Telescope coc document_symbols<cr>
 
 lua <<EOF
-require('telescope').load_extension('coc')
 local actions = require('telescope.actions')
 require('telescope').setup{
   defaults = {
@@ -502,8 +638,15 @@ require('telescope').setup{
         ["<esc>"] = actions.close,
       },
     },
+  },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {}
+    }
   }
 }
+
+require("telescope").load_extension("ui-select")
 EOF
 
 

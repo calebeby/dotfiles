@@ -139,6 +139,10 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Normal', base05, base00, '', '')
   highlight('Visual', '', base02, '', '')
 
+  highlight('LspReferenceText', '', base01, '', '')
+  highlight('LspReferenceRead', '', base01, '', '')
+  highlight('LspReferenceWrite', '', base01, '', '')
+
   highlight('VertSplit', base02, base02, 'none', '')
   highlight('StatusLine', base04, base02, 'none', '')
   highlight('StatusLineNC', base03, base01, 'none', '')
@@ -185,16 +189,14 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('SpellCap', '', '', 'undercurl', base0D)
   highlight('SpellRare', '', '', 'undercurl', base0E)
 
-  highlight('CocHighlightText', base05, base01, '', '')
-  highlight('CocErrorSign', base08, '', '', '')
-  highlight('CocErrorHighlight', '', '', 'undercurl', base08)
-  highlight('CocWarningSign', base09, '', '', '')
-  highlight('CocWarningHighlight', '', '', 'undercurl', base09)
-  highlight('CocHintSign', base0B, '', '', '')
-  highlight('CocHintHighlight', '', '', 'undercurl', base0B)
-  highlight('CocInfoSign', base0D, '', '', '')
-  highlight('CocInfoHighlight', '', '', 'undercurl', base0D)
-  highlight('CocUnusedHighlight', '', '', 'undercurl', base0F)
+  highlight('DiagnosticError', base08, '', '', '')
+  highlight('DiagnosticUnderlineError', '', '', 'undercurl', base08)
+  highlight('DianosticWarning', base09, '', '', '')
+  highlight('DianosticUnderlineWarning', '', '', 'undercurl', base09)
+  highlight('DiagnosticHint', base0B, '', '', '')
+  highlight('DiagnosticUnderlineHint', '', '', 'undercurl', base0B)
+  highlight('DiagnosticInfo', base0D, '', '', '')
+  highlight('DiagnosticUnderlineInfo', '', '', 'undercurl', base0D)
 
   // This allows us to use red and green for diffs,
   // even if a color scheme changes which colors are red and green
