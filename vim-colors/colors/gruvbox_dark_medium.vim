@@ -5,6 +5,9 @@ let colors_name = "gruvbox_dark_medium"
 
 hi Normal guifg=#d5c4a1 guibg=#282828
 hi Visual guibg=#504945
+hi LspReferenceText guibg=#3c3836
+hi LspReferenceRead guibg=#3c3836
+hi LspReferenceWrite guibg=#3c3836
 hi VertSplit guifg=#504945 guibg=#504945 gui=none
 hi StatusLine guifg=#bdae93 guibg=#504945 gui=none
 hi StatusLineNC guifg=#665c54 guibg=#3c3836 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#fb4934
 hi SpellLocal gui=undercurl guisp=#8ec07c
 hi SpellCap gui=undercurl guisp=#83a598
 hi SpellRare gui=undercurl guisp=#d3869b
-hi CocHighlightText guifg=#d5c4a1 guibg=#3c3836
-hi CocErrorSign guifg=#fb4934
-hi CocErrorHighlight gui=undercurl guisp=#fb4934
-hi CocWarningSign guifg=#fe8019
-hi CocWarningHighlight gui=undercurl guisp=#fe8019
-hi CocHintSign guifg=#b8bb26
-hi CocHintHighlight gui=undercurl guisp=#b8bb26
-hi CocInfoSign guifg=#83a598
-hi CocInfoHighlight gui=undercurl guisp=#83a598
-hi CocUnusedHighlight gui=undercurl guisp=#d65d0e
+hi DiagnosticError guifg=#fb4934
+hi DiagnosticUnderlineError gui=undercurl guisp=#fb4934
+hi DianosticWarning guifg=#fe8019
+hi DianosticUnderlineWarning gui=undercurl guisp=#fe8019
+hi DiagnosticHint guifg=#b8bb26
+hi DiagnosticUnderlineHint gui=undercurl guisp=#b8bb26
+hi DiagnosticInfo guifg=#83a598
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#83a598
 hi DiffAdd guibg=#414e3d gui=none
 hi DiffChange guibg=#282828
 hi DiffDelete guifg=#472c29 guibg=#472c29 gui=none

@@ -5,6 +5,9 @@ let colors_name = "nord"
 
 hi Normal guifg=#E5E9F0 guibg=#2E3440
 hi Visual guibg=#434C5E
+hi LspReferenceText guibg=#3B4252
+hi LspReferenceRead guibg=#3B4252
+hi LspReferenceWrite guibg=#3B4252
 hi VertSplit guifg=#434C5E guibg=#434C5E gui=none
 hi StatusLine guifg=#D8DEE9 guibg=#434C5E gui=none
 hi StatusLineNC guifg=#4C566A guibg=#3B4252 gui=none
@@ -46,16 +49,14 @@ hi SpellBad gui=undercurl guisp=#88C0D0
 hi SpellLocal gui=undercurl guisp=#D08770
 hi SpellCap gui=undercurl guisp=#EBCB8B
 hi SpellRare gui=undercurl guisp=#BF616A
-hi CocHighlightText guifg=#E5E9F0 guibg=#3B4252
-hi CocErrorSign guifg=#88C0D0
-hi CocErrorHighlight gui=undercurl guisp=#88C0D0
-hi CocWarningSign guifg=#81A1C1
-hi CocWarningHighlight gui=undercurl guisp=#81A1C1
-hi CocHintSign guifg=#A3BE8C
-hi CocHintHighlight gui=undercurl guisp=#A3BE8C
-hi CocInfoSign guifg=#EBCB8B
-hi CocInfoHighlight gui=undercurl guisp=#EBCB8B
-hi CocUnusedHighlight gui=undercurl guisp=#B48EAD
+hi DiagnosticError guifg=#88C0D0
+hi DiagnosticUnderlineError gui=undercurl guisp=#88C0D0
+hi DianosticWarning guifg=#81A1C1
+hi DianosticUnderlineWarning gui=undercurl guisp=#81A1C1
+hi DiagnosticHint guifg=#A3BE8C
+hi DiagnosticUnderlineHint gui=undercurl guisp=#A3BE8C
+hi DiagnosticInfo guifg=#EBCB8B
+hi DiagnosticUnderlineInfo gui=undercurl guisp=#EBCB8B
 hi DiffAdd guibg=#4b5653 gui=none
 hi DiffChange guibg=#2E3440
 hi DiffDelete guifg=#433a46 guibg=#433a46 gui=none
