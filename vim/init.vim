@@ -32,7 +32,7 @@ Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
 Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] }
-Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit'] }
+Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit', 'G'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBrowse from fugitive.vim to open GitHub URLs.
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -43,7 +43,7 @@ Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
-Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle'] }
+Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle', 'MundoShow', 'MundoHide'] }
 
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -108,6 +108,10 @@ set noswapfile
 " Case-insensitive unless there is a capital letter in the search
 set ignorecase
 set smartcase
+
+" Permanent undo
+set undodir=~/.vimdid
+set undofile
 
 if exists('g:vscode')
   nmap gcc <Plug>VSCodeCommentaryLine
@@ -299,6 +303,8 @@ if !exists('g:vscode')
 
   colorscheme one_dark
   set colorcolumn=80
+
+  nnoremap <leader>u :MundoToggle<cr>
 
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
