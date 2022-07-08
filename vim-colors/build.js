@@ -191,8 +191,8 @@ const generateVimText = async (colorscheme, vimName) => {
 
   highlight('DiagnosticError', base08, '', '', '')
   highlight('DiagnosticUnderlineError', '', '', 'undercurl', base08)
-  highlight('DianosticWarning', base09, '', '', '')
-  highlight('DianosticUnderlineWarning', '', '', 'undercurl', base09)
+  highlight('DiagnosticWarn', base09, '', '', '')
+  highlight('DiagnosticUnderlineWarn', '', '', 'undercurl', base09)
   highlight('DiagnosticHint', base0B, '', '', '')
   highlight('DiagnosticUnderlineHint', '', '', 'undercurl', base0B)
   highlight('DiagnosticInfo', base0D, '', '', '')

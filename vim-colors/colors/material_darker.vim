@@ -51,8 +51,8 @@ hi SpellCap gui=undercurl guisp=#82AAFF
 hi SpellRare gui=undercurl guisp=#C792EA
 hi DiagnosticError guifg=#F07178
 hi DiagnosticUnderlineError gui=undercurl guisp=#F07178
-hi DianosticWarning guifg=#F78C6C
-hi DianosticUnderlineWarning gui=undercurl guisp=#F78C6C
+hi DiagnosticWarn guifg=#F78C6C
+hi DiagnosticUnderlineWarn gui=undercurl guisp=#F78C6C
 hi DiagnosticHint guifg=#C3E88D
 hi DiagnosticUnderlineHint gui=undercurl guisp=#C3E88D
 hi DiagnosticInfo guifg=#82AAFF
