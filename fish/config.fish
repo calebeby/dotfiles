@@ -72,7 +72,11 @@ end
 set fish_greeting ""
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
 
+# Bun
+set -Ux BUN_INSTALL ~/.bun
+set -px --path PATH ~/.bun/bin
+
 # pnpm
-set -gx PNPM_HOME "/home/caleb/.local/share/pnpm"
+set -gx PNPM_HOME ~/.local/share/pnpm
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
