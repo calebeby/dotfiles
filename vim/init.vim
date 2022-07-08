@@ -436,23 +436,6 @@ if !exists('g:vscode')
   nmap <silent> gi :Telescope lsp_implementations<cr>
   nmap <silent> gd :Telescope lsp_definitions<cr>
   nmap <silent> gD :Telescope lsp_type_definitions<cr>
-
-  " 'quick-fix'
-  " nmap <silent> <leader>a :Telescope lsp
-  " nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
-  " nmap <silent> <leader>A <Plug>(coc-codeaction)
-
-  " next/prev error/warning
-  " These aren't under leader because leader-k is already used
-  " nmap <silent> gj <Plug>(coc-diagnostic-next)
-  " nmap <silent> gk <Plug>(coc-diagnostic-prev)
-
-  " nmap <silent> <leader>rn <Plug>(coc-rename)
-  " " Use K to show documentation in preview window
-  " nnoremap <silent> K :call CocAction('doHover')<cr>
-  " Use K to show documentation in preview window.
-  " nnoremap <silent> K :call <SID>show_documentation()<cr>
-
   set completeopt=menu,menuone,noselect
 
   lua << EOF
@@ -464,6 +447,7 @@ if !exists('g:vscode')
 
     vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
     vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
+    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {noremap = true})
 
     vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
 
