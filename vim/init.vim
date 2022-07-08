@@ -531,6 +531,9 @@ if !exists('g:vscode')
     capabilities = capabilities,
     settings = {
       ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy"
+        },
         cargo = {
           allFeatures = true,
         },
