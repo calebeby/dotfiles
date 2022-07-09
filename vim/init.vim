@@ -124,6 +124,9 @@ set smartcase
 set undodir=~/.vimdid
 set undofile
 
+" Show hidden chars (highlight group NonText)
+set listchars=nbsp:¬,extends:»,precedes:«,trail:•
+set list
 if exists('g:vscode')
   nmap gcc <Plug>VSCodeCommentaryLine
 

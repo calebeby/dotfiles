@@ -152,7 +152,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Cursor', base00, base05, '', '')
   highlight('CursorLine', '', mix(0.7, base00, base01), 'none', '')
   highlight('ColorColumn', '', mix(0.7, base00, base01), 'none', '')
-  highlight('NonText', base03, '', '', '')
+  highlight('NonText', base01, '', '', '')
   highlight('QuickFixLine', '', base01, 'none', '')
   highlight('Error', base00, base08, '', '')
   highlight('Underlined', base08, '', '', '')
