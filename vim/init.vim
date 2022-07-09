@@ -327,7 +327,7 @@ if !exists('g:vscode')
 
   augroup fmt
     autocmd!
-    autocmd BufWritePre * undojoin | Neoformat
+    autocmd BufWritePre * try | undojoin | Neoformat | catch /E790/ | Neoformat | endtry
   augroup END
 
   let g:neoformat_enabled_typescript = ['prettierd']
