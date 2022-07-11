@@ -17,7 +17,7 @@ hi Cursor guifg=#1d252c guibg=#b7c5d3
 hi Cursor guifg=#1d252c guibg=#b7c5d3
 hi CursorLine guibg=#1b2229 gui=none
 hi ColorColumn guibg=#1b2229 gui=none
-hi NonText guifg=#41505E
+hi NonText guifg=#171d23
 hi QuickFixLine guibg=#171d23 gui=none
 hi Error guifg=#1d252c guibg=#8BD49C
 hi Underlined guifg=#8BD49C

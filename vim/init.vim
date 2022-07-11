@@ -43,6 +43,9 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
 Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle', 'MundoShow', 'MundoHide'] }
+Plug 'sbdchd/neoformat'
+Plug 'jiangmiao/auto-pairs' " Auto insert end brackets, closing quotes, etc.
+Plug 'machakann/vim-highlightedyank' " highlight yanked region briefly after yanking
 
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
@@ -63,8 +66,9 @@ Plug 'glts/vim-textobj-comment', { 'on': '<Plug>(textobj-comment' } " ic, ac
 Plug 'kana/vim-textobj-entire', { 'on': '<Plug>(textobj-entire' } " ie, ae
 Plug 'mattn/vim-textobj-url', { 'on': '<Plug>(textobj-url' }
 Plug 'AndrewRadev/dsf.vim', { 'on': '<Plug>Dsf' } " dsF ciF csF (surrounding function call / around function call)
+
 Plug 'rhysd/conflict-marker.vim', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'https://github.com/AndrewRadev/yankwin.vim'
+Plug 'AndrewRadev/yankwin.vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -121,6 +125,12 @@ set smartcase
 " Permanent undo
 set undodir=~/.vimdid
 set undofile
+
+" Show hidden chars (highlight group NonText)
+set listchars=nbsp:¬,extends:»,precedes:«,trail:•
+set list
+
+let g:highlightedyank_highlight_duration = 150
 
 if exists('g:vscode')
   nmap gcc <Plug>VSCodeCommentaryLine
@@ -236,8 +246,6 @@ xmap R <Plug>ReplaceWithRegisterVisual
 imap <C-h> <C-W>
 imap <C-BS> <C-W>
 
-nmap <silent> -a :TSHighlightCapturesUnderCursor<cr>
-
 autocmd FileType typescript,typescriptreact,json setlocal commentstring=//\ %s
 au BufRead,BufNewFile *.cjs set filetype=javascript
 au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
@@ -314,6 +322,14 @@ if !exists('g:vscode')
 
   colorscheme one_dark
   set colorcolumn=80
+
+  augroup fmt
+    autocmd!
+    autocmd BufWritePre * undojoin | Neoformat
+  augroup END
+
+  let g:neoformat_enabled_typescript = ['prettierd']
+  let g:neoformat_enabled_javascript = ['prettierd']
 
   nnoremap <leader>u :MundoToggle<cr>
 
