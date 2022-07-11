@@ -54,8 +54,8 @@ Plug 'ray-x/lsp_signature.nvim'
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'prettier/vim-prettier', {
-  \ 'do': 'npm ci',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+\ 'do': 'npm ci',
+\ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment', { 'on': '<Plug>(textobj-variable' } " iv / av
@@ -73,8 +73,6 @@ Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope-ui-select.nvim'
-
-" Plug 'fannheyward/telescope-coc.nvim', exists('g:vscode') ? { 'on': [] } : {}
 
 Plug 'pantharshit00/vim-prisma'
 
