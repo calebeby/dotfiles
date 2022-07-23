@@ -1,5 +1,5 @@
-set -x EDITOR 'nvim'
-set -x BROWSER 'google-chrome'
+set -x EDITOR nvim
+set -x BROWSER google-chrome
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
 set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk
@@ -25,7 +25,7 @@ set --global hydro_symbol_prompt "\n❯"
 set --global hydro_symbol_git_dirty "*"
 
 set --global hydro_symbol_git_behind "⇣"
-set --global hydro_symbol_git_ahead	"⇡"
+set --global hydro_symbol_git_ahead "⇡"
 
 abbr n nvim -S
 
@@ -59,18 +59,19 @@ alias backup-programming='rclone sync ~/Programming b2:caleb-backup/Programming/
 alias backup-cad='rclone sync ~/CAD b2:caleb-backup/CAD --fast-list -P'
 
 if type -q rg
-  set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow 2>/dev/null'
+    set -x FZF_DEFAULT_COMMAND 'rg --files --hidden --follow 2>/dev/null'
 end
 
 set -x FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
 if type -q bat
-  set -x FZF_DEFAULT_OPTS '--preview "bat {} --color always --paging never --style plain"'
+    set -x FZF_DEFAULT_OPTS '--preview "bat {} --color always --paging never --style plain"'
 else
-  set -x FZF_DEFAULT_OPTS '--preview "cat {}'
+    set -x FZF_DEFAULT_OPTS '--preview "cat {}'
 end
 
 set fish_greeting ""
-set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
+set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
 
 # Bun
 set -Ux BUN_INSTALL ~/.bun

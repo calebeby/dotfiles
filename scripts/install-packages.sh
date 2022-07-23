@@ -7,7 +7,7 @@ echo "Networking"
 sudo dnf install NetworkManager NetworkManager-tui network-manager-applet
 
 echo "Misc"
-sudo dnf install volumeicon blueman nautilus
+sudo dnf install blueman nautilus
 
 echo "Games"
 sudo dnf install neverball supertuxkart supertux extremetuxracer
@@ -18,12 +18,12 @@ sudo dnf install fprintd fprintd-pam
 
 echo "Display Manager"
 
-sudo dnf install picom gtk4 gtk3 lightdm lightdm-gtk lightdm-gtk-settings arc-theme numix-icon-theme
+sudo dnf install gtk4 gtk3 lightdm lightdm-gtk lightdm-gtk-settings arc-theme numix-icon-theme grim slurp wl-clipboard
 
-echo "i3"
+echo "sway"
 
 sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/home:/manuelschneid3r/Fedora_36/home:manuelschneid3r.repo
-sudo dnf install i3 i3lock albert brightnessctl dunst nitrogen
+sudo dnf install sway swaylock albert brightnessctl dunst
 
 echo "Terminal"
 # util-linux-user provides chsh

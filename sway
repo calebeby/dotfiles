@@ -13,23 +13,19 @@ for_window [class="lxqt-notificationd"] floating enable
 
 assign [class="chromium"] 1
 assign [class="google-chrome"] 1
-exec --no-startup-id nm-applet
-exec --no-startup-id blueman-applet
-exec --no-startup-id volumeicon
+exec --no-startup-id nm-applet --indicator
 exec --no-startup-id dunst
-exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id kitty'
+exec --no-startup-id blueman-tray
+exec --no-startup-id gammastep -l 45.4897468:-122.5817677
 exec --no-startup-id albert
-exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
-exec --no-startup-id hsetroot -solid "#282828"
-exec --no-startup-id xsetroot -solid "#282828"
 exec nitrogen --set-zoom-fill ~/dotfiles/wallpapers/lake.jpg
+
+output * bg ~/dotfiles/wallpapers/lake.jpg fill
 
 workspace 10 output HDMI1
 
 bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/scripts/one-monitor.sh
 bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/scripts/two-monitors.sh
-bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
-exec --no-startup-id setxkbmap -layout us -option caps:escape
 
 bindsym $mod+i exec google-chrome
 
@@ -40,11 +36,22 @@ floating_modifier $mod
 bindsym XF86MonBrightnessUp exec ~/dotfiles/scripts/brightness-increase.sh
 bindsym XF86MonBrightnessDown exec ~/dotfiles/scripts/brightness-decrease.sh
 
+bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioRaiseVolume exec ~/dotfiles/scripts/volume-increase.sh
+bindsym --locked XF86AudioLowerVolume exec ~/dotfiles/scripts/volume-decrease.sh
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Screenshot
+bindsym Print exec ~/dotfiles/scripts/grimshot.sh copy area
+bindsym $mod+Print exec ~/dotfiles/scripts/grimshot.sh copy window
+bindsym Shift+Print exec ~/dotfiles/scripts/grimshot.sh save area
+bindsym Shift+$mod+Print exec ~/dotfiles/scripts/grimshot.sh save window
+
 # start a terminal
 bindsym $mod+Return exec kitty
 
 # lock
-bindsym $mod+m exec dm-tool lock
+bindsym $mod+m exec swaylock -i ~/dotfiles/wallpapers/ocean.jpg
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -89,9 +96,7 @@ bindsym $mod+e layout toggle split
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
-# change focus between tiling / floating windows
-# Taken out for menu launcher
-#bindsym $mod+space focus mode_toggle
+bindsym $mod+space exec albert toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -125,10 +130,8 @@ bindsym $mod+Shift+0 move container to workspace 10; workspace 10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+r reload
+bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -162,7 +165,6 @@ bar {
   separator_symbol " "
   status_command ~/dotfiles/i3bar.fish
   position top
-  tray_output primary
   colors {
     separator #928374
     background #282828
@@ -179,5 +181,17 @@ client.focused #689d6a #689d6a #282828 #282828
 client.focused_inactive #1d2021 #1d2021 #928374 #282828
 client.unfocused #32302f #32302f #928374 #282828
 client.urgent #cc241d #cc241d #ebdbb2 #282828
+
+input type:keyboard {
+  xkb_options caps:escape
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+    dwt enabled # disable while typing
+    accel_profile "adaptive"
+    scroll_factor 0.6
+}
 
 # vi: ft=i3
