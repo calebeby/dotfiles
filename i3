@@ -7,8 +7,7 @@ set $mod Mod4
 new_window 1pixel
 hide_edge_borders smart
 # Font for window titles and bar
-font pango:Lato, Font Awesome 5 Free Solid 10
-#font pango:DejaVu Sans Mono 8
+font pango: Source Code Pro, Noto Color Emoji 10
 
 for_window [class="lxqt-notificationd"] floating enable
 
@@ -18,7 +17,6 @@ exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
 exec --no-startup-id volumeicon
 exec --no-startup-id xfsettingsd
-exec --no-startup-id cbatticon
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id kitty'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
@@ -30,39 +28,25 @@ exec nitrogen --set-zoom-fill ~/dotfiles/wallpapers/lake.jpg
 
 workspace 10 output HDMI1
 
-bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/one-monitor.sh
-bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/two-monitors.sh
+bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/scripts/one-monitor.sh
+bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/scripts/two-monitors.sh
 bindsym $mod+Escape exec "setxkbmap -layout us -option caps:escape"
 exec --no-startup-id setxkbmap -layout us -option caps:escape
-exec xinput set-prop 14 "libinput Tapping Enabled" 1
 
 bindsym $mod+i exec google-chrome
-
-# Screenshot
-# bindsym --release Print exec scrot -s /home/caleb/Screenshots/screenshot.png
-bindsym --release Print exec gnome-screenshot -a -f ~/Screenshots/screenshot.png
-
-# Chrome Play/Pause
-bindsym XF86AudioPlay exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+p
-
-# Chrome Next
-bindsym XF86AudioNext exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+period
-
-# Chrome Previous
-bindsym XF86AudioPrev exec xdotool windowactivate $(xdotool search --desktop 0 --class google-chrome) && sleep 0.1 && xdotool key alt+shift+comma
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 3 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 3 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/dotfiles/scripts/brightness-increase.sh
+bindsym XF86MonBrightnessDown exec ~/dotfiles/scripts/brightness-decrease.sh
 
 # start a terminal
 bindsym $mod+Return exec kitty
 
 # lock
-bindsym $mod+m exec i3lock --ignore-empty-password --color '#282828'
+bindsym $mod+m exec dm-tool lock
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -179,7 +163,7 @@ bindsym $mod+r mode "resize"
 bar {
   separator_symbol " "
   status_command ~/dotfiles/i3bar.fish
-	position top
+  position top
   tray_output primary
   colors {
     separator #928374

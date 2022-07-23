@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-source ~/dotfiles/base16/templates/shell/scripts/base16-$1.sh

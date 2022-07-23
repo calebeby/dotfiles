@@ -3,26 +3,12 @@ vim:
   - ~/.config/nvim
   - ~/.vim
 bat: ~/.config/bat
-zshrc: ~/.zshrc
 fish: ~/.config/fish
 i3: ~/.config/i3/config
 i3status: ~/.config/i3status/config
-xinitrc: ~/.xinitrc
-zprofile: ~/.zprofile
-gtkrc-2.0: ~/.gtkrc-2.0
-gtk-3.0: ~/.config/gtk-3.0
 ignore: ~/.ignore
 gitconfig: ~/.gitconfig
 gitignore: ~/.gitignore
-bashrc: ~/.bashrc
-pure.zsh: ~/.zfunctions/prompt_pure_setup
-async.zsh: ~/.zfunctions/async
-alacritty.yml: ~/.config/alacritty/alacritty.yml
-.Xresources: ~/.Xresources
-volumeicon: ~/.config/volumeicon
-.hyper.js:
-  - ~/.config/Hyper/.hyper.js
-  - ~/.hyper.js
 kitty.conf:
   - ~/.config/kitty/kitty.conf
 picom.conf: ~/.config/picom/picom.conf

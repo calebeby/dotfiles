@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-tree "$@" --prune -I "$(cat .gitignore ~/.ignore ~/.gitignore 2>/dev/null \
-  | grep -E -v "^#.*$|^[[:space:]]*$" | tr "\\n" "|")"
