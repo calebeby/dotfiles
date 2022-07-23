@@ -18,7 +18,7 @@ exec --no-startup-id dunst
 exec --no-startup-id blueman-tray
 exec --no-startup-id gammastep -l 45.4897468:-122.5817677
 exec --no-startup-id albert
-exec nitrogen --set-zoom-fill ~/dotfiles/wallpapers/lake.jpg
+exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
 
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
 
