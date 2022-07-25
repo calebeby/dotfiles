@@ -7,7 +7,7 @@ echo "Networking"
 sudo dnf install NetworkManager NetworkManager-tui network-manager-applet
 
 echo "Misc"
-sudo dnf install blueman nautilus
+sudo dnf install blueman nautilus gnome-disk-utility
 
 echo "Games"
 sudo dnf install neverball supertuxkart supertux extremetuxracer

@@ -191,7 +191,7 @@ input type:touchpad {
     natural_scroll enabled
     dwt enabled # disable while typing
     accel_profile "adaptive"
-    scroll_factor 0.6
+    scroll_factor 0.8
 }
 
 # vi: ft=i3
