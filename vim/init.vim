@@ -248,7 +248,7 @@ au BufRead,BufNewFile *.cjs set filetype=javascript
 au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
 au BufRead,BufNewFile *.mdx set filetype=mdx
 au BufRead,BufNewFile *.twig set filetype=html
-au BufRead,BufNewFile *.astro set filetype=html
+au BufRead,BufNewFile *.astro set filetype=astro
 
 let g:yankwin_default_mappings = 0
 
@@ -273,7 +273,7 @@ nmap <leader>s :w<cr>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -489,6 +489,10 @@ if !exists('g:vscode')
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspconfig = require("lspconfig")
+  lspconfig.astro.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
   lspconfig.tsserver.setup{
     on_attach = on_attach,
     capabilities = capabilities,
