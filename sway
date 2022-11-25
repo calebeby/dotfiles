@@ -19,6 +19,8 @@ exec --no-startup-id blueman-tray
 exec --no-startup-id gammastep -l 45.4897468:-122.5817677
 exec --no-startup-id albert
 exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
+exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment WAYLAND_DISPLAY
 
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
 

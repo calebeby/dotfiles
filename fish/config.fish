@@ -1,5 +1,5 @@
 set -x EDITOR nvim
-set -x BROWSER google-chrome
+set -x BROWSER firefox
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
 set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk

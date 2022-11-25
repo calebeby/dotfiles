@@ -54,6 +54,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'ray-x/lsp_signature.nvim'
+Plug 'petRUShka/vim-sage'
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -124,7 +125,7 @@ set undodir=~/.vimdid
 set undofile
 
 " Show hidden chars (highlight group NonText)
-set listchars=nbsp:¬,extends:»,precedes:«,trail:•
+set listchars=nbsp:¬,extends:»,precedes:«,trail:•,tab:\▸\ 
 set list
 
 let g:highlightedyank_highlight_duration = 150
@@ -249,6 +250,7 @@ au BufRead,BufNewFile *.mts,*.cts set filetype=typescript
 au BufRead,BufNewFile *.mdx set filetype=mdx
 au BufRead,BufNewFile *.twig set filetype=html
 au BufRead,BufNewFile *.astro set filetype=html
+au BufRead,BufNewFile *.sage set filetype=python
 
 let g:yankwin_default_mappings = 0
 
@@ -466,7 +468,7 @@ if !exists('g:vscode')
 
     vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.documentHighlightProvider then
       vim.cmd([[
         autocmd CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
         autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
@@ -486,7 +488,7 @@ if !exists('g:vscode')
     }
   )
 
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspconfig = require("lspconfig")
   lspconfig.tsserver.setup{
