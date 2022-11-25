@@ -399,7 +399,7 @@ if !exists('g:vscode')
   set expandtab
 
   " Git / Fugitive
-  nmap <silent> <leader>gs :call plug#load('vim-fugitive') \| :tabnew .git/index<cr>
+  nmap <silent> <leader>gs :call plug#load('vim-fugitive') \| :tabnew % \| :Git<cr><c-w>o
   " nmap <silent> <leader>gs :Git<cr>
   nmap <silent> <leader>gp :Git push<cr>
   nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
