@@ -55,6 +55,7 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'petRUShka/vim-sage'
+Plug 'lervag/vimtex'
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -127,6 +128,8 @@ set undofile
 " Show hidden chars (highlight group NonText)
 set listchars=nbsp:¬,extends:»,precedes:«,trail:•,tab:\▸\ 
 set list
+
+nnoremap <C-LeftMouse> <LeftMouse>gF
 
 let g:highlightedyank_highlight_duration = 150
 

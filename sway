@@ -13,11 +13,13 @@ for_window [class="lxqt-notificationd"] floating enable
 
 assign [class="chromium"] 1
 assign [class="google-chrome"] 1
+assign [class="firefox"] 1
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id dunst
 exec --no-startup-id blueman-tray
 exec --no-startup-id gammastep -l 45.4897468:-122.5817677
 exec --no-startup-id albert
+exec --no-startup-id firefox
 exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
 exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment WAYLAND_DISPLAY
