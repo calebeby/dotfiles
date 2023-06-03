@@ -26,7 +26,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'tpope/vim-commentary' " gcc gcip
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'ggandor/lightspeed.nvim' " s motion (like vim-sneak/easymotion)
+Plug 'ggandor/leap.nvim' " s motion (like vim-sneak/easymotion)
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
@@ -56,6 +56,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'petRUShka/vim-sage'
 Plug 'lervag/vimtex'
+Plug 'tikhomirov/vim-glsl'
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -133,6 +134,36 @@ nnoremap <C-LeftMouse> <LeftMouse>gF
 
 let g:highlightedyank_highlight_duration = 150
 
+function! RunTests()
+  let cmd = ''
+  if &ft == 'rust'
+    let cmd = 'cargo insta test'
+  else
+    echo "No test runner for " . &ft . " files"
+    return
+  endif
+  let original_win_id = win_getid()
+  exe 'tabe'
+  let term_win_id = win_getid()
+  let job = termopen(cmd, {
+        \ 'on_exit': funcref('s:complete', [cmd, original_win_id, term_win_id])
+        \ })
+  call win_gotoid(original_win_id)
+endfunction
+
+function! s:complete(cmd, original_win_id, term_win_id, id, status, event_type)
+  call win_gotoid(a:term_win_id)
+  if a:status == '0'
+    bdelete
+    echo 'Test command `' . a:cmd . '` completed successfully'
+    call win_gotoid(a:original_win_id)
+  else
+    startinsert
+  endif
+endfunction
+
+nmap <silent> <leader>t :call RunTests()<cr>
+
 if exists('g:vscode')
   nmap gcc <Plug>VSCodeCommentaryLine
 
@@ -175,7 +206,7 @@ if exists('g:vscode')
 
   nmap <silent> <leader>w= <c-w>=<cr>
 
-  nmap <silent> <leader>t :call VSCodeNotify('workbench.action.createTerminalEditor')<cr>
+  nmap <silent> <leader>T :call VSCodeNotify('workbench.action.createTerminalEditor')<cr>
 
   nmap <silent> <leader>kt :call VSCodeNotify('workbench.action.selectTheme')<cr>
 
@@ -298,12 +329,9 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
-lua <<EOF
-require'lightspeed'.setup { 
-  repeat_ft_with_target_char = true,
-  ignore_case = true,
-}
-EOF
+lua require('leap').add_default_mappings()
+lua vim.keymap.set('o', 'z', '<Plug>(leap-forward-to)', {})
+lua vim.keymap.set('o', 'Z', '<Plug>(leap-backward-to)', {})
 
 " reload vimrc leader kr
 if exists('g:vscode')
@@ -332,6 +360,7 @@ if !exists('g:vscode')
 
   let g:neoformat_enabled_typescript = ['prettierd']
   let g:neoformat_enabled_javascript = ['prettierd']
+  let g:neoformat_enabled_cpp = ['clangformat']
 
   nnoremap <leader>u :MundoToggle<cr>
 
@@ -439,7 +468,7 @@ if !exists('g:vscode')
   " window-switching commands can be used
   tmap <silent> <esc> <c-\><c-n>
 
-  nmap <leader>t :te $SHELL<cr>
+  nmap <leader>T :te $SHELL<cr>
 
   augroup custom_term
       autocmd!
@@ -461,8 +490,8 @@ if !exists('g:vscode')
   local on_attach = function(client)
     vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
 
-    vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
-    vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
     vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {noremap = true})
 
     vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
@@ -494,6 +523,10 @@ if !exists('g:vscode')
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspconfig = require("lspconfig")
+  lspconfig.ccls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
   lspconfig.astro.setup{
     on_attach = on_attach,
     capabilities = capabilities,

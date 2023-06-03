@@ -17,7 +17,8 @@ assign [class="firefox"] 1
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id dunst
 exec --no-startup-id blueman-tray
-exec --no-startup-id gammastep -l 45.4897468:-122.5817677
+# Spokane:
+exec --no-startup-id gammastep -l 47.69:-117.43
 exec --no-startup-id albert
 exec --no-startup-id firefox
 exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
@@ -25,13 +26,11 @@ exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment WAYLAND_DISPLAY
 
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
+output DP-3 scale 0.8 transform 90 scale_filter linear
 
-workspace 10 output HDMI1
+workspace 10 output DP-3
 
-bindsym $mod+Shift+f exec --no-startup-id ~/dotfiles/scripts/one-monitor.sh
-bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/scripts/two-monitors.sh
-
-bindsym $mod+i exec google-chrome
+bindsym $mod+i exec firefox
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -51,6 +50,10 @@ bindsym $mod+Print exec ~/dotfiles/scripts/grimshot.sh copy window
 bindsym Shift+Print exec ~/dotfiles/scripts/grimshot.sh save area
 bindsym Shift+$mod+Print exec ~/dotfiles/scripts/grimshot.sh save window
 
+# Screen recording: doesn't work since it can't detect "stop" keyboard input
+# bindsym alt+Print exec ~/dotfiles/scripts/screenrecord.sh save area
+# bindsym $mod+alt+Print exec ~/dotfiles/scripts/screenrecord.sh save window
+
 # start a terminal
 bindsym $mod+Return exec kitty
 
@@ -59,6 +62,7 @@ bindsym $mod+m exec swaylock -i ~/dotfiles/wallpapers/ocean.jpg
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym $mod+alt+q exec ~/dotfiles/scripts/wkill.sh
 
 # when a window requests focus, give it focus
 focus_on_window_activation focus

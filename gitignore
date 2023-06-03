@@ -1,5 +1,6 @@
 Session.vim
 node_modules
 .cache
+.ccls-cache
 
 # vim: ft=gitignore
