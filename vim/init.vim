@@ -523,10 +523,6 @@ if !exists('g:vscode')
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspconfig = require("lspconfig")
-  lspconfig.ccls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
   lspconfig.astro.setup{
     on_attach = on_attach,
     capabilities = capabilities,
