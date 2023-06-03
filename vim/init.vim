@@ -79,6 +79,7 @@ Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope-ui-select.nvim'
 
 Plug 'pantharshit00/vim-prisma'
+Plug 's1n7ax/nvim-window-picker'
 
 call plug#end()
 
@@ -298,7 +299,7 @@ nnoremap <silent> <leader>wgy :call yankwin#Yank({'path_type': 'absolute', 'with
 nnoremap <silent> <leader>wY  :call yankwin#Yank({'path_type': 'relative', 'with_line_number': 1})<cr>
 nnoremap <silent> <leader>wgY :call yankwin#Yank({'path_type': 'absolute', 'with_line_number': 1})<cr>
 
-nnoremap <silent> <leader>w<leader>p :call yankwin#Paste({'edit_command': 'edit'})<cr>
+nnoremap <silent> <leader>wR :call yankwin#Paste({'edit_command': 'edit'})<cr>
 nnoremap <silent> <leader>wp     :call yankwin#Paste({'edit_command': 'rightbelow split'})<cr>
 nnoremap <silent> <leader>wP     :call yankwin#Paste({'edit_command': 'leftabove split'})<cr>
 nnoremap <silent> <leader>wgp    :call yankwin#Paste({'edit_command': 'tab split'})<cr>
@@ -308,6 +309,20 @@ nnoremap <silent> <leader>wgP    :call yankwin#Paste({'edit_command': (tabpagenr
 nmap <leader>s :w<cr>
 
 lua <<EOF
+local window_picker = require('window-picker')
+window_picker.setup()
+function focus_window()
+    local window = window_picker.pick_window({
+        show_prompt = false,
+        hint = 'floating-big-letter',
+        selection_chars = 'FJKSLA;CMRUEIWOQP',
+    })
+    if window then
+      vim.api.nvim_set_current_win(window)
+    end
+end
+
+vim.keymap.set('n', '<leader>w<leader>w', focus_window)
 require'nvim-treesitter.configs'.setup {
   ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro" },
   highlight = {
