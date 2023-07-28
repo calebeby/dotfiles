@@ -36,13 +36,11 @@ Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBro
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'mhinz/vim-signify', exists('g:vscode') ? { 'on': [] } : {}
-Plug 'aymericbeaumet/vim-symlink', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
 Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
-Plug 'simnalamburt/vim-mundo', { 'on': ['MundoToggle', 'MundoShow', 'MundoHide'] }
 Plug 'sbdchd/neoformat'
 Plug 'jiangmiao/auto-pairs' " Auto insert end brackets, closing quotes, etc.
 Plug 'machakann/vim-highlightedyank' " highlight yanked region briefly after yanking
@@ -77,6 +75,9 @@ Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope-ui-select.nvim'
+Plug 'debugloop/telescope-undo.nvim'
+
+Plug 'epwalsh/obsidian.nvim'
 
 Plug 'pantharshit00/vim-prisma'
 Plug 's1n7ax/nvim-window-picker'
@@ -324,7 +325,7 @@ end
 
 vim.keymap.set('n', '<leader>w<leader>w', focus_window)
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -377,7 +378,7 @@ if !exists('g:vscode')
   let g:neoformat_enabled_javascript = ['prettierd']
   let g:neoformat_enabled_cpp = ['clangformat']
 
-  nnoremap <leader>u :MundoToggle<cr>
+  nnoremap <leader>u :Telescope undo<cr>
 
   " Visual Multi Cursor
   let g:VM_default_mappings = 1
@@ -495,12 +496,20 @@ if !exists('g:vscode')
   nmap <silent> gr :Telescope lsp_references<cr>
   nmap <silent> gi :Telescope lsp_implementations<cr>
   nmap <silent> gd :Telescope lsp_definitions<cr>
+  autocmd FileType markdown nnoremap <buffer> <silent> gd :ObsidianFollowLink<cr>
   nmap <silent> gD :Telescope lsp_type_definitions<cr>
   set completeopt=menu,menuone,noselect
 
   lua << EOF
 
   require "lsp_signature".setup({})
+  require("obsidian").setup({
+    completion = {
+      nvim_cmp = true,
+      min_chars = 2,
+      new_notes_location = "current_dir"
+    },
+  })
 
   local on_attach = function(client)
     vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
@@ -636,6 +645,7 @@ if !exists('g:vscode')
     sources = cmp.config.sources(
       {
         { name = 'nvim_lsp' },
+        { name = 'obsidian' }
       },
       {
         { name = 'buffer' },
@@ -693,11 +703,13 @@ require('telescope').setup{
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {}
-    }
+    },
+    undo = {}
   }
 }
 
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("undo")
 EOF
 
 

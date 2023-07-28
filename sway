@@ -9,14 +9,12 @@ hide_edge_borders smart
 # Font for window titles and bar
 font pango: Source Code Pro, Noto Color Emoji 10
 
-for_window [class="lxqt-notificationd"] floating enable
-
 assign [class="chromium"] 1
 assign [class="google-chrome"] 1
 assign [class="firefox"] 1
 exec --no-startup-id nm-applet --indicator
 exec --no-startup-id dunst
-exec --no-startup-id blueman-tray
+# exec --no-startup-id blueman-tray
 # Spokane:
 exec --no-startup-id gammastep -l 47.69:-117.43
 exec --no-startup-id albert
@@ -25,9 +23,12 @@ exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300
 exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment WAYLAND_DISPLAY
 
+output eDP-1 pos 0 700
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
-output DP-3 scale 0.8 transform 90 scale_filter linear
+output DP-2 scale 0.8 transform 90 scale_filter linear pos 1920 0
+output DP-3 scale 0.8 transform 90 scale_filter linear pos 1920 0
 
+workspace 10 output DP-2
 workspace 10 output DP-3
 
 bindsym $mod+i exec firefox
