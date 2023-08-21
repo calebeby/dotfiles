@@ -72,6 +72,7 @@ Plug 'AndrewRadev/yankwin.vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 Plug 'nvim-lua/popup.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
@@ -359,6 +360,13 @@ require'nvim-treesitter.configs'.setup {
 }
 
 vim.treesitter.language.register('markdown', 'mdx')
+
+require'treesitter-context'.setup{
+  enable = true,
+  line_numbers = true,
+  multiline_threshold = 0,
+  mode = 'topline',
+}
 EOF
 
 lua require('leap').add_default_mappings()
