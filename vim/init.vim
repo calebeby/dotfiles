@@ -79,6 +79,7 @@ Plug 'nvim-lua/plenary.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope.nvim', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'debugloop/telescope-undo.nvim'
+Plug 'nvim-pack/nvim-spectre' " Project Search UI
 
 Plug 'epwalsh/obsidian.nvim'
 
@@ -311,6 +312,21 @@ nnoremap <silent> <leader>wgP :call yankwin#Paste({'edit_command': (tabpagenr() 
 
 " save file
 nmap <leader>s :w<cr>
+
+lua <<EOF
+require('spectre').setup({
+  live_update = true,
+  open_cmd = 'tabnew',
+  highlight = {
+    ui = "Keyword",
+    search = "Search",
+    replace = "DiffDelete"
+  },
+})
+vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
+  desc = "Toggle Spectre",
+})
+EOF
 
 lua <<EOF
 local window_picker = require('window-picker')
@@ -586,6 +602,7 @@ if !exists('g:vscode')
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "markdown", "mdx" },
+    single_file_support = false
   }
   lspconfig.vimls.setup{
     on_attach = on_attach,
