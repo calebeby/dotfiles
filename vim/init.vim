@@ -50,6 +50,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'octaltree/cmp-look'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'petRUShka/vim-sage'
@@ -300,11 +302,11 @@ nnoremap <silent> <leader>wgy :call yankwin#Yank({'path_type': 'absolute', 'with
 nnoremap <silent> <leader>wY  :call yankwin#Yank({'path_type': 'relative', 'with_line_number': 1})<cr>
 nnoremap <silent> <leader>wgY :call yankwin#Yank({'path_type': 'absolute', 'with_line_number': 1})<cr>
 
-nnoremap <silent> <leader>wR :call yankwin#Paste({'edit_command': 'edit'})<cr>
-nnoremap <silent> <leader>wp     :call yankwin#Paste({'edit_command': 'rightbelow split'})<cr>
-nnoremap <silent> <leader>wP     :call yankwin#Paste({'edit_command': 'leftabove split'})<cr>
-nnoremap <silent> <leader>wgp    :call yankwin#Paste({'edit_command': 'tab split'})<cr>
-nnoremap <silent> <leader>wgP    :call yankwin#Paste({'edit_command': (tabpagenr() - 1).'tab split'})<cr>
+nnoremap <silent> <leader>wR  :call yankwin#Paste({'edit_command': 'edit'})<cr>
+nnoremap <silent> <leader>wp  :call yankwin#Paste({'edit_command': 'rightbelow split'})<cr>
+nnoremap <silent> <leader>wP  :call yankwin#Paste({'edit_command': 'leftabove split'})<cr>
+nnoremap <silent> <leader>wgp :call yankwin#Paste({'edit_command': 'tab split'})<cr>
+nnoremap <silent> <leader>wgP :call yankwin#Paste({'edit_command': (tabpagenr() - 1).'tab split'})<cr>
 
 " save file
 nmap <leader>s :w<cr>
@@ -325,9 +327,21 @@ end
 
 vim.keymap.set('n', '<leader>w<leader>w', focus_window)
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown" },
+  ensure_installed = { "vim", "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "yaml", "bash" },
   highlight = {
     enable = not vim.g.vscode,
+  },
+  indent = {
+    enable = true
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<leader>c",
+      node_incremental = "<leader>c",
+      scope_incremental = false,
+      node_decremental = "<leader>v",
+    },
   },
   textobjects = {
     select = {
@@ -343,6 +357,8 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
+
+vim.treesitter.language.register('markdown', 'mdx')
 EOF
 
 lua require('leap').add_default_mappings()
@@ -455,7 +471,6 @@ if !exists('g:vscode')
   nmap <silent> <leader>gf :Git fetch<cr>
   nmap <silent> <leader>gh :SignifyHunkDiff<cr>
   nmap <silent> <leader>gd :tabnew %<cr> :Gdiffsplit!<cr>
-  vmap <silent> <leader>gS :diffput<cr>
   nmap <silent> <leader>gS :diffput<cr>
   nmap <silent> <leader>gb :Telescope git_branches<cr>
 
@@ -475,7 +490,6 @@ if !exists('g:vscode')
   nmap g7 7gt
   nmap g8 8gt
   nmap g9 9gt
-
 
   " Fish has too slow a startup time. Using bash speeds up fugitive
   set shell=/bin/bash
@@ -558,6 +572,12 @@ if !exists('g:vscode')
   lspconfig.eslint.setup{
     on_attach = on_attach,
     capabilities = capabilities,
+    filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "vue", "svelte", "astro" },
+  }
+  lspconfig.remark_ls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "markdown", "mdx" },
   }
   lspconfig.vimls.setup{
     on_attach = on_attach,
@@ -648,9 +668,24 @@ if !exists('g:vscode')
         { name = 'obsidian' }
       },
       {
-        { name = 'buffer' },
+        {
+          name = 'buffer',
+          keyword_length = 3,
+          option = {
+          }
+        },
         { name = 'vsnip' },
-      }
+      },
+      {
+        {
+          name = 'look',
+          keyword_length = 4,
+          option = {
+            convert_case = true,
+            loud = true
+          }
+        },
+        }
     ),
     experimental = {
       ghost_text = true,
@@ -719,7 +754,7 @@ EOF
 
 
 
-  map <leader>kt :Telescope colorscheme<cr>
+  nmap <leader>kt :Telescope colorscheme<cr>
 endif
 
 " disable the default highlight group
