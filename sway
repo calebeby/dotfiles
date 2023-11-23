@@ -7,7 +7,7 @@ set $mod Mod4
 default_border pixel 1
 hide_edge_borders smart
 # Font for window titles and bar
-font pango: Source Code Pro, Noto Color Emoji 10
+font pango: Source Code Pro 10
 
 assign [class="chromium"] 1
 assign [class="google-chrome"] 1
@@ -19,7 +19,7 @@ exec --no-startup-id dunst
 exec --no-startup-id gammastep -l 47.69:-117.43
 exec --no-startup-id albert
 exec --no-startup-id firefox
-exec --no-startup-id swayidle -w timeout 600 'swaylock -f -c 000000' timeout 300 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
+exec --no-startup-id swayidle -w timeout 1100 'swaylock -f -c 000000' timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
 exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment WAYLAND_DISPLAY
 
@@ -30,6 +30,10 @@ output DP-3 scale 0.8 transform 90 scale_filter linear pos 1920 0
 
 workspace 10 output DP-2
 workspace 10 output DP-3
+workspace 10 output HDMI-A-1 # Projector MLHS
+
+# Projector MLHS
+output HDMI-A-1 bg #000000 solid_color
 
 bindsym $mod+i exec firefox
 
