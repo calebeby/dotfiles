@@ -41,11 +41,13 @@ Plug 'chrisbra/Colorizer'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
-Plug 'sbdchd/neoformat'
+Plug 'mhartington/formatter.nvim'
 Plug 'jiangmiao/auto-pairs' " Auto insert end brackets, closing quotes, etc.
 Plug 'machakann/vim-highlightedyank' " highlight yanked region briefly after yanking
 
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp'
@@ -325,7 +327,7 @@ end
 
 vim.keymap.set('n', '<leader>w<leader>w', focus_window)
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "zig", "lua", "vim" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -369,14 +371,10 @@ if !exists('g:vscode')
   colorscheme one_dark
   set colorcolumn=80
 
-  augroup fmt
+  augroup FormatAutogroup
     autocmd!
-    autocmd BufWritePre * try | undojoin | Neoformat | catch /E790/ | Neoformat | endtry
+    autocmd BufWritePost * FormatWriteLock
   augroup END
-
-  let g:neoformat_enabled_typescript = ['prettierd']
-  let g:neoformat_enabled_javascript = ['prettierd']
-  let g:neoformat_enabled_cpp = ['clangformat']
 
   nnoremap <leader>u :Telescope undo<cr>
 
@@ -532,9 +530,29 @@ if !exists('g:vscode')
     end
   end
 
-  require("nvim-lsp-installer").setup {
-    automatic_installation = true
+  require("mason").setup()
+  require("mason-lspconfig").setup({
+    automatic_installation = true,
+  })
+  require('mason-tool-installer').setup {
+    ensure_installed = { 'prettier', 'prettierd', 'biome' },
+    auto_update = true,
   }
+  require("formatter").setup({
+    logging = true,
+    log_level = vim.log.levels.WARN,
+    filetype = {
+      javascriptreact = { require 'formatter.defaults.prettierd' },
+      javascript = { require 'formatter.defaults.prettierd' },
+      typescriptreact = { require 'formatter.defaults.prettierd' },
+      typescript = { require 'formatter.defaults.prettierd' },
+      json = { require 'formatter.defaults.prettierd' },
+      markdown = { require 'formatter.defaults.prettierd' },
+      html = { require 'formatter.defaults.prettierd' },
+      css = { require 'formatter.defaults.prettierd' },
+      rust = { require('formatter.filetypes.rust').rustfmt },
+    }
+  })
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -582,6 +600,14 @@ if !exists('g:vscode')
         },
       },
     },
+  }
+  lspconfig.zls.setup{ -- zig
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+  lspconfig.svelte.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
   }
   lspconfig.rust_analyzer.setup {
     on_attach = on_attach,
@@ -704,7 +730,15 @@ require('telescope').setup{
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {}
     },
-    undo = {}
+    undo = {
+      side_by_side = true,
+      diff_context_lines = 5,
+      mappings = {
+        i = {
+          ["<cr>"] = require("telescope-undo.actions").restore,
+        },
+      },
+    }
   }
 }
 
