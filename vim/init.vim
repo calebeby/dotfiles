@@ -551,6 +551,7 @@ if !exists('g:vscode')
       html = { require 'formatter.defaults.prettierd' },
       css = { require 'formatter.defaults.prettierd' },
       rust = { require('formatter.filetypes.rust').rustfmt },
+      svelte = { require 'formatter.defaults.prettierd' },
     }
   })
 
