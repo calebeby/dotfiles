@@ -346,7 +346,7 @@ end
 
 vim.keymap.set('n', '<leader>w<leader>w', focus_window)
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "zig", "lua", "vim", "yaml", "bash" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "zig", "lua", "vim", "yaml", "bash", "sql" },
   highlight = {
     enable = not vim.g.vscode,
   },
@@ -646,6 +646,10 @@ if !exists('g:vscode')
       },
     },
   }
+  lspconfig.sqlls.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
   lspconfig.zls.setup{ -- zig
     on_attach = on_attach,
     capabilities = capabilities,
@@ -716,12 +720,12 @@ if !exists('g:vscode')
     sources = cmp.config.sources(
       {
         { name = 'nvim_lsp' },
-        { name = 'obsidian' }
+        --{ name = 'obsidian' }
       },
       {
         {
           name = 'buffer',
-          keyword_length = 3,
+          keyword_length = 4,
           option = {
           }
         },
