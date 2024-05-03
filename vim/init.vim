@@ -337,6 +337,21 @@ function focus_window()
         show_prompt = false,
         hint = 'floating-big-letter',
         selection_chars = 'FJKSLA;CMRUEIWOQP',
+        -- For excluding windows like treesitter-context window
+        filter_func = function(windows, rules)
+          local function predicate(wid)
+            cfg = vim.api.nvim_win_get_config(wid)
+            if not cfg.focusable then
+              return false
+            end
+            return true
+          end
+          local filtered = vim.tbl_filter(predicate, windows)
+
+          local dfilter = require("window-picker.filters.default-window-filter"):new()
+          dfilter:set_config(rules)
+          return dfilter:filter_windows(filtered)
+        end,
     })
     if window then
       vim.api.nvim_set_current_win(window)
