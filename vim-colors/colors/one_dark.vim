@@ -17,6 +17,7 @@ hi Cursor guifg=#282c34 guibg=#abb2bf
 hi Cursor guifg=#282c34 guibg=#abb2bf
 hi CursorLine guibg=#292e36 gui=none
 hi ColorColumn guibg=#292e36 gui=none
+hi SignColumn guifg=#abb2bf guibg=#353b45 gui=none
 hi NonText guifg=#353b45
 hi QuickFixLine guibg=#353b45 gui=none
 hi Error guifg=#282c34 guibg=#e06c75
@@ -68,6 +69,8 @@ hi NeogitDiffDelete guifg=#e06c75 guibg=#282c34
 hi NeogitDiffContextHighlight guifg=#abb2bf guibg=#282c34
 hi NeogitDiffAddHighlight guifg=#98c379 guibg=#282c34
 hi NeogitDiffDeleteHighlight guifg=#e06c75 guibg=#282c34
+hi NeogitHunkHeader guifg=#abb2bf guibg=#353b45
+hi NeogitHunkHeaderHighlight guifg=#abb2bf guibg=#353b45
 hi DiffAdded guifg=#98c379 guibg=#282c34
 hi DiffFile guifg=#e06c75 guibg=#282c34
 hi DiffNewFile guifg=#98c379 guibg=#282c34

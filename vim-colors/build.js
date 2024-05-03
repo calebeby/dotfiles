@@ -152,6 +152,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Cursor', base00, base05, '', '')
   highlight('CursorLine', '', mix(0.15, base01, base00), 'none', '')
   highlight('ColorColumn', '', mix(0.15, base01, base00), 'none', '')
+  highlight('SignColumn', base05, base01, 'none', '')
   highlight('NonText', base01, '', '', '')
   highlight('QuickFixLine', '', base01, 'none', '')
   highlight('Error', base00, base08, '', '')
@@ -221,6 +222,9 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('NeogitDiffContextHighlight', base05, base00, '', '')
   highlight('NeogitDiffAddHighlight', greenest, base00, '', '')
   highlight('NeogitDiffDeleteHighlight', reddest, base00, '', '')
+
+  highlight('NeogitHunkHeader', base05, base01, '', '')
+  highlight('NeogitHunkHeaderHighlight', base05, base01, '', '')
 
   // fugitive uses this, signify diff hunk as well
   highlight('DiffAdded', greenest, base00, '', '')
