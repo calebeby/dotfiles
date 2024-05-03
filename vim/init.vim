@@ -83,9 +83,6 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'debugloop/telescope-undo.nvim'
 Plug 'nvim-pack/nvim-spectre' " Project Search UI
 
-Plug 'epwalsh/obsidian.nvim'
-
-Plug 'pantharshit00/vim-prisma'
 Plug 's1n7ax/nvim-window-picker'
 
 call plug#end()
@@ -293,6 +290,8 @@ au BufRead,BufNewFile *.mdx set filetype=mdx
 au BufRead,BufNewFile *.twig set filetype=html
 au BufRead,BufNewFile *.sage set filetype=python
 au BufRead,BufNewFile *.astro set filetype=astro
+au BufRead,BufNewFile *.djot set filetype=djot
+au BufRead,BufNewFile *.typst set filetype=typst
 
 let g:yankwin_default_mappings = 0
 
@@ -316,6 +315,15 @@ nnoremap <silent> <leader>wgP :call yankwin#Paste({'edit_command': (tabpagenr() 
 nmap <leader>s :w<cr>
 
 lua <<EOF
+local term_clear = function()
+  vim.fn.feedkeys("", 'n')
+  local sb = vim.bo.scrollback
+  vim.bo.scrollback = 1
+  vim.bo.scrollback = sb
+end
+
+vim.keymap.set('t', '<C-l>', term_clear)
+
 require('spectre').setup({
   live_update = true,
   open_cmd = 'tabnew',
@@ -345,14 +353,16 @@ function focus_window()
 end
 
 vim.keymap.set('n', '<leader>w<leader>w', focus_window)
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "zig", "lua", "vim", "yaml", "bash", "sql" },
+  ensure_installed = { "typescript", "javascript", "tsx", "jsdoc", "regex", "c", "cpp", "rust", "svelte", "html", "css", "json", "astro", "markdown", "zig", "lua", "vim", "yaml", "bash", "sql", "djot", "typst" },
   highlight = {
     enable = not vim.g.vscode,
   },
   indent = {
     enable = true
   },
+  -- Expanding selection
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -538,13 +548,6 @@ if !exists('g:vscode')
   lua << EOF
 
   require "lsp_signature".setup({})
-  require("obsidian").setup({
-    completion = {
-      nvim_cmp = true,
-      min_chars = 2,
-      new_notes_location = "current_dir"
-    },
-  })
 
   local on_attach = function(client)
     vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
@@ -720,7 +723,6 @@ if !exists('g:vscode')
     sources = cmp.config.sources(
       {
         { name = 'nvim_lsp' },
-        --{ name = 'obsidian' }
       },
       {
         {
