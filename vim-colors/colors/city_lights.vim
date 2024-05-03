@@ -70,6 +70,13 @@ hi SignifySignAdd guifg=#8BD49C guibg=#385048
 hi SignifySignChange guifg=#70e1e8 guibg=#31545b
 hi SignifySignDelete guifg=#e27e8d gui=underline
 hi SignifySignDeleteFirstLine guifg=#e27e8d
+hi @markup.heading guifg=#70e1e8 gui=bold
+hi @markup.list guifg=#8BD49C
+hi @markup.italic gui=italic
+hi @markup.strong gui=bold
+hi @markup.strikethrough guifg=#e27e8d guibg=#1d252c
+hi @markup.underline guifg=#8BD49C guibg=#1d252c
+hi @markup.link.url gui=underline
 hi PMenu guifg=#b7c5d3 guibg=#171d23 gui=none
 hi PMenuSel guifg=#171d23 guibg=#b7c5d3
 hi Todo guifg=#ebbf83 guibg=#171d23
@@ -94,26 +101,3 @@ let g:terminal_color_14 = "#e27e8d"
 let g:terminal_color_15 = "#ffffff"
 let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
-
-" TS stands for Tree Sitter, not TypeScript
-hi link TSInclude Keyword
-hi link TSVariable Identifier
-hi link TSVariableBuiltin Identifier
-hi link TSProperty Normal
-hi link TSField Normal
-hi link TSConstant TSVariable
-hi link TSConstBuiltin TSVariable
-hi link TSFuncBuiltin TSFunction
-hi link TSTag xmlTagN
-
-" This gets used for capitalized imports
-hi link typescriptTSConstructor TSVariable
-hi link tsxTSConstructor TSVariable
-hi link javascriptTSConstructor TSVariable
-
-" This gets used for namespace imports
-hi link typescriptTSNamespace TSVariable
-hi link tsxTSNamespace TSVariable
-hi link javascriptTSNamespace TSVariable
-
-hi link regexTSConstant TSStringRegex

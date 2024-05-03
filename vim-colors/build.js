@@ -225,6 +225,14 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('SignifySignDelete', reddest, '', 'underline', '')
   highlight('SignifySignDeleteFirstLine', reddest, '', '', '')
 
+  highlight('@markup.heading', base0D, '', 'bold', '')
+  highlight('@markup.list', base08, '', '', '')
+  highlight('@markup.italic', '', '', 'italic', '')
+  highlight('@markup.strong', '', '', 'bold', '')
+  highlight('@markup.strikethrough', reddest, base00, '', '')
+  highlight('@markup.underline', greenest, base00, '', '')
+  highlight('@markup.link.url', '', '', 'underline', '')
+
   highlight('PMenu', base05, base01, 'none', '')
   highlight('PMenuSel', base01, base05, '', '')
 
@@ -253,32 +261,6 @@ let g:terminal_color_15 = "${base07}"
 let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
 `
-
-  file += `
-" TS stands for Tree Sitter, not TypeScript
-hi link TSInclude Keyword
-hi link TSVariable Identifier
-hi link TSVariableBuiltin Identifier
-hi link TSProperty Normal
-hi link TSField Normal
-hi link TSConstant TSVariable
-hi link TSConstBuiltin TSVariable
-hi link TSFuncBuiltin TSFunction
-hi link TSTag xmlTagN
-
-" This gets used for capitalized imports
-hi link typescriptTSConstructor TSVariable
-hi link tsxTSConstructor TSVariable
-hi link javascriptTSConstructor TSVariable
-
-" This gets used for namespace imports
-hi link typescriptTSNamespace TSVariable
-hi link tsxTSNamespace TSVariable
-hi link javascriptTSNamespace TSVariable
-
-hi link regexTSConstant TSStringRegex
-`
-
   return file
 }
 
