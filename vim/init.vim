@@ -30,7 +30,6 @@ Plug 'ggandor/leap.nvim' " s motion (like vim-sneak/easymotion)
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
-Plug 'AndrewRadev/sideways.vim', { 'on': ['<Plug>Sideways', 'SidewaysLeft', 'SidewaysRight'] }
 Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit', 'G'] }
 Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBrowse from fugitive.vim to open GitHub URLs.
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
@@ -90,9 +89,6 @@ call plug#end()
 set title titlestring=
 
 let mapleader=" "
-
-nmap <silent> <leader>h :SidewaysLeft<cr>
-nmap <silent> <leader>l :SidewaysRight<cr>
 
 " sensible up/down (go down visual line for wrapping)
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -250,11 +246,6 @@ omap iv <Plug>(textobj-variable-i)
 xmap av <Plug>(textobj-variable-a)
 omap av <Plug>(textobj-variable-a)
 
-xmap a, <Plug>SidewaysArgumentTextobjA
-omap a, <Plug>SidewaysArgumentTextobjA
-xmap i, <Plug>SidewaysArgumentTextobjI
-omap i, <Plug>SidewaysArgumentTextobjI
-
 xmap ih <Plug>(signify-motion-inner-visual)
 omap ih <Plug>(signify-motion-inner-pending)
 xmap ah <Plug>(signify-motion-outer-visual)
@@ -382,6 +373,17 @@ require'nvim-treesitter.configs'.setup {
         ["aF"] = "@call.outer",
         ["ab"] = "@block.outer",
         ["ib"] = "@block.inner",
+        ["a,"] = "@parameter.outer",
+        ["i,"] = "@parameter.inner",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>l"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>h"] = "@parameter.inner",
       },
     },
   },
