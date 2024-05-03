@@ -20,6 +20,7 @@ exec --no-startup-id dunst
 exec --no-startup-id i3-msg 'workspace 1; exec --no-startup-id google-chrome; workspace 2; exec --no-startup-id kitty'
 exec --no-startup-id albert
 exec --no-startup-id redshift-gtk -l 45.4897468:-122.5817677
+exec --no-startup-id udiskie
 exec --no-startup-id hsetroot -solid "#282828"
 exec --no-startup-id xsetroot -solid "#282828"
 exec nitrogen --set-zoom-fill ~/dotfiles/wallpapers/lake.jpg
