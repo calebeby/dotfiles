@@ -4,3 +4,4 @@ vim/plugged/
 fish/fish_variables
 node_modules/
 vim/.netrwhist
+backup-config/*-password

@@ -32,3 +32,6 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+# [http]
+# 	proxy = http://192.168.49.1:9099

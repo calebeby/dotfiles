@@ -1,0 +1,14 @@
+$HOME/.*/
+$HOME/Screenshots/
+$HOME/dotfiles/vim/plugged/
+$HOME/snap/
+tmp/
+node_modules/
+.git/
+*cache*/
+dist/
+.dtrash/
+# just for now, need to set up a long-term backup
+Pictures/
+$HOME/df/
+.obsidian/
