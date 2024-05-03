@@ -15,8 +15,8 @@ hi LineNr guifg=#a0a1a7 guibg=#fafafa
 hi CursorLineNr guifg=#696c77 guibg=#fafafa
 hi Cursor guifg=#fafafa guibg=#383a42
 hi Cursor guifg=#fafafa guibg=#383a42
-hi CursorLine guibg=#f7f7f7 gui=none
-hi ColorColumn guibg=#f7f7f7 gui=none
+hi CursorLine guibg=#f8f8f8 gui=none
+hi ColorColumn guibg=#f8f8f8 gui=none
 hi NonText guifg=#f0f0f1
 hi QuickFixLine guibg=#f0f0f1 gui=none
 hi Error guifg=#fafafa guibg=#ca1243
@@ -26,6 +26,7 @@ hi TabLine guifg=#696c77 guibg=#fafafa gui=none
 hi TabLineFill guifg=#a0a1a7 guibg=#fafafa gui=none
 hi TabLineSel guifg=#383a42 guibg=#f0f0f1 gui=bold
 hi MatchParen guibg=#e5e5e6
+hi Directory guifg=#4078f2
 hi IncSearch guifg=#f0f0f1 guibg=#d75f00 gui=none
 hi Search guifg=#f0f0f1 guibg=#c18401
 hi Comment guifg=#a0a1a7 gui=italic
@@ -57,16 +58,22 @@ hi DiagnosticHint guifg=#50a14f
 hi DiagnosticUnderlineHint gui=undercurl guisp=#50a14f
 hi DiagnosticInfo guifg=#4078f2
 hi DiagnosticUnderlineInfo gui=undercurl guisp=#4078f2
-hi DiffAdd guibg=#cfe3cf gui=none
+hi DiffAdd guibg=#d8e8d7 gui=none
 hi DiffChange guibg=#fafafa
-hi DiffDelete guifg=#f2d7de guibg=#f2d7de gui=none
-hi DiffText guibg=#cfe3cf gui=none
+hi DiffDelete guifg=#f0cbd5 guibg=#f0cbd5 gui=none
+hi DiffText guibg=#d8e8d7 gui=none
+hi NeogitDiffContext guifg=#383a42 guibg=#fafafa
+hi NeogitDiffAdd guifg=#50a14f guibg=#fafafa
+hi NeogitDiffDelete guifg=#ca1243 guibg=#fafafa
+hi NeogitDiffContextHighlight guifg=#383a42 guibg=#fafafa
+hi NeogitDiffAddHighlight guifg=#50a14f guibg=#fafafa
+hi NeogitDiffDeleteHighlight guifg=#ca1243 guibg=#fafafa
 hi DiffAdded guifg=#50a14f guibg=#fafafa
 hi DiffFile guifg=#ca1243 guibg=#fafafa
 hi DiffNewFile guifg=#50a14f guibg=#fafafa
 hi DiffLine guifg=#4078f2 guibg=#fafafa
 hi DiffRemoved guifg=#ca1243 guibg=#fafafa
-hi SignifySignAdd guifg=#50a14f guibg=#cfe3cf
+hi SignifySignAdd guifg=#50a14f guibg=#d8e8d7
 hi SignifySignChange guifg=#4078f2 guibg=#cbd9f8
 hi SignifySignDelete guifg=#ca1243 gui=underline
 hi SignifySignDeleteFirstLine guifg=#ca1243
@@ -81,7 +88,7 @@ hi PMenu guifg=#383a42 guibg=#f0f0f1 gui=none
 hi PMenuSel guifg=#f0f0f1 guibg=#383a42
 hi Todo guifg=#c18401 guibg=#f0f0f1
 hi Folded guifg=#a0a1a7 guibg=#f0f0f1
-hi FoldColumn guifg=#0184bc guibg=#fafafa
+hi FoldColumn guifg=#a0a1a7 guibg=#fafafa
 
 let g:terminal_color_0 =  "#fafafa"
 let g:terminal_color_1 =  "#ca1243"

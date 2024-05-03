@@ -150,8 +150,8 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('CursorLineNr', base04, base00, '', '')
   highlight('Cursor', base00, base05, '', '')
   highlight('Cursor', base00, base05, '', '')
-  highlight('CursorLine', '', mix(0.7, base00, base01), 'none', '')
-  highlight('ColorColumn', '', mix(0.7, base00, base01), 'none', '')
+  highlight('CursorLine', '', mix(0.15, base01, base00), 'none', '')
+  highlight('ColorColumn', '', mix(0.15, base01, base00), 'none', '')
   highlight('NonText', base01, '', '', '')
   highlight('QuickFixLine', '', base01, 'none', '')
   highlight('Error', base00, base08, '', '')
@@ -161,6 +161,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('TabLineFill', base03, base00, 'none', '')
   highlight('TabLineSel', base05, base01, 'bold', '')
   highlight('MatchParen', '', base02, '', '')
+  highlight('Directory', base0D, '', '', '')
 
   highlight('IncSearch', base01, base09, 'none', '')
   highlight('Search', base01, base0A, '', '')
@@ -203,8 +204,8 @@ const generateVimText = async (colorscheme, vimName) => {
   const greenest = findClosest(colorscheme.colors, '#74a14f')
   const reddest = findClosest(colorscheme.colors, 'red')
 
-  const diffAdd = mix(0.25, greenest, base00)
-  const diffDeletedLine = mix(0.85, base00, reddest)
+  const diffAdd = mix(0.2, greenest, base00)
+  const diffDeletedLine = mix(0.2, reddest, base00)
   const diffChange = mix(0.25, base0D, base00)
 
   // diff buffer
@@ -212,6 +213,14 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('DiffChange', '', base00, '', '')
   highlight('DiffDelete', diffDeletedLine, diffDeletedLine, 'none', '')
   highlight('DiffText', '', diffAdd, 'none', '')
+
+  highlight('NeogitDiffContext', base05, base00, '', '')
+  highlight('NeogitDiffAdd', greenest, base00, '', '')
+  highlight('NeogitDiffDelete', reddest, base00, '', '')
+
+  highlight('NeogitDiffContextHighlight', base05, base00, '', '')
+  highlight('NeogitDiffAddHighlight', greenest, base00, '', '')
+  highlight('NeogitDiffDeleteHighlight', reddest, base00, '', '')
 
   // fugitive uses this, signify diff hunk as well
   highlight('DiffAdded', greenest, base00, '', '')
@@ -239,7 +248,7 @@ const generateVimText = async (colorscheme, vimName) => {
   highlight('Todo', base0A, base01, '', '')
 
   highlight('Folded', base03, base01, '', '')
-  highlight('FoldColumn', base0C, base00, '', '')
+  highlight('FoldColumn', base03, base00, '', '')
 
   file += `
 let g:terminal_color_0 =  "${base00}"

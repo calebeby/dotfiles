@@ -30,8 +30,6 @@ Plug 'ggandor/leap.nvim' " s motion (like vim-sneak/easymotion)
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' }
 set rtp+=$HOME/dotfiles/vim-colors
 " moving arguments left/right/up/down leader-h leader-l, also argument text object i, a,
-Plug 'tpope/vim-fugitive', { 'on': exists('g:vscode') ? [] : ['Git', 'Gdiffsplit', 'G'] }
-Plug 'tpope/vim-rhubarb', exists('g:vscode') ? { 'on': [] } : {} " Enables :GBrowse from fugitive.vim to open GitHub URLs.
 Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of' other text, and discards the overridden text
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'mhinz/vim-signify', exists('g:vscode') ? { 'on': [] } : {}
@@ -82,6 +80,9 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 Plug 'debugloop/telescope-undo.nvim'
 Plug 'nvim-pack/nvim-spectre' " Project Search UI
 
+Plug 'NeogitOrg/neogit'
+Plug 'sindrets/diffview.nvim'
+
 Plug 's1n7ax/nvim-window-picker'
 
 call plug#end()
@@ -130,8 +131,6 @@ set undofile
 " Show hidden chars (highlight group NonText)
 set listchars=nbsp:¬,extends:»,precedes:«,trail:•,tab:\▸\ 
 set list
-
-nnoremap <C-LeftMouse> <LeftMouse>gF
 
 let g:highlightedyank_highlight_duration = 150
 
@@ -329,7 +328,23 @@ vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").toggle()<CR>', {
 })
 EOF
 
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 lua <<EOF
+
+local neogit = require('neogit')
+neogit.setup {}
+
+require("diffview").setup({
+  use_icons = false,
+  enhanced_diff_hl = true,
+})
+
 local window_picker = require('window-picker')
 window_picker.setup()
 function focus_window()
@@ -510,13 +525,12 @@ if !exists('g:vscode')
   " On pressing tab, insert 2 spaces
   set expandtab
 
-  " Git / Fugitive
-  nmap <silent> <leader>gs :call plug#load('vim-fugitive') \| :tabnew % \| :Git<cr><c-w>o
-  " nmap <silent> <leader>gs :Git<cr>
-  nmap <silent> <leader>gp :Git push<cr>
-  nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
-  nmap <silent> <leader>gl :Git pull<cr>
-  nmap <silent> <leader>gf :Git fetch<cr>
+  " Git
+  nmap <silent> <leader>gs :Neogit kind=tab<cr>
+  " nmap <silent> <leader>gp :Git push<cr>
+  " nmap <silent> <leader>gP :Git push -u origin HEAD<cr>
+  " nmap <silent> <leader>gl :Git pull<cr>
+  " nmap <silent> <leader>gf :Git fetch<cr>
   nmap <silent> <leader>gh :SignifyHunkDiff<cr>
   nmap <silent> <leader>gd :tabnew %<cr> :Gdiffsplit!<cr>
   nmap <silent> <leader>gS :diffput<cr>
@@ -539,7 +553,7 @@ if !exists('g:vscode')
   nmap g8 8gt
   nmap g9 9gt
 
-  " Fish has too slow a startup time. Using bash speeds up fugitive
+  " Fish has too slow a startup time. Using bash speeds up git plugins
   set shell=/bin/bash
 
   " Make <c-w> in terminal go out of terminal "insert" mode so
