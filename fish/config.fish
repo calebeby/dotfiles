@@ -1,4 +1,5 @@
 set -x EDITOR nvim
+set -x VISUAL nvim
 set -x BROWSER firefox
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
@@ -8,7 +9,7 @@ set -x QT_QPA_PLATFORMTHEME qt5ct
 set -x GOPATH $HOME/Programming
 set -x QT_QPA_PLATFORM xcb
 
-set -x PATH $PATH ~/.npm-global/bin $HOME/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
+set -x PATH $PATH ~/.local/bin ~/.npm-global/bin $HOME/.cargo/bin /home/linuxbrew/.linuxbrew/bin $GOPATH/bin
 
 set -x DENO_INSTALL /home/caleb/.deno
 set -x PATH $PATH $DENO_INSTALL/bin
@@ -69,7 +70,6 @@ end
 
 set fish_greeting ""
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
-set -gx PATH $HOME/.cabal/bin $PATH /home/caleb/.ghcup/bin # ghcup-env
 
 # Bun
 set -Ux BUN_INSTALL ~/.bun
@@ -79,3 +79,5 @@ set -px --path PATH ~/.bun/bin
 set -gx PNPM_HOME ~/.local/share/pnpm
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
+
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/caleb/.ghcup/bin $PATH # ghcup-env
