@@ -281,8 +281,8 @@ au BufRead,BufNewFile *.twig set filetype=html
 au BufRead,BufNewFile *.sage set filetype=python
 au BufRead,BufNewFile *.astro set filetype=astro
 au BufRead,BufNewFile *.djot set filetype=djot
-au BufRead,BufNewFile *.typst set filetype=typst
 autocmd FileType djot setlocal commentstring={%\ %s\ %}
+autocmd FileType typst setlocal commentstring=//\ %s
 
 let g:yankwin_default_mappings = 0
 
@@ -508,9 +508,9 @@ if !exists('g:vscode')
   tnoremap <a-k> <c-\><c-n><c-w>k
   tnoremap <a-l> <c-\><c-n><c-w>l
 
-  nmap <c-/> <Plug>CommentaryLine
-  vmap <c-/> <Plug>Commentary gv
-  imap <c-/> <ESC><Plug>CommentaryLine gi
+  nmap <c-/> gcc
+  vmap <c-/> gc gv
+  imap <c-/> <ESC>gcc gi
 
   " reload files changed outside vim
   set autoread
@@ -606,7 +606,7 @@ if !exists('g:vscode')
     automatic_installation = true,
   })
   require('mason-tool-installer').setup {
-    ensure_installed = { 'prettier', 'prettierd', 'biome' },
+    ensure_installed = { 'prettier', 'prettierd', 'biome', 'typst-lsp' },
     auto_update = true,
   }
   require("formatter").setup({
@@ -637,6 +637,10 @@ if !exists('g:vscode')
   local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   local lspconfig = require("lspconfig")
+  lspconfig.typst_lsp.setup{
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
   lspconfig.astro.setup{
     on_attach = on_attach,
     capabilities = capabilities,
