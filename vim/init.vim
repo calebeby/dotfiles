@@ -282,6 +282,7 @@ au BufRead,BufNewFile *.sage set filetype=python
 au BufRead,BufNewFile *.astro set filetype=astro
 au BufRead,BufNewFile *.djot set filetype=djot
 au BufRead,BufNewFile *.typst set filetype=typst
+autocmd FileType djot setlocal commentstring={%\ %s\ %}
 
 let g:yankwin_default_mappings = 0
 
