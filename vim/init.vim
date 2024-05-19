@@ -507,9 +507,9 @@ if !exists('g:vscode')
   tnoremap <a-k> <c-\><c-n><c-w>k
   tnoremap <a-l> <c-\><c-n><c-w>l
 
-  " c-/ comes through as c-_
-  nmap <c-_> <Plug>CommentaryLine
-  vmap <c-_> <Plug>Commentary gv
+  nmap <c-/> <Plug>CommentaryLine
+  vmap <c-/> <Plug>Commentary gv
+  imap <c-/> <ESC><Plug>CommentaryLine gi
 
   " reload files changed outside vim
   set autoread
@@ -570,7 +570,6 @@ if !exists('g:vscode')
   nmap <silent> <leader><leader> :Telescope lsp_document_symbols<cr>
 
   nmap <silent> gr :Telescope lsp_references<cr>
-  nmap <silent> gi :Telescope lsp_implementations<cr>
   nmap <silent> gd :Telescope lsp_definitions<cr>
   autocmd FileType markdown nnoremap <buffer> <silent> gd :ObsidianFollowLink<cr>
   nmap <silent> gD :Telescope lsp_type_definitions<cr>
