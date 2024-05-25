@@ -83,3 +83,7 @@ vim.keymap.set('n', '<Leader>kr', ':source $MYVIMRC<CR>', { silent = true })
 vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>', { silent = true })
 vim.keymap.set('n', 'gd', ':Telescope lsp_definitions<CR>', { silent = true })
 vim.keymap.set('n', 'gD', ':Telescope lsp_type_definitions<CR>', { silent = true })
+
+-- Git
+local neogit = require('neogit')
+vim.keymap.set('n', 'gs', function () neogit.open() end)

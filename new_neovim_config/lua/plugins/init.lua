@@ -6,6 +6,23 @@ return {
       skip_confirm_for_simple_edits = true
     },
   },
+  { 'echasnovski/mini.pairs', version = false, config = true },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = true
+  },
+  {
+    "sindrets/diffview.nvim",
+    opts = {
+      use_icons = false,
+      enhanced_diff_hl = true,
+    },
+  },
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
