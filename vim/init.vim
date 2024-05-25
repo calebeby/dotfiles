@@ -34,7 +34,7 @@ Plug 'vim-scripts/ReplaceWithRegister' " R <motion/textobj> for 'paste on top of
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'mhinz/vim-signify', exists('g:vscode') ? { 'on': [] } : {}
 Plug 'AndrewRadev/splitjoin.vim' " gS / gJ to convert to single line or multi line
-Plug 'chrisbra/Colorizer'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-eunuch' " :Rename and :Move and :Delete
 Plug 'mg979/vim-visual-multi', exists('g:vscode') ? { 'on': [] } : {} " multple cursors
@@ -87,6 +87,7 @@ Plug 's1n7ax/nvim-window-picker'
 
 call plug#end()
 
+set termguicolors
 set title titlestring=
 
 let mapleader=" "
@@ -337,6 +338,7 @@ function! SynStack()
 endfunc
 
 lua <<EOF
+require'colorizer'.setup()
 
 local neogit = require('neogit')
 neogit.setup {}
@@ -572,7 +574,6 @@ if !exists('g:vscode')
 
   nmap <silent> gr :Telescope lsp_references<cr>
   nmap <silent> gd :Telescope lsp_definitions<cr>
-  autocmd FileType markdown nnoremap <buffer> <silent> gd :ObsidianFollowLink<cr>
   nmap <silent> gD :Telescope lsp_type_definitions<cr>
   set completeopt=menu,menuone,noselect
 
@@ -581,16 +582,13 @@ if !exists('g:vscode')
   require "lsp_signature".setup({})
 
   local on_attach = function(client)
-    vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', {noremap = true})
+    vim.api.nvim_buf_set_keymap(0, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 
-    vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {noremap = true})
-    vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_next()<CR>', {noremap = true})
-    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', {noremap = true})
-
-    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', {noremap = true})
-
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gk', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+    vim.api.nvim_buf_set_keymap(0, 'n', 'gj', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+    vim.api.nvim_buf_set_keymap(0, 'n', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>')
     vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
     vim.api.nvim_buf_set_option(0, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
 
     if client.server_capabilities.documentHighlightProvider then
