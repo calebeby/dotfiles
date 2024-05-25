@@ -14,6 +14,8 @@ vim.opt.rtp:prepend(lazypath)
 
 --- MY OWN SETUP
 
+vim.opt.ignorecase = true
+
 vim.opt.relativenumber = true
 vim.opt.number = true
 
@@ -59,9 +61,6 @@ vim.g.mapleader = ' '
 
 require("lazy").setup("plugins")
 
-vim.cmd([[colorscheme tokyonight]])
-
-
 -- Window mappings
 vim.keymap.set('n', '<Leader>w', '<c-w>')
 vim.keymap.set('n', '<a-h>', '<c-w>h')
@@ -76,9 +75,6 @@ vim.keymap.set('t', '<a-l>', '<c-\\><c-n><c-w>l')
 -- Save file
 vim.keymap.set('n', '<Leader>s', ':write<CR>', { silent = true })
 
--- Reload/refresh vimrc
-vim.keymap.set('n', '<Leader>kr', ':source $MYVIMRC<CR>', { silent = true })
-
 -- Go to definition and similar
 vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>', { silent = true })
 vim.keymap.set('n', 'gd', ':Telescope lsp_definitions<CR>', { silent = true })
@@ -87,3 +83,6 @@ vim.keymap.set('n', 'gD', ':Telescope lsp_type_definitions<CR>', { silent = true
 -- Git
 local neogit = require('neogit')
 vim.keymap.set('n', 'gs', function () neogit.open() end)
+
+-- Change colorscheme
+vim.keymap.set('n', '<Leader>kt', ':Telescope colorscheme<CR>', { silent = true })

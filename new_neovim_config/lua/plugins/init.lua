@@ -1,12 +1,7 @@
 return {
   "nvim-tree/nvim-web-devicons",
-  {
-    "stevearc/oil.nvim",
-    opts = {
-      skip_confirm_for_simple_edits = true
-    },
-  },
-  { 'echasnovski/mini.pairs', version = false, config = true },
+  { "stevearc/oil.nvim", opts = { skip_confirm_for_simple_edits = true } },
+  { "echasnovski/mini.pairs", version = false, config = true },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -24,6 +19,15 @@ return {
     },
   },
   {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.opt.timeout = true
+      vim.opt.timeoutlen = 300
+    end,
+    opts = {}
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "williamboman/mason.nvim",
@@ -36,15 +40,13 @@ return {
       "octaltree/cmp-look",
     },
     config = function ()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      require('mason').setup()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = { "rust_analyzer", "tsserver" },
         handlers = {
           function(server_name)
-            require("lspconfig")[server_name].setup {
-              capabilities = capabilities
-            }
+            require("lspconfig")[server_name].setup({ capabilities = capabilities })
           end,
           ["lua_ls"] = function()
             local lspconfig = require("lspconfig")
@@ -63,7 +65,7 @@ return {
         }
       })
 
-      local cmp = require'cmp'
+      local cmp = require"cmp"
 
       cmp.setup({
         snippet = {
@@ -72,29 +74,29 @@ return {
           end,
         },
         mapping = cmp.mapping.preset.insert({
-          ['<Tab>'] = function(fallback)
+          ["<Tab>"] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
               fallback()
             end
           end,
-          ['<c-j>'] = function(fallback)
+          ["<c-j>"] = function(fallback)
             if cmp.visible() then
               cmp.confirm({ select = true })
             else
               fallback()
             end
           end,
-          ['<s-Tab>'] = function(fallback)
+          ["<s-Tab>"] = function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
             else
               fallback()
             end
           end,
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-Space>'] = function(fallback)
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<C-Space>"] = function(fallback)
             if cmp.visible() then
               fallback()
             else
@@ -104,20 +106,20 @@ return {
         }),
         sources = cmp.config.sources(
           {
-            { name = 'soippets' },
+            { name = "soippets" },
           },
           {
-            { name = 'nvim_lsp' },
+            { name = "nvim_lsp" },
           },
           {
             {
-              name = 'buffer',
+              name = "buffer",
               keyword_length = 4,
             },
           },
           {
             {
-              name = 'look',
+              name = "look",
               keyword_length = 5,
               option = {
                 convert_case = true,
@@ -131,34 +133,108 @@ return {
         },
       })
 
-      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline({ '/', '?' }, {
+      cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = 'buffer' }
+          { name = "buffer" }
         }
       })
 
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(':', {
+      cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path' }
+          { name = "path" }
         }, {
-            { name = 'cmdline' }
+            { name = "cmdline" }
           }),
         matching = { disallow_symbol_nonprefix_matching = false }
       })
     end
   },
-  "folke/tokyonight.nvim",
+  -- Colors
+  {
+    "folke/tokyonight.nvim",
+    -- config = function ()
+    --   vim.cmd[[colorscheme tokyonight]]
+    -- end
+  },
+  {
+    "echasnovski/mini.base16",
+    version = false,
+    enabled = false,
+    opts = {
+      palette = {
+        base00 = "#2d2d2d",
+        base01 = "#393939",
+        base02 = "#515151",
+        base03 = "#999999",
+        base04 = "#b4b7b4",
+        base05 = "#cccccc",
+        base06 = "#e0e0e0",
+        base07 = "#ffffff",
+        base08 = "#f2777a",
+        base09 = "#f99157",
+        base0A = "#ffcc66",
+        base0B = "#99cc99",
+        base0C = "#66cccc",
+        base0D = "#6699cc",
+        base0E = "#cc99cc",
+        base0F = "#a3685a",
+      },
+    },
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    -- config = function ()
+    --   vim.cmd[[colorscheme kanagawa]]
+    -- end
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    -- config = function ()
+    --   vim.cmd[[colorscheme rose-pine-main]]
+    -- end
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    config = function ()
+      vim.cmd[[colorscheme duskfox]]
+    end
+  },
+  {
+    "sainnhe/everforest",
+    config = function ()
+      -- vim.cmd[[colorscheme everforest]]
+    end
+  },
+  {
+    "Wansmer/treesj",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("treesj").setup({
+        use_default_keys = false,
+        max_join_length = 250,
+      })
+      vim.keymap.set("n", "<Leader>m", require("treesj").toggle)
+    end,
+  },
+  {
+    "echasnovski/mini.surround",
+    version = false,
+    opts = {
+
+    },
+  },
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context",
+    },
     build = ":TSUpdate",
     config = function ()
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
+      require("nvim-treesitter.configs").setup({
         ensure_installed = {
           "typescript",
           "javascript",
@@ -194,10 +270,10 @@ return {
         incremental_selection = {
           enable = true,
           keymaps = {
-            init_selection = "<leader>c",
-            node_incremental = "<leader>c",
+            init_selection = "<C-space>",
+            node_incremental = "<C-space>",
             scope_incremental = false,
-            node_decremental = "<leader>v",
+            node_decremental = "<bs>",
           },
         },
         textobjects = {
@@ -212,6 +288,8 @@ return {
               ["ib"] = "@block.inner",
               ["a,"] = "@parameter.outer",
               ["i,"] = "@parameter.inner",
+              ["ac"] = "@comment.outer",
+              ["ic"] = "@comment.inner",
             },
           },
           swap = {
@@ -225,20 +303,26 @@ return {
           },
         },
       })
+
+      require"treesitter-context".setup{
+        enable = true,
+        line_numbers = true,
+        mode = "topline",
+      }
     end
   },
   {
     {
-      'nvim-telescope/telescope.nvim', tag = '0.1.6',
+      "nvim-telescope/telescope.nvim", tag = "0.1.6",
       dependencies = {
-        'nvim-lua/plenary.nvim',
+        "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
         "debugloop/telescope-undo.nvim",
         "natecraddock/telescope-zf-native.nvim",
       },
       config = function ()
-        local actions = require('telescope.actions')
-        require('telescope').setup{
+        local actions = require("telescope.actions")
+        require("telescope").setup{
           defaults = {
             mappings = {
               i = {
@@ -269,11 +353,11 @@ return {
 
         require("telescope").load_extension("ui-select")
         require("telescope").load_extension("undo")
-        require("telescope").load_extension('neorg')
+        require("telescope").load_extension("neorg")
         require("telescope").load_extension("zf-native")
 
-        local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>o', builtin.find_files, {})
+        local builtin = require("telescope.builtin")
+        vim.keymap.set("n", "<leader>o", builtin.find_files, {})
       end
     },
   },
@@ -285,6 +369,7 @@ return {
   {
     "nvim-neorg/neorg",
     dependencies = { "luarocks.nvim", "nvim-neorg/neorg-telescope" },
+    version = "*",
     config = true,
   },
 }
