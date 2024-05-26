@@ -20,9 +20,16 @@ vim.opt.ignorecase = true
 -- Reload files changed outside of neovim
 vim.opt.autoread = true
 vim.opt.updatetime = 10
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
+vim.api.nvim_create_autocmd("CursorHold", {
 	command = [[checktime]],
 })
+
+-- Don't show -- INSERT -- at the bottom (since there is statusline)
+vim.opt.showmode = false
+-- Hide ex mode (command line) when not in use
+vim.opt.cmdheight = 0
+-- Use a single global statusline at the very bottom instead of one per window
+vim.opt.laststatus = 3
 
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -34,7 +41,8 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Permanent undo
-vim.opt.undodir = "~/.vimdid"
+vim.opt.undodir = vim.fn.expand("~/.vimdid")
+vim.opt.undofile = true
 
 -- Use system clipboard (requires xsel)
 vim.opt.clipboard = "unnamedplus"
@@ -55,8 +63,11 @@ vim.opt.expandtab = true
 -- Guide for max line width
 vim.opt.colorcolumn = { 80 }
 
+-- Guide for max line width
+vim.opt.signcolumn = "number"
+
 -- Better diffs in diff mode
-vim.opt.diffopt:append("linematch:100")
+vim.opt.diffopt:append("linematch:50")
 
 -- Quit
 vim.keymap.set("n", "<c-q>", ":qall<CR>", { silent = true })
@@ -98,13 +109,18 @@ vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { silent = true })
 vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { silent = true })
 vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { silent = true })
 
+vim.keymap.set("n", "<Leader>u", ":Telescope undo<CR>", { silent = true })
+
 -- Git
-vim.keymap.set("n", "gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
+vim.keymap.set("n", "<Leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
+vim.keymap.set("n", "<Leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
+vim.keymap.set("n", "<Leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
+vim.keymap.set("n", "<Leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })
 
 -- Change colorscheme
-vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { desc = "Select colorscheme", silent = true })
 
-vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { silent = true })
+vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { desc = "Select file to open", silent = true })
 
 -- alt-up alt-down for moving lines up or down
 vim.keymap.set("n", "<a-up>", ":m .-2<CR>", { silent = true })
@@ -118,3 +134,8 @@ vim.keymap.set("v", "<a-down>", ":m '>+1<CR>gv", { silent = true, remap = true }
 vim.keymap.set("n", "<c-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
 vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
+
+-- File tree
+vim.keymap.set("n", "<Leader>f", function()
+	MiniFiles.open(vim.api.nvim_buf_get_name(0))
+end, { remap = true })

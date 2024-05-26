@@ -7,13 +7,40 @@ end
 return {
 	"nvim-tree/nvim-web-devicons",
 	{
-		"stevearc/oil.nvim",
-		opts = { skip_confirm_for_simple_edits = true },
+		"echasnovski/mini.files",
+		version = "*",
+		opts = {
+			mappings = {
+				close = "<ESC>",
+				go_in = "l",
+				go_in_plus = "<CR>",
+				go_out = "h",
+				go_out_plus = "H",
+				reset = "<BS>",
+				reveal_cwd = "@",
+				show_help = "?",
+				synchronize = "=",
+				trim_left = "<",
+				trim_right = ">",
+			},
+		},
 	},
 	{
 		"echasnovski/mini.pairs",
 		version = false,
 		config = true,
+	},
+	{
+		"echasnovski/mini.statusline",
+		version = "*",
+		opts = {
+			set_vim_settings = false,
+		},
+	},
+	{
+		"echasnovski/mini.tabline",
+		version = "*",
+		opts = {},
 	},
 	{
 		"NeogitOrg/neogit",
@@ -28,7 +55,6 @@ return {
 	{
 		"sindrets/diffview.nvim",
 		opts = {
-			use_icons = false,
 			enhanced_diff_hl = true,
 		},
 	},
@@ -37,8 +63,8 @@ return {
 		config = function()
 			require("gitsigns").setup({
 				signs = {
-					add = { text = "+" },
-					change = { text = "~" },
+					add = { text = "" },
+					change = { text = "" },
 					delete = { text = "_" },
 					topdelete = { text = "‾" },
 					changedelete = { text = "~" },
@@ -60,7 +86,6 @@ return {
 						vim.keymap.set(mode, l, r, opts)
 					end
 
-					-- Navigation
 					map("n", "]c", function()
 						if vim.wo.diff then
 							vim.cmd.normal({ "]c", bang = true })
@@ -101,15 +126,6 @@ return {
 					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "hunk" })
 				end,
 			})
-			highlight_hook(function()
-				vim.api.nvim_set_hl(0, "GitSignsAddNr", { link = "DiffAdd" })
-				vim.api.nvim_set_hl(0, "GitSignsChangeNr", { link = "DiffChange" })
-				vim.api.nvim_set_hl(0, "GitSignsDeleteNr", { link = "DiffDelete" })
-
-				vim.api.nvim_set_hl(0, "GitSignsAdd", { link = "DiffAdd" })
-				vim.api.nvim_set_hl(0, "GitSignsChange", { link = "DiffChange" })
-				vim.api.nvim_set_hl(0, "GitSignsDelete", { link = "DiffDelete" })
-			end)
 		end,
 	},
 	{
@@ -394,9 +410,9 @@ return {
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		-- config = function ()
-		--   vim.cmd[[colorscheme kanagawa]]
-		-- end
+		config = function()
+			vim.cmd([[colorscheme kanagawa]])
+		end,
 	},
 	{
 		"rose-pine/neovim",
@@ -413,9 +429,9 @@ return {
 	},
 	{
 		"sainnhe/everforest",
-		config = function()
-			vim.cmd([[colorscheme everforest]])
-		end,
+		-- config = function()
+		-- 	vim.cmd([[colorscheme everforest]])
+		-- end,
 	},
 	{
 		"sainnhe/sonokai",
@@ -618,7 +634,8 @@ return {
 					},
 					extensions = {
 						undo = {
-							side_by_side = true,
+							use_delta = false,
+							-- side_by_side = true,
 							diff_context_lines = 5,
 							mappings = {
 								i = {
