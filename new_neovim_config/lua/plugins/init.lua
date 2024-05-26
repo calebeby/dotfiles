@@ -172,6 +172,7 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			{
 				"WhoIsSethDaniel/mason-tool-installer.nvim",
+				event = "VeryLazy",
 				opts = {
 					ensure_installed = {
 						"prettier",
@@ -479,6 +480,11 @@ return {
 					prefix_string = " « ",
 					max_length = 50,
 				},
+				language_config = {
+					norg = {
+						disabled = true,
+					},
+				},
 			})
 			highlight_hook(function()
 				vim.api.nvim_set_hl(0, "BiscuitColor", { link = "Comment" })
@@ -517,7 +523,6 @@ return {
 					"sql",
 					"djot",
 					"typst",
-					"norg",
 				},
 				highlight = {
 					enable = true,
@@ -654,23 +659,26 @@ return {
 	{
 		"vhyrro/luarocks.nvim",
 		-- priority = 1001,
+		lazy = true,
 		opts = {
 			rocks = { "magick" },
 		},
 	},
 	{
-		"3rd/image.nvim",
-		dependencies = { "vhyrro/luarocks.nvim" },
-		config = true,
-	},
-	{
 		"nvim-neorg/neorg",
+		build = ":Neorg sync-parsers",
 		dependencies = {
 			"vhyrro/luarocks.nvim",
 			"nvim-neorg/neorg-telescope",
+			{
+				"3rd/image.nvim",
+				dependencies = { "vhyrro/luarocks.nvim" },
+				config = true,
+			},
 		},
 		version = "*",
 		ft = "norg",
+		cmd = { "Neorg" },
 		config = function()
 			require("telescope").load_extension("neorg")
 
