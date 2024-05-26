@@ -48,6 +48,9 @@ vim.opt.shiftwidth = 2
 -- When pressing tab, use spaces
 vim.opt.expandtab = true
 
+-- Guide for max line width
+vim.opt.colorcolumn = { 80 }
+
 -- Quit
 vim.keymap.set("n", "<c-q>", ":qall<CR>", { silent = true })
 
@@ -91,9 +94,22 @@ vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { silent = true
 -- Git
 vim.keymap.set("n", "gs", function()
 	require("neogit").open()
-end)
+end, { desc = "Open Neogit" })
 
 -- Change colorscheme
 vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { silent = true })
+
+-- alt-up alt-down for moving lines up or down
+vim.keymap.set("n", "<a-up>", ":m .-2<CR>", { silent = true })
+vim.keymap.set("n", "<a-down>", ":m .+1<CR>", { silent = true })
+vim.keymap.set("i", "<a-up>", ":m .-2<CR>i", { silent = true })
+vim.keymap.set("i", "<a-down>", ":m .+1<CR>i", { silent = true })
+vim.keymap.set("v", "<a-up>", ":m '<-2<CR>gv", { silent = true })
+vim.keymap.set("v", "<a-down>", ":m '>+1<CR>gv", { silent = true, remap = true })
+
+-- Comment toggles
+vim.keymap.set("n", "<c-/>", "gcc", { remap = true })
+vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
+vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })

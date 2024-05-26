@@ -36,6 +36,7 @@ return {
 		opts = {},
 	},
 	{
+		-- Formatter
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
@@ -82,6 +83,17 @@ return {
 			},
 		},
 		config = function()
+			vim.diagnostic.config({
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = " ",
+						[vim.diagnostic.severity.WARN] = " ",
+						[vim.diagnostic.severity.INFO] = " ",
+						[vim.diagnostic.severity.HINT] = " ",
+					},
+				},
+			})
+
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
@@ -118,6 +130,15 @@ return {
 					end,
 				},
 			})
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					vim.api.nvim_buf_set_keymap(0, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", {})
+					vim.api.nvim_buf_set_keymap(0, "n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", {})
+					vim.api.nvim_buf_set_keymap(0, "n", "gj", "<cmd>lua vim.diagnostic.goto_next()<CR>", {})
+					vim.api.nvim_buf_set_keymap(0, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {})
+					vim.api.nvim_buf_set_keymap(0, "n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", {})
+				end,
+			})
 		end,
 	},
 	{
@@ -130,6 +151,7 @@ return {
 			"hrsh7th/cmp-cmdline",
 			"octaltree/cmp-look",
 			"neovim/nvim-lspconfig",
+			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -172,9 +194,8 @@ return {
 					end,
 				}),
 				sources = cmp.config.sources({
-					{ name = "soippets" },
-				}, {
 					{ name = "nvim_lsp" },
+					{ name = "neorg" },
 				}, {
 					{
 						name = "buffer",
@@ -190,30 +211,70 @@ return {
 						},
 					},
 				}),
-				experimental = {
-					-- ghost_text = true,
+				formatting = {
+					format = require("lspkind").cmp_format({ mode = "symbol" }),
 				},
 			})
 
 			cmp.setup.cmdline({ "/", "?" }, {
 				mapping = cmp.mapping.preset.cmdline(),
-				sources = {
-					{ name = "buffer" },
-				},
+				sources = { { name = "buffer" } },
 			})
 
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "path" },
-				}, {
-					{ name = "cmdline" },
-				}),
+				sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 				matching = { disallow_symbol_nonprefix_matching = false },
 			})
 		end,
 	},
-	-- Colors
+	{
+		"folke/trouble.nvim",
+		branch = "dev",
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle focus=true<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0 focus=true<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>cs",
+				"<cmd>Trouble symbols toggle focus=true<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>cl",
+				"<cmd>Trouble lsp toggle focus=true<cr>",
+				desc = "LSP Definitions / References / ... (Trouble)",
+			},
+		},
+		opts = {
+			win = {
+				type = "split",
+				position = "right",
+				size = { width = 70 },
+			},
+			preview = {
+				type = "float",
+				relative = "cursor",
+				size = {
+					width = 69,
+					height = 8,
+				},
+				border = "rounded",
+				position = { 2, 0 },
+			},
+			throttle = {
+				preview = { ms = 10, debounce = true },
+			},
+		},
+	},
+	-- Colors/Themes
 	{
 		"folke/tokyonight.nvim",
 		-- config = function ()
@@ -292,6 +353,17 @@ return {
 		"echasnovski/mini.bracketed",
 		version = "*",
 		opts = {},
+	},
+	{
+		"code-biscuits/nvim-biscuits",
+		dependencies = { "nvim-treesitter" },
+		opts = {
+			cursor_line_only = true,
+			default_config = {
+				prefix_string = " « ",
+				max_length = 50,
+			},
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -377,13 +449,22 @@ return {
 		end,
 	},
 	{
+		-- Sets vim.ui.input to a reasonable box
+		-- Sets vim.ui.select to telescope
+		-- (example use: LSP rename or LSP code action)
+		-- This is better than telescope-ui-select.nvim because it allows lazy-loading telescope
+		-- and it works with vim.ui.input
+		"stevearc/dressing.nvim",
+		opts = {},
+	},
+	{
 		{
 			"nvim-telescope/telescope.nvim",
 			tag = "0.1.6",
 			cmd = { "Telescope" },
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				"nvim-telescope/telescope-ui-select.nvim",
+				-- "nvim-telescope/telescope-ui-select.nvim",
 				"debugloop/telescope-undo.nvim",
 				"natecraddock/telescope-zf-native.nvim",
 			},
@@ -410,9 +491,9 @@ return {
 						},
 					},
 					extensions = {
-						["ui-select"] = {
-							require("telescope.themes").get_dropdown({}),
-						},
+						-- ["ui-select"] = {
+						-- 	require("telescope.themes").get_dropdown({}),
+						-- },
 						undo = {
 							side_by_side = true,
 							diff_context_lines = 5,
@@ -425,30 +506,83 @@ return {
 					},
 				})
 
-				require("telescope").load_extension("ui-select")
+				-- require("telescope").load_extension("ui-select")
 				require("telescope").load_extension("undo")
 				require("telescope").load_extension("zf-native")
 			end,
 		},
 	},
-	-- {
-	--   "vhyrro/luarocks.nvim",
-	--   priority = 1000,
-	--   config = true,
-	-- },
+	{
+		"vhyrro/luarocks.nvim",
+		priority = 1001,
+		opts = {
+			rocks = { "magick" },
+		},
+	},
+	{
+		"3rd/image.nvim",
+		dependencies = { "vhyrro/luarocks.nvim" },
+		config = true,
+	},
 	{
 		"nvim-neorg/neorg",
 		dependencies = {
-			{
-				"luarocks.nvim",
-				config = true,
-			},
+			"vhyrro/luarocks.nvim",
 			"nvim-neorg/neorg-telescope",
 		},
 		version = "*",
 		ft = "norg",
 		config = function()
 			require("telescope").load_extension("neorg")
+
+			require("neorg").setup({
+				load = {
+					["core.defaults"] = {},
+					["core.completion"] = {
+						config = {
+							engine = "nvim-cmp",
+						},
+					},
+					["core.concealer"] = {},
+					["core.dirman"] = {
+						config = {
+							workspaces = {
+								["test-neorg"] = "~/test-neorg",
+							},
+							default_workspace = "test-neorg",
+						},
+					},
+					["core.integrations.image"] = {},
+					["core.integrations.telescope"] = {},
+					["core.latex.renderer"] = {
+						config = {
+							render_on_enter = true,
+						},
+					},
+					["core.export"] = {},
+				},
+			})
+
+			vim.wo.foldlevel = 99
+			vim.wo.conceallevel = 2
+
+			local neorg_callbacks = require("neorg.core.callbacks")
+
+			neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
+				-- Map all the below keybinds only when the "norg" mode is active
+				keybinds.map_event_to_mode("norg", {
+					n = { -- Bind keys in normal mode
+						{ "<C-s>", "core.integrations.telescope.find_linkable" },
+					},
+
+					i = { -- Bind in insert mode
+						{ "<C-l>", "core.integrations.telescope.insert_link" },
+					},
+				}, {
+					silent = true,
+					noremap = true,
+				})
+			end)
 		end,
 	},
 }
