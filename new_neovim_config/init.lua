@@ -88,6 +88,13 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Use space as leader
 vim.g.mapleader = " "
 
+vim.o.foldcolumn = "0"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.foldtext = ""
+vim.o.fillchars = [[fold: ]]
+
 require("lazy").setup("plugins")
 
 -- Window mappings

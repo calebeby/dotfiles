@@ -484,6 +484,12 @@ return {
 					norg = {
 						disabled = true,
 					},
+					help = {
+						disabled = true,
+					},
+					vimdoc = {
+						disabled = true,
+					},
 				},
 			})
 			highlight_hook(function()
@@ -571,6 +577,8 @@ return {
 				line_numbers = true,
 				mode = "topline",
 			})
+			vim.opt.foldmethod = "expr"
+			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		end,
 	},
 	{
