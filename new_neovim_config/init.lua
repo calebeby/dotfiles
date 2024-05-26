@@ -29,6 +29,10 @@ vim.opt.number = true
 
 vim.opt.termguicolors = true
 
+-- Disable netrw (default folder viewer)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Permanent undo
 vim.opt.undodir = "~/.vimdid"
 
@@ -50,6 +54,9 @@ vim.opt.expandtab = true
 
 -- Guide for max line width
 vim.opt.colorcolumn = { 80 }
+
+-- Better diffs in diff mode
+vim.opt.diffopt:append("linematch:100")
 
 -- Quit
 vim.keymap.set("n", "<c-q>", ":qall<CR>", { silent = true })
@@ -92,9 +99,7 @@ vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { silent = true })
 vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { silent = true })
 
 -- Git
-vim.keymap.set("n", "gs", function()
-	require("neogit").open()
-end, { desc = "Open Neogit" })
+vim.keymap.set("n", "gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
 
 -- Change colorscheme
 vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { silent = true })

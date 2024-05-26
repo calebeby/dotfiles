@@ -1,3 +1,9 @@
+-- Allows updating highlights initially and when color scheme is changed/replaced
+local highlight_hook = function(update_color)
+	vim.api.nvim_create_autocmd("ColorScheme", { callback = update_color })
+	update_color()
+end
+
 return {
 	"nvim-tree/nvim-web-devicons",
 	{
@@ -25,6 +31,86 @@ return {
 			use_icons = false,
 			enhanced_diff_hl = true,
 		},
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("gitsigns").setup({
+				signs = {
+					add = { text = "+" },
+					change = { text = "~" },
+					delete = { text = "_" },
+					topdelete = { text = "‾" },
+					changedelete = { text = "~" },
+					untracked = { text = "┆" },
+				},
+				signcolumn = true,
+				numhl = true,
+				preview_config = {
+					border = "none",
+					row = 1,
+					col = 0,
+				},
+				on_attach = function(bufnr)
+					local gitsigns = require("gitsigns")
+
+					local function map(mode, l, r, opts)
+						opts = opts or {}
+						opts.buffer = bufnr
+						vim.keymap.set(mode, l, r, opts)
+					end
+
+					-- Navigation
+					map("n", "]c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "]c", bang = true })
+						else
+							gitsigns.nav_hunk("next")
+						end
+					end)
+
+					map("n", "[c", function()
+						if vim.wo.diff then
+							vim.cmd.normal({ "[c", bang = true })
+						else
+							gitsigns.nav_hunk("prev")
+						end
+					end)
+
+					-- Actions
+					map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage hunk" })
+					map("n", "<leader>hx", gitsigns.reset_hunk, { desc = "Reset hunk" })
+					map("v", "<leader>hs", function()
+						gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end, { desc = "Stage selection" })
+					map("v", "<leader>hx", function()
+						gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+					end, { desc = "Reset selection" })
+					map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Stage buffer" })
+					map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "Undo hunk staging" })
+					map("n", "<leader>hX", gitsigns.reset_buffer, { desc = "Reset buffer" })
+					map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview hunk" })
+					map("n", "<leader>hb", gitsigns.blame_line, { desc = "Show git blame for current line" })
+					map("n", "<leader>hd", gitsigns.diffthis, { desc = "Vimdiff unstaged changes in current file" })
+					map("n", "<leader>hD", function()
+						gitsigns.diffthis("~")
+					end, { desc = "Vimdiff for uncommitted changes in current file" })
+					map("n", "<leader>td", gitsigns.toggle_deleted)
+
+					-- Text object
+					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "hunk" })
+				end,
+			})
+			highlight_hook(function()
+				vim.api.nvim_set_hl(0, "GitSignsAddNr", { link = "DiffAdd" })
+				vim.api.nvim_set_hl(0, "GitSignsChangeNr", { link = "DiffChange" })
+				vim.api.nvim_set_hl(0, "GitSignsDeleteNr", { link = "DiffDelete" })
+
+				vim.api.nvim_set_hl(0, "GitSignsAdd", { link = "DiffAdd" })
+				vim.api.nvim_set_hl(0, "GitSignsChange", { link = "DiffChange" })
+				vim.api.nvim_set_hl(0, "GitSignsDelete", { link = "DiffDelete" })
+			end)
+		end,
 	},
 	{
 		"folke/which-key.nvim",
@@ -321,15 +407,27 @@ return {
 	},
 	{
 		"EdenEast/nightfox.nvim",
-		config = function()
-			vim.cmd([[colorscheme duskfox]])
-		end,
+		-- config = function()
+		-- 	vim.cmd([[colorscheme duskfox]])
+		-- end,
 	},
 	{
 		"sainnhe/everforest",
 		config = function()
-			-- vim.cmd[[colorscheme everforest]]
+			vim.cmd([[colorscheme everforest]])
 		end,
+	},
+	{
+		"sainnhe/sonokai",
+		-- config = function()
+		-- 	vim.cmd([[colorscheme sonokai]])
+		-- end,
+	},
+	{
+		"navarasu/onedark.nvim",
+		-- config = function()
+		-- 	vim.cmd([[colorscheme onedark]])
+		-- end,
 	},
 	{
 		"Wansmer/treesj",
@@ -355,15 +453,21 @@ return {
 		opts = {},
 	},
 	{
+		-- Little hint next to closing brackets showing what they correspond to
 		"code-biscuits/nvim-biscuits",
 		dependencies = { "nvim-treesitter" },
-		opts = {
-			cursor_line_only = true,
-			default_config = {
-				prefix_string = " « ",
-				max_length = 50,
-			},
-		},
+		config = function()
+			require("nvim-biscuits").setup({
+				cursor_line_only = true,
+				default_config = {
+					prefix_string = " « ",
+					max_length = 50,
+				},
+			})
+			highlight_hook(function()
+				vim.api.nvim_set_hl(0, "BiscuitColor", { link = "Comment" })
+			end)
+		end,
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -430,13 +534,13 @@ return {
 						},
 					},
 					swap = {
-						enable = true,
-						swap_next = {
-							["<Leader>l"] = "@parameter.inner",
-						},
-						swap_previous = {
-							["<Leader>h"] = "@parameter.inner",
-						},
+						-- enable = true,
+						-- swap_next = {
+						-- 	["<Leader>l"] = "@parameter.inner",
+						-- },
+						-- swap_previous = {
+						-- 	["<Leader>h"] = "@parameter.inner",
+						-- },
 					},
 				},
 			})
@@ -450,12 +554,35 @@ return {
 	},
 	{
 		-- Sets vim.ui.input to a reasonable box
-		-- Sets vim.ui.select to telescope
+		-- Sets vim.ui.select to telescope selector
 		-- (example use: LSP rename or LSP code action)
 		-- This is better than telescope-ui-select.nvim because it allows lazy-loading telescope
 		-- and it works with vim.ui.input
 		"stevearc/dressing.nvim",
 		opts = {},
+	},
+	{
+		"RRethy/vim-illuminate",
+		config = function()
+			require("illuminate").configure({
+				delay = 10,
+			})
+			-- Avoid using default underline since some colorschemes don't define these plugin-specific hl
+			highlight_hook(function()
+				vim.api.nvim_set_hl(0, "IlluminatedWordText", { link = "LspReferenceText" })
+				vim.api.nvim_set_hl(0, "IlluminatedWordRead", { link = "LspReferenceRead" })
+				vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { link = "LspReferenceWrite" })
+			end)
+		end,
+	},
+	{
+		"danilamihailov/beacon.nvim",
+		config = function()
+			vim.g.beacon_timeout = 200
+			highlight_hook(function()
+				vim.api.nvim_set_hl(0, "Beacon", { link = "Search" })
+			end)
+		end,
 	},
 	{
 		{
@@ -464,7 +591,6 @@ return {
 			cmd = { "Telescope" },
 			dependencies = {
 				"nvim-lua/plenary.nvim",
-				-- "nvim-telescope/telescope-ui-select.nvim",
 				"debugloop/telescope-undo.nvim",
 				"natecraddock/telescope-zf-native.nvim",
 			},
@@ -491,9 +617,6 @@ return {
 						},
 					},
 					extensions = {
-						-- ["ui-select"] = {
-						-- 	require("telescope.themes").get_dropdown({}),
-						-- },
 						undo = {
 							side_by_side = true,
 							diff_context_lines = 5,
@@ -506,7 +629,6 @@ return {
 					},
 				})
 
-				-- require("telescope").load_extension("ui-select")
 				require("telescope").load_extension("undo")
 				require("telescope").load_extension("zf-native")
 			end,
@@ -514,7 +636,7 @@ return {
 	},
 	{
 		"vhyrro/luarocks.nvim",
-		priority = 1001,
+		-- priority = 1001,
 		opts = {
 			rocks = { "magick" },
 		},
