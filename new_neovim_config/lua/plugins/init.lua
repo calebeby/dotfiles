@@ -1,7 +1,14 @@
 return {
 	"nvim-tree/nvim-web-devicons",
-	{ "stevearc/oil.nvim", opts = { skip_confirm_for_simple_edits = true } },
-	{ "echasnovski/mini.pairs", version = false, config = true },
+	{
+		"stevearc/oil.nvim",
+		opts = { skip_confirm_for_simple_edits = true },
+	},
+	{
+		"echasnovski/mini.pairs",
+		version = false,
+		config = true,
+	},
 	{
 		"NeogitOrg/neogit",
 		cmd = { "Neogit" },
@@ -19,15 +26,15 @@ return {
 			enhanced_diff_hl = true,
 		},
 	},
-	-- {
-	--   "folke/which-key.nvim",
-	--   event = "VeryLazy",
-	--   init = function()
-	--     vim.opt.timeout = true
-	--     vim.opt.timeoutlen = 300
-	--   end,
-	--   opts = {}
-	-- },
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		init = function()
+			vim.opt.timeout = true
+			vim.opt.timeoutlen = 300
+		end,
+		opts = {},
+	},
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
@@ -270,7 +277,7 @@ return {
 		config = function()
 			local treesj = require("treesj")
 			treesj.setup({
-				use_default_keys = false,
+				use_default_keymaps = false,
 				max_join_length = 250,
 			})
 			vim.keymap.set("n", "<Leader>m", treesj.toggle, { desc = "Toggle collapsed/expaned syntax (treesj)" })
@@ -348,8 +355,6 @@ return {
 							["ib"] = "@block.inner",
 							["a,"] = "@parameter.outer",
 							["i,"] = "@parameter.inner",
-							["ac"] = "@comment.outer",
-							["ic"] = "@comment.inner",
 						},
 					},
 					swap = {
