@@ -568,6 +568,7 @@ return {
 							["af"] = "@function.outer",
 							["if"] = "@function.inner",
 							["aF"] = "@call.outer",
+							["iF"] = "@call.inner",
 							["ab"] = "@block.outer",
 							["ib"] = "@block.inner",
 							["a,"] = "@parameter.outer",
@@ -687,6 +688,18 @@ return {
 		},
 	},
 	{
+		-- Paste over text (replace)
+		-- Modern alternative to vim-scripts/ReplaceWithRegister
+		"gbprod/substitute.nvim",
+		config = function()
+			local sub = require("substitute")
+			sub.setup({ highlight_substituted_text = { enabled = false } })
+			vim.keymap.set("n", "R", sub.operator, { noremap = true })
+			vim.keymap.set("n", "RR", sub.line, { noremap = true })
+			vim.keymap.set("x", "R", sub.visual, { noremap = true })
+		end,
+	},
+	{
 		"nvim-neorg/neorg",
 		dependencies = {
 			"vhyrro/luarocks.nvim",
@@ -729,6 +742,7 @@ return {
 					},
 					["core.export"] = {},
 					["core.itero"] = {},
+					["core.ui.calendar"] = {},
 				},
 			})
 
