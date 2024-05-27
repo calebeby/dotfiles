@@ -26,6 +26,59 @@ return {
 		},
 	},
 	{
+		-- Motion plugin like leap/sneak/easymotion/lightspeed/hop
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Surrounding TS node (Flash)",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote (Flash)",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "TS node (Flash)",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+		config = function()
+			require("flash").setup()
+			highlight_hook(function()
+				vim.api.nvim_set_hl(0, "FlashLabel", { link = "IncSearch" })
+			end)
+		end,
+	},
+	{
 		"echasnovski/mini.pairs",
 		version = false,
 		opts = {},
@@ -473,7 +526,28 @@ return {
 	{
 		"echasnovski/mini.surround",
 		version = false,
-		opts = {},
+		config = function()
+			require("mini.surround").setup({
+				mappings = {
+					add = "ys",
+					delete = "ds",
+					find = "",
+					find_left = "",
+					highlight = "",
+					replace = "cs",
+					update_n_lines = "",
+
+					-- Add this only if you don't want to use extended mappings
+					suffix_last = "",
+					suffix_next = "",
+				},
+				search_method = "cover_or_next",
+			})
+
+			-- Remap adding surrounding to Visual mode selection
+			-- vim.keymap.del("x", "ys")
+			-- vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+		end,
 	},
 	{
 		"echasnovski/mini.bracketed",
