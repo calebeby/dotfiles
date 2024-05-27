@@ -56,7 +56,7 @@ return {
 			},
 			{
 				"R",
-				mode = { "o", "x" },
+				mode = { "o" },
 				function()
 					require("flash").treesitter_search()
 				end,
@@ -440,9 +440,9 @@ return {
 	-- Colors/Themes
 	{
 		"folke/tokyonight.nvim",
-		-- config = function ()
-		--   vim.cmd[[colorscheme tokyonight]]
-		-- end
+		config = function()
+			vim.cmd([[colorscheme tokyonight-moon]])
+		end,
 	},
 	{
 		"echasnovski/mini.base16",
@@ -471,9 +471,9 @@ return {
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		config = function()
-			vim.cmd([[colorscheme kanagawa]])
-		end,
+		-- config = function()
+		-- 	vim.cmd([[colorscheme kanagawa]])
+		-- end,
 	},
 	{
 		"rose-pine/neovim",
