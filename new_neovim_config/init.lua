@@ -145,8 +145,8 @@ vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
 vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
 
 -- File tree
-vim.keymap.set("n", "<Leader>f", function()
+vim.keymap.set("n", "<Leader>e", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
-end, { remap = true })
+end, { remap = true, desc = "Open file explorer" })
 
 require("lazy").setup("plugins")
