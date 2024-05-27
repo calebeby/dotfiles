@@ -24,6 +24,10 @@ vim.api.nvim_create_autocmd("CursorHold", {
 	command = [[checktime]],
 })
 
+-- Mostly used for which-key but this also affects other things
+vim.opt.timeout = true
+vim.opt.timeoutlen = 100
+
 -- Don't show -- INSERT -- at the bottom (since there is statusline)
 vim.opt.showmode = false
 -- Hide ex mode (command line) when not in use
@@ -85,8 +89,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Use space as leader
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
 
 vim.o.foldcolumn = "0"
 vim.o.foldlevel = 99
@@ -95,10 +99,8 @@ vim.o.foldenable = true
 vim.o.foldtext = ""
 vim.o.fillchars = [[fold: ]]
 
-require("lazy").setup("plugins")
-
 -- Window mappings
-vim.keymap.set("n", "<Leader>w", "<c-w>")
+vim.keymap.set("n", "<Leader>w", "<c-w>", { desc = "Window commands", remap = true })
 vim.keymap.set("n", "<a-h>", "<c-w>h")
 vim.keymap.set("n", "<a-j>", "<c-w>j")
 vim.keymap.set("n", "<a-k>", "<c-w>k")
@@ -109,14 +111,14 @@ vim.keymap.set("t", "<a-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<a-l>", "<c-\\><c-n><c-w>l")
 
 -- Save file
-vim.keymap.set("n", "<Leader>s", ":write<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>s", ":write<CR>", { desc = "Save buffer", silent = true })
 
 -- Go to definition and similar
-vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { silent = true })
-vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { silent = true })
-vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { silent = true })
+vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { desc = "List references", silent = true })
+vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { desc = "List definitions", silent = true })
+vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { desc = "List type definitions", silent = true })
 
-vim.keymap.set("n", "<Leader>u", ":Telescope undo<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>u", ":Telescope undo<CR>", { desc = "Undo history", silent = true })
 
 -- Git
 vim.keymap.set("n", "<Leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
@@ -146,3 +148,5 @@ vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
 vim.keymap.set("n", "<Leader>f", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
 end, { remap = true })
+
+require("lazy").setup("plugins")

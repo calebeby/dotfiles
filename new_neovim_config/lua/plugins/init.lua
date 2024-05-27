@@ -28,7 +28,7 @@ return {
 	{
 		"echasnovski/mini.pairs",
 		version = false,
-		config = true,
+		opts = {},
 	},
 	{
 		"echasnovski/mini.statusline",
@@ -92,7 +92,7 @@ return {
 						else
 							gitsigns.nav_hunk("next")
 						end
-					end)
+					end, { desc = "Next hunk" })
 
 					map("n", "[c", function()
 						if vim.wo.diff then
@@ -100,7 +100,7 @@ return {
 						else
 							gitsigns.nav_hunk("prev")
 						end
-					end)
+					end, { desc = "Previous hunk" })
 
 					-- Actions
 					map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Stage hunk" })
@@ -115,12 +115,12 @@ return {
 					map("n", "<leader>hu", gitsigns.undo_stage_hunk, { desc = "Undo hunk staging" })
 					map("n", "<leader>hX", gitsigns.reset_buffer, { desc = "Reset buffer" })
 					map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Preview hunk" })
-					map("n", "<leader>hb", gitsigns.blame_line, { desc = "Show git blame for current line" })
-					map("n", "<leader>hd", gitsigns.diffthis, { desc = "Vimdiff unstaged changes in current file" })
+					map("n", "<leader>hb", gitsigns.blame_line, { desc = "Show git blame for line" })
+					map("n", "<leader>hd", gitsigns.diffthis, { desc = "Vimdiff unstaged changes in file" })
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")
-					end, { desc = "Vimdiff for uncommitted changes in current file" })
-					map("n", "<leader>td", gitsigns.toggle_deleted)
+					end, { desc = "Vimdiff uncommitted changes in file" })
+					map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Toggle showing unstaged deleted lines" })
 
 					-- Text object
 					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "hunk" })
@@ -132,10 +132,16 @@ return {
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		init = function()
-			vim.opt.timeout = true
-			vim.opt.timeoutlen = 300
+			local wk = require("which-key")
+			wk.register({
+				g = { name = "+git" },
+				h = { name = "+hunk" },
+				c = { name = "+context" },
+				k = { name = "+preferences" },
+				t = { name = "+toggle" },
+				x = { name = "+diagnostics" },
+			}, { prefix = "<Leader>" })
 		end,
-		opts = {},
 	},
 	{
 		-- Formatter
@@ -334,6 +340,7 @@ return {
 	{
 		"folke/trouble.nvim",
 		branch = "dev",
+		cmd = { "Trouble" },
 		keys = {
 			{
 				"<leader>xx",
@@ -449,15 +456,19 @@ return {
 	{
 		"Wansmer/treesj",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		keys = { "<Leader>m" },
-		config = function()
-			local treesj = require("treesj")
-			treesj.setup({
-				use_default_keymaps = false,
-				max_join_length = 250,
-			})
-			vim.keymap.set("n", "<Leader>m", treesj.toggle, { desc = "Toggle collapsed/expaned syntax (treesj)" })
-		end,
+		keys = {
+			{
+				"<Leader>m",
+				function()
+					require("treesj").toggle()
+				end,
+				desc = "Toggle syntax collapse/expand (treesj)",
+			},
+		},
+		opts = {
+			use_default_keymaps = false,
+			max_join_length = 250,
+		},
 	},
 	{
 		"echasnovski/mini.surround",
@@ -482,6 +493,9 @@ return {
 				},
 				language_config = {
 					norg = {
+						disabled = true,
+					},
+					markdown = {
 						disabled = true,
 					},
 					help = {
@@ -674,7 +688,6 @@ return {
 	},
 	{
 		"nvim-neorg/neorg",
-		build = ":Neorg sync-parsers",
 		dependencies = {
 			"vhyrro/luarocks.nvim",
 			"nvim-neorg/neorg-telescope",
@@ -715,6 +728,7 @@ return {
 						},
 					},
 					["core.export"] = {},
+					["core.itero"] = {},
 				},
 			})
 
