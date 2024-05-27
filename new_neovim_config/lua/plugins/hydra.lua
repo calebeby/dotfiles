@@ -2,7 +2,10 @@ return {
 	{
 		"nvimtools/hydra.nvim",
 		dependencies = {
-			"ziontee113/syntax-tree-surfer",
+			{
+				"ziontee113/syntax-tree-surfer",
+				dir = "~/Programming/calebeby/syntax-tree-surfer",
+			},
 		},
 		config = function()
 			local Hydra = require("hydra")
@@ -25,16 +28,16 @@ return {
 					{
 						"h",
 						function()
-							sts.surf("parent", "visual")
+							sts.surf("prev", "visual")
 						end,
-						{ desc = "Nav to parent node" },
+						{ desc = "Nav to previous node" },
 					},
 					{
 						"l",
 						function()
-							sts.surf("child", "visual")
+							sts.surf("next", "visual")
 						end,
-						{ desc = "Nav to child node" },
+						{ desc = "Nav to next node" },
 					},
 					{
 						"k",
@@ -49,6 +52,48 @@ return {
 							sts.surf("next", "visual")
 						end,
 						{ desc = "Nav to next node" },
+					},
+					{
+						"<CR>",
+						function()
+							sts.surf("child", "visual")
+						end,
+						{ desc = "Nav to child node" },
+					},
+					{
+						"<space>",
+						function()
+							sts.surf("parent", "visual")
+						end,
+						{ desc = "Nav to parent node" },
+					},
+					{
+						"H",
+						function()
+							sts.surf("prev", "visual", true)
+						end,
+						{ desc = "Move to previous node" },
+					},
+					{
+						"L",
+						function()
+							sts.surf("next", "visual", true)
+						end,
+						{ desc = "Move to next node" },
+					},
+					{
+						"K",
+						function()
+							sts.surf("prev", "visual", true)
+						end,
+						{ desc = "Move to previous node" },
+					},
+					{
+						"J",
+						function()
+							sts.surf("next", "visual", true)
+						end,
+						{ desc = "Move to next node" },
 					},
 				},
 			})
