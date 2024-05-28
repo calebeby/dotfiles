@@ -139,6 +139,9 @@ vim.keymap.set("i", "<a-down>", ":m .+1<CR>i", { silent = true })
 vim.keymap.set("v", "<a-up>", ":m '<-2<CR>gv", { silent = true })
 vim.keymap.set("v", "<a-down>", ":m '>+1<CR>gv", { silent = true, remap = true })
 
+-- Delete the word before the cursor (ctrl-w does this by default)
+vim.keymap.set("i", "<c-BS>", "<C-W>")
+
 -- Comment toggles
 vim.keymap.set("n", "<c-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
