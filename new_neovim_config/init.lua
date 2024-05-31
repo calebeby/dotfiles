@@ -99,6 +99,13 @@ vim.o.foldenable = true
 vim.o.foldtext = ""
 vim.o.fillchars = [[fold: ]]
 
+vim.filetype.add({
+	extension = {
+		djot = "djot",
+		dj = "djot",
+	},
+})
+
 -- Window mappings
 vim.keymap.set("n", "<Leader>w", "<c-w>", { desc = "Window commands", remap = true })
 vim.keymap.set("n", "<a-h>", "<c-w>h")
