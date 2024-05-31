@@ -51,6 +51,9 @@ vim.opt.undofile = true
 -- Use system clipboard (requires xsel)
 vim.opt.clipboard = "unnamedplus"
 
+vim.wo.foldlevel = 99
+vim.wo.conceallevel = 2
+
 -- New windows down and to the right
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -137,6 +140,7 @@ vim.keymap.set("n", "<Leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit
 vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { desc = "Select colorscheme", silent = true })
 
 vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { desc = "Select file to open", silent = true })
+vim.keymap.set("n", "<leader>i", ":Telescope zk notes<CR>", { desc = "Select note to open", silent = true })
 
 -- alt-up alt-down for moving lines up or down
 vim.keymap.set("n", "<a-up>", ":m .-2<CR>", { silent = true })

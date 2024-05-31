@@ -7,6 +7,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
 			"natecraddock/telescope-zf-native.nvim",
+			"zk-org/zk-nvim",
 		},
 		config = function()
 			-- Exclude built-in themes from telescppe colorscheme chooser
@@ -46,6 +47,7 @@ return {
 
 			require("telescope").load_extension("undo")
 			require("telescope").load_extension("zf-native")
+			require("telescope").load_extension("zk")
 		end,
 	},
 }

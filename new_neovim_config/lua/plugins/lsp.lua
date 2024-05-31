@@ -42,6 +42,7 @@ return {
 						"biome",
 						"typst-lsp",
 						"stylua",
+						"marksman",
 					},
 					auto_update = true,
 				},
@@ -63,10 +64,16 @@ return {
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
 			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "tsserver" },
+				ensure_installed = { "rust_analyzer", "tsserver", "marksman" },
 				handlers = {
 					function(server_name)
 						lspconfig[server_name].setup({ capabilities = capabilities })
+					end,
+					marksman = function()
+						lspconfig.marksman.setup({
+							capabilities = capabilities,
+							filetypes = { "markdown", "djot" },
+						})
 					end,
 					lua_ls = function()
 						lspconfig.lua_ls.setup({
@@ -195,7 +202,6 @@ return {
 	},
 	{
 		"folke/trouble.nvim",
-		branch = "dev",
 		cmd = { "Trouble" },
 		keys = {
 			{

@@ -33,18 +33,11 @@ return {
 					max_length = 50,
 				},
 				language_config = {
-					norg = {
-						disabled = true,
-					},
-					markdown = {
-						disabled = true,
-					},
-					help = {
-						disabled = true,
-					},
-					vimdoc = {
-						disabled = true,
-					},
+					norg = { disabled = true },
+					markdown = { disabled = true },
+					djot = { disabled = true },
+					help = { disabled = true },
+					vimdoc = { disabled = true },
 				},
 			})
 			highlight_hook(function()

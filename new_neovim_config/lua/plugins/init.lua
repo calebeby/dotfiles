@@ -185,79 +185,18 @@ return {
 		end,
 	},
 	{
-		"vhyrro/luarocks.nvim",
-		lazy = true,
-		opts = {
-			rocks = { "magick" },
-		},
-	},
-	{
-		"nvim-neorg/neorg",
-		dependencies = {
-			"vhyrro/luarocks.nvim",
-			"nvim-neorg/neorg-telescope",
+		"nvim-pack/nvim-spectre",
+		build = false,
+		cmd = "Spectre",
+		opts = { open_cmd = "noswapfile vnew" },
+		keys = {
 			{
-				"3rd/image.nvim",
-				dependencies = { "vhyrro/luarocks.nvim" },
-				config = true,
+				"<leader>sr",
+				function()
+					require("spectre").open()
+				end,
+				desc = "Replace in Files (Spectre)",
 			},
 		},
-		version = "*",
-		ft = "norg",
-		cmd = { "Neorg" },
-		config = function()
-			require("telescope").load_extension("neorg")
-
-			require("neorg").setup({
-				load = {
-					["core.defaults"] = {},
-					["core.completion"] = {
-						config = {
-							engine = "nvim-cmp",
-						},
-					},
-					["core.concealer"] = {},
-					["core.dirman"] = {
-						config = {
-							workspaces = {
-								["test-neorg"] = "~/test-neorg",
-							},
-							default_workspace = "test-neorg",
-						},
-					},
-					["core.integrations.image"] = {},
-					["core.integrations.telescope"] = {},
-					["core.latex.renderer"] = {
-						config = {
-							render_on_enter = true,
-						},
-					},
-					["core.export"] = {},
-					["core.itero"] = {},
-					["core.ui.calendar"] = {},
-				},
-			})
-
-			vim.wo.foldlevel = 99
-			vim.wo.conceallevel = 2
-
-			local neorg_callbacks = require("neorg.core.callbacks")
-
-			neorg_callbacks.on_event("core.keybinds.events.enable_keybinds", function(_, keybinds)
-				-- Map all the below keybinds only when the "norg" mode is active
-				keybinds.map_event_to_mode("norg", {
-					n = { -- Bind keys in normal mode
-						{ "<C-s>", "core.integrations.telescope.find_linkable" },
-					},
-
-					i = { -- Bind in insert mode
-						{ "<C-l>", "core.integrations.telescope.insert_link" },
-					},
-				}, {
-					silent = true,
-					noremap = true,
-				})
-			end)
-		end,
 	},
 }
