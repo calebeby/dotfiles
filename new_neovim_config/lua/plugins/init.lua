@@ -11,11 +11,11 @@ return {
 		version = "*",
 		opts = {
 			mappings = {
-				close = "<ESC>",
+				close = "q",
 				go_in = "l",
-				go_in_plus = "<CR>",
+				go_in_plus = "<CR>", -- automatically close after selecting a file
 				go_out = "h",
-				go_out_plus = "H",
+				go_out_plus = "<ESC>",
 				reset = "<BS>",
 				reveal_cwd = "@",
 				show_help = "?",
