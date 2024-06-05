@@ -119,7 +119,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set({ "n", "x" }, "$", "g$", { buffer = true })
 
 		vim.opt_local.linebreak = true
-		vim.opt_local.textwidth = 120 -- Auto-insert line breaks in typed text (while typing in insert mode)
+		vim.opt_local.textwidth = 100 -- Auto-insert line breaks in typed text (while typing in insert mode)
 		vim.opt_local.showbreak = "→ "
 		vim.opt_local.breakindent = true
 	end,

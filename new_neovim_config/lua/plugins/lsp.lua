@@ -167,12 +167,12 @@ return {
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
-					{ name = "neorg" },
 				}, {
 					{
 						name = "buffer",
 						keyword_length = 4,
 					},
+					{ name = "path" },
 				}, {
 					{
 						name = "look",

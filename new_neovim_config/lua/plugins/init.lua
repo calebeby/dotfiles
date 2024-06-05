@@ -215,7 +215,7 @@ return {
 		opts = {
 			window = {
 				backdrop = 0.55,
-				width = 80,
+				width = 100,
 				options = {
 					signcolumn = "no",
 					number = false,
@@ -233,7 +233,7 @@ return {
 				},
 				kitty = {
 					enabled = true,
-					font = "+2",
+					font = "+1",
 				},
 			},
 		},
