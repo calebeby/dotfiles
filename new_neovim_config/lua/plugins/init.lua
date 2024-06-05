@@ -199,4 +199,43 @@ return {
 			},
 		},
 	},
+	{
+		"chomosuke/typst-preview.nvim",
+		ft = "typst",
+		version = "0.3.*",
+		opts = {
+			open_cmd = "google-chrome --app=%s >/dev/null 2>&1",
+		},
+		build = function()
+			require("typst-preview").update()
+		end,
+	},
+	{
+		"folke/zen-mode.nvim",
+		opts = {
+			window = {
+				backdrop = 0.55,
+				width = 80,
+				options = {
+					signcolumn = "no",
+					number = false,
+					relativenumber = false,
+					cursorline = false,
+					cursorcolumn = false,
+					foldcolumn = "0",
+					list = false,
+				},
+			},
+			plugins = {
+				options = {
+					enabled = true,
+					laststatus = 0, -- turn off the statusline in zen mode
+				},
+				kitty = {
+					enabled = true,
+					font = "+2",
+				},
+			},
+		},
+	},
 }

@@ -64,7 +64,7 @@ return {
 			require("mason").setup()
 			local lspconfig = require("lspconfig")
 			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "tsserver", "marksman" },
+				ensure_installed = { "rust_analyzer", "tsserver", "marksman", "typst_lsp" },
 				handlers = {
 					function(server_name)
 						lspconfig[server_name].setup({ capabilities = capabilities })

@@ -109,6 +109,22 @@ vim.filetype.add({
 	},
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "typst",
+	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),
+	callback = function()
+		vim.keymap.set({ "n", "x" }, "j", "gj", { buffer = true })
+		vim.keymap.set({ "n", "x" }, "k", "gk", { buffer = true })
+		vim.keymap.set({ "n", "x" }, "0", "g0", { buffer = true })
+		vim.keymap.set({ "n", "x" }, "$", "g$", { buffer = true })
+
+		vim.opt_local.linebreak = true
+		vim.opt_local.textwidth = 120 -- Auto-insert line breaks in typed text (while typing in insert mode)
+		vim.opt_local.showbreak = "→ "
+		vim.opt_local.breakindent = true
+	end,
+})
+
 -- Window mappings
 vim.keymap.set("n", "<Leader>w", "<c-w>", { desc = "Window commands", remap = true })
 vim.keymap.set("n", "<a-h>", "<c-w>h")

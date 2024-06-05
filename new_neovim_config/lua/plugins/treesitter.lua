@@ -38,6 +38,7 @@ return {
 					djot = { disabled = true },
 					help = { disabled = true },
 					vimdoc = { disabled = true },
+					typst = { disabled = true },
 				},
 			})
 			highlight_hook(function()
