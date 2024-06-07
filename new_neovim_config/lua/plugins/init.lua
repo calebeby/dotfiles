@@ -54,14 +54,14 @@ return {
 				end,
 				desc = "Remote (Flash)",
 			},
-			{
-				"R",
-				mode = { "o" },
-				function()
-					require("flash").treesitter_search()
-				end,
-				desc = "TS node (Flash)",
-			},
+			-- {
+			-- 	"R", -- Keybinding conflicts with substitute.nvim
+			-- 	mode = { "o" },
+			-- 	function()
+			-- 		require("flash").treesitter_search()
+			-- 	end,
+			-- 	desc = "TS node (Flash)",
+			-- },
 			{
 				"<c-s>",
 				mode = { "c" },
@@ -81,18 +81,6 @@ return {
 	{
 		"echasnovski/mini.pairs",
 		version = false,
-		opts = {},
-	},
-	{
-		"echasnovski/mini.statusline",
-		version = "*",
-		opts = {
-			set_vim_settings = false,
-		},
-	},
-	{
-		"echasnovski/mini.tabline",
-		version = "*",
 		opts = {},
 	},
 	{
@@ -191,11 +179,11 @@ return {
 		opts = { open_cmd = "noswapfile vnew" },
 		keys = {
 			{
-				"<leader>sr",
+				"<leader>F",
 				function()
 					require("spectre").open()
 				end,
-				desc = "Replace in Files (Spectre)",
+				desc = "Find/Replace in Files (Spectre)",
 			},
 		},
 	},
@@ -212,6 +200,14 @@ return {
 	},
 	{
 		"folke/zen-mode.nvim",
+		keys = {
+			{
+				"<leader>z",
+				":ZenMode<CR>",
+				desc = "Toggle Zen Mode",
+			},
+		},
+		cmd = "ZenMode",
 		opts = {
 			window = {
 				backdrop = 0.55,
@@ -233,7 +229,7 @@ return {
 				},
 				kitty = {
 					enabled = true,
-					font = "+1",
+					font = "+3",
 				},
 			},
 		},

@@ -110,7 +110,7 @@ vim.filetype.add({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "typst",
+	pattern = { "typst", "markdown", "djot" },
 	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),
 	callback = function()
 		vim.keymap.set({ "n", "x" }, "j", "gj", { buffer = true })
@@ -137,7 +137,7 @@ vim.keymap.set("t", "<a-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<a-l>", "<c-\\><c-n><c-w>l")
 
 -- Save file
-vim.keymap.set("n", "<Leader>s", ":write<CR>", { desc = "Save buffer", silent = true })
+vim.keymap.set("n", "<Leader>s", ":silent write<CR>", { desc = "Save buffer", silent = true })
 
 -- Go to definition and similar
 vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { desc = "List references", silent = true })
@@ -179,4 +179,9 @@ vim.keymap.set("n", "<Leader>e", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
 end, { remap = true, desc = "Open file explorer" })
 
-require("lazy").setup("plugins")
+require("lazy").setup("plugins", {
+	change_detection = {
+		notify = false,
+		enabled = false,
+	},
+})
