@@ -68,7 +68,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 -- Guide for max line width
-vim.opt.colorcolumn = { 80 }
+vim.opt.colorcolumn = { 80, 100, 120 }
 
 -- Guide for max line width
 vim.opt.signcolumn = "number"
