@@ -7,7 +7,12 @@ return {
 			"sindrets/diffview.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
-		config = true,
+		opts = {
+			graph_style = "unicode",
+			integrations = {
+				telescope = false, -- Use vim.ui.select, which is set to telescope by dressing.nvim
+			},
+		},
 	},
 	{
 		"sindrets/diffview.nvim",
