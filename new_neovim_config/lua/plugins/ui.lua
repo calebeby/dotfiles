@@ -382,7 +382,7 @@ return {
 									end,
 								},
 								hl = function(self)
-									return { bg = "mode_" .. self.mode, fg = colors.normal_bg, bold = true }
+									return { bg = "mode_" .. self.mode, fg = "normal_bg", bold = true }
 								end,
 							}
 						),
