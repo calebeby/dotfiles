@@ -74,6 +74,7 @@ return {
 					"zig",
 					"lua",
 					"vim",
+					"vimdoc",
 					"yaml",
 					"bash",
 					"sql",
