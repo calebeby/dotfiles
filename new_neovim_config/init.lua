@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 
 -- Mostly used for which-key but this also affects other things
 vim.opt.timeout = true
-vim.opt.timeoutlen = 100
+vim.opt.timeoutlen = 200
 
 -- Don't show -- INSERT -- at the bottom (since there is statusline)
 vim.opt.showmode = false
