@@ -8,6 +8,7 @@ return {
 	"nvim-tree/nvim-web-devicons",
 	{
 		"echasnovski/mini.files",
+		event = "VeryLazy",
 		version = "*",
 		opts = {
 			mappings = {
@@ -28,7 +29,6 @@ return {
 	{
 		-- Motion plugin like leap/sneak/easymotion/lightspeed/hop
 		"folke/flash.nvim",
-		event = "VeryLazy",
 		keys = {
 			{
 				"s",
@@ -80,6 +80,7 @@ return {
 	},
 	{
 		"echasnovski/mini.pairs",
+		event = "VeryLazy",
 		version = false,
 		opts = {},
 	},
@@ -100,6 +101,7 @@ return {
 	},
 	{
 		"echasnovski/mini.surround",
+		event = "VeryLazy",
 		version = false,
 		config = function()
 			require("mini.surround").setup({
@@ -123,6 +125,7 @@ return {
 	},
 	{
 		"echasnovski/mini.bracketed",
+		event = "VeryLazy",
 		version = "*",
 		opts = {},
 	},
@@ -138,6 +141,7 @@ return {
 	{
 		-- Highlight word/keyword under cursor
 		"RRethy/vim-illuminate",
+		event = "VeryLazy",
 		config = function()
 			require("illuminate").configure({
 				delay = 10,
@@ -153,6 +157,7 @@ return {
 	{
 		-- Briefly highlight where cursor is after big jumps
 		"danilamihailov/beacon.nvim",
+		event = "VeryLazy",
 		config = function()
 			vim.g.beacon_timeout = 200
 			highlight_hook(function()
@@ -164,12 +169,35 @@ return {
 		-- Paste over text (replace)
 		-- Modern alternative to vim-scripts/ReplaceWithRegister
 		"gbprod/substitute.nvim",
+		keys = {
+			{
+				"R",
+				mode = { "n" },
+				function()
+					require("substitute").operator()
+				end,
+				desc = "Replace operator",
+			},
+			{
+				"RR",
+				mode = { "n" },
+				function()
+					require("substitute").line()
+				end,
+				desc = "Replace current line",
+			},
+			{
+				"R",
+				mode = { "x" },
+				function()
+					require("substitute").visual()
+				end,
+				desc = "Replace selection",
+			},
+		},
 		config = function()
 			local sub = require("substitute")
 			sub.setup({ highlight_substituted_text = { enabled = false } })
-			vim.keymap.set("n", "R", sub.operator, { noremap = true })
-			vim.keymap.set("n", "RR", sub.line, { noremap = true })
-			vim.keymap.set("x", "R", sub.visual, { noremap = true })
 		end,
 	},
 	{

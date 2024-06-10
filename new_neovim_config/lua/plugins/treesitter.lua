@@ -24,6 +24,7 @@ return {
 	{
 		-- Little hint next to closing brackets showing what they correspond to
 		"code-biscuits/nvim-biscuits",
+		event = "VeryLazy",
 		dependencies = { "nvim-treesitter" },
 		config = function()
 			require("nvim-biscuits").setup({

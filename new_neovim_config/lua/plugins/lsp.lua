@@ -29,26 +29,28 @@ return {
 		end,
 	},
 	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		event = "VeryLazy",
+		dependencies = { "williamboman/mason.nvim" },
+		opts = {
+			ensure_installed = {
+				"prettier",
+				"prettierd",
+				"biome",
+				"typst-lsp",
+				"typstfmt",
+				"stylua",
+				"marksman",
+			},
+			auto_update = true,
+		},
+	},
+	{
 		"neovim/nvim-lspconfig",
+		event = "VeryLazy",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			{
-				"WhoIsSethDaniel/mason-tool-installer.nvim",
-				event = "VeryLazy",
-				opts = {
-					ensure_installed = {
-						"prettier",
-						"prettierd",
-						"biome",
-						"typst-lsp",
-						"typstfmt",
-						"stylua",
-						"marksman",
-					},
-					auto_update = true,
-				},
-			},
 		},
 		config = function()
 			vim.diagnostic.config({

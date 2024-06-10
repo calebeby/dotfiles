@@ -1,9 +1,9 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		config = function()
-			vim.cmd([[colorscheme tokyonight-moon]])
-		end,
+		-- config = function()
+		-- 	vim.cmd([[colorscheme tokyonight-moon]])
+		-- end,
 	},
 	{
 		"echasnovski/mini.base16",
@@ -39,15 +39,15 @@ return {
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
-		-- config = function ()
-		--   vim.cmd[[colorscheme rose-pine-main]]
-		-- end
+		-- config = function()
+		-- 	vim.cmd([[colorscheme rose-pine-main]])
+		-- end,
 	},
 	{
 		"EdenEast/nightfox.nvim",
-		-- config = function()
-		-- 	vim.cmd([[colorscheme duskfox]])
-		-- end,
+		config = function()
+			vim.cmd([[colorscheme duskfox]])
+		end,
 	},
 	{
 		"sainnhe/everforest",
