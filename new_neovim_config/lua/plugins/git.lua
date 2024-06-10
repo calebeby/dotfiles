@@ -12,6 +12,12 @@ return {
 			integrations = {
 				telescope = false, -- Use vim.ui.select, which is set to telescope by dressing.nvim
 			},
+			signs = {
+				-- { CLOSED, OPENED }
+				hunk = { "", "" },
+				item = { "", "" },
+				section = { "", "" },
+			},
 		},
 	},
 	{
