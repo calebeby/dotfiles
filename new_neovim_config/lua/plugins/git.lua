@@ -12,6 +12,12 @@ return {
 			integrations = {
 				telescope = false, -- Use vim.ui.select, which is set to telescope by dressing.nvim
 			},
+			sections = {
+				-- I prefer to show them in the recent commits view
+				unmerged_upstream = {
+					hidden = true,
+				},
+			},
 			signs = {
 				-- { CLOSED, OPENED }
 				hunk = { "", "" },
