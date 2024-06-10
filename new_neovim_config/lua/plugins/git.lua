@@ -92,4 +92,14 @@ return {
 			})
 		end,
 	},
+	{
+		"FabijanZulj/blame.nvim",
+		cmd = "BlameToggle",
+		config = function()
+			require("blame").setup({
+				merge_consecutive = true,
+				format_fn = require("blame.formats.default_formats").date_message,
+			})
+		end,
+	},
 }
