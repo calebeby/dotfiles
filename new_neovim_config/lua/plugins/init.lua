@@ -253,7 +253,7 @@ return {
 			plugins = {
 				options = {
 					enabled = true,
-					laststatus = 0, -- turn off the statusline in zen mode
+					laststatus = 0,
 				},
 				kitty = {
 					enabled = true,
@@ -261,5 +261,21 @@ return {
 				},
 			},
 		},
+	},
+	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		cmd = "ToggleTerm",
+		keys = {
+			{
+				"<c-`>",
+				mode = { "n", "t" },
+				function()
+					require("toggleterm").toggle_command("direction=float")
+				end,
+				desc = "Toggle Terminal",
+			},
+		},
+		opts = {},
 	},
 }
