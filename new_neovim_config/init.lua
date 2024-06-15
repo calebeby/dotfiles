@@ -122,6 +122,8 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.textwidth = 100 -- Auto-insert line breaks in typed text (while typing in insert mode)
 		vim.opt_local.showbreak = "→ "
 		vim.opt_local.breakindent = true
+		vim.opt_local.spelllang = "en_us"
+		vim.opt_local.spell = true
 	end,
 })
 
