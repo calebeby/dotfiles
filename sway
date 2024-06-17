@@ -44,6 +44,9 @@ bindsym $mod+i exec firefox
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Toggle dark mode
+bindsym $mod+d exec ~/dotfiles/scripts/toggle-dark-mode.sh
+
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec ~/dotfiles/scripts/brightness-increase.sh
 bindsym XF86MonBrightnessDown exec ~/dotfiles/scripts/brightness-decrease.sh
