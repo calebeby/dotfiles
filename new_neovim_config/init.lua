@@ -24,6 +24,8 @@ vim.api.nvim_create_autocmd("CursorHold", {
 	command = [[checktime]],
 })
 
+vim.opt.spelllang = "en_us"
+
 -- Mostly used for which-key but this also affects other things
 vim.opt.timeout = true
 vim.opt.timeoutlen = 200
@@ -136,7 +138,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.textwidth = 100 -- Auto-insert line breaks in typed text (while typing in insert mode)
 		vim.opt_local.showbreak = "→ "
 		vim.opt_local.breakindent = true
-		vim.opt_local.spelllang = "en_us"
 		vim.opt_local.spell = true
 	end,
 })
@@ -152,6 +153,53 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.cmd("bd")
 	end,
 })
+
+vim.keymap.set("n", "<leader>a", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local params = vim.lsp.util.make_range_params()
+
+	params.context = {
+		triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
+		diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+	}
+	local lsp_clients = vim.lsp.buf_get_clients()
+	local supports_code_action = false
+	for k, client in pairs(lsp_clients) do
+		if client.server_capabilities.codeActionProvider then
+			supports_code_action = true
+		end
+	end
+
+	local spellsuggest = function()
+		if vim.o.spell then
+			vim.fn.feedkeys("z=")
+		end
+	end
+
+	if supports_code_action then
+		local bufnr = vim.api.nvim_get_current_buf()
+		local params = vim.lsp.util.make_range_params()
+
+		params.context = {
+			triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
+			diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+		}
+
+		vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(error, results, context, config)
+			local has_action = false
+			for k, action in pairs(results) do
+				has_action = true
+			end
+			if has_action then
+				vim.lsp.buf.code_action()
+			else
+				spellsuggest()
+			end
+		end)
+	else
+		spellsuggest()
+	end
+end)
 
 -- Window mappings
 vim.keymap.set("n", "<Leader>w", "<c-w>", { desc = "Window commands", remap = true })
@@ -201,6 +249,8 @@ vim.keymap.set("i", "<c-BS>", "<C-W>")
 vim.keymap.set("n", "<c-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
 vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
+
+vim.keymap.set("n", "<CR>", "r<CR>")
 
 -- File tree
 vim.keymap.set("n", "<Leader>e", function()
