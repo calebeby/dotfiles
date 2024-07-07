@@ -106,6 +106,12 @@ vim.filetype.add({
 	extension = {
 		djot = "djot",
 		dj = "djot",
+		docx = "docx",
+		doc = "doc",
+		pptx = "pptx",
+		ppt = "ppt",
+		xls = "xls",
+		xlsx = "xlsx",
 	},
 })
 
@@ -124,6 +130,18 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.breakindent = true
 		vim.opt_local.spelllang = "en_us"
 		vim.opt_local.spell = true
+	end,
+})
+
+vim.g.zipPlugin_ext =
+	"*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub"
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx" },
+	group = vim.api.nvim_create_augroup("binary_files_external", { clear = true }),
+	callback = function()
+		vim.cmd("silent !xdg-open '%:p' & disown")
+		vim.cmd("bd")
 	end,
 })
 
