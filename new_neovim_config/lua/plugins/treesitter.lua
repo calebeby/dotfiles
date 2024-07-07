@@ -71,7 +71,6 @@ return {
 					"json",
 					"astro",
 					"markdown",
-					"zig",
 					"lua",
 					"vim",
 					"vimdoc",
