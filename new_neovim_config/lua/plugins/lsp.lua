@@ -21,6 +21,7 @@ return {
 				typescript = { { "prettierd", "prettier" } },
 				rust = { "rustfmt" },
 				typst = { "typstfmt" },
+				zig = { "zigfmt" },
 			},
 			format_on_save = { timeout_ms = 500, lsp_fallback = true },
 		},
@@ -41,17 +42,19 @@ return {
 				"typstfmt",
 				"stylua",
 				"marksman",
+				"denols",
 			},
 			auto_update = true,
 		},
 	},
 	{
-		"neovim/nvim-lspconfig",
+		"williamboman/mason.nvim",
 		event = "VeryLazy",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-		},
+		opts = {},
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		event = "FileType",
 		config = function()
 			vim.diagnostic.config({
 				signs = {
@@ -65,10 +68,9 @@ return {
 			})
 
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			require("mason").setup()
 			local lspconfig = require("lspconfig")
 			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "tsserver", "marksman", "typst_lsp" },
+				ensure_installed = { "rust_analyzer", "tsserver", "marksman", "typst_lsp", "zls", "denols" },
 				handlers = {
 					function(server_name)
 						lspconfig[server_name].setup({ capabilities = capabilities })
@@ -104,6 +106,46 @@ return {
 							},
 						})
 					end,
+					denols = function()
+						lspconfig.denols.setup({
+							capabilities = capabilities,
+							root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+							init_options = {
+								lint = true,
+								unstable = true,
+								suggest = {
+									imports = {
+										hosts = {
+											["https://deno.land"] = true,
+										},
+									},
+								},
+							},
+						})
+					end,
+					tsserver = function()
+						lspconfig.tsserver.setup({
+							capabilities = capabilities,
+							on_attach = function(client, bufnr)
+								on_attach(client, bufnr)
+								vim.keymap.set("n", "<leader>ro", function()
+									vim.lsp.buf.execute_command({
+										command = "_typescript.organizeImports",
+										arguments = { vim.fn.expand("%:p") },
+									})
+								end, { buffer = bufnr, remap = false })
+							end,
+							root_dir = function(filename, bufnr)
+								local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.json")(filename)
+								if denoRootDir then
+									return nil
+								end
+
+								return lspconfig.util.root_pattern("package.json")(filename)
+							end,
+							single_file_support = false,
+						})
+					end,
 				},
 			})
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -112,10 +154,13 @@ return {
 					vim.api.nvim_buf_set_keymap(0, "n", "gk", "<cmd>lua vim.diagnostic.goto_prev()<CR>", {})
 					vim.api.nvim_buf_set_keymap(0, "n", "gj", "<cmd>lua vim.diagnostic.goto_next()<CR>", {})
 					vim.api.nvim_buf_set_keymap(0, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {})
-					vim.api.nvim_buf_set_keymap(0, "n", "<leader>a", "<cmd>lua vim.lsp.buf.code_action()<CR>", {})
 				end,
 			})
 		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		event = "VeryLazy",
 	},
 	{
 		"hrsh7th/nvim-cmp",
