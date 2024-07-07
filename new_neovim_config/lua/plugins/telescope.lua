@@ -6,7 +6,10 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"debugloop/telescope-undo.nvim",
-			"natecraddock/telescope-zf-native.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+			},
 			"zk-org/zk-nvim",
 		},
 		config = function()
@@ -46,7 +49,7 @@ return {
 			})
 
 			require("telescope").load_extension("undo")
-			require("telescope").load_extension("zf-native")
+			require("telescope").load_extension("fzf")
 			require("telescope").load_extension("zk")
 		end,
 	},
