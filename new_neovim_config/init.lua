@@ -116,6 +116,14 @@ vim.filetype.add({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "typst" },
+	group = vim.api.nvim_create_augroup("FtOptions", {}),
+	callback = function()
+		vim.opt_local.commentstring = "// %s"
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "typst", "markdown", "djot" },
 	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),
 	callback = function()
