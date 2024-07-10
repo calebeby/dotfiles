@@ -201,18 +201,33 @@ return {
 		end,
 	},
 	{
-		"nvim-pack/nvim-spectre",
-		build = false,
-		cmd = "Spectre",
-		opts = { open_cmd = "noswapfile vnew" },
+		"MagicDuck/grug-far.nvim",
 		keys = {
 			{
 				"<leader>F",
 				function()
-					require("spectre").open()
+					require("grug-far").grug_far({})
 				end,
-				desc = "Find/Replace in Files (Spectre)",
+				desc = "Find/Replace in Project",
 			},
+			{
+				"<c-f>",
+				function()
+					require("grug-far").grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+				end,
+				desc = "Find/Replace in Project (word under cursor)",
+			},
+			{
+				"<c-f>",
+				mode = { "v" },
+				function()
+					require("grug-far").with_visual_selection({})
+				end,
+				desc = "Find/Replace in Project (selection)",
+			},
+		},
+		opts = {
+			debounceMs = 50,
 		},
 	},
 	{
