@@ -1,4 +1,5 @@
 {
+  "auto-session": { "branch": "main", "commit": "d5f5c186e2da4266daa5487716b13ed702731b4a" },
   "beacon.nvim": { "branch": "master", "commit": "098ff96c33874339d5e61656f3050dbd587d6bd5" },
   "blame.nvim": { "branch": "main", "commit": "dedbcdce857f708c63f261287ac7491a893912d0" },
   "cmp-buffer": { "branch": "main", "commit": "3022dbc9166796b644a841a02de8dd1cc1d311fa" },

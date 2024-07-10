@@ -293,4 +293,20 @@ return {
 		},
 		opts = {},
 	},
+	{
+		"rmagatti/auto-session",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+		},
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = {},
+				session_lens = {},
+			})
+			vim.keymap.set("n", "<leader>O", require("auto-session.session-lens").search_session, {
+				noremap = true,
+			}, { desc = "Open project" })
+		end,
+	},
 }
