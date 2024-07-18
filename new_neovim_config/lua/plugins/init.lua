@@ -8,7 +8,6 @@ return {
 	"nvim-tree/nvim-web-devicons",
 	{
 		"echasnovski/mini.files",
-		event = "VeryLazy",
 		version = "*",
 		opts = {
 			mappings = {
