@@ -9,21 +9,51 @@ return {
 	{
 		"echasnovski/mini.files",
 		version = "*",
-		opts = {
-			mappings = {
-				close = "q",
-				go_in = "l",
-				go_in_plus = "<CR>", -- automatically close after selecting a file
-				go_out = "h",
-				go_out_plus = "<ESC>",
-				reset = "<BS>",
-				reveal_cwd = "@",
-				show_help = "?",
-				synchronize = "=",
-				trim_left = "<",
-				trim_right = ">",
-			},
-		},
+		config = function()
+			require("mini.files").setup({
+				mappings = {
+					close = "q",
+					go_in = "l",
+					go_in_plus = "<CR>", -- automatically close after selecting a file
+					go_out = "h",
+					go_out_plus = "<ESC>",
+					reset = "<BS>",
+					reveal_cwd = "@",
+					show_help = "?",
+					synchronize = "=",
+					trim_left = "<",
+					trim_right = ">",
+				},
+			})
+
+			local show_dotfiles = true
+
+			local filter_show = function(fs_entry)
+				return true
+			end
+
+			local filter_hide = function(fs_entry)
+				return not vim.startswith(fs_entry.name, ".")
+			end
+
+			local toggle_dotfiles = function()
+				show_dotfiles = not show_dotfiles
+				local new_filter = show_dotfiles and filter_show or filter_hide
+				MiniFiles.refresh({ content = { filter = new_filter } })
+			end
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniFilesBufferCreate",
+				callback = function(args)
+					local buf_id = args.data.buf_id
+					-- Tweak left-hand side of mapping to your liking
+					vim.keymap.set("n", "g.", toggle_dotfiles, {
+						buffer = buf_id,
+						desc = "Toggle dotfiles",
+					})
+				end,
+			})
+		end,
 	},
 	{
 		-- Motion plugin like leap/sneak/easymotion/lightspeed/hop
