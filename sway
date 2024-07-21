@@ -70,6 +70,7 @@ bindsym Shift+$mod+Print exec ~/dotfiles/scripts/grimshot.sh save window
 bindsym $mod+Return exec kitty
 
 bindsym $mod+x exec nautilus ~/Downloads/tmp
+bindsym $mod+c exec kitty --hold fish -c "nn ~/Downloads/tmp"
 
 # lock
 bindsym $mod+m exec swaylock -i ~/dotfiles/wallpapers/ocean.jpg
