@@ -233,7 +233,7 @@ return {
 		"MagicDuck/grug-far.nvim",
 		keys = {
 			{
-				"<leader>F",
+				"<leader>f",
 				function()
 					require("grug-far").grug_far({})
 				end,
@@ -257,6 +257,10 @@ return {
 		},
 		opts = {
 			debounceMs = 50,
+			startInInsertMode = false,
+			keymaps = {
+				close = { n = "q", desc = "Quit" },
+			},
 		},
 	},
 	{
