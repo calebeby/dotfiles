@@ -106,6 +106,11 @@ vim.o.fillchars = [[fold: ]]
 
 vim.filetype.add({
 	extension = {
+		png = "image",
+		jpg = "image",
+		jpeg = "image",
+		webp = "image",
+		avif = "image",
 		djot = "djot",
 		dj = "djot",
 		docx = "docx",
@@ -114,12 +119,15 @@ vim.filetype.add({
 		ppt = "ppt",
 		xls = "xls",
 		xlsx = "xlsx",
+		odt = "odt",
+		ods = "ods",
+		odp = "odp",
 	},
 })
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "typst" },
-	group = vim.api.nvim_create_augroup("FtOptions", {}),
+	group = vim.api.nvim_create_augroup("typstoptions", {}),
 	callback = function()
 		vim.opt_local.commentstring = "// %s"
 	end,
@@ -146,11 +154,14 @@ vim.g.zipPlugin_ext =
 	"*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub"
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx" },
+	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx", "image", "odt", "ods", "odp" },
 	group = vim.api.nvim_create_augroup("binary_files_external", { clear = true }),
 	callback = function()
-		vim.cmd("silent !xdg-open '%:p' & disown")
-		vim.cmd("bd")
+		-- Delete this buffer automatically when it is hidden (not shown in a window)
+		vim.opt_local.bufhidden = "delete"
+		vim.system({ "xdg-open", vim.fn.expand("%:p") }, { detach = true })
+		-- Go back to previous file
+		vim.cmd([[exec "normal!\<c-o>"]])
 	end,
 })
 
