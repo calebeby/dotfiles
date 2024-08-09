@@ -133,6 +133,14 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("termoptions", {}),
+	callback = function()
+		vim.opt_local.relativenumber = false
+		vim.opt_local.number = false
+	end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "typst", "markdown", "djot" },
 	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),
