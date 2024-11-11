@@ -121,6 +121,7 @@ return {
 			wk.add({
 				{ "<Leader>c", group = "context" },
 				{ "<Leader>d", group = "harpoon" },
+				{ "<Leader>S", group = "snippets" },
 				{ "<Leader>g", group = "git" },
 				{ "<Leader>h", group = "hunk" },
 				{ "<Leader>k", group = "preferences" },

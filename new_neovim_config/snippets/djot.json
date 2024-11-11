@@ -1,0 +1,52 @@
+{
+  "Say hello to the world": {
+    "body": [
+      ":::: slide",
+      "${1:Slide contents}",
+      "::::",
+      "",
+      "$0"
+    ],
+    "prefix": [
+      "slide",
+      "sl"
+    ]
+  },
+  "float-right + fr": {
+    "body": [
+      "${1::::} float-right",
+      "$2",
+      "$1",
+      "",
+      "$0"
+    ],
+    "prefix": [
+      "float-right",
+      "fr"
+    ]
+  },
+  "graph": {
+    "body": [
+      "```=typ",
+      "#import \"graphs.typ\": graph, unit, plot, figure",
+      "#show: figure",
+      "#graph(",
+      "  size: (4, 4),",
+      "  {",
+      "    ${1:plot.add()}",
+      "  },",
+      ")",
+      "```"
+    ],
+    "prefix": "graph"
+  },
+  "ws": {
+    "body": [
+      "::: work-space-height-${1:2}em",
+      ":::",
+      "",
+      "$0"
+    ],
+    "prefix": "ws"
+  }
+}

@@ -188,6 +188,7 @@ return {
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
+			"garymjr/nvim-snippets",
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -209,6 +210,10 @@ return {
 					["<Tab>"] = function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
+						elseif vim.snippet.active({ direction = 1 }) then
+							vim.schedule(function()
+								vim.snippet.jump(1)
+							end)
 						else
 							fallback()
 						end
@@ -223,6 +228,10 @@ return {
 					["<s-Tab>"] = function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
+						elseif vim.snippet.active({ direction = -1 }) then
+							vim.schedule(function()
+								vim.snippet.jump(-1)
+							end)
 						else
 							fallback()
 						end
@@ -238,6 +247,7 @@ return {
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
+					{ name = "snippets" },
 				}, {
 					{
 						name = "buffer",
@@ -270,6 +280,44 @@ return {
 				matching = { disallow_symbol_nonprefix_matching = false },
 			})
 		end,
+	},
+	{
+		"garymjr/nvim-snippets",
+		event = "InsertEnter",
+		dependencies = {
+			"hrsh7th/nvim-cmp",
+			"rafamadriz/friendly-snippets",
+		},
+		opts = {
+			friendly_snippets = true,
+			-- search_paths = { "~/.config/new_neovim_config/snippets" },
+		},
+	},
+	{
+		"chrisgrieser/nvim-scissors",
+		dependencies = "nvim-telescope/telescope.nvim",
+		opts = {
+			snippetDir = "~/.config/new_neovim_config/snippets",
+			jsonFormatter = "jq",
+		},
+		keys = {
+			{
+				"<leader>Se",
+				mode = { "n" },
+				function()
+					require("scissors").editSnippet()
+				end,
+				desc = "Edit Snippets",
+			},
+			{
+				"<leader>Sa",
+				mode = { "n", "x" },
+				function()
+					require("scissors").addNewSnippet()
+				end,
+				desc = "Add New Snippet",
+			},
+		},
 	},
 	{
 		"folke/trouble.nvim",
