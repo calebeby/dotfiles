@@ -72,7 +72,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"rust_analyzer",
-					"tsserver",
+					"ts_ls",
 					"marksman",
 					"typst_lsp",
 					"zls",
@@ -146,8 +146,8 @@ return {
 							},
 						})
 					end,
-					tsserver = function()
-						lspconfig.tsserver.setup({
+					ts_ls = function()
+						lspconfig.ts_ls.setup({
 							capabilities = capabilities,
 							on_attach = function(client, bufnr)
 								vim.keymap.set("n", "<leader>ro", function()
