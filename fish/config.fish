@@ -76,8 +76,10 @@ set -Ux BUN_INSTALL ~/.bun
 set -px --path PATH ~/.bun/bin
 
 # pnpm
-set -gx PNPM_HOME ~/.local/share/pnpm
-set -gx PATH "$PNPM_HOME" $PATH
+set -gx PNPM_HOME "/home/caleb/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
 # pnpm end
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/caleb/.ghcup/bin $PATH # ghcup-env

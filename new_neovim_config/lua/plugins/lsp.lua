@@ -70,10 +70,33 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
 			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "tsserver", "marksman", "typst_lsp", "zls", "denols" },
+				ensure_installed = {
+					"rust_analyzer",
+					"tsserver",
+					"marksman",
+					"typst_lsp",
+					"zls",
+					"denols",
+					"basedpyright",
+				},
 				handlers = {
 					function(server_name)
 						lspconfig[server_name].setup({ capabilities = capabilities })
+					end,
+					basedpyright = function()
+						lspconfig.basedpyright.setup({
+							capabilities = capabilities,
+							filetypes = { "python" },
+							settings = {
+								basedpyright = {
+									analysis = {
+										autoSearchPaths = true,
+										useLibraryCodeForTypes = true,
+										typeCheckingMode = "basic",
+									},
+								},
+							},
+						})
 					end,
 					marksman = function()
 						lspconfig.marksman.setup({
@@ -127,7 +150,6 @@ return {
 						lspconfig.tsserver.setup({
 							capabilities = capabilities,
 							on_attach = function(client, bufnr)
-								on_attach(client, bufnr)
 								vim.keymap.set("n", "<leader>ro", function()
 									vim.lsp.buf.execute_command({
 										command = "_typescript.organizeImports",
@@ -275,17 +297,18 @@ return {
 			},
 		},
 		opts = {
+			auto_preview = false,
 			win = {
 				type = "split",
 				position = "right",
-				size = { width = 70 },
+				size = { width = 50 },
 			},
 			preview = {
 				type = "float",
 				relative = "cursor",
 				size = {
-					width = 69,
-					height = 8,
+					width = 49,
+					height = 6,
 				},
 				border = "rounded",
 				position = { 2, 0 },

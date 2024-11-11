@@ -118,14 +118,15 @@ return {
 		event = "VeryLazy",
 		init = function()
 			local wk = require("which-key")
-			wk.register({
-				g = { name = "+git" },
-				h = { name = "+hunk" },
-				c = { name = "+context" },
-				k = { name = "+preferences" },
-				t = { name = "+toggle" },
-				x = { name = "+diagnostics" },
-			}, { prefix = "<Leader>" })
+			wk.add({
+				{ "<Leader>c", group = "context" },
+				{ "<Leader>d", group = "harpoon" },
+				{ "<Leader>g", group = "git" },
+				{ "<Leader>h", group = "hunk" },
+				{ "<Leader>k", group = "preferences" },
+				{ "<Leader>t", group = "toggle" },
+				{ "<Leader>x", group = "diagnostics" },
+			})
 		end,
 	},
 	{
@@ -327,6 +328,105 @@ return {
 		opts = {},
 	},
 	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		keys = {
+			{
+				"<leader>dd",
+				function()
+					require("harpoon"):list():remove()
+				end,
+				desc = "Remove from harpoon list",
+			},
+			{
+				"<leader>da",
+				function()
+					require("harpoon"):list():add()
+				end,
+				desc = "Add to harpoon list",
+			},
+			{
+				"<leader>ds",
+				function()
+					require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+				end,
+				desc = "Toggle harpoon list menu",
+			},
+			{
+				"<leader>dj",
+				function()
+					require("harpoon"):list():select(1)
+				end,
+				desc = "Select harpoon #1",
+			},
+			{
+				"<leader>dk",
+				function()
+					require("harpoon"):list():select(2)
+				end,
+				desc = "Select harpoon #2",
+			},
+			{
+				"<leader>dl",
+				function()
+					require("harpoon"):list():select(3)
+				end,
+				desc = "Select harpoon #3",
+			},
+			{
+				"<leader>d;",
+				function()
+					require("harpoon"):list():select(4)
+				end,
+				desc = "Select harpoon #4",
+			},
+			{
+				"<leader>du",
+				function()
+					require("harpoon"):list():select(5)
+				end,
+				desc = "Select harpoon #5",
+			},
+			{
+				"<leader>di",
+				function()
+					require("harpoon"):list():select(6)
+				end,
+				desc = "Select harpoon #6",
+			},
+			{
+				"<leader>do",
+				function()
+					require("harpoon"):list():select(7)
+				end,
+				desc = "Select harpoon #7",
+			},
+			{
+				"<leader>dp",
+				function()
+					require("harpoon"):list():select(8)
+				end,
+				desc = "Select harpoon #8",
+			},
+			{
+				"<leader>dn",
+				function()
+					require("harpoon"):list():prev()
+				end,
+				desc = "Go to harpoon previous buffer",
+			},
+			{
+				"<leader>dm",
+				function()
+					require("harpoon"):list():next()
+				end,
+				desc = "Go to harpoon next buffer",
+			},
+		},
+		setup = true,
+	},
+	{
 		"rmagatti/auto-session",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
@@ -341,5 +441,33 @@ return {
 				noremap = true,
 			}, { desc = "Open project" })
 		end,
+	},
+	{
+		"HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {
+			default = {
+				drag_and_drop = {
+					enabled = true,
+					insert_mode = true,
+				},
+				relative_to_current_file = true,
+				relative_template_path = true,
+				dir_path = function()
+					return vim.fn.expand("%:t:r")
+				end,
+				extension = "webp",
+			},
+			filetypes = {
+				djot = {
+					url_encode_path = false,
+					template = "![$FILE_NAME_NO_EXT]($FILE_PATH)$CURSOR",
+					download_images = false,
+				},
+			},
+		},
+		keys = {
+			{ "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+		},
 	},
 }

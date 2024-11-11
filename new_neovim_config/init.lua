@@ -111,6 +111,7 @@ vim.filetype.add({
 		jpeg = "image",
 		webp = "image",
 		avif = "image",
+		mp4 = "video",
 		djot = "djot",
 		dj = "djot",
 		docx = "docx",
@@ -122,6 +123,7 @@ vim.filetype.add({
 		odt = "odt",
 		ods = "ods",
 		odp = "odp",
+		xopp = "xopp",
 	},
 })
 
@@ -138,6 +140,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	callback = function()
 		vim.opt_local.relativenumber = false
 		vim.opt_local.number = false
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "djot" },
+	group = vim.api.nvim_create_augroup("djotoptions", { clear = true }),
+	callback = function()
+		vim.opt_local.commentstring = "{% %s %}"
 	end,
 })
 
@@ -162,12 +172,18 @@ vim.g.zipPlugin_ext =
 	"*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub"
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx", "image", "odt", "ods", "odp" },
+	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx", "image", "video", "odt", "ods", "odp", "xopp" },
 	group = vim.api.nvim_create_augroup("binary_files_external", { clear = true }),
 	callback = function()
 		-- Delete this buffer automatically when it is hidden (not shown in a window)
 		vim.opt_local.bufhidden = "delete"
-		vim.system({ "xdg-open", vim.fn.expand("%:p") }, { detach = true })
+		if vim.bo.filetype == "xopp" then
+			-- Could not get the filetype registered in xdg-mime correctly (shows as gzip)
+			-- So this is a hack
+			vim.system({ "xournalpp", vim.fn.expand("%:p") }, { detach = true })
+		else
+			vim.system({ "xdg-open", vim.fn.expand("%:p") }, { detach = true })
+		end
 		-- Go back to previous file
 		vim.cmd([[exec "normal!\<c-o>"]])
 	end,
