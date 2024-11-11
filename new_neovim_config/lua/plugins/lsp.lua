@@ -286,12 +286,8 @@ return {
 		event = "InsertEnter",
 		dependencies = {
 			"hrsh7th/nvim-cmp",
-			"rafamadriz/friendly-snippets",
 		},
-		opts = {
-			friendly_snippets = true,
-			-- search_paths = { "~/.config/new_neovim_config/snippets" },
-		},
+		opts = {},
 	},
 	{
 		"chrisgrieser/nvim-scissors",
