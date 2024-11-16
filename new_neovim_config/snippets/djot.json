@@ -1,4 +1,30 @@
 {
+  "$": {
+    "body": "\\$`${1:}`$0",
+    "prefix": "$"
+  },
+  "$$": {
+    "body": "\\$\\$`${1:}`$0",
+    "prefix": "$$"
+  },
+  ":::": {
+    "body": [
+      "::: ${1:}",
+      "${2:}",
+      ":::",
+      "$0"
+    ],
+    "prefix": ":::"
+  },
+  "::::": {
+    "body": [
+      ":::: ${1:}",
+      "${2:}",
+      "::::",
+      "$0"
+    ],
+    "prefix": "::::"
+  },
   "Say hello to the world": {
     "body": [
       ":::: slide",
@@ -40,11 +66,22 @@
     ],
     "prefix": "graph"
   },
+  "problem-columns + pcs": {
+    "body": [
+      ":::: problem-columns",
+      "${1:}",
+      "::::",
+      "$0"
+    ],
+    "prefix": [
+      "problem-columns",
+      "pc"
+    ]
+  },
   "ws": {
     "body": [
       "::: work-space-height-${1:2}em",
       ":::",
-      "",
       "$0"
     ],
     "prefix": "ws"
