@@ -104,6 +104,9 @@ vim.o.foldenable = true
 vim.o.foldtext = ""
 vim.o.fillchars = [[fold: ]]
 
+vim.o.list = true
+vim.o.listchars = [[trail:·]]
+
 vim.filetype.add({
 	extension = {
 		png = "image",

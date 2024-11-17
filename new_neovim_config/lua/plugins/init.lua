@@ -103,7 +103,7 @@ return {
 		config = function()
 			require("flash").setup()
 			highlight_hook(function()
-				vim.api.nvim_set_hl(0, "FlashLabel", { link = "IncSearch" })
+				vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffffff", bg = "#000000", bold = true })
 			end)
 		end,
 	},
