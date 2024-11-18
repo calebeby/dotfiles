@@ -234,11 +234,9 @@ return {
 						end
 					end,
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<C-Space>"] = function(fallback)
-						if cmp.visible() then
-							fallback()
-						else
-							cmp.select_next_item()
+					["<C-Space>"] = function()
+						if not cmp.visible() then
+							cmp.complete()
 						end
 					end,
 				}),
