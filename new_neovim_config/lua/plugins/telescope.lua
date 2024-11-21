@@ -11,6 +11,17 @@ return {
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 			},
 			"zk-org/zk-nvim",
+			"protex/better-digraphs.nvim",
+		},
+		keys = {
+			{
+				"<c-k><c-k>",
+				function()
+					require("better-digraphs").digraphs("insert")
+				end,
+				mode = "i",
+				desc = "Insert digraph",
+			},
 		},
 		config = function()
 			-- Exclude built-in themes from telescppe colorscheme chooser

@@ -191,6 +191,7 @@ return {
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
 			"octaltree/cmp-look",
+			"hrsh7th/cmp-emoji",
 			"neovim/nvim-lspconfig",
 			"onsails/lspkind.nvim",
 		},
@@ -242,7 +243,9 @@ return {
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
+				}, {
 					{ name = "snippets" },
+					{ name = "emoji" },
 				}, {
 					{
 						name = "buffer",
