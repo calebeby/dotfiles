@@ -160,7 +160,16 @@ return {
 									return nil
 								end
 
-								return lspconfig.util.root_pattern("package.json")(filename)
+								local rootDir = lspconfig.util.root_pattern(
+									"tsconfig.json",
+									"jsconfig.json",
+									"package.json",
+									".git"
+								)(filename)
+								if rootDir then
+									return rootDir
+								end
+								return vim.fs.dirname(filename)
 							end,
 							single_file_support = false,
 						})

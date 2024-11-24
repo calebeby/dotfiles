@@ -10,18 +10,14 @@
   ":::": {
     "body": [
       "::: ${1:}",
-      "${2:}",
-      ":::",
-      "$0"
+      ":::$0"
     ],
     "prefix": ":::"
   },
   "::::": {
     "body": [
       ":::: ${1:}",
-      "${2:}",
-      "::::",
-      "$0"
+      "::::$0"
     ],
     "prefix": "::::"
   },
@@ -37,6 +33,10 @@
       "slide",
       "sl"
     ]
+  },
+  "TODO": {
+    "body": "{% TODO: ${1:} %}$0",
+    "prefix": "TODO"
   },
   "float-right + fr": {
     "body": [
@@ -70,19 +70,24 @@
     "body": [
       ":::: problem-columns",
       "${1:}",
-      "::::",
-      "$0"
+      "::::$0"
     ],
     "prefix": [
       "problem-columns",
       "pc"
     ]
   },
+  "solution + sol": {
+    "body": "{% Solution: ${1:} %}",
+    "prefix": [
+      "solution",
+      "sol"
+    ]
+  },
   "ws": {
     "body": [
       "::: work-space-height-${1:2}em",
-      ":::",
-      "$0"
+      ":::$0"
     ],
     "prefix": "ws"
   }
