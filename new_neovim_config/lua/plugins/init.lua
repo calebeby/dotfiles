@@ -237,14 +237,17 @@ return {
 			{
 				"<leader>f",
 				function()
-					require("grug-far").grug_far({})
+					require("grug-far").open({ windowCreationCommand = "tab split" })
 				end,
 				desc = "Find/Replace in Project",
 			},
 			{
 				"<c-f>",
 				function()
-					require("grug-far").grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+					require("grug-far").open({
+						prefills = { search = vim.fn.expand("<cword>") },
+						windowCreationCommand = "tab split",
+					})
 				end,
 				desc = "Find/Replace in Project (word under cursor)",
 			},
@@ -252,7 +255,7 @@ return {
 				"<c-f>",
 				mode = { "v" },
 				function()
-					require("grug-far").with_visual_selection({})
+					require("grug-far").open({ windowCreationCommand = "tab split" })
 				end,
 				desc = "Find/Replace in Project (selection)",
 			},
