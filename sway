@@ -21,8 +21,9 @@ exec --no-startup-id albert
 exec --no-startup-id firefox
 exec --no-startup-id udiskie
 exec --no-startup-id swayidle -w timeout 1100 'swaylock -f -c 000000' timeout 900 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep 'swaylock -f -c 000000'
-exec systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
+exec systemctl --user import-environment SWAYSOCK XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment WAYLAND_DISPLAY
+exec darkman run
 
 # Built-in
 output eDP-1 pos 0 700
@@ -43,7 +44,7 @@ bindsym $mod+i exec firefox
 floating_modifier $mod
 
 # Toggle dark mode
-bindsym $mod+d exec ~/dotfiles/scripts/toggle-dark-mode.sh
+bindsym $mod+d exec darkman toggle
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec ~/dotfiles/scripts/brightness-increase.sh

@@ -32,22 +32,22 @@ return {
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		-- config = function()
-		-- 	vim.cmd([[colorscheme kanagawa]])
-		-- end,
+		config = function()
+			vim.cmd([[colorscheme kanagawa]])
+		end,
 	},
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
 		-- config = function()
-		-- 	vim.cmd([[colorscheme rose-pine-main]])
+		-- 	vim.cmd([[colorscheme rose-pine]])
 		-- end,
 	},
 	{
 		"EdenEast/nightfox.nvim",
-		config = function()
-			vim.cmd([[colorscheme duskfox]])
-		end,
+		-- config = function()
+		-- 	vim.cmd([[colorscheme duskfox]])
+		-- end,
 	},
 	{
 		"sainnhe/everforest",

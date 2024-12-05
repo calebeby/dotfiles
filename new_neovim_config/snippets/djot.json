@@ -25,9 +25,7 @@
     "body": [
       ":::: slide",
       "${1:Slide contents}",
-      "::::",
-      "",
-      "$0"
+      "::::$0"
     ],
     "prefix": [
       "slide",
@@ -66,6 +64,16 @@
     ],
     "prefix": "graph"
   },
+  "numberline": {
+    "body": [
+      "```=typ",
+      "#import \"graphs.typ\": number-line, figure",
+      "#show: figure",
+      "#number-line(min: -10, max: 10, size: 12)",
+      "```"
+    ],
+    "prefix": "numberline"
+  },
   "problem-columns + pcs": {
     "body": [
       ":::: problem-columns",
@@ -76,6 +84,24 @@
       "problem-columns",
       "pc"
     ]
+  },
+  "rs4": {
+    "body": [
+      "## ${1:1}: ${2:Title}",
+      "",
+      ": Proficient (4)",
+      "",
+      "  $3",
+      "",
+      ": Almost There (3)",
+      "",
+      "  ${4:Minor mistake, or correct answer with work not shown.}",
+      "",
+      ": Starting (2)",
+      "",
+      ": Missing (1)"
+    ],
+    "prefix": "rs4"
   },
   "solution + sol": {
     "body": "{% Solution: ${1:} %}",
