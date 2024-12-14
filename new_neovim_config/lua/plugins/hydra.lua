@@ -1,107 +1,50 @@
 return {
 	{
+		"aaronik/treewalker.nvim",
+		opts = {},
+		cmd = "Treewalker",
+	},
+	{
 		"nvimtools/hydra.nvim",
-		dependencies = {
-			{
-				"ziontee113/syntax-tree-surfer",
-				dir = "~/Programming/calebeby/syntax-tree-surfer",
-			},
-		},
+		dependencies = {},
 		keys = {
 			{
-				"<Leader>n",
+				"<Leader><Leader>",
 				mode = { "n", "x" },
 				function()
 					local Hydra = require("hydra")
-					local sts = require("syntax-tree-surfer")
-
-					local select_if_no_selection = function()
-						local mode = vim.api.nvim_get_mode().mode
-						local is_visual = mode == "v" or mode == "V" or mode == "^V"
-						if not is_visual then
-							sts.select_current_node()
-						end
-					end
 
 					local walker = Hydra({
 						name = "Walker",
 						mode = { "n", "x" },
-						-- hint = [[  ]],
+						hint = [[
+      _h_
+    _j_   _k_
+      _l_]],
 						config = {},
 						heads = {
 							{
 								"h",
-								function()
-									sts.surf("prev", "visual")
-								end,
-								{ desc = "Nav to previous node" },
-							},
-							{
-								"l",
-								function()
-									sts.surf("next", "visual")
-								end,
-								{ desc = "Nav to next node" },
-							},
-							{
-								"k",
-								function()
-									sts.surf("prev", "visual")
-								end,
-								{ desc = "Nav to previous node" },
+								"<Cmd>Treewalker Left<CR>zz",
+								{ desc = "outer" },
 							},
 							{
 								"j",
-								function()
-									sts.surf("next", "visual")
-								end,
-								{ desc = "Nav to next node" },
+								"<Cmd>Treewalker Down<CR>zz",
+								{ desc = "next" },
 							},
 							{
-								"<CR>",
-								function()
-									sts.surf("child", "visual")
-								end,
-								{ desc = "Nav to child node" },
+								"k",
+								"<Cmd>Treewalker Up<CR>zz",
+								{ desc = "previous" },
 							},
 							{
-								"<space>",
-								function()
-									sts.surf("parent", "visual")
-								end,
-								{ desc = "Nav to parent node" },
-							},
-							{
-								"H",
-								function()
-									sts.surf("prev", "visual", true)
-								end,
-								{ desc = "Move to previous node" },
-							},
-							{
-								"L",
-								function()
-									sts.surf("next", "visual", true)
-								end,
-								{ desc = "Move to next node" },
-							},
-							{
-								"K",
-								function()
-									sts.surf("prev", "visual", true)
-								end,
-								{ desc = "Move to previous node" },
-							},
-							{
-								"J",
-								function()
-									sts.surf("next", "visual", true)
-								end,
-								{ desc = "Move to next node" },
+								"l",
+								"<Cmd>Treewalker Right<CR>zz",
+								{ desc = "inner" },
 							},
 						},
 					})
-					select_if_no_selection()
 					walker:activate()
 				end,
 				desc = "Tree Walker (Hydra)",
