@@ -25,22 +25,22 @@ return {
 						heads = {
 							{
 								"h",
-								"<Cmd>Treewalker Left<CR>zz",
+								"<Cmd>Treewalker Left<CR>",
 								{ desc = "outer" },
 							},
 							{
 								"j",
-								"<Cmd>Treewalker Down<CR>zz",
+								"<Cmd>Treewalker Down<CR>",
 								{ desc = "next" },
 							},
 							{
 								"k",
-								"<Cmd>Treewalker Up<CR>zz",
+								"<Cmd>Treewalker Up<CR>",
 								{ desc = "previous" },
 							},
 							{
 								"l",
-								"<Cmd>Treewalker Right<CR>zz",
+								"<Cmd>Treewalker Right<CR>",
 								{ desc = "inner" },
 							},
 						},
