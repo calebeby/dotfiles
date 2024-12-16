@@ -268,6 +268,12 @@ vim.keymap.set("n", "<Leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit
 
 -- Change colorscheme
 vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { desc = "Select colorscheme", silent = true })
+vim.keymap.set(
+	"n",
+	"<Leader>kd",
+	':exec &bg=="light"? "set bg=dark" : "set bg=light"<CR>',
+	{ desc = "Toggle Light/Dark", noremap = true, silent = true }
+)
 
 vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { desc = "Select file to open", silent = true })
 vim.keymap.set("n", "<leader>i", ":Telescope zk notes<CR>", { desc = "Select note to open", silent = true })
