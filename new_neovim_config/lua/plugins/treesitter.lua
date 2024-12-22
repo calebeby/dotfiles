@@ -22,6 +22,33 @@ return {
 		},
 	},
 	{
+		"stevearc/aerial.nvim",
+		keys = {
+			{
+				"<leader>xa",
+				"<cmd>AerialToggle!<CR>",
+				desc = "Outline (Aerial)",
+			},
+			{
+				"<leader>n",
+				"<cmd>Telescope aerial<CR>",
+				desc = "Symbol Search (Treesitter)",
+			},
+		},
+		opts = {
+			show_guides = true,
+			on_attach = function(bufnr)
+				-- Jump forwards/backwards with '{' and '}'
+				vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+				vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+			end,
+		},
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+	},
+	{
 		-- Little hint next to closing brackets showing what they correspond to
 		"code-biscuits/nvim-biscuits",
 		event = "VeryLazy",
