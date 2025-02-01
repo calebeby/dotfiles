@@ -36,6 +36,14 @@
     "body": "{% TODO: ${1:} %}$0",
     "prefix": "TODO"
   },
+  "ab": {
+    "body": [
+      "::: answer-box",
+      "$1",
+      ":::"
+    ],
+    "prefix": "ab"
+  },
   "float-right + fr": {
     "body": [
       "${1::::} float-right",
@@ -107,12 +115,20 @@
     ],
     "prefix": "rs4"
   },
+  "sinfo": {
+    "body": [
+      "::: student-info",
+      ":::"
+    ],
+    "prefix": "sinfo"
+  },
   "solution + sol": {
     "body": "{% Solution: ${1:} %}",
-    "prefix": [
-      "solution",
-      "sol"
-    ]
+    "prefix": "solution"
+  },
+  "source": {
+    "body": "{% Source: $1 %}",
+    "prefix": "source"
   },
   "ws": {
     "body": [
@@ -120,5 +136,9 @@
       ":::$0"
     ],
     "prefix": "ws"
+  },
+  "{%": {
+    "body": "{% $1 %",
+    "prefix": "{%"
   }
 }

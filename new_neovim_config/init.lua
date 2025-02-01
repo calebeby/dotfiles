@@ -265,6 +265,7 @@ vim.keymap.set("n", "<Leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent 
 vim.keymap.set("n", "<Leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
 vim.keymap.set("n", "<Leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
 vim.keymap.set("n", "<Leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })
+vim.keymap.set("n", "<Leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff", silent = true })
 
 -- Change colorscheme
 vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { desc = "Select colorscheme", silent = true })
