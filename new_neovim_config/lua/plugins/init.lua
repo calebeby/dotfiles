@@ -332,6 +332,11 @@ return {
 		opts = {},
 	},
 	{
+		"norcalli/nvim-colorizer.lua",
+		cmd = "ColorizerToggle",
+		opts = {},
+	},
+	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },

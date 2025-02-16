@@ -21,6 +21,20 @@
     ],
     "prefix": "::::"
   },
+  "AP Question": {
+    "body": [
+      "1. ${2:Question}",
+      "",
+      "  ::: columns-2",
+      "  a. ${3:Option}",
+      "  :::",
+      "",
+      "  {% Solution: ${4:Solution} %}",
+      "  {% Source: College Board: ${1:Name} %}",
+      "$0"
+    ],
+    "prefix": "AP MCQ"
+  },
   "Say hello to the world": {
     "body": [
       ":::: slide",
@@ -43,6 +57,14 @@
       ":::"
     ],
     "prefix": "ab"
+  },
+  "comment": {
+    "body": [
+      "::: comment",
+      "${1:}",
+      ":::$0"
+    ],
+    "prefix": "comment"
   },
   "float-right + fr": {
     "body": [
@@ -101,19 +123,22 @@
     "body": [
       "## ${1:1}: ${2:Title}",
       "",
-      ": Proficient (4)",
+      ": Proficient (3)",
       "",
       "  $3",
       "",
-      ": Almost There (3)",
+      ": Correct Answer, Not Enough Work Shown (2)",
       "",
-      "  ${4:Minor mistake, or correct answer with work not shown.}",
+      ": Almost There (2)",
       "",
-      ": Starting (2)",
+      "  ${4:Minor mistake prevented student from reaching correct answer}",
       "",
-      ": Missing (1)"
+      ": Starting (1)",
+      "",
+      ": Missing (0)",
+      "$0"
     ],
-    "prefix": "rs4"
+    "prefix": "rubric level"
   },
   "sinfo": {
     "body": [

@@ -54,7 +54,8 @@ vim.opt.undofile = true
 vim.opt.clipboard = "unnamedplus"
 
 vim.wo.foldlevel = 99
-vim.wo.conceallevel = 2
+-- vim.wo.conceallevel = 2
+vim.wo.conceallevel = 0
 
 -- New windows down and to the right
 vim.opt.splitbelow = true
