@@ -11,11 +11,19 @@ return {
 				mode = { "n", "x" },
 				function()
 					local Hydra = require("hydra")
+					local tc = require("tree-climber")
 
 					local opts = {
 						highlight = true,
 						higroup = "CursorLine",
 					}
+
+					local function make_handler(func)
+						return function()
+							pcall(func, opts)
+							tc.highlight_node(opts)
+						end
+					end
 
 					local walker = Hydra({
 						name = "Walker",
@@ -26,62 +34,21 @@ Move: _h_   _l_      Swap:
         _j_              _J_]],
 						config = {
 							on_exit = function()
-								require("tree-climber").select_node(opts)
+								pcall(tc.select_node, opts)
 							end,
 						},
 						heads = {
-							{
-								"h",
-								function()
-									require("tree-climber").goto_parent(opts)
-								end,
-								{ desc = "outer" },
-							},
-							{
-								"j",
-								function()
-									require("tree-climber").goto_next(opts)
-								end,
-								{ desc = "next" },
-							},
-							{
-								"k",
-								function()
-									require("tree-climber").goto_prev(opts)
-								end,
-								{ desc = "previous" },
-							},
-							{
-								"l",
-								function()
-									require("tree-climber").goto_child(opts)
-								end,
-								{ desc = "inner" },
-							},
-							{
-								"v",
-								function() end,
-								{ desc = "Visual Selection", exit = true },
-							},
-							{
-								"J",
-								function()
-									require("tree-climber").swap_next(opts)
-									require("tree-climber").highlight_node(opts)
-								end,
-								{ desc = "next" },
-							},
-							{
-								"K",
-								function()
-									require("tree-climber").swap_prev(opts)
-									require("tree-climber").highlight_node(opts)
-								end,
-								{ desc = "previous" },
-							},
+							{ "h", make_handler(tc.goto_parent), { desc = "outer" } },
+							{ "j", make_handler(tc.goto_next), { desc = "next" } },
+							{ "k", make_handler(tc.goto_prev), { desc = "previous" } },
+							{ "l", make_handler(tc.goto_child), { desc = "inner" } },
+							{ "v", function() end, { desc = "Visual Selection", exit = true } },
+							{ "J", make_handler(tc.swap_next), { desc = "next" } },
+							{ "K", make_handler(tc.swap_prev), { desc = "previous" } },
 						},
 					})
-					require("tree-climber").highlight_node(opts)
+
+					pcall(tc.highlight_node, opts)
 					walker:activate()
 				end,
 				desc = "Tree Walker (Hydra)",
