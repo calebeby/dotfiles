@@ -31,6 +31,16 @@ return {
 		cmd = { "DiffviewOpen", "DiffviewOpen", "DiffviewFileHistory" },
 		opts = {
 			enhanced_diff_hl = true,
+			keymaps = {
+				view = {
+					{ { "n" }, "q", "<Cmd>DiffviewClose<CR>", { desc = "Close" } },
+					{ { "n" }, "c", "<Cmd>Neogit commit<CR>", { desc = "Commit" } },
+				},
+				file_panel = {
+					{ { "n" }, "q", "<Cmd>DiffviewClose<CR>", { desc = "Close" } },
+					{ { "n" }, "c", "<Cmd>Neogit commit<CR>", { desc = "Commit" } },
+				},
+			},
 		},
 	},
 	{
