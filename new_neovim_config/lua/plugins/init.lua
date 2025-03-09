@@ -68,6 +68,14 @@ return {
 				desc = "Flash",
 			},
 			{
+				"<space>",
+				mode = { "v", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
 				"S",
 				mode = { "n", "x", "o" },
 				function()
@@ -79,7 +87,12 @@ return {
 				"r",
 				mode = "o",
 				function()
-					require("flash").remote()
+					require("flash").jump({
+						remote_op = {
+							restore = true,
+							motion = true,
+						},
+					})
 				end,
 				desc = "Remote (Flash)",
 			},
@@ -91,14 +104,6 @@ return {
 			-- 	end,
 			-- 	desc = "TS node (Flash)",
 			-- },
-			{
-				"<c-s>",
-				mode = { "c" },
-				function()
-					require("flash").toggle()
-				end,
-				desc = "Toggle Flash Search",
-			},
 		},
 		config = function()
 			require("flash").setup()
