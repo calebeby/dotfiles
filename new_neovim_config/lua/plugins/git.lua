@@ -39,6 +39,30 @@ return {
 				file_panel = {
 					{ { "n" }, "q", "<Cmd>DiffviewClose<CR>", { desc = "Close" } },
 					{ { "n" }, "c", "<Cmd>Neogit commit<CR>", { desc = "Commit" } },
+					{
+						{ "n" },
+						"<tab>",
+						function()
+							require("diffview.actions").toggle_fold()
+						end,
+						{ desc = "Toggle Fold" },
+					},
+					{
+						{ "n" },
+						"u",
+						function()
+							require("diffview.actions").toggle_stage_entry()
+						end,
+						{ desc = "Toggle Staged" },
+					},
+					{
+						{ "n" },
+						"<c-s>",
+						function()
+							require("diffview.actions").stage_all()
+						end,
+						{ desc = "Stage All" },
+					},
 				},
 			},
 		},
