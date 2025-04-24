@@ -10,6 +10,66 @@ return {
 		"echasnovski/mini.files",
 		version = "*",
 		config = function()
+			local function split_alpha_num(str)
+				local parts = {}
+				-- normalize case
+				str = str:lower()
+				-- wrap every digit sequence in NULs so we can split on them
+				local tmp = str:gsub("(%d+)", "\0%1\0")
+				-- split on NUL (Lua pattern %z)
+				for part in tmp:gmatch("([^%z]+)") do
+					local n = tonumber(part)
+					table.insert(parts, n or part)
+				end
+				return parts
+			end
+
+			local function natural_compare(a, b)
+				-- directories first
+				if a.is_dir ~= b.is_dir then
+					return a.is_dir
+				end
+
+				local A = split_alpha_num(a.name)
+				local B = split_alpha_num(b.name)
+
+				for i = 1, math.max(#A, #B) do
+					local x, y = A[i], B[i]
+					if x == nil then
+						return true
+					end
+					if y == nil then
+						return false
+					end
+					if x ~= y then
+						if type(x) == type(y) then
+							return x < y
+						else
+							return type(x) == "number"
+						end
+					end
+				end
+
+				return false
+			end
+
+			local sorter = function(fs_entries)
+				local res = vim.tbl_map(function(x)
+					return {
+						fs_type = x.fs_type,
+						name = x.name,
+						path = x.path,
+						is_dir = x.fs_type == "directory",
+					}
+				end, fs_entries)
+
+				table.sort(res, natural_compare)
+
+				return vim.tbl_map(function(x)
+					return { name = x.name, fs_type = x.fs_type, path = x.path }
+				end, res)
+			end
+
 			require("mini.files").setup({
 				mappings = {
 					close = "q",
@@ -23,6 +83,9 @@ return {
 					synchronize = "=",
 					trim_left = "<",
 					trim_right = ">",
+				},
+				content = {
+					sort = sorter,
 				},
 			})
 

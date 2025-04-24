@@ -54,10 +54,7 @@
       "${1:Slide contents}",
       "::::$0"
     ],
-    "prefix": [
-      "slide",
-      "sl"
-    ]
+    "prefix": "slide"
   },
   "TODO": {
     "body": "{% TODO: ${1:} %}$0",
