@@ -2,7 +2,6 @@ set bg=dark
 hi clear
 syntax reset
 let colors_name = "solarized_light"
-
 hi Normal guifg=#586e75 guibg=#fdf6e3
 hi Visual guibg=#93a1a1
 hi LspReferenceText guibg=#eee8d5
@@ -13,7 +12,6 @@ hi StatusLine guifg=#657b83 guibg=#93a1a1 gui=none
 hi StatusLineNC guifg=#839496 guibg=#eee8d5 gui=none
 hi LineNr guifg=#839496 guibg=#fdf6e3
 hi CursorLineNr guifg=#657b83 guibg=#fdf6e3
-hi Cursor guifg=#fdf6e3 guibg=#586e75
 hi Cursor guifg=#fdf6e3 guibg=#586e75
 hi CursorLine guibg=#faf3e0 gui=none
 hi ColorColumn guibg=#faf3e0 gui=none
@@ -37,9 +35,9 @@ hi Statement guifg=#6c71c4 gui=none
 hi StorageClass guifg=#6c71c4 gui=none
 hi Type guifg=#b58900 gui=none
 hi Operator guifg=#6c71c4 gui=none
-hi Identifier guifg=#dc322f gui=none
-hi Special guifg=#2aa198 gui=none
-hi Constant guifg=#cb4b16 gui=none
+hi Identifier guifg=#dc322f
+hi Special guifg=#2aa198
+hi Constant guifg=#cb4b16
 hi PreProc guifg=#b58900
 hi Function guifg=#268bd2
 hi xmlTag guifg=#586e75
@@ -87,22 +85,22 @@ hi @markup.strong gui=bold
 hi @markup.strikethrough guifg=#dc322f guibg=#fdf6e3
 hi @markup.underline guifg=#859900 guibg=#fdf6e3
 hi @markup.link.url gui=underline
-hi PMenu guifg=#586e75 guibg=#eee8d5 gui=none
+hi PMenu guifg=#586e75 guibg=#eee8d5
 hi PMenuSel guifg=#eee8d5 guibg=#586e75
 hi Todo guifg=#b58900 guibg=#eee8d5
 hi Folded guifg=#839496 guibg=#eee8d5
 hi FoldColumn guifg=#839496 guibg=#fdf6e3
 
-let g:terminal_color_0 =  "#fdf6e3"
-let g:terminal_color_1 =  "#dc322f"
-let g:terminal_color_2 =  "#859900"
-let g:terminal_color_3 =  "#b58900"
-let g:terminal_color_4 =  "#268bd2"
-let g:terminal_color_5 =  "#6c71c4"
-let g:terminal_color_6 =  "#2aa198"
-let g:terminal_color_7 =  "#586e75"
-let g:terminal_color_8 =  "#839496"
-let g:terminal_color_9 =  "#dc322f"
+let g:terminal_color_0  = "#fdf6e3"
+let g:terminal_color_1  = "#dc322f"
+let g:terminal_color_2  = "#859900"
+let g:terminal_color_3  = "#b58900"
+let g:terminal_color_4  = "#268bd2"
+let g:terminal_color_5  = "#6c71c4"
+let g:terminal_color_6  = "#2aa198"
+let g:terminal_color_7  = "#586e75"
+let g:terminal_color_8  = "#839496"
+let g:terminal_color_9  = "#dc322f"
 let g:terminal_color_10 = "#859900"
 let g:terminal_color_11 = "#b58900"
 let g:terminal_color_12 = "#268bd2"
@@ -111,3 +109,4 @@ let g:terminal_color_14 = "#2aa198"
 let g:terminal_color_15 = "#002b36"
 let g:terminal_color_background = g:terminal_color_0
 let g:terminal_color_foreground = g:terminal_color_5
+
