@@ -275,8 +275,6 @@ vim.keymap.set(
 	{ desc = "Git Log Current File (Diffview)", silent = true }
 )
 
--- Change colorscheme
-vim.keymap.set("n", "<Leader>kt", ":Telescope colorscheme<CR>", { desc = "Select colorscheme", silent = true })
 vim.keymap.set(
 	"n",
 	"<Leader>kd",
