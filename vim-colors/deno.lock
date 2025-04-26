@@ -57,15 +57,5 @@
     "https://deno.land/std@0.201.0/path/win32.ts": "8b3f80ef7a462511d5e8020ff490edcaa0a0d118f1b1e9da50e2916bdd73f9dd",
     "https://esm.sh/polished@4.3.1": "74acf63aff002f1dccc1710000aa1ab80a84eaffefdd1ad3b83d4b363a07e3ea",
     "https://esm.sh/polished@4.3.1/denonext/polished.mjs": "39e19dce667fa67390f3dcb713f2f6b6594bd2939844c696f3823e88a25adb6b"
-  },
-  "workspace": {
-    "packageJson": {
-      "dependencies": [
-        "npm:@types/node@20.12.7",
-        "npm:polished@4.3.1",
-        "npm:prettier@3.2.5",
-        "npm:tiny-glob@0.2.9"
-      ]
-    }
   }
 }
