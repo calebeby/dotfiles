@@ -58,7 +58,7 @@ hi DiagnosticUnderlineHint gui=undercurl guisp=#91B859
 hi DiagnosticInfo guifg=#6182B8
 hi DiagnosticUnderlineInfo gui=undercurl guisp=#6182B8
 hi DiffAdd guibg=#e5ecd9 gui=none
-hi DiffChange guibg=#FAFAFA
+hi DiffChange guibg=#d3dce9
 hi DiffDelete guifg=#f5d3d2 guibg=#f5d3d2 gui=none
 hi DiffText guibg=#e5ecd9 gui=none
 hi NeogitDiffContext guifg=#80CBC4 guibg=#FAFAFA

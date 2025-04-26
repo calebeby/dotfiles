@@ -1,8 +1,13 @@
-import { readFile, writeFile, mkdir } from 'fs/promises'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import glob from 'tiny-glob'
-import { mix, parseToHsl } from 'polished'
+#!/usr/bin/env -S deno run --allow-read --allow-write
+
+import {
+  fromFileUrl,
+  dirname,
+  join,
+  resolve,
+} from 'https://deno.land/std@0.201.0/path/mod.ts'
+import { expandGlob } from 'https://deno.land/std@0.201.0/fs/mod.ts'
+import { mix, parseToHsl } from 'https://esm.sh/polished@4.3.1'
 
 interface Colors {
   base00: string
@@ -28,31 +33,33 @@ interface ColorScheme {
   colors: Colors
 }
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const outdir = path.join(__dirname, 'colors')
+const __filename = fromFileUrl(import.meta.url)
+const __dirname = dirname(__filename)
+const outdir = join(__dirname, 'colors')
 
 async function main(): Promise<void> {
-  const schemeFiles = await glob('**.y{a,}ml', {
-    cwd: path.join(__dirname, 'colorschemes'),
-  })
-  const colorschemePaths = schemeFiles.map((p) =>
-    path.resolve(__dirname, 'colorschemes', p),
-  )
+  // Find all YAML color scheme files
+  const schemePaths: string[] = []
+  for await (const file of expandGlob('colorschemes/**/*.y{a,}ml')) {
+    schemePaths.push(resolve(file.path))
+  }
 
-  await mkdir(outdir, { recursive: true })
-  await Promise.all(colorschemePaths.map(processColorScheme))
+  // Ensure output directory exists
+  await Deno.mkdir(outdir, { recursive: true })
+
+  // Process each scheme
+  await Promise.all(schemePaths.map(processColorScheme))
 }
 
 async function readColorScheme(filePath: string): Promise<ColorScheme> {
-  const text = await readFile(filePath, 'utf-8')
+  const text = await Deno.readTextFile(filePath)
   let name = ''
   const colors = {} as Colors
 
   for (const rawLine of text.split('\n')) {
     const line = rawLine
-      .replace(/^#.*$/, '')
-      .replace(/\s+#.*$/, '')
+      .replace(/^#.*$/g, '')
+      .replace(/\s+#.*$/g, '')
       .trim()
     if (!line) continue
 
@@ -79,7 +86,7 @@ async function processColorScheme(filePath: string): Promise<void> {
     .toLowerCase()
 
   const vimtxt = await generateVimText({ name: rawName, colors }, name)
-  await writeFile(path.join(outdir, `${name}.vim`), vimtxt)
+  await Deno.writeTextFile(join(outdir, `${name}.vim`), vimtxt)
 }
 
 async function generateVimText(
@@ -195,7 +202,7 @@ async function generateVimText(
   const diffChange = mix(0.25, base0D, base00)
 
   highlight('DiffAdd', '', diffAdd, 'none')
-  highlight('DiffChange', '', base00)
+  highlight('DiffChange', '', diffChange)
   highlight('DiffDelete', diffDeletedLine, diffDeletedLine, 'none')
   highlight('DiffText', '', diffAdd, 'none')
 
