@@ -15,7 +15,7 @@ return {
 
 					local opts = {
 						highlight = true,
-						higroup = "CursorLine",
+						higroup = "SnippetTabstop",
 					}
 
 					local function make_handler(func)

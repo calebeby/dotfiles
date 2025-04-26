@@ -12,10 +12,25 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
---- MY OWN SETUP
-
 -- Autocompletion should be case-insensitive
 vim.opt.ignorecase = true
+
+-- Highlight the current line, but only in the active window
+vim.opt.cursorline = true
+
+vim.api.nvim_create_autocmd({ "WinLeave" }, {
+	pattern = "*",
+	callback = function()
+		vim.wo.cursorline = false
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "WinEnter" }, {
+	pattern = "*",
+	callback = function()
+		vim.wo.cursorline = true
+	end,
+})
 
 -- Reload files changed outside of neovim
 vim.opt.autoread = true

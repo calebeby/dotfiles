@@ -7,7 +7,26 @@ import {
   resolve,
 } from 'https://deno.land/std@0.201.0/path/mod.ts'
 import { expandGlob } from 'https://deno.land/std@0.201.0/fs/mod.ts'
-import { mix, parseToHsl } from 'https://esm.sh/polished@4.3.1'
+import {
+  mix as _mix,
+  parseToHsl,
+  parseToRgb,
+} from 'https://esm.sh/polished@4.3.1'
+
+function normalizeColorToHex(color: string) {
+  const { red, green, blue } = parseToRgb(color)
+  return (
+    '#' +
+    [red, green, blue]
+      .map((v) => v.toString(16).padStart(2, '0'))
+      .join('')
+      .toLowerCase()
+  )
+}
+
+function mix(weight: number, colorA: string, colorB: string) {
+  return normalizeColorToHex(_mix(weight, colorA, colorB))
+}
 
 interface Colors {
   base00: string
@@ -139,19 +158,23 @@ vim.g.colors_name = "${luaName}"
   // core highlights
   highlight('Normal', base05, base00)
   highlight('Visual', '', base02)
+  highlight('NormalFloat', '', base01)
+  highlight('SnippetTabstop', '', mix(0.5, base01, base00)) // using for tree-climber highlight too
   highlight('LspReferenceText', '', base01)
   highlight('LspReferenceRead', '', base01)
   highlight('LspReferenceWrite', '', base01)
   highlight('VertSplit', base02, base02)
-  highlight('StatusLine', base04, base02)
+  highlight('StatusLine', base05, mix(0.5, base02, base00))
   highlight('StatusLineNC', base03, base01)
   highlight('LineNr', base03, base00)
   highlight('CursorLineNr', base04, base00)
   highlight('Cursor', base00, base05)
   highlight('CursorLine', '', mix(0.15, base01, base00))
+  highlight('CursorColumn', '', mix(0.15, base01, base00))
   highlight('ColorColumn', '', mix(0.15, base01, base00))
   highlight('SignColumn', base05, base01)
   highlight('NonText', base01)
+  highlight('WinSeparator', mix(0.3, base01, base00), base00)
   highlight('QuickFixLine', '', base01)
   highlight('Error', base00, base08)
   highlight('Underlined', base08)
@@ -200,15 +223,16 @@ vim.g.colors_name = "${luaName}"
   const reddest = findClosest(scheme.colors, 'red')
   const diffAdd = mix(0.2, greenest, base00)
   const diffDeletedLine = mix(0.2, reddest, base00)
-  const diffChange = mix(0.25, base0D, base00)
+  const diffChange = mix(0.1, base0D, base00)
+  const diffChangeHighlight = mix(0.3, base0D, base00)
 
   highlight('DiffAdd', '', diffAdd)
   highlight('DiffChange', '', diffChange)
-  highlight('DiffDelete', diffDeletedLine, diffDeletedLine)
-  highlight('DiffText', '', diffAdd)
+  highlight('DiffDelete', '', diffDeletedLine)
+  highlight('DiffText', '', diffChangeHighlight) // Changed part inside line
 
   // neogit highlights
-  highlight('NeogitDiffContext', base05, base00)
+  highlight('NeogitDiffContext', '', base00) // Only applies to non-focused chunks
   highlight('NeogitDiffAdd', greenest, base00)
   highlight('NeogitDiffDelete', reddest, base00)
   highlight('NeogitDiffContextHighlight', base05, base00)
@@ -217,7 +241,6 @@ vim.g.colors_name = "${luaName}"
   highlight('NeogitHunkHeader', base05, base01)
   highlight('NeogitHunkHeaderHighlight', base05, base01)
 
-  // fugitive diff
   highlight('DiffAdded', greenest, base00)
   highlight('DiffFile', reddest, base00)
   highlight('DiffNewFile', greenest, base00)
@@ -238,6 +261,7 @@ vim.g.colors_name = "${luaName}"
   highlight('@markup.strikethrough', reddest, base00)
   highlight('@markup.underline', greenest, base00)
   highlight('@markup.link.url', '', '', ['underline'])
+  highlight('@variable', base08)
 
   highlight('PMenu', base05, base01)
   highlight('PMenuSel', base01, base05)
