@@ -244,6 +244,10 @@ return {
 		config = function()
 			require("illuminate").configure({
 				delay = 10,
+				filetypes_denylist = {
+					"NeogitStatus",
+					"minifiles",
+				},
 			})
 			-- Avoid using default underline since some colorschemes don't define these plugin-specific hl
 			highlight_hook(function()

@@ -8,9 +8,18 @@ const extractThemes = (html: string) => {
   const colorRegex = /--colorscheme-(\S+?):(#[^;"']+)/g
 
   const titles = []
+  const counts: Record<string, number> = {}
+
   let titleMatch
   while ((titleMatch = titleRegex.exec(html)) !== null) {
-    titles.push({ name: titleMatch[1], index: titleMatch.index })
+    let title = titleMatch[1]
+    if (counts[title]) {
+      title = `${title} ${counts[title]}`
+      counts[title] += 1
+    } else {
+      counts[title] = 1
+    }
+    titles.push({ name: title, index: titleMatch.index })
   }
 
   const themes = []
@@ -42,19 +51,19 @@ const toBase16 = (themeName: string, colors: Record<string, string>) => {
     base00: colors.NormalBg,
     base01: colors.StatusLineBg,
     base02: colors.CursorLineBg,
-    base03: colors.LineNrFg,
-    base04: colors.StatusLineFg,
+    base03: colors.vimLineCommentFg,
+    base04: colors.StatusLineFg || colors.LineNrFg,
     base05: colors.NormalFg,
     base06: colors.CursorBg,
     base07: colors.CursorFg,
     base08: colors.vimVarFg,
     base09: colors.vimNumberFg,
-    base0A: colors.CursorLineNrFg,
+    base0A: colors.vimFuncModFg,
     base0B: colors.vimStringFg,
     base0C: colors.vimFuncParamFg,
     base0D: colors.vimFuncNameFg,
-    base0E: colors.vimLetFg,
-    base0F: colors.vimNotFuncFg,
+    base0E: colors.vimNotFuncFg,
+    base0F: colors.vimLetFg,
   }
 
   let yaml = `scheme: "${themeName}"\nauthor: "Unknown"\n`
@@ -64,15 +73,11 @@ const toBase16 = (themeName: string, colors: Record<string, string>) => {
   return yaml
 }
 
-// Main
-
-//const { repo } = await prompts({
-//  type: 'text',
-//  name: 'repo',
-//  message: 'Enter the theme repo (e.g., "dracula/vim"):',
-//})
-
-const repo = 'edeneast/nightfox.nvim'
+const { repo } = await prompts({
+  type: 'text',
+  name: 'repo',
+  message: 'Enter the theme repo (e.g., dracula/vim):',
+})
 
 const response = await fetch(`https://vimcolorschemes.com/${repo}`)
 const html = await response.text()
@@ -99,3 +104,4 @@ for (const theme of selectedThemes) {
 }
 
 await import('./build.ts')
+Deno.exit(0)

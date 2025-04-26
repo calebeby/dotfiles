@@ -67,6 +67,55 @@ return {
 			require("telescope").load_extension("zk")
 
 			do
+				local cached_themes = false
+
+				local function hsv_from_hex(hex)
+					hex = hex:gsub("#", "")
+					local r = tonumber(hex:sub(1, 2), 16) / 255
+					local g = tonumber(hex:sub(3, 4), 16) / 255
+					local b = tonumber(hex:sub(5, 6), 16) / 255
+					local maxc, minc = math.max(r, g, b), math.min(r, g, b)
+					local v = maxc
+					local d = maxc - minc
+					local s = (maxc == 0) and 0 or d / maxc
+					local h
+					if d == 0 then
+						h = 0
+					else
+						if maxc == r then
+							h = ((g - b) / d + (g < b and 6 or 0)) * 60
+						elseif maxc == g then
+							h = ((b - r) / d + 2) * 60
+						else
+							h = ((r - g) / d + 4) * 60
+						end
+					end
+					return h, s, v
+				end
+
+				local function assign_buckets(source_prop, dest_prop, threshold, items)
+					local entries = {}
+					for _, v in ipairs(items) do
+						local val = v[source_prop]
+						if type(val) == "number" then
+							entries[#entries + 1] = { value = val, item = v }
+						end
+					end
+					table.sort(entries, function(a, b)
+						return a.value < b.value
+					end)
+
+					local bucket = 1
+					local last_val = nil
+					for _, e in ipairs(entries) do
+						if last_val ~= nil and e.value - last_val >= threshold then
+							bucket = bucket + 1
+						end
+						e.item[dest_prop] = bucket
+						last_val = e.value
+					end
+				end
+
 				-- Better than built-in because it separates light vs dark themes
 				local function colorscheme_picker()
 					local pickers = require("telescope.pickers")
@@ -81,16 +130,55 @@ return {
 					local function categorize_schemes(colorscheme_files)
 						local themes = {}
 
-						for _, cs in ipairs(colorscheme_files) do
-							vim.cmd("colorscheme " .. cs)
+						for _, name in ipairs(colorscheme_files) do
+							vim.cmd("colorscheme " .. name)
 							local group = vim.o.background == "light" and "Light"
 								or vim.o.background == "dark" and "Dark"
 								or "Other"
-							table.insert(themes, { name = cs, group = group })
+							local hl = vim.api.nvim_get_hl(0, { name = "Normal" })
+							local hl_group = "Normal"
+							if hl and (hl.fg or hl.bg) then
+								hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
+								vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
+							end
+							local hex = string.format("#%06x", hl.bg or 0xffffff)
+							local hue, saturation, brightness = hsv_from_hex(hex)
+							table.insert(themes, {
+								name = name,
+								group = group,
+								hue = hue,
+								saturation = saturation,
+								brightness = brightness,
+								hl_group = hl_group,
+							})
 						end
 
+						assign_buckets("brightness", "brightness_bucket", 0.012, themes)
+
 						table.sort(themes, function(a, b)
-							return a.group == b.group and a.name < b.name or a.group < b.group
+							if a.group ~= b.group then
+								return a.group < b.group -- light before dark
+							end
+
+							if a.brightness_bucket ~= b.brightness_bucket then
+								return a.brightness_bucket < b.brightness_bucket
+							end
+
+							local a_neutral = (a.saturation <= 0.2)
+							local b_neutral = (b.saturation <= 0.2)
+							if a_neutral ~= b_neutral then
+								return a_neutral
+							end
+
+							if a_neutral and b_neutral then
+								return a.brightness < b.brightness
+							end
+
+							if math.abs(a.hue - b.hue) > 1 then
+								return a.hue < b.hue
+							end
+
+							return a.brightness < b.brightness
 						end)
 
 						return themes
@@ -101,8 +189,6 @@ return {
 							return first:upper() .. rest:lower()
 						end):gsub("_", " ")
 					end
-
-					local cached_themes = false
 
 					local function launch_picker()
 						local colorscheme_files = vim.fn.getcompletion("", "color")
@@ -117,20 +203,35 @@ return {
 						local bufnr = vim.api.nvim_get_current_buf()
 						local p = vim.api.nvim_buf_get_name(bufnr)
 
+						-- Find the index of the current colorscheme
+						local default_index = nil
+						for i, entry in ipairs(themes) do
+							if entry.name == current_colorscheme then
+								default_index = i
+								break
+							end
+						end
+
 						pickers
 							.new({}, {
 								prompt_title = "Colorschemes (light/dark)",
 								finder = finders.new_table({
 									results = themes,
 									entry_maker = function(entry)
+										local display = string.format("[%s] %s", entry.group, format_name(entry.name))
 										return {
 											value = entry,
-											display = string.format("[%s] %s", entry.group, format_name(entry.name)),
-											ordinal = entry.name,
+											display = function()
+												print(vim.inspect(entry))
+												return display,
+													{ { { entry.group:len() + 3, display:len() }, entry.hl_group } }
+											end,
+											ordinal = display,
 										}
 									end,
 								}),
 								sorter = conf.generic_sorter({}),
+								default_selection_index = default_index,
 								previewer = previewers.new_buffer_previewer({
 									get_buffer_by_name = function()
 										return p
