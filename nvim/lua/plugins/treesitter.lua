@@ -138,6 +138,8 @@ return {
 				enable = true,
 				line_numbers = true,
 				mode = "topline",
+				min_window_height = 15,
+				max_lines = 5,
 			})
 			vim.opt.foldmethod = "expr"
 			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
