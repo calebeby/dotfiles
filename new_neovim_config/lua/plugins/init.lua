@@ -404,9 +404,27 @@ return {
 		opts = {},
 	},
 	{
-		"norcalli/nvim-colorizer.lua",
-		cmd = "ColorizerToggle",
-		opts = {},
+		"brenoprata10/nvim-highlight-colors",
+		cmd = "HighlightColors",
+		keys = {
+			{
+				"<leader>ks",
+				mode = { "n" },
+				":HighlightColors Toggle<CR>",
+				desc = "Toggle showing colors",
+			},
+		},
+		config = function(_, opts)
+			local C = require("nvim-highlight-colors")
+			C.setup(opts)
+			C.turnOff() -- Immediately turn it off after loading, so that the first toggle command will actually turn it on
+		end,
+		opts = {
+			render = "virtual",
+			virtual_symbol = "◖███◗",
+			virtual_symbol_prefix = " ← ",
+			virtual_symbol_position = "eol",
+		},
 	},
 	{
 		"ThePrimeagen/harpoon",
