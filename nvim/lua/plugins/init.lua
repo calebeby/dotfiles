@@ -8,7 +8,6 @@ return {
 	"nvim-tree/nvim-web-devicons",
 	{
 		"echasnovski/mini.files",
-		version = "*",
 		config = function()
 			local function split_alpha_num(str)
 				local parts = {}
@@ -178,7 +177,6 @@ return {
 	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
-		version = false,
 		opts = {},
 	},
 	{
@@ -201,7 +199,6 @@ return {
 	{
 		"echasnovski/mini.surround",
 		event = "VeryLazy",
-		version = false,
 		config = function()
 			require("mini.surround").setup({
 				mappings = {
@@ -225,7 +222,6 @@ return {
 	{
 		"echasnovski/mini.bracketed",
 		event = "VeryLazy",
-		version = "*",
 		opts = {},
 	},
 	{
@@ -247,6 +243,8 @@ return {
 				filetypes_denylist = {
 					"NeogitStatus",
 					"minifiles",
+					"grug-far",
+					"DiffviewFiles",
 				},
 			})
 			-- Avoid using default underline since some colorschemes don't define these plugin-specific hl
@@ -628,7 +626,6 @@ return {
 	},
 	{
 		"echasnovski/mini.comment",
-		version = "*",
 		opts = {
 			mappings = {
 				textobject = "ac",

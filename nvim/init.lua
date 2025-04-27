@@ -219,7 +219,7 @@ vim.keymap.set("n", "<leader>a", function()
 
 	local spellsuggest = function()
 		if vim.o.spell then
-			vim.cmd([[WhichKey z=]])
+			require("snacks").picker.spelling()
 		end
 	end
 
