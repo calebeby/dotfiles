@@ -84,6 +84,7 @@ return {
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
+					"query", -- for treesitter queries
 					"typescript",
 					"javascript",
 					"tsx",

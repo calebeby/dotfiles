@@ -130,8 +130,6 @@ return {
 					map("n", "<leader>hD", function()
 						gitsigns.diffthis("~")
 					end, { desc = "Vimdiff uncommitted changes in file" })
-					map("n", "<leader>td", gitsigns.toggle_deleted, { desc = "Toggle showing unstaged deleted lines" })
-
 					-- Text object
 					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "hunk" })
 				end,

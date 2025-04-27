@@ -352,6 +352,60 @@ return {
 		end,
 	},
 	{
+		"folke/snacks.nvim",
+		keys = {
+			{
+				"<leader>o",
+				function()
+					require("snacks").picker("files")
+				end,
+			},
+			{
+				"<leader>t",
+				mode = { "n" },
+				function()
+					require("snacks").terminal.toggle()
+				end,
+				desc = "Toggle Terminal",
+			},
+		},
+		opts = {
+			terminal = {},
+			image = {
+				formats = {
+					"png",
+					"jpg",
+					"jpeg",
+					"gif",
+					"bmp",
+					"webp",
+					"tiff",
+					"heic",
+					"avif",
+					"mp4",
+					"mov",
+					"avi",
+					"mkv",
+					"webm",
+					"pdf",
+					"svg",
+				},
+				doc = {
+					inline = false,
+					float = true,
+					max_width = 35,
+					max_height = 10,
+				},
+				math = { latex = { font_size = "LARGE" } },
+			},
+			notifier = {},
+			picker = {},
+			styles = {
+				snacks_image = { border = "none" },
+			},
+		},
+	},
+	{
 		"folke/zen-mode.nvim",
 		keys = {
 			{
@@ -363,7 +417,7 @@ return {
 		cmd = "ZenMode",
 		opts = {
 			window = {
-				backdrop = 0.55,
+				backdrop = 0.95,
 				width = 100,
 				options = {
 					signcolumn = "no",
@@ -386,22 +440,6 @@ return {
 				},
 			},
 		},
-	},
-	{
-		"akinsho/toggleterm.nvim",
-		version = "*",
-		cmd = "ToggleTerm",
-		keys = {
-			{
-				"<c-`>",
-				mode = { "n", "t" },
-				function()
-					require("toggleterm").toggle_command("direction=float")
-				end,
-				desc = "Toggle Terminal",
-			},
-		},
-		opts = {},
 	},
 	{
 		"brenoprata10/nvim-highlight-colors",
