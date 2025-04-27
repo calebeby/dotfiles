@@ -75,7 +75,7 @@ return {
 					go_in = "l",
 					go_in_plus = "<CR>", -- automatically close after selecting a file
 					go_out = "h",
-					go_out_plus = "<ESC>",
+					go_out_plus = "",
 					reset = "<BS>",
 					reveal_cwd = "@",
 					show_help = "?",
@@ -358,7 +358,7 @@ return {
 		"MagicDuck/grug-far.nvim",
 		keys = {
 			{
-				"<leader>f",
+				"<leader>F",
 				function()
 					require("grug-far").open({ windowCreationCommand = "tab split" })
 				end,
@@ -412,6 +412,19 @@ return {
 				end,
 			},
 			{
+				"<leader>f",
+				function()
+					require("snacks").picker("grep")
+				end,
+			},
+			{
+				"<leader>E",
+				function()
+					require("snacks").explorer()
+				end,
+				desc = "Open file explorer (snacks.explorer)",
+			},
+			{
 				"<leader>t",
 				mode = { "n" },
 				function()
@@ -450,7 +463,27 @@ return {
 				math = { latex = { font_size = "LARGE" } },
 			},
 			notifier = {},
-			picker = {},
+			picker = {
+				sources = {
+					explorer = {
+						win = {
+							list = {
+								keys = {
+									["<BS>"] = "explorer_up",
+									["h"] = "explorer_close",
+									["dd"] = "explorer_del",
+									["d"] = { "" },
+									["<leader>rn"] = "explorer_rename",
+									["r"] = "",
+									["y"] = { "" },
+									["yy"] = { "explorer_yank", mode = { "n", "x" } },
+									["u"] = "explorer_update",
+								},
+							},
+						},
+					},
+				},
+			},
 			styles = {
 				snacks_image = { border = "none" },
 			},

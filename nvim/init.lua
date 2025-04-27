@@ -125,6 +125,7 @@ vim.o.listchars = [[trail:·,tab:  ]]
 
 vim.filetype.add({
 	extension = {
+		pdf = "image",
 		png = "image",
 		jpg = "image",
 		jpeg = "image",
@@ -190,21 +191,36 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.g.zipPlugin_ext =
 	"*.zip,*.jar,*.xpi,*.ja,*.war,*.ear,*.celzip,*.oxt,*.kmz,*.wsz,*.xap,*.docm,*.dotx,*.dotm,*.potx,*.potm,*.ppsx,*.ppsm,*.pptm,*.ppam,*.sldx,*.thmx,*.xlam,*.xlsb,*.xltx,*.xltm,*.xlam,*.crtx,*.vdw,*.glox,*.gcsx,*.gqsx,*.epub"
 
+local function open_externally()
+	-- Delete this buffer automatically when it is hidden (not shown in a window)
+	vim.opt_local.bufhidden = "delete"
+	if vim.bo.filetype == "xopp" then
+		-- Could not get the filetype registered in xdg-mime correctly (shows as gzip)
+		-- So this is a hack
+		vim.system({ "xournalpp", vim.fn.expand("%:p") }, { detach = true })
+	else
+		vim.system({ "xdg-open", vim.fn.expand("%:p") }, { detach = true })
+	end
+	-- Go back to previous file
+	vim.cmd([[exec "normal!\<c-o>"]])
+end
+
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "pdf", "docx", "doc", "pptx", "ppt", "xls", "xlsx", "image", "video", "odt", "ods", "odp", "xopp" },
+	pattern = { "docx", "doc", "pptx", "ppt", "xls", "xlsx", "odt", "ods", "odp", "xopp" },
 	group = vim.api.nvim_create_augroup("binary_files_external", { clear = true }),
+	callback = open_externally,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "image" },
+	group = vim.api.nvim_create_augroup("image_preview", { clear = true }),
 	callback = function()
-		-- Delete this buffer automatically when it is hidden (not shown in a window)
-		vim.opt_local.bufhidden = "delete"
-		if vim.bo.filetype == "xopp" then
-			-- Could not get the filetype registered in xdg-mime correctly (shows as gzip)
-			-- So this is a hack
-			vim.system({ "xournalpp", vim.fn.expand("%:p") }, { detach = true })
-		else
-			vim.system({ "xdg-open", vim.fn.expand("%:p") }, { detach = true })
+		local path = vim.fn.expand("%:p")
+		-- This check makes the snacks picker preview window work for images/pdfs,
+		-- without trying to open them externally
+		if path ~= "" then
+			open_externally()
 		end
-		-- Go back to previous file
-		vim.cmd([[exec "normal!\<c-o>"]])
 	end,
 })
 
@@ -309,9 +325,9 @@ vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
 vim.keymap.set("n", "<CR>", "r<CR>")
 
 -- File tree
-vim.keymap.set("n", "<Leader>e", function()
+vim.keymap.set("n", "<leader>e", function()
 	MiniFiles.open(vim.api.nvim_buf_get_name(0))
-end, { remap = true, desc = "Open file explorer" })
+end, { remap = true, desc = "Open file explorer (mini.files)" })
 
 require("lazy").setup("plugins", {
 	change_detection = {
