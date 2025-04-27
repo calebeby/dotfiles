@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write
+#!/usr/bin/env -S deno --watch=colorschemes --allow-read --allow-write
 
 import {
   fromFileUrl,
@@ -141,7 +141,7 @@ vim.g.colors_name = "${luaName}"
     fg = '',
     bg = '',
     style: string[] = [],
-    sp = '',
+    sp = ''
   ) => {
     const attrs: string[] = []
     if (fg) attrs.push(`fg = "${fg}"`)
@@ -172,7 +172,7 @@ vim.g.colors_name = "${luaName}"
   highlight('CursorLine', '', mix(0.15, base01, base00))
   highlight('CursorColumn', '', mix(0.15, base01, base00))
   highlight('ColorColumn', '', mix(0.15, base01, base00))
-  highlight('SignColumn', base05, base01)
+  highlight('SignColumn', base05)
   highlight('NonText', base01)
   highlight('WinSeparator', mix(0.4, base01, base00), base00)
   highlight('QuickFixLine', '', base01)
@@ -216,6 +216,11 @@ vim.g.colors_name = "${luaName}"
   highlight('FoldColumn', base03, base00)
   highlight('Conceal', base03, '')
   highlight('NonText', base03, '')
+  highlight('ModeMsg', base0E)
+  highlight('WarningMsg', base09)
+  highlight('ErrorMsg', reddest)
+  highlight('MoreMsg', base0A)
+  highlight('Question', base0A)
 
   // diagnostics
   highlight('DiagnosticError', reddest)
