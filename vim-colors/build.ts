@@ -141,7 +141,7 @@ vim.g.colors_name = "${luaName}"
     fg = '',
     bg = '',
     style: string[] = [],
-    sp = ''
+    sp = '',
   ) => {
     const attrs: string[] = []
     if (fg) attrs.push(`fg = "${fg}"`)
@@ -284,6 +284,9 @@ vim.g.colors_name = "${luaName}"
   highlight('@variable.member', base05)
   highlight('@lsp.type.property', base05)
   highlight('@lsp.type.class', base08)
+
+  highlight('TreesitterContext', '', mix(0.3, base01, base00))
+  highlight('TreesitterContextLineNumber', base03, mix(0.3, base01, base00))
 
   highlight('MiniFilesNormal', base05, base00)
   highlight('MiniFilesBorder', base05, base00)
