@@ -1,9 +1,4 @@
-vim/init.vim: ~/.vimrc
-vim:
-  - ~/.config/nvim
-  - ~/.vim
-new_neovim_config:
-  - ~/.config/new_neovim_config
+nvim: ~/.config/nvim
 bat: ~/.config/bat
 fish: ~/.config/fish
 i3: ~/.config/i3/config

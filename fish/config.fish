@@ -29,7 +29,7 @@ set --global hydro_symbol_git_behind "⇣"
 set --global hydro_symbol_git_ahead "⇡"
 
 alias n="nvim -S"
-alias nn="NVIM_APPNAME=new_neovim_config nvim"
+alias nn="nvim"
 
 abbr ns npm start
 abbr nd npm run dev
