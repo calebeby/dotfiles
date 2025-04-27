@@ -607,4 +607,23 @@ return {
 			{ "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
 		},
 	},
+	{
+		"y3owk1n/time-machine.nvim",
+		version = "*",
+		keys = {
+			{
+				"<Leader>u",
+				mode = { "n" },
+				function()
+					require("time-machine").actions.toggle()
+				end,
+				desc = "Undo history",
+			},
+		},
+		opts = {
+			native_diff_opts = {
+				result_type = "unified",
+			},
+		},
+	},
 }

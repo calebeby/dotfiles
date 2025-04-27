@@ -5,7 +5,6 @@ return {
 		cmd = { "Telescope" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"debugloop/telescope-undo.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
@@ -46,21 +45,9 @@ return {
 				},
 				extensions = {
 					aerial = {},
-					undo = {
-						use_delta = false,
-						vim_diff_opts = {
-							ctxlen = 5,
-						},
-						mappings = {
-							i = {
-								["<cr>"] = require("telescope-undo.actions").restore,
-							},
-						},
-					},
 				},
 			})
 
-			require("telescope").load_extension("undo")
 			require("telescope").load_extension("aerial")
 			require("telescope").load_extension("fzf")
 
