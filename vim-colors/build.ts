@@ -159,7 +159,7 @@ vim.g.colors_name = "${luaName}"
   // core highlights
   highlight('Normal', base05, base00)
   highlight('Visual', '', base02)
-  highlight('NormalFloat', '', base01)
+  highlight('NormalFloat', '', base00)
   highlight('SnippetTabstop', '', mix(0.5, base01, base00)) // using for tree-climber highlight too
   highlight('LspReferenceText', '', base01)
   highlight('LspReferenceRead', '', base01)
@@ -214,6 +214,8 @@ vim.g.colors_name = "${luaName}"
   highlight('Todo', base0A, base01)
   highlight('Folded', base03, base01)
   highlight('FoldColumn', base03, base00)
+  highlight('Conceal', base03, '')
+  highlight('NonText', base03, '')
 
   // diagnostics
   highlight('DiagnosticError', reddest)
