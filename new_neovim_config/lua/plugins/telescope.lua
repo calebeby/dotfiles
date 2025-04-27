@@ -207,7 +207,6 @@ return {
 										return {
 											value = entry,
 											display = function()
-												print(vim.inspect(entry))
 												return display,
 													{ { { entry.group:len() + 3, display:len() }, entry.hl_group } }
 											end,

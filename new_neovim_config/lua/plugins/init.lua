@@ -626,4 +626,22 @@ return {
 			},
 		},
 	},
+	{
+		"echasnovski/mini.comment",
+		version = "*",
+		opts = {
+			mappings = {
+				textobject = "ac",
+			},
+		},
+	},
+	{
+		"chrisgrieser/nvim-various-textobjs",
+		event = "VeryLazy",
+		opts = {
+			keymaps = {
+				useDefaults = true,
+			},
+		},
+	},
 }

@@ -114,16 +114,6 @@ return {
 				indent = {
 					enable = true,
 				},
-				-- Expanding selection
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<C-space>",
-						node_incremental = "<C-space>",
-						scope_incremental = false,
-						node_decremental = "<bs>",
-					},
-				},
 				textobjects = {
 					select = {
 						enable = true,
@@ -135,18 +125,11 @@ return {
 							["iF"] = "@call.inner",
 							["ab"] = "@block.outer",
 							["ib"] = "@block.inner",
-							["a,"] = "@parameter.outer",
-							["i,"] = "@parameter.inner",
+							["aa"] = "@parameter.outer",
+							["ia"] = "@parameter.inner",
+							["ac"] = "@comment.outer",
+							["ic"] = "@comment.inner",
 						},
-					},
-					swap = {
-						-- enable = true,
-						-- swap_next = {
-						-- 	["<Leader>l"] = "@parameter.inner",
-						-- },
-						-- swap_previous = {
-						-- 	["<Leader>h"] = "@parameter.inner",
-						-- },
 					},
 				},
 			})
