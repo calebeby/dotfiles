@@ -10,7 +10,6 @@ return {
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 			},
-			"zk-org/zk-nvim",
 			"protex/better-digraphs.nvim",
 		},
 		keys = {
@@ -64,7 +63,6 @@ return {
 			require("telescope").load_extension("undo")
 			require("telescope").load_extension("aerial")
 			require("telescope").load_extension("fzf")
-			require("telescope").load_extension("zk")
 
 			do
 				local cached_themes = false
