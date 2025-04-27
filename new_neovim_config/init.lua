@@ -209,14 +209,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.keymap.set("n", "<leader>a", function()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local params = vim.lsp.util.make_range_params()
-
-	params.context = {
-		triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
-		diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
-	}
-	local lsp_clients = vim.lsp.buf_get_clients()
+	local lsp_clients = vim.lsp.get_clients({ buffer = 0 })
 	local supports_code_action = false
 	for k, client in pairs(lsp_clients) do
 		if client.server_capabilities.codeActionProvider then
@@ -226,20 +219,19 @@ vim.keymap.set("n", "<leader>a", function()
 
 	local spellsuggest = function()
 		if vim.o.spell then
-			vim.fn.feedkeys("z=")
+			vim.cmd([[WhichKey z=]])
 		end
 	end
 
 	if supports_code_action then
-		local bufnr = vim.api.nvim_get_current_buf()
-		local params = vim.lsp.util.make_range_params()
+		local params = vim.lsp.util.make_range_params(0, lsp_clients[1].offset_encoding or "utf-16")
 
 		params.context = {
 			triggerKind = vim.lsp.protocol.CodeActionTriggerKind.Invoked,
-			diagnostics = vim.lsp.diagnostic.get_line_diagnostics(),
+			diagnostics = vim.diagnostic.get(0),
 		}
 
-		vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(error, results, context, config)
+		vim.lsp.buf_request_all(0, "textDocument/codeAction", params, function(error, results, context, config)
 			local has_action = false
 			for k, action in pairs(results) do
 				has_action = true

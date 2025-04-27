@@ -634,21 +634,6 @@ return {
 					Space(2),
 					-- hl = hl.LspServer,
 				}
-
-				Lsp = {
-					condition = conditions.lsp_attached,
-					init = function(self)
-						local names = {}
-						for _, server in pairs(vim.lsp.buf_get_clients(0)) do
-							table.insert(names, server.name)
-						end
-						self.lsp_names = names
-					end,
-					-- hl = hl.LspServer,
-					flexible = priority.Lsp,
-					LspServer,
-					LspIndicator,
-				}
 			end
 
 			local SearchResults = {
@@ -775,7 +760,6 @@ return {
 					Align,
 					Diagnostics,
 					Git,
-					Lsp,
 					FileProperties,
 					Ruler,
 					ScrollPercentage,

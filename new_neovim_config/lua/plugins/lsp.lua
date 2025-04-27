@@ -100,7 +100,7 @@ return {
 					marksman = function()
 						lspconfig.marksman.setup({
 							capabilities = capabilities,
-							filetypes = { "markdown", "djot" },
+							filetypes = { "markdown" },
 						})
 					end,
 					lua_ls = function()
