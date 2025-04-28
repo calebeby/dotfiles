@@ -281,6 +281,7 @@ vim.g.colors_name = "${luaName}"
   highlight('@markup.underline', greenest, base00)
   highlight('@markup.link.url', '', '', ['underline'])
   highlight('@variable', base08)
+  highlight('@module', base08)
   highlight('@variable.member', base05)
   highlight('@lsp.type.property', base05)
   highlight('@lsp.type.class', base08)

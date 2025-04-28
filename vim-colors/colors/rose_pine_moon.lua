@@ -110,6 +110,7 @@ vim.api.nvim_set_hl(0, "@markup.strikethrough", { fg = "#eb6f92", bg = "#232136"
 vim.api.nvim_set_hl(0, "@markup.underline", { fg = "#9ccfd8", bg = "#232136" })
 vim.api.nvim_set_hl(0, "@markup.link.url", { underline = true })
 vim.api.nvim_set_hl(0, "@variable", { fg = "#e0def4" })
+vim.api.nvim_set_hl(0, "@module", { fg = "#e0def4" })
 vim.api.nvim_set_hl(0, "@variable.member", { fg = "#e0def4" })
 vim.api.nvim_set_hl(0, "@lsp.type.property", { fg = "#e0def4" })
 vim.api.nvim_set_hl(0, "@lsp.type.class", { fg = "#e0def4" })
