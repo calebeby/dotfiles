@@ -408,7 +408,7 @@ return {
 			{
 				"<leader>o",
 				function()
-					require("snacks").picker("files")
+					require("snacks").picker.smart({ ignored = true })
 				end,
 			},
 			{
