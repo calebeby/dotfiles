@@ -298,6 +298,9 @@ return {
 					"minifiles",
 					"grug-far",
 					"DiffviewFiles",
+					"djot",
+					"markdown",
+					"gitcommit",
 				},
 			})
 			-- Avoid using default underline since some colorschemes don't define these plugin-specific hl
