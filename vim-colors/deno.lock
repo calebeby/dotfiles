@@ -1,6 +1,22 @@
 {
   "version": "4",
+  "specifiers": {
+    "npm:@types/node@*": "22.12.0"
+  },
+  "npm": {
+    "@types/node@22.12.0": {
+      "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "undici-types@6.20.0": {
+      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
+    }
+  },
   "redirects": {
+    "https://esm.sh/@types/prompts@~2.4.9/index.d.ts": "https://esm.sh/@types/prompts@2.4.9/index.d.ts",
+    "https://esm.sh/fflate": "https://esm.sh/fflate@0.8.2",
     "https://esm.sh/kleur@^3.0.3?target=denonext": "https://esm.sh/kleur@3.0.3?target=denonext",
     "https://esm.sh/polished": "https://esm.sh/polished@4.3.1",
     "https://esm.sh/prompts": "https://esm.sh/prompts@2.4.2",
@@ -69,6 +85,8 @@
     "https://deno.land/std@0.201.0/path/to_file_url.ts": "00e6322373dd51ad109956b775e4e72e5f9fa68ce2c6b04e4af2a6eed3825d31",
     "https://deno.land/std@0.201.0/path/to_namespaced_path.ts": "1b1db3055c343ab389901adfbda34e82b7386bcd1c744d54f9c1496ee0fd0c3d",
     "https://deno.land/std@0.201.0/path/win32.ts": "8b3f80ef7a462511d5e8020ff490edcaa0a0d118f1b1e9da50e2916bdd73f9dd",
+    "https://esm.sh/fflate@0.8.2": "e0cdd268850b4eac9ef9f188a3b4c5c9dd3ebd0f66c4006a13911b2a0c0512bb",
+    "https://esm.sh/fflate@0.8.2/denonext/fflate.mjs": "51759ec52e8522bbcd6dce941956a878c733975dcc159618c683c659270a59d3",
     "https://esm.sh/kleur@3.0.3/denonext/kleur.mjs": "54e5567cfca6f7dd0bccb507645889aa0595079879d7aa765c397e4b23003572",
     "https://esm.sh/kleur@3.0.3?target=denonext": "07e84fbef0b720cc41c46a08210a3b2ef1d8c0f91ed3b2288ebc660c1f8f33e9",
     "https://esm.sh/polished@4.3.1": "74acf63aff002f1dccc1710000aa1ab80a84eaffefdd1ad3b83d4b363a07e3ea",
