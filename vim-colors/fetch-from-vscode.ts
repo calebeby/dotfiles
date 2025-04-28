@@ -2,7 +2,8 @@
 
 import prompts from 'https://esm.sh/prompts@2.4.2'
 import { unzipSync, strFromU8 } from 'https://esm.sh/fflate@0.8.2'
-import { join, resolve } from 'https://deno.land/std@0.201.0/path/mod.ts'
+import { join } from 'https://deno.land/std@0.201.0/path/mod.ts'
+import { parse } from 'https://deno.land/std@0.220.1/jsonc/mod.ts'
 
 const { url } = await prompts({
   type: 'text',
@@ -11,7 +12,7 @@ const { url } = await prompts({
 })
 
 // const url =
-//   'https://marketplace.visualstudio.com/items?itemName=unthrottled.doki-theme'
+//   'https://marketplace.visualstudio.com/items?itemName=RobbOwen.synthwave-vscode'
 
 const match =
   /^https:\/\/marketplace.visualstudio.com\/items\?itemName=(?<publisher>[^\.]*).(?<pkg>[^\.]*)$/.exec(
@@ -28,7 +29,7 @@ const zipData = new Uint8Array(await res.arrayBuffer())
 
 const files = unzipSync(zipData)
 
-const pkgJson = JSON.parse(strFromU8(files['extension/package.json']))
+const pkgJson = parse(strFromU8(files['extension/package.json']))
 
 function colorize(hex: string) {
   const m = hex.replace(/^#/, '').match(/.{1,2}/g)
@@ -39,7 +40,7 @@ function colorize(hex: string) {
 
 for (const themeMetadata of pkgJson?.contributes?.themes) {
   const themeName = themeMetadata.label.replace(/\s+/g, ' ')
-  const themeJSON = JSON.parse(
+  const themeJSON = parse(
     strFromU8(files[join('extension', themeMetadata.path)]),
   )
 
@@ -60,36 +61,69 @@ for (const themeMetadata of pkgJson?.contributes?.themes) {
   // )
 
   const getScopeColor = (name: string) => {
-    const v = themeJSON.tokenColors.findLast((s: any) => s.scope.includes(name))
-      ?.settings?.foreground
+    const v = themeJSON.tokenColors.findLast((s: any) =>
+      Array.isArray(s.scope) ? s.scope?.includes(name) : s.scope === name,
+    )?.settings?.foreground
     if (!v) return null
     return normalize(v)
   }
 
+  // await Deno.writeTextFile('foo.json', JSON.stringify(themeJSON, null, 2))
+
+  const base00 = normalize(themeJSON.colors['editor.background']) // Default Background
+  const base01 = normalize(themeJSON.colors['statusBar.background']) // Lighter Background (Used for status bars line number and folding marks)
+  const base02 = normalize(
+    themeJSON.colors['selection.background'] ??
+      themeJSON.colors['editor.selectionBackground'],
+  ) // Selection Background
+  const base03 = getScopeColor('comment') // Comments, Invisibles, Line Highlighting
+  const base04 = normalize(
+    themeJSON.colors['statusBar.foreground'] ?? themeJSON.colors['foreground'],
+  ) // Dark Foreground (Used for status bars)
+  const base05 = normalize(
+    themeJSON.colors['editor.foreground'] ?? themeJSON.colors['foreground'],
+  ) // Default Foreground, Caret, Delimiters, Operators
+  const base06 = normalize(themeJSON.colors['dropdown.foreground'] ?? base05) // Light Foreground (Not often used)
+  const base07 = normalize(themeJSON.colors['dropdown.background'] ?? base05) // Light Background (Not often used)
+  const base08 =
+    getScopeColor('entity.name.variable') ??
+    getScopeColor('variable') ??
+    getScopeColor('entity.name.tag') // Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
+  const base09 =
+    getScopeColor('constant.numeric') ??
+    getScopeColor('constant.language.boolean')
+  const base0A =
+    getScopeColor('support.type') ??
+    getScopeColor('storage.type') ??
+    getScopeColor('entity.name.type') // Classes, Markup Bold, Search Text Background
+  const base0B =
+    getScopeColor('string') ??
+    getScopeColor('string.quoted') ??
+    getScopeColor('string.template')
+  const base0C =
+    getScopeColor('constant.character.escape') ??
+    getScopeColor('string.regexp') ??
+    getScopeColor('variable.language.special') // Support, Regular Expressions, Escape Characters, Markup Quotes
+  const base0D = getScopeColor('entity.name.function') // Functions, Methods, Attribute IDs, Headings
+  const base0E = getScopeColor('keyword') // Keywords, Storage, Selector, Markup Italic, Diff Changed
+  const base0F = getScopeColor('entity.other.attribute-name') // Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
   const colors = {
-    base00: normalize(themeJSON.colors['editor.background']), // Default Background
-    base01: normalize(themeJSON.colors['statusBar.background']), // Lighter Background (Used for status bars, line number and folding marks)
-    base02: normalize(themeJSON.colors['selection.background']), // Selection Background
-    base03: getScopeColor('comment'), // Comments, Invisibles, Line Highlighting
-    base04: normalize(
-      themeJSON.colors['statusBar.foreground'] ??
-        themeJSON.colors['foreground'],
-    ), // Dark Foreground (Used for status bars)
-    base05: normalize(themeJSON.colors['editor.foreground']), // Default Foreground, Caret, Delimiters, Operators
-    base06: normalize(themeJSON.colors['dropdown.foreground']), // Light Foreground (Not often used)
-    base07: normalize(themeJSON.colors['dropdown.background']), // Light Background (Not often used)
-    base08: getScopeColor('entity.name.tag'), // Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
-    base09:
-      getScopeColor('constant.numeric') ??
-      getScopeColor('constant.language.boolean'),
-    base0A: getScopeColor('storage.type'), // Classes, Markup Bold, Search Text Background
-    base0B: getScopeColor('string'),
-    base0C:
-      getScopeColor('constant.character.escape') ??
-      getScopeColor('variable.language.special'), // Support, Regular Expressions, Escape Characters, Markup Quotes
-    base0D: getScopeColor('entity.name.function'), // Functions, Methods, Attribute IDs, Headings
-    base0E: getScopeColor('keyword'), // Keywords, Storage, Selector, Markup Italic, Diff Changed
-    base0F: getScopeColor('entity.other.attribute-name'), // Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
+    base00,
+    base01,
+    base02,
+    base03,
+    base04,
+    base05,
+    base06,
+    base07,
+    base08,
+    base09,
+    base0A,
+    base0B,
+    base0C,
+    base0D,
+    base0E,
+    base0F,
   }
 
   const targetFileName = `${themeName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.yaml`
