@@ -215,6 +215,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "image" },
 	group = vim.api.nvim_create_augroup("image_preview", { clear = true }),
 	callback = function()
+		vim.bo.buftype = "nowrite"
 		local path = vim.fn.expand("%:p")
 		-- This check makes the snacks picker preview window work for images/pdfs,
 		-- without trying to open them externally
