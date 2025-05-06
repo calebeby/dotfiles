@@ -466,6 +466,9 @@ return {
 				math = { latex = { font_size = "LARGE" } },
 			},
 			notifier = {},
+			lazygit = {
+				configure = true,
+			},
 			picker = {
 				sources = {
 					explorer = {

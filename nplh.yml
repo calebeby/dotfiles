@@ -12,3 +12,4 @@ kitty.conf:
   - ~/.config/kitty/kitty.conf
 picom.conf: ~/.config/picom/picom.conf
 gammastep.ini: ~/.config/gammastep/config.ini
+lazygit.yml: ~/.config/lazygit/config.yml

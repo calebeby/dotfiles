@@ -296,6 +296,9 @@ vim.keymap.set(
 	":DiffviewFileHistory %<CR>",
 	{ desc = "Git Log Current File (Diffview)", silent = true }
 )
+vim.keymap.set("n", "<Leader>gz", function()
+	require("snacks").lazygit.open()
+end, { desc = "Open LazyGit", silent = true })
 
 vim.keymap.set(
 	"n",
