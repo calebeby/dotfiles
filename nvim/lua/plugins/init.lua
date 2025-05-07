@@ -238,14 +238,14 @@ return {
 		init = function()
 			local wk = require("which-key")
 			wk.add({
-				{ "<Leader>c", group = "context" },
-				{ "<Leader>d", group = "harpoon" },
-				{ "<Leader>S", group = "snippets" },
-				{ "<Leader>g", group = "git" },
-				{ "<Leader>h", group = "hunk" },
-				{ "<Leader>k", group = "preferences" },
-				{ "<Leader>t", group = "toggle" },
-				{ "<Leader>x", group = "diagnostics" },
+				{ "<leader>c", group = "context" },
+				{ "<leader>d", group = "harpoon" },
+				{ "<leader>S", group = "snippets" },
+				{ "<leader>g", group = "git" },
+				{ "<leader>h", group = "hunk" },
+				{ "<leader>k", group = "preferences" },
+				{ "<leader>t", group = "toggle" },
+				{ "<leader>x", group = "diagnostics" },
 			})
 		end,
 	},
@@ -413,6 +413,7 @@ return {
 				function()
 					require("snacks").picker.smart({ ignored = true })
 				end,
+				desc = "Select file to open",
 			},
 			{
 				"<leader>f",
@@ -702,7 +703,7 @@ return {
 		version = "*",
 		keys = {
 			{
-				"<Leader>u",
+				"<leader>u",
 				mode = { "n" },
 				function()
 					require("time-machine").actions.toggle()

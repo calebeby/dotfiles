@@ -265,7 +265,7 @@ vim.keymap.set("n", "<leader>a", function()
 end)
 
 -- Window mappings
-vim.keymap.set("n", "<Leader>w", "<c-w>", { desc = "Window commands", remap = true })
+vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "Window commands", remap = true })
 vim.keymap.set("n", "<a-h>", "<c-w>h")
 vim.keymap.set("n", "<a-j>", "<c-w>j")
 vim.keymap.set("n", "<a-k>", "<c-w>k")
@@ -276,7 +276,7 @@ vim.keymap.set("t", "<a-k>", "<c-\\><c-n><c-w>k")
 vim.keymap.set("t", "<a-l>", "<c-\\><c-n><c-w>l")
 
 -- Save file
-vim.keymap.set("n", "<Leader>s", ":silent write<CR>", { desc = "Save buffer", silent = true })
+vim.keymap.set("n", "<leader>s", ":silent write<CR>", { desc = "Save buffer", silent = true })
 
 -- Go to definition and similar
 vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { desc = "List references", silent = true })
@@ -284,31 +284,28 @@ vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { desc = "List defin
 vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { desc = "List type definitions", silent = true })
 
 -- Git
-vim.keymap.set("n", "<Leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
-vim.keymap.set("n", "<Leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
-vim.keymap.set("n", "<Leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
-vim.keymap.set("n", "<Leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })
-vim.keymap.set("n", "<Leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
-vim.keymap.set("n", "<Leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
+vim.keymap.set("n", "<leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
+vim.keymap.set("n", "<leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
+vim.keymap.set("n", "<leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
+vim.keymap.set("n", "<leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })
+vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
+vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
 vim.keymap.set(
 	"n",
-	"<Leader>gL",
+	"<leader>gL",
 	":DiffviewFileHistory %<CR>",
 	{ desc = "Git Log Current File (Diffview)", silent = true }
 )
-vim.keymap.set("n", "<Leader>gz", function()
+vim.keymap.set("n", "<leader>gz", function()
 	require("snacks").lazygit.open()
 end, { desc = "Open LazyGit", silent = true })
 
 vim.keymap.set(
 	"n",
-	"<Leader>kd",
+	"<leader>kd",
 	':exec &bg=="light"? "set bg=dark" : "set bg=light"<CR>',
 	{ desc = "Toggle Light/Dark", noremap = true, silent = true }
 )
-
-vim.keymap.set("n", "<leader>o", ":Telescope find_files<CR>", { desc = "Select file to open", silent = true })
-vim.keymap.set("n", "<leader>i", ":Telescope zk notes<CR>", { desc = "Select note to open", silent = true })
 
 -- alt-up alt-down for moving lines up or down
 vim.keymap.set("n", "<a-up>", ":m .-2<CR>", { silent = true })

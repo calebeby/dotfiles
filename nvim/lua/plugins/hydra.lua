@@ -7,7 +7,7 @@ return {
 		dependencies = {},
 		keys = {
 			{
-				"<Leader><Leader>",
+				"<leader><leader>",
 				mode = { "n", "x" },
 				function()
 					local Hydra = require("hydra")

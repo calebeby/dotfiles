@@ -9,7 +9,7 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		keys = {
 			{
-				"<Leader>m",
+				"<leader>m",
 				function()
 					require("treesj").toggle()
 				end,
