@@ -7,6 +7,8 @@
   editor = nvim
   excludesfile = ~/dotfiles/gitignore
   pager = delta
+	attributesfile = /home/caleb/.gitattributes
+
 [hub]
   protocol = https
 [push]
@@ -32,6 +34,10 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+[diff "xlsx"]
+  textconv = "~/dotfiles/xlsx-diff.sh"
+	cachetextconv = true
 
 # [http]
 # 	proxy = http://192.168.49.1:9099
