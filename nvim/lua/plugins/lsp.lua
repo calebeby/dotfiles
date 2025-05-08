@@ -291,7 +291,7 @@ return {
 		"chrisgrieser/nvim-scissors",
 		dependencies = "nvim-telescope/telescope.nvim",
 		opts = {
-			snippetDir = "~/.config/new_neovim_config/snippets",
+			snippetDir = "~/dotfiles/nvim/snippets",
 			jsonFormatter = "jq",
 		},
 		keys = {
