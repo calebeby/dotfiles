@@ -26,15 +26,15 @@ exec dbus-update-activation-environment WAYLAND_DISPLAY
 exec darkman run
 
 # Built-in
-output eDP-1 pos 0 700
+output eDP-1 pos 0 1350
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
 
 # Home external display
-output "BNQ BenQ GW2480 ETW8K02455SL0" scale 0.8 transform 90 scale_filter linear pos 1920 0
+output "BNQ BenQ GW2480 ETW8K02455SL0" scale 0.8 transform 90 scale_filter linear pos 1920 650
 # SVT external display
-output "HP Inc. HP E24 G5 CN44203K6T" scale 0.8 transform 90 scale_filter linear pos 1920 0
+output "HP Inc. HP E24 G5 CN44203K6T" scale 0.8 transform 90 scale_filter linear pos 1920 650
 # Home TV
-output "Samsung Electric Company SAMSUNG 0x01000600" scale 1.6
+output "Samsung Electric Company SAMSUNG 0x01000600" scale 1.6 pos 0 0
 
 workspace 10 output DP-2
 workspace 10 output DP-3
