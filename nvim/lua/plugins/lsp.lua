@@ -28,7 +28,6 @@ return {
 			ensure_installed = {
 				"prettier",
 				"prettierd",
-				"biome",
 				"stylua",
 			},
 			auto_update = true,
@@ -41,7 +40,6 @@ return {
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
-		event = "FileType",
 		config = function()
 			vim.diagnostic.config({
 				signs = {
@@ -56,6 +54,52 @@ return {
 
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
+
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+				root_markers = { ".git" },
+			})
+
+			vim.lsp.config("rust_analyzer", {
+				settings = {
+					["rust-analyzer"] = {
+						checkOnSave = {
+							command = "clippy",
+						},
+					},
+				},
+			})
+
+			vim.lsp.config("denols", {
+				root_dir = function(bufnr, cb)
+					local filename = vim.api.nvim_buf_get_name(bufnr)
+					local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")(filename)
+					if denoRootDir then
+						cb(denoRootDir)
+					end
+				end,
+			})
+
+			vim.lsp.config("ts_ls", {
+				root_dir = function(bufnr, cb)
+					local filename = vim.api.nvim_buf_get_name(bufnr)
+					local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")(filename)
+					-- Don't call the callback if you don't want the server to start.
+					-- For deno projects, don't start ts_ls.
+					if not denoRootDir then
+						local rootDir =
+							lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json", ".git")(
+								filename
+							)
+						if rootDir then
+							cb(rootDir)
+						else
+							cb(vim.fs.dirname(filename))
+						end
+					end
+				end,
+			})
+
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"rust_analyzer",
@@ -66,105 +110,7 @@ return {
 					"denols",
 					"basedpyright",
 				},
-				handlers = {
-					function(server_name)
-						lspconfig[server_name].setup({ capabilities = capabilities })
-					end,
-					basedpyright = function()
-						lspconfig.basedpyright.setup({
-							capabilities = capabilities,
-							filetypes = { "python" },
-							settings = {
-								basedpyright = {
-									analysis = {
-										autoSearchPaths = true,
-										useLibraryCodeForTypes = true,
-										typeCheckingMode = "basic",
-									},
-								},
-							},
-						})
-					end,
-					marksman = function()
-						lspconfig.marksman.setup({
-							capabilities = capabilities,
-							filetypes = { "markdown" },
-						})
-					end,
-					lua_ls = function()
-						lspconfig.lua_ls.setup({
-							capabilities = capabilities,
-							settings = {
-								Lua = {
-									runtime = { version = "Lua 5.1" },
-									diagnostics = {
-										globals = { "vim" },
-									},
-								},
-							},
-						})
-					end,
-					rust_analyzer = function()
-						lspconfig.rust_analyzer.setup({
-							capabilities = capabilities,
-							settings = {
-								["rust-analyzer"] = {
-									checkOnSave = {
-										command = "clippy",
-									},
-								},
-							},
-						})
-					end,
-					denols = function()
-						lspconfig.denols.setup({
-							capabilities = capabilities,
-							root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
-							init_options = {
-								lint = true,
-								unstable = true,
-								suggest = {
-									imports = {
-										hosts = {
-											["https://deno.land"] = true,
-										},
-									},
-								},
-							},
-						})
-					end,
-					ts_ls = function()
-						lspconfig.ts_ls.setup({
-							capabilities = capabilities,
-							on_attach = function(client, bufnr)
-								vim.keymap.set("n", "<leader>ro", function()
-									vim.lsp.buf.execute_command({
-										command = "_typescript.organizeImports",
-										arguments = { vim.fn.expand("%:p") },
-									})
-								end, { buffer = bufnr, remap = false })
-							end,
-							root_dir = function(filename, bufnr)
-								local denoRootDir = lspconfig.util.root_pattern("deno.json", "deno.json")(filename)
-								if denoRootDir then
-									return nil
-								end
-
-								local rootDir = lspconfig.util.root_pattern(
-									"tsconfig.json",
-									"jsconfig.json",
-									"package.json",
-									".git"
-								)(filename)
-								if rootDir then
-									return rootDir
-								end
-								return vim.fs.dirname(filename)
-							end,
-							single_file_support = false,
-						})
-					end,
-				},
+				automatic_enable = true,
 			})
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
