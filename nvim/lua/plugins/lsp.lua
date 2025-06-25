@@ -7,6 +7,7 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "stylua" },
+				typst = { "typstyle" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				typescript = { "prettierd", "prettier", stop_after_first = true },
 				javascriptreact = { "prettierd", "prettier", stop_after_first = true },

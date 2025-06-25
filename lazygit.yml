@@ -4,3 +4,175 @@ git:
     pager: "delta --dark --paging=never"
 
     # externalDiffCommand: difft --color=always --display=inline --syntax-highlight=on --context 5
+
+os:
+  shellFunctionsFile: /bin/bash
+
+keybinding:
+  universal:
+    # This is discard actually (named confusingly)
+    # https://github.com/jesseduffield/lazygit/blob/5d30409f338d1edef18054a9b3c051a5fd92a20d/pkg/gui/controllers/files_controller.go#L146-L152
+    remove: x
+  files:
+    commitChanges:   "<disabled>"
+    viewStashOptions: "z"
+    stashAllChanges: "<disabled>"
+    confirmDiscard:   "x"
+
+  commits:
+    # preserve your commit‐context bindings
+    revert:        "v"
+    cherryPick:    "C"
+
+customCommands:
+
+  - key: "s"
+    context: "files"
+    description: "Stage file"
+    command: "git add {{ .SelectedFile.Name | quote }}"
+    loadingText: "Staging..."
+    refresh: true
+
+  - key: "u"
+    context: "files"
+    description: "Unstage file"
+    command: "git restore --staged {{ .SelectedFile.Name | quote }}"
+    loadingText: "Unstaging..."
+    refresh: true
+
+  - key: "c"
+    description: "Commit menu"
+    commandMenu:
+      - key: "c"
+        context: "files"
+        description: "New commit"
+        prompts:
+          - type: "input"
+            title: "Commit message"
+            key: "msg"
+        command: "git commit -m '{{ .Form.msg }}'"
+        loadingText: "Committing..."
+        refresh: true
+
+      - key: "a"
+        context: "files"
+        description: "Amend last commit"
+        prompts:
+          - type: "input"
+            title: "Amend message (leave empty to keep)"
+            key: "msg"
+        command: >
+          if test -z "{{ .Form.msg }}"
+            git commit --amend --no-edit
+          else
+            git commit --amend -m '{{ .Form.msg }}'
+          end
+        loadingText: "Amending..."
+        refresh: true
+
+      - key: "e"
+        context: "files"
+        description: "Extend last commit (no edit)"
+        command: "git commit --amend --no-edit"
+        loadingText: "Extending..."
+        refresh: true
+
+  # ─── Push Menu (Magit P) ─────────────────────────────────────────────────
+
+  - key: "P"
+    description: "Push menu"
+    commandMenu:
+      - key: "p"
+        context: "files"
+        description: "Push to remote"
+        command: "git push"
+      - key: "u"
+        context: "files"
+        description: "Push current branch upstream"
+        command: >
+          git push --set-upstream origin (git rev-parse --abbrev-ref HEAD)
+
+  # ─── Fetch/Pull Menu (Magit F) ───────────────────────────────────────────
+
+  - key: "p"
+    description: "Fetch/Pull menu"
+    commandMenu:
+      - key: "f"
+        context: "files"
+        description: "Fetch from remote"
+        command: "git fetch"
+      - key: "p"
+        context: "files"
+        description: "Pull into current branch"
+        command: "git pull"
+
+  # ─── Branch Menu (Magit b) ───────────────────────────────────────────────
+
+  - key: "b"
+    description: "Branch menu"
+    commandMenu:
+
+      # b b → Checkout a revision/branch
+      - key: "b"
+        context: "global"
+        description: "Checkout a revision/branch"
+        prompts:
+          - type: "input"
+            title: "Which revision/branch?"
+            key: "Ref"
+            suggestions:
+              command: >-
+                git branch --list --format="%(refname:short)" -a
+        command: 'git checkout {{ .Form.Ref | quote }}'
+
+      # b n → Create a new branch (and check it out)
+      - key: "n"
+        context: "global"
+        description: "Create a new branch and checkout"
+        prompts:
+          - type: "input"
+            title: "Starting point (branch/rev)"
+            key: "Start"
+            suggestions:
+              command: >-
+                git branch --list --format="%(refname:short)" -a
+          - type: "input"
+            title: "New branch name"
+            key: "Branch"
+        command: >-
+          git checkout -b {{ .Form.Branch | quote }} {{ .Form.Start | quote }}
+
+      # b d → Delete branch
+      - key: "d"
+        context: "global"
+        description: "Delete branch(es)"
+        prompts:
+          - type: "input"
+            title: "Branch to delete"
+            key: "Ref"
+            suggestions:
+              command: >-
+                git branch --list --format="%(refname:short)" -a
+          - type: "confirm"
+            title: "Really?"
+            body: "Really delete the branch {{ .Form.Ref }}?"
+
+        command: git branch -D {{ .Form.Ref | quote }}
+        loadingText: "Deleting {{ .Form.Ref }}…"
+        refresh: true
+
+      # b r → Rename branch
+      - key: "r"
+        context: "global"
+        description: "Rename a branch"
+        prompts:
+          - type: "input"
+            title: "Branch to rename"
+            key: "Old"
+            suggestions:
+              command: >-
+                git branch --list --format="%(refname:short)" -a
+          - type: "input"
+            title: "New branch name"
+            key: "New"
+        command: "git branch -m {{ .Form.Old | quote }} {{ .Form.New | quote }}"

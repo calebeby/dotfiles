@@ -35,6 +35,16 @@
     ],
     "prefix": "AP MCQ"
   },
+  "Box Method": {
+    "body": [
+      "```=typ",
+      "#import \"graphs.typ\": box_method, figure",
+      "#show: figure",
+      "#box_method(top: \\$${3:x + 5}\\$, left: \\$${4:x - 5}\\$)",
+      "```"
+    ],
+    "prefix": "Box Method"
+  },
   "FRQ rubric level": {
     "body": [
       "## FRQ #1 Part ${1:A} - ${2:Title}",
@@ -48,10 +58,23 @@
     ],
     "prefix": "FRQ rubric level"
   },
+  "Rubric Level Boolean": {
+    "body": [
+      "## ${1:1}: ${2:Title}",
+      "",
+      ": Proficient (1)",
+      "",
+      "  $3",
+      "",
+      ": Not Proficient (0)",
+      "$0"
+    ],
+    "prefix": "rubric level boolean"
+  },
   "Say hello to the world": {
     "body": [
       ":::: slide",
-      "${1:Slide contents}",
+      "${1:}",
       "::::$0"
     ],
     "prefix": "slide"
@@ -99,7 +122,7 @@
   "graph": {
     "body": [
       "```=typ",
-      "#import \"graphs.typ\": graph, unit, plot, figure",
+      "#import \"graphs.typ\": graph, plot, figure",
       "#show: figure",
       "#graph(",
       "  size: (4, 4),",
@@ -143,10 +166,15 @@
       "${1:}",
       "::::$0"
     ],
-    "prefix": [
-      "problem-columns",
-      "pc"
-    ]
+    "prefix": "problem-columns"
+  },
+  "problem-columns-full-width": {
+    "body": [
+      ":::: problem-columns-full-width",
+      "${1:}",
+      "::::$0"
+    ],
+    "prefix": "problem-columns-full-width"
   },
   "pu": {
     "body": "\\$`\\pu{${1:10 m}}`",
@@ -178,7 +206,7 @@
       "::: student-info",
       ":::"
     ],
-    "prefix": "sinfo"
+    "prefix": "student-info"
   },
   "solution + sol": {
     "body": "{% Solution: ${1:} %}",

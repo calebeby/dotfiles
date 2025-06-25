@@ -284,7 +284,7 @@ vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { desc = "List defin
 vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { desc = "List type definitions", silent = true })
 
 -- Git
-vim.keymap.set("n", "<leader>gs", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
+vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
 vim.keymap.set("n", "<leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
 vim.keymap.set("n", "<leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
 vim.keymap.set("n", "<leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })

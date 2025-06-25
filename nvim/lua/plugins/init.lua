@@ -508,7 +508,7 @@ return {
 		cmd = "ZenMode",
 		opts = {
 			window = {
-				backdrop = 0.95,
+				backdrop = 0, -- background (sidebars) fully black
 				width = 100,
 				options = {
 					signcolumn = "no",

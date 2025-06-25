@@ -1,5 +1,5 @@
-set -x EDITOR nn
-set -x VISUAL nn
+set -x EDITOR nvim
+set -x VISUAL nvim
 set -x BROWSER firefox
 # set -x JAVA_HOME /usr/lib/jvm/jre-11
 # set -x JAVA_HOME /usr/lib/jvm/java-openjdk
