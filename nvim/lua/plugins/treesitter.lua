@@ -55,6 +55,7 @@ return {
 		dependencies = { "nvim-treesitter" },
 		config = function()
 			require("nvim-biscuits").setup({
+				max_file_size = "100kb",
 				cursor_line_only = true,
 				default_config = {
 					prefix_string = " « ",
