@@ -115,6 +115,10 @@ return {
 				indent = {
 					enable = true,
 				},
+				incremental_selection = {
+					enable = true,
+					keymaps = {},
+				},
 				textobjects = {
 					select = {
 						enable = true,
