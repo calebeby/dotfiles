@@ -5,9 +5,17 @@ return {
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
 		opts = {
+			formatters = {
+				djotfmt = {
+					command = "bilbo",
+					stdin = false, -- Write a temp file, format it in-place, then use the buffer to apply the format patch
+					args = { "fmt", "$FILENAME" },
+				},
+			},
 			formatters_by_ft = {
 				lua = { "stylua" },
 				typst = { "typstyle" },
+				djot = { "djotfmt", "injected" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				typescript = { "prettierd", "prettier", stop_after_first = true },
 				javascriptreact = { "prettierd", "prettier", stop_after_first = true },
