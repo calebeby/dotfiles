@@ -23,7 +23,7 @@ return {
 				rust = { "rustfmt" },
 				zig = { "zigfmt" },
 			},
-			format_on_save = { timeout_ms = 500, lsp_fallback = true },
+			format_on_save = { timeout_ms = 1500, lsp_fallback = true },
 		},
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"

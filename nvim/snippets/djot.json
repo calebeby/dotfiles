@@ -106,6 +106,15 @@
     ],
     "prefix": "comment"
   },
+  "embed": {
+    "body": [
+      "{embed=\"${1:../path/to/file.dj}\"}",
+      ":::",
+      ":::",
+      "$0"
+    ],
+    "prefix": "embed"
+  },
   "float-right + fr": {
     "body": [
       "${1::::} float-right",

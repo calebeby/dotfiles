@@ -86,6 +86,9 @@ return {
 				content = {
 					sort = sorter,
 				},
+				options = {
+					permanent_delete = false,
+				},
 			})
 
 			local show_dotfiles = true
@@ -406,6 +409,11 @@ return {
 		end,
 	},
 	{
+		"goropikari/front-matter.nvim",
+		opts = {},
+		build = "make setup",
+	},
+	{
 		"folke/snacks.nvim",
 		keys = {
 			{
@@ -419,6 +427,52 @@ return {
 				"<leader>f",
 				function()
 					require("snacks").picker("grep")
+				end,
+			},
+			{
+				"<leader>r",
+				function()
+					vim.cmd("tabnew")
+
+					local fm = require("front-matter")
+					local cwd = vim.fn.getcwd()
+					local files = vim.fn.globpath(cwd, "**/*.dj", true, true)
+
+					-- Batch get frontmatter for these files
+					local metadata = fm.get(files)
+
+					require("snacks").picker({
+						finder = "files",
+						layout = "ivy_split",
+						on_close = function()
+							-- make sure we're still in that tab
+							if vim.fn.tabpagenr() == vim.fn.tabpagenr("$") then
+								print("close")
+								vim.cmd("tabclose")
+							end
+						end,
+						transform = function(item)
+							local match = item.file:match("^(.*)%.dj$")
+							if not match then
+								return false
+							end
+							local data = metadata[vim.fn.fnamemodify(item.file, ":p")]
+							if not data or next(data) == nil then
+								return false
+							end
+							for key, value in pairs(data) do
+								item[key] = value
+							end
+							item.text = match
+							return item
+						end,
+						format = "text",
+						show_empty = true,
+						hidden = false,
+						ignored = false,
+						follow = false,
+						supports_live = true,
+					})
 				end,
 			},
 			{
@@ -489,6 +543,26 @@ return {
 							},
 						},
 					},
+				},
+				actions = {
+					flash = function(picker)
+						require("flash").jump({
+							pattern = "^",
+							label = { after = { 0, 0 } },
+							search = {
+								mode = "search",
+								exclude = {
+									function(win)
+										return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "snacks_picker_list"
+									end,
+								},
+							},
+							action = function(match)
+								local idx = picker.list:row2idx(match.pos[1])
+								picker.list:_move(idx, true, true)
+							end,
+						})
+					end,
 				},
 			},
 			styles = {

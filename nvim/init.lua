@@ -132,6 +132,7 @@ vim.filetype.add({
 		webp = "image",
 		avif = "image",
 		mp4 = "video",
+		mov = "video",
 		djot = "djot",
 		dj = "djot",
 		docx = "docx",
@@ -212,7 +213,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "image" },
+	pattern = { "image", "video" },
 	group = vim.api.nvim_create_augroup("image_preview", { clear = true }),
 	callback = function()
 		vim.bo.buftype = "nowrite"
