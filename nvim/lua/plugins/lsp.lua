@@ -267,6 +267,40 @@ return {
 		},
 	},
 	{
+		"ThePrimeagen/refactoring.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		keys = {
+			{
+				"<leader>rr",
+				desc = "Select refactor",
+				mode = { "n", "x" },
+				function()
+					require("refactoring").select_refactor()
+				end,
+			},
+			{
+				"<leader>rp",
+				desc = "Add print statement",
+				mode = { "n" },
+				function()
+					require("refactoring").debug.print_var()
+				end,
+			},
+			{
+				"<leader>rP",
+				desc = "Remove all generated print statements",
+				mode = { "n" },
+				function()
+					require("refactoring").debug.cleanup({})
+				end,
+			},
+		},
+		opts = {},
+	},
+	{
 		"folke/trouble.nvim",
 		cmd = { "Trouble" },
 		keys = {

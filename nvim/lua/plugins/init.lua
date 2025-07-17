@@ -231,6 +231,30 @@ return {
 		end,
 	},
 	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		config = function()
+			require("ibl").setup({
+				indent = { highlight = "LineNr", char = "▏" },
+				scope = { highlight = "LineNr", char = "▎" },
+			})
+			local indent_blankline_augroup = vim.api.nvim_create_augroup("indent_blankline_augroup", { clear = true })
+			vim.api.nvim_create_autocmd("ModeChanged", {
+				group = indent_blankline_augroup,
+				pattern = "[vV\x16]*:*",
+				command = "IBLEnable",
+				desc = "Enable indent-blankline when exiting visual mode",
+			})
+
+			vim.api.nvim_create_autocmd("ModeChanged", {
+				group = indent_blankline_augroup,
+				pattern = "*:[vV\x16]*",
+				command = "IBLDisable",
+				desc = "Disable indent-blankline when exiting visual mode",
+			})
+		end,
+	},
+	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
 		opts = {},
@@ -430,7 +454,7 @@ return {
 				end,
 			},
 			{
-				"<leader>r",
+				"<leader>0",
 				function()
 					vim.cmd("tabnew")
 
@@ -443,11 +467,27 @@ return {
 
 					require("snacks").picker({
 						finder = "files",
-						layout = "ivy_split",
+						layout = {
+							fullscreen = true,
+							layout = {
+								backdrop = false,
+								border = "none",
+								box = "horizontal",
+								{
+									box = "vertical",
+									border = "none",
+									title = "{title} {live} {flags}",
+									title_pos = "center",
+									{ win = "input", height = 1, border = "bottom" },
+									{ win = "list", border = "none" },
+								},
+								{ win = "preview", title = "{preview}", width = 80, border = "rounded" },
+							},
+						},
+						auto_close = false,
 						on_close = function()
 							-- make sure we're still in that tab
 							if vim.fn.tabpagenr() == vim.fn.tabpagenr("$") then
-								print("close")
 								vim.cmd("tabclose")
 							end
 						end,
@@ -461,12 +501,27 @@ return {
 								return false
 							end
 							for key, value in pairs(data) do
-								item[key] = value
+								if type(value) == "table" then
+									item[key] = table.concat(value, ", ")
+								else
+									item[key] = tostring(value)
+								end
 							end
-							item.text = match
+							if item.tags then
+								item.text = item.tags .. item.file
+							else
+								item.text = item.file
+							end
 							return item
 						end,
-						format = "text",
+						format = function(match)
+							local r = { { match.file, "DiffAdd" } }
+							if match.tags then
+								table.insert(r, { " tags: ", "Normal" })
+								table.insert(r, { match.tags, "Search" })
+							end
+							return r
+						end,
 						show_empty = true,
 						hidden = false,
 						ignored = false,
@@ -543,26 +598,6 @@ return {
 							},
 						},
 					},
-				},
-				actions = {
-					flash = function(picker)
-						require("flash").jump({
-							pattern = "^",
-							label = { after = { 0, 0 } },
-							search = {
-								mode = "search",
-								exclude = {
-									function(win)
-										return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "snacks_picker_list"
-									end,
-								},
-							},
-							action = function(match)
-								local idx = picker.list:row2idx(match.pos[1])
-								picker.list:_move(idx, true, true)
-							end,
-						})
-					end,
 				},
 			},
 			styles = {
