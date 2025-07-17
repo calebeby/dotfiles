@@ -268,6 +268,7 @@ return {
 				{ "<leader>c", group = "context" },
 				{ "<leader>d", group = "harpoon" },
 				{ "<leader>S", group = "snippets" },
+				{ "<leader>r", group = "refactor" },
 				{ "<leader>g", group = "git" },
 				{ "<leader>h", group = "hunk" },
 				{ "<leader>k", group = "preferences" },
@@ -538,8 +539,8 @@ return {
 				desc = "Open file explorer (snacks.explorer)",
 			},
 			{
-				"<leader>t",
-				mode = { "n" },
+				"<a-t>",
+				mode = { "n", "t" },
 				function()
 					require("snacks").terminal.toggle()
 				end,
