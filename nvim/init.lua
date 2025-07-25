@@ -281,9 +281,15 @@ vim.keymap.set("t", "<a-l>", "<c-\\><c-n><c-w>l")
 vim.keymap.set("n", "<leader>s", ":silent write<CR>", { desc = "Save buffer", silent = true })
 
 -- Go to definition and similar
-vim.keymap.set("n", "gr", ":Telescope lsp_references<CR>", { desc = "List references", silent = true })
-vim.keymap.set("n", "gd", ":Telescope lsp_definitions<CR>", { desc = "List definitions", silent = true })
-vim.keymap.set("n", "gD", ":Telescope lsp_type_definitions<CR>", { desc = "List type definitions", silent = true })
+vim.keymap.set("n", "gr", function()
+	require("snacks").picker.lsp_references()
+end, { desc = "List references", silent = true })
+vim.keymap.set("n", "gd", function()
+	require("snacks").picker.lsp_definitions()
+end, { desc = "List definitions", silent = true })
+vim.keymap.set("n", "gD", function()
+	require("snacks").picker.lsp_type_definitions()
+end, { desc = "List type definitions", silent = true })
 
 -- Git
 vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
@@ -299,7 +305,15 @@ vim.keymap.set(
 	{ desc = "Git Log Current File (Diffview)", silent = true }
 )
 vim.keymap.set("n", "<leader>gz", function()
-	require("snacks").lazygit.open()
+	require("snacks").lazygit.open({
+		config = {
+			git = {
+				paging = {
+					pager = string.format("delta --%s --paging=never", vim.o.background),
+				},
+			},
+		},
+	})
 end, { desc = "Open LazyGit", silent = true })
 
 vim.keymap.set(

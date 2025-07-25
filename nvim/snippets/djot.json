@@ -218,7 +218,11 @@
     "prefix": "student-info"
   },
   "solution + sol": {
-    "body": "{% Solution: ${1:} %}",
+    "body": [
+      "::: solution",
+      "${1:}",
+      ":::"
+    ],
     "prefix": "solution"
   },
   "source": {

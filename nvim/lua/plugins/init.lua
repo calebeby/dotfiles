@@ -214,14 +214,6 @@ return {
 				end,
 				desc = "Remote (Flash)",
 			},
-			-- {
-			-- 	"R", -- Keybinding conflicts with substitute.nvim
-			-- 	mode = { "o" },
-			-- 	function()
-			-- 		require("flash").treesitter_search()
-			-- 	end,
-			-- 	desc = "TS node (Flash)",
-			-- },
 		},
 		config = function()
 			require("flash").setup()
@@ -236,7 +228,7 @@ return {
 		config = function()
 			require("ibl").setup({
 				indent = { highlight = "LineNr", char = "▏" },
-				scope = { highlight = "LineNr", char = "▎" },
+				scope = { highlight = "LineNr", char = "▎", show_start = false, show_end = false },
 			})
 			local indent_blankline_augroup = vim.api.nvim_create_augroup("indent_blankline_augroup", { clear = true })
 			vim.api.nvim_create_autocmd("ModeChanged", {
@@ -461,7 +453,7 @@ return {
 
 					local fm = require("front-matter")
 					local cwd = vim.fn.getcwd()
-					local files = vim.fn.globpath(cwd, "**/*.dj", true, true)
+					local files = vim.fn.globpath(cwd, "**/*/_*/**/*.dj", true, true)
 
 					-- Batch get frontmatter for these files
 					local metadata = fm.get(files)
@@ -519,7 +511,16 @@ return {
 							local r = { { match.file, "DiffAdd" } }
 							if match.tags then
 								table.insert(r, { " tags: ", "Normal" })
-								table.insert(r, { match.tags, "Search" })
+								local i = 0
+								for tag in match.tags:gmatch("([^,]+)") do
+									if i > 0 then
+										table.insert(r, { ", " })
+									end
+									-- trim leading/trailing whitespace
+									tag = tag:match("^%s*(.-)%s*$")
+									table.insert(r, { tag, "CESearchTag" })
+									i = i + 1
+								end
 							end
 							return r
 						end,

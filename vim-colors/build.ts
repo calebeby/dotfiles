@@ -177,7 +177,7 @@ vim.g.colors_name = "${luaName}"
   highlight('WinSeparator', mix(0.4, base01, base00), base00)
   highlight('QuickFixLine', '', base01)
   highlight('Error', base00, base08)
-  highlight('Underlined', base08)
+  highlight('Underlined', '', '', ['underline'])
   highlight('Title', base0D, '')
   highlight('TabLine', base04, base00)
   highlight('TabLineFill', base03, base00)
@@ -279,7 +279,6 @@ vim.g.colors_name = "${luaName}"
   highlight('@markup.strong', '', '', ['bold'])
   highlight('@markup.strikethrough', reddest, base00)
   highlight('@markup.underline', greenest, base00)
-  highlight('@markup.link.url', '', '', ['underline'])
   highlight('@variable', base08)
   highlight('@module', base08)
   highlight('@variable.member', base05)
@@ -293,6 +292,10 @@ vim.g.colors_name = "${luaName}"
   highlight('MiniFilesBorder', base05, base00)
   highlight('MiniFilesCursorLine', '', base01)
   highlight('MiniFilesFile', '', '')
+
+  // Custom
+
+  highlight('CESearchTag', '', mix(0.5, base01, base00))
 
   return file
 }
