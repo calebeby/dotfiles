@@ -118,6 +118,14 @@ return {
 					})
 				end,
 			})
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "MiniFilesActionRename",
+				callback = function(event)
+					-- This snacks plugin notifies LSP that file has been renamed
+					require("snacks").rename.on_rename_file(event.data.from, event.data.to)
+				end,
+			})
 		end,
 	},
 	{
