@@ -223,30 +223,6 @@ return {
 		end,
 	},
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		config = function()
-			require("ibl").setup({
-				indent = { highlight = "LineNr", char = "▏" },
-				scope = { highlight = "LineNr", char = "▎", show_start = false, show_end = false },
-			})
-			local indent_blankline_augroup = vim.api.nvim_create_augroup("indent_blankline_augroup", { clear = true })
-			vim.api.nvim_create_autocmd("ModeChanged", {
-				group = indent_blankline_augroup,
-				pattern = "[vV\x16]*:*",
-				command = "IBLEnable",
-				desc = "Enable indent-blankline when exiting visual mode",
-			})
-
-			vim.api.nvim_create_autocmd("ModeChanged", {
-				group = indent_blankline_augroup,
-				pattern = "*:[vV\x16]*",
-				command = "IBLDisable",
-				desc = "Disable indent-blankline when exiting visual mode",
-			})
-		end,
-	},
-	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
 		opts = {},
@@ -548,64 +524,84 @@ return {
 				desc = "Toggle Terminal",
 			},
 		},
-		opts = {
-			terminal = {},
-			image = {
-				formats = {
-					"png",
-					"jpg",
-					"jpeg",
-					"gif",
-					"bmp",
-					"webp",
-					"tiff",
-					"heic",
-					"avif",
-					"mp4",
-					"mov",
-					"avi",
-					"mkv",
-					"webm",
-					"pdf",
-					"svg",
+		init = function()
+			require("snacks").setup({
+				indent = {
+					enabled = true,
+					indent = {
+						enabled = true,
+						hl = "SnacksIndent",
+						char = "▏",
+					},
+					scope = {
+						hl = "SnacksIndent",
+						char = "▎",
+					},
+					chunk = {
+						enabled = false,
+						char = ">",
+					},
+					animate = { enabled = true },
 				},
-				doc = {
-					inline = false,
-					float = true,
-					max_width = 35,
-					max_height = 10,
+				terminal = {},
+				image = {
+					formats = {
+						"png",
+						"jpg",
+						"jpeg",
+						"gif",
+						"bmp",
+						"webp",
+						"tiff",
+						"heic",
+						"avif",
+						"mp4",
+						"mov",
+						"avi",
+						"mkv",
+						"webm",
+						"pdf",
+						"svg",
+					},
+					doc = {
+						inline = false,
+						float = true,
+						max_width = 35,
+						max_height = 10,
+					},
+					math = { latex = { font_size = "LARGE" } },
 				},
-				math = { latex = { font_size = "LARGE" } },
-			},
-			notifier = {},
-			lazygit = {
-				configure = true,
-			},
-			picker = {
-				sources = {
-					explorer = {
-						win = {
-							list = {
-								keys = {
-									["<BS>"] = "explorer_up",
-									["h"] = "explorer_close",
-									["dd"] = "explorer_del",
-									["d"] = { "" },
-									["<leader>rn"] = "explorer_rename",
-									["r"] = "",
-									["y"] = { "" },
-									["yy"] = { "explorer_yank", mode = { "n", "x" } },
-									["u"] = "explorer_update",
+				notifier = {},
+				lazygit = {
+					configure = true,
+				},
+				picker = {
+					sources = {
+						explorer = {
+							win = {
+								list = {
+									keys = {
+										["<BS>"] = "explorer_up",
+										["h"] = "explorer_close",
+										["dd"] = "explorer_del",
+										["d"] = { "" },
+										["<leader>rn"] = "explorer_rename",
+										["r"] = "",
+										["y"] = { "" },
+										["yy"] = { "explorer_yank", mode = { "n", "x" } },
+										["u"] = "explorer_update",
+									},
 								},
 							},
 						},
 					},
 				},
-			},
-			styles = {
-				snacks_image = { border = "none" },
-			},
-		},
+				styles = {
+					snacks_image = { border = "none" },
+				},
+			})
+			require("snacks").indent.enable()
+		end,
 	},
 	{
 		"folke/zen-mode.nvim",
