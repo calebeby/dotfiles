@@ -242,6 +242,7 @@ return {
 			local wk = require("which-key")
 			wk.add({
 				{ "<leader>c", group = "context" },
+				{ "<leader>o", group = "open" },
 				{ "<leader>d", group = "harpoon" },
 				{ "<leader>S", group = "snippets" },
 				{ "<leader>r", group = "refactor" },
@@ -303,6 +304,7 @@ return {
 					"grug-far",
 					"DiffviewFiles",
 					"djot",
+					"snacks_terminal",
 					"markdown",
 					"gitcommit",
 				},
@@ -418,11 +420,77 @@ return {
 		"folke/snacks.nvim",
 		keys = {
 			{
-				"<leader>o",
+				"<leader>os",
 				function()
 					require("snacks").picker.smart({ ignored = true })
 				end,
-				desc = "Select file to open",
+				desc = "Smart file picker (buffers, recents, files)",
+			},
+			{
+				"<leader>of",
+				function()
+					require("snacks").picker.git_files()
+				end,
+				desc = "Select file to open (files in git repo)",
+			},
+			{
+				"<leader>oF",
+				function()
+					require("snacks").picker.files({ ignored = true })
+				end,
+				desc = "Select file to open (incl. untracked/ignored)",
+			},
+			{
+				"<leader>ogl",
+				function()
+					require("snacks").picker.git_log()
+				end,
+				desc = "Open git log",
+			},
+			{
+				"<leader>ogs",
+				function()
+					require("snacks").picker.git_status({
+						focus = "list",
+						win = {
+							input = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_preview",
+								},
+							},
+							preview = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_list",
+									["h"] = "focus_list",
+								},
+							},
+							list = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_preview",
+									["l"] = "focus_preview",
+								},
+							},
+						},
+					})
+				end,
+				desc = "Open git status",
+			},
+			{
+				"<leader>ogd",
+				function()
+					require("snacks").picker.git_diff()
+				end,
+				desc = "Open git diff",
+			},
+			{
+				"<leader>oj",
+				function()
+					require("snacks").picker.jumps()
+				end,
+				desc = "Open git diff",
 			},
 			{
 				"<leader>f",
@@ -584,6 +652,16 @@ return {
 					configure = true,
 				},
 				picker = {
+					previewers = {
+						git = {
+							builtin = false,
+							cmd = { "delta" },
+						},
+						diff = {
+							builtin = false,
+							cmd = { "delta" },
+						},
+					},
 					sources = {
 						explorer = {
 							win = {
