@@ -427,9 +427,16 @@ return {
 				desc = "Smart file picker (buffers, recents, files)",
 			},
 			{
+				"<leader>oo",
+				function()
+					require("snacks").picker()
+				end,
+				desc = "Select snacks picker",
+			},
+			{
 				"<leader>of",
 				function()
-					require("snacks").picker.git_files()
+					require("snacks").picker.git_files({ untracked = true })
 				end,
 				desc = "Select file to open (files in git repo)",
 			},
