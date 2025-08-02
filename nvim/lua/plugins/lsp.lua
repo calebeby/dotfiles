@@ -38,6 +38,7 @@ return {
 				"prettier",
 				"prettierd",
 				"stylua",
+				"typstyle",
 			},
 			auto_update = true,
 		},
@@ -118,6 +119,7 @@ return {
 					"zls",
 					"denols",
 					"basedpyright",
+					"biome",
 				},
 				automatic_enable = true,
 			})
