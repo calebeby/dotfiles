@@ -94,8 +94,8 @@ vim.opt.signcolumn = "number"
 -- Better diffs in diff mode
 vim.opt.diffopt:append("linematch:50")
 
--- Allow spaces in filenames (for gf) (32 is ascii code for space)
-vim.opt.isfname:append({ "32" })
+-- Allow spaces and amperstand & in filenames (for gf) (32 is ascii code for space)
+vim.opt.isfname:append({ "32", "38" })
 local function resolve_from(base, rel)
 	rel = vim.fn.expand(rel) -- expand ~ / env
 	if rel:match("^/") or rel:match("^%a:[\\/]") then
