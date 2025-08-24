@@ -94,6 +94,27 @@ vim.opt.signcolumn = "number"
 -- Better diffs in diff mode
 vim.opt.diffopt:append("linematch:50")
 
+-- Allow spaces in filenames (for gf) (32 is ascii code for space)
+vim.opt.isfname:append({ "32" })
+local function resolve_from(base, rel)
+	rel = vim.fn.expand(rel) -- expand ~ / env
+	if rel:match("^/") or rel:match("^%a:[\\/]") then
+		return vim.uv.fs_realpath(rel) or vim.fn.fnamemodify(rel, ":p")
+	end
+	local base_dir = (base and base ~= "") and vim.fn.fnamemodify(base, ":p:h") or vim.fn.getcwd()
+	local joined = base_dir .. "/" .. rel
+	return vim.uv.fs_realpath(joined) or vim.fn.fnamemodify(joined, ":p")
+end
+vim.keymap.set("n", "gf", function()
+	-- What gf normally sees (respects 'isfname')
+	local file = vim.fn.expand("<cfile>")
+	-- Trim whitespace
+	file = file:match("^%s*(.-)%s*$")
+	-- Strip leading "- " if present (YAML list items)
+	file = file:gsub("^%-%s+", "")
+	vim.cmd.edit(vim.fn.fnameescape(resolve_from(vim.api.nvim_buf_get_name(0), file)))
+end, { noremap = true, silent = true })
+
 -- Quit
 vim.keymap.set("n", "<c-q>", ":qall<CR>", { silent = true })
 
@@ -341,9 +362,24 @@ vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
 
 vim.keymap.set("n", "<CR>", "r<CR>")
 
+local function find_existing_dir()
+	if vim.fn.filereadable(vim.api.nvim_buf_get_name(0)) == 1 then
+		return vim.api.nvim_buf_get_name(0)
+	end
+	local dir = vim.fn.expand("%:p:h")
+	while dir ~= "" and dir ~= "/" do
+		print(dir)
+		if vim.fn.isdirectory(dir) == 1 then
+			return dir
+		end
+		dir = vim.fn.fnamemodify(dir, ":h")
+	end
+	return nil
+end
+
 -- File tree
 vim.keymap.set("n", "<leader>e", function()
-	MiniFiles.open(vim.api.nvim_buf_get_name(0))
+	MiniFiles.open(find_existing_dir())
 end, { remap = true, desc = "Open file explorer (mini.files)" })
 
 require("lazy").setup("plugins", {
