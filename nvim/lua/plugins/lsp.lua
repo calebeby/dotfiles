@@ -4,27 +4,46 @@ return {
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
-		opts = {
-			formatters = {
-				djotfmt = {
-					command = "bilbo",
-					stdin = false, -- Write a temp file, format it in-place, then use the buffer to apply the format patch
-					args = { "fmt", "$FILENAME" },
+		config = function()
+			require("conform").setup({
+				formatters = {
+					djotfmt = {
+						command = "bilbo",
+						stdin = false, -- Write a temp file, format it in-place, then use the buffer to apply the format patch
+						args = { "fmt", "$FILENAME" },
+					},
+					prettier = {
+						require_cwd = true,
+						cwd = require("conform.util").root_file({
+							".prettierrc",
+							".prettierrc.json",
+							".prettierrc.yml",
+							".prettierrc.yaml",
+							".prettierrc.json5",
+							".prettierrc.js",
+							".prettierrc.cjs",
+							".prettierrc.mjs",
+							".prettierrc.toml",
+							"prettier.config.js",
+							"prettier.config.cjs",
+							"prettier.config.mjs",
+						}),
+					},
 				},
-			},
-			formatters_by_ft = {
-				lua = { "stylua" },
-				typst = { "typstyle" },
-				djot = { "djotfmt", "injected" },
-				javascript = { "prettierd", "prettier", stop_after_first = true },
-				typescript = { "prettierd", "prettier", stop_after_first = true },
-				javascriptreact = { "prettierd", "prettier", stop_after_first = true },
-				typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-				rust = { "rustfmt" },
-				zig = { "zigfmt" },
-			},
-			format_on_save = { timeout_ms = 1500, lsp_fallback = true },
-		},
+				formatters_by_ft = {
+					lua = { "stylua" },
+					typst = { "typstyle" },
+					djot = { "djotfmt", "injected" },
+					javascript = { "biome", "prettierd", "prettier", stop_after_first = true },
+					typescript = { "biome", "prettierd", "prettier", stop_after_first = true },
+					javascriptreact = { "biome", "prettierd", "prettier", stop_after_first = true },
+					typescriptreact = { "biome", "prettierd", "prettier", stop_after_first = true },
+					rust = { "rustfmt" },
+					zig = { "zigfmt" },
+				},
+				format_on_save = { timeout_ms = 1500, lsp_fallback = true },
+			})
+		end,
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
