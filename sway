@@ -28,6 +28,7 @@ exec darkman run
 # Built-in
 output eDP-1 pos 0 1350
 output * bg ~/dotfiles/wallpapers/lake.jpg fill
+output "Seiko Epson Corporation EPSON PJ 0x01010101" bg #000000 solid_color
 
 # Home external display
 output "BNQ BenQ GW2480 ETW8K02455SL0" scale 0.8 transform 90 scale_filter linear pos 1920 650
@@ -36,10 +37,9 @@ output "HP Inc. HP E24 G5 CN44203K6T" scale 0.8 transform 90 scale_filter linear
 # Home TV
 output "Samsung Electric Company SAMSUNG 0x01000600" scale 1.9 pos 0 0
 
-workspace 10 output DP-2
-workspace 10 output DP-3
 workspace 10 output "HP Inc. HP E24 G5 CN44203K6T" # SVT external display
 workspace 10 output "Samsung Electric Company SAMSUNG 0x01000600" # Home TV
+workspace 11 output "Seiko Epson Corporation EPSON PJ 0x01010101" # SVT Projector
 
 bindsym $mod+i exec firefox
 
@@ -187,6 +187,12 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+  # built in
+  output "eDP-1"
+  # Home external monitor
+  output "BNQ BenQ GW2480 ETW8K02455SL0"
+  # SVT external monitor
+  output "HP Inc. HP E24 G5 CN44203K6T"
   separator_symbol " "
   status_command ~/dotfiles/i3bar.fish
   position top
