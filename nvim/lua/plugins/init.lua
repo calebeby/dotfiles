@@ -882,14 +882,14 @@ return {
 				relative_to_current_file = true,
 				relative_template_path = true,
 				dir_path = function()
-					return vim.fn.expand("%:t:r")
+					return "media/" .. vim.fn.expand("%:t:r")
 				end,
 				extension = "webp",
 			},
 			filetypes = {
 				djot = {
 					url_encode_path = false,
-					template = "![$FILE_NAME_NO_EXT]($FILE_PATH)$CURSOR",
+					template = "![$FILE_NAME_NO_EXT](./$FILE_PATH)$CURSOR",
 					download_images = false,
 				},
 			},
