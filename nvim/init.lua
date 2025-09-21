@@ -35,7 +35,7 @@ vim.api.nvim_create_autocmd({ "WinEnter" }, {
 -- Reload files changed outside of neovim
 vim.opt.autoread = true
 vim.opt.updatetime = 10
-vim.api.nvim_create_autocmd("CursorHold", {
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
 	command = [[checktime]],
 })
 

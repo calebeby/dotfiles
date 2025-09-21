@@ -131,7 +131,7 @@
   "graph": {
     "body": [
       "```=typ",
-      "#import \"graphs.typ\": graph, plot, figure",
+      "#import \"graphs.typ\": figure, graph, plot",
       "#show: figure",
       "#graph(",
       "  size: (4, 4),",
@@ -189,26 +189,33 @@
     "body": "\\$`\\pu{${1:10 m}}`",
     "prefix": "pu"
   },
-  "rs4": {
+  "rln + rubric level (no work needed)": {
     "body": [
-      "## ${1:1}: ${2:Title}",
+      ": Proficient (2)",
       "",
-      ": Proficient (3)",
+      ": Partially Proficient (1)",
       "",
-      "  $3",
-      "",
-      ": Correct Answer, Not Enough Work Shown (2)",
-      "",
-      ": Almost There (2)",
-      "",
-      "  ${4:Minor mistake prevented student from reaching correct answer}",
-      "",
-      ": Starting (1)",
-      "",
-      ": Missing (0)",
+      ": Missing or Incorrect (0)",
       "$0"
     ],
-    "prefix": "rubric level"
+    "prefix": [
+      "rln",
+      "rubric level (no work needed)"
+    ]
+  },
+  "rs4": {
+    "body": [
+      ": Proficient & Work Shown (2)",
+      "",
+      ": Partially Proficient or Work not shown (1)",
+      "",
+      ": Missing or Incorrect (0)",
+      "$0"
+    ],
+    "prefix": [
+      "rubric level with work",
+      "rlw"
+    ]
   },
   "sinfo": {
     "body": [
