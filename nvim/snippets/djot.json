@@ -98,6 +98,10 @@
     ],
     "prefix": "answer-box"
   },
+  "cm": {
+    "body": "{% $1 %}$0",
+    "prefix": "cm"
+  },
   "comment": {
     "body": [
       "::: comment",
@@ -189,6 +193,22 @@
     "body": "\\$`\\pu{${1:10 m}}`",
     "prefix": "pu"
   },
+  "reading questions + rq": {
+    "body": [
+      "::: comment",
+      "Reading Questions:",
+      "",
+      "1. $1",
+      "",
+      "  Answer: $2",
+      "$0",
+      ":::"
+    ],
+    "prefix": [
+      "reading questions",
+      "rq"
+    ]
+  },
   "rln + rubric level (no work needed)": {
     "body": [
       ": Proficient (2)",
@@ -207,7 +227,7 @@
     "body": [
       ": Proficient & Work Shown (2)",
       "",
-      ": Partially Proficient or Work not shown (1)",
+      ": Partially Proficient or Work Not Shown (1)",
       "",
       ": Missing or Incorrect (0)",
       "$0"
@@ -216,6 +236,14 @@
       "rubric level with work",
       "rlw"
     ]
+  },
+  "rubric": {
+    "body": [
+      "::: rubric",
+      "rl$0",
+      ":::"
+    ],
+    "prefix": "rubric"
   },
   "sinfo": {
     "body": [
@@ -242,9 +270,5 @@
       ":::$0"
     ],
     "prefix": "ws"
-  },
-  "{%": {
-    "body": "{% $1 %",
-    "prefix": "{%"
   }
 }

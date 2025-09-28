@@ -441,6 +441,13 @@ return {
 				desc = "Select file to open (files in git repo)",
 			},
 			{
+				"<leader>or",
+				function()
+					require("snacks").picker.resume()
+				end,
+				desc = "Restore last picker",
+			},
+			{
 				"<leader>oF",
 				function()
 					require("snacks").picker.files({ ignored = true })
@@ -508,11 +515,13 @@ return {
 			{
 				"<leader>0",
 				function()
-					vim.cmd("tabnew")
-
 					local fm = require("front-matter")
 					local cwd = vim.fn.getcwd()
 					local files = vim.fn.globpath(cwd, "**/*/_*/**/*.dj", true, true)
+
+					if #files == 0 then
+						files = vim.fn.globpath(cwd, "**/*.dj", true, true)
+					end
 
 					-- Batch get frontmatter for these files
 					local metadata = fm.get(files)
@@ -533,16 +542,10 @@ return {
 									{ win = "input", height = 1, border = "bottom" },
 									{ win = "list", border = "none" },
 								},
-								{ win = "preview", title = "{preview}", width = 80, border = "rounded" },
+								{ win = "preview", title = "{preview}", width = 0.5, border = "rounded" },
 							},
 						},
-						auto_close = false,
-						on_close = function()
-							-- make sure we're still in that tab
-							if vim.fn.tabpagenr() == vim.fn.tabpagenr("$") then
-								vim.cmd("tabclose")
-							end
-						end,
+						auto_close = true,
 						transform = function(item)
 							local match = item.file:match("^(.*)%.dj$")
 							if not match then
@@ -613,6 +616,7 @@ return {
 					enabled = true,
 					indent = {
 						enabled = true,
+						only_current = true, -- Only current window
 						hl = "SnacksIndent",
 						char = "▏",
 					},
