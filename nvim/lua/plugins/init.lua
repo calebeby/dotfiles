@@ -622,6 +622,7 @@ return {
 					},
 					scope = {
 						hl = "SnacksIndent",
+						only_current = true, -- Only current window
 						char = "▎",
 					},
 					chunk = {

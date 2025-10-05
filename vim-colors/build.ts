@@ -272,6 +272,8 @@ vim.g.colors_name = "${luaName}"
   highlight('SignifySignDelete', reddest, '', ['underline'])
   highlight('SignifySignDeleteFirstLine', reddest)
 
+  highlight('SnacksIndent', mix(0.5, base01, base00), '')
+
   // treesitter
   highlight('@markup.heading', base0D, '', ['bold'])
   highlight('@markup.list', base08)
