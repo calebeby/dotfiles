@@ -870,9 +870,10 @@ return {
 				auto_session_suppress_dirs = {},
 				session_lens = {},
 			})
-			vim.keymap.set("n", "<leader>O", require("auto-session.session-lens").search_session, {
+			vim.keymap.set("n", "<leader>op", "<cmd>AutoSession search<cr>", {
 				noremap = true,
-			}, { desc = "Open project" })
+				desc = "Open project",
+			})
 		end,
 	},
 	{

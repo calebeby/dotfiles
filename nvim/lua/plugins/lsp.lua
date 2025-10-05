@@ -58,6 +58,7 @@ return {
 				"prettierd",
 				"stylua",
 				"typstyle",
+				"harper-ls",
 			},
 			auto_update = true,
 		},
@@ -88,6 +89,8 @@ return {
 				capabilities = capabilities,
 				root_markers = { ".git" },
 			})
+
+			vim.lsp.config("harper_ls", { settings = {} })
 
 			vim.lsp.config("rust_analyzer", {
 				settings = {
