@@ -43,7 +43,7 @@ vim.opt.spelllang = "en_us"
 
 -- Mostly used for which-key but this also affects other things
 vim.opt.timeout = true
-vim.opt.timeoutlen = 200
+vim.opt.timeoutlen = 500
 
 -- Don't show -- INSERT -- at the bottom (since there is statusline)
 vim.opt.showmode = false
@@ -288,7 +288,7 @@ vim.keymap.set("n", "<leader>a", function()
 end)
 
 -- Window mappings
-vim.keymap.set("n", "<leader>w", "<c-w>", { desc = "Window commands", remap = true })
+-- The `<leader>w` to `<c-w>` mapping is done in which-key so the help popup shows correctly
 vim.keymap.set("n", "<a-h>", "<c-w>h")
 vim.keymap.set("n", "<a-j>", "<c-w>j")
 vim.keymap.set("n", "<a-k>", "<c-w>k")

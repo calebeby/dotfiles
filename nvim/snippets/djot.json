@@ -213,7 +213,7 @@
       "",
       ": Partially Proficient (1)",
       "",
-      ": Missing or Incorrect (0)",
+      ": Incorrect or Missing (0)",
       "$0"
     ],
     "prefix": [
@@ -227,7 +227,7 @@
       "",
       ": Partially Proficient or Work Not Shown (1)",
       "",
-      ": Missing or Incorrect (0)",
+      ": Incorrect or Missing (0)",
       "$0"
     ],
     "prefix": [

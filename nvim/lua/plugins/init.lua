@@ -240,6 +240,7 @@ return {
 		event = "VeryLazy",
 		init = function()
 			local wk = require("which-key")
+			wk.setup({ delay = 100 })
 			wk.add({
 				{ "<leader>c", group = "context" },
 				{ "<leader>o", group = "open" },
@@ -251,6 +252,7 @@ return {
 				{ "<leader>k", group = "preferences" },
 				{ "<leader>t", group = "toggle" },
 				{ "<leader>x", group = "diagnostics" },
+				{ "<leader>w", group = "window", proxy = "<c-w>" },
 			})
 		end,
 	},
@@ -361,6 +363,93 @@ return {
 		config = function()
 			local sub = require("substitute")
 			sub.setup({ highlight_substituted_text = { enabled = false } })
+		end,
+	},
+	{
+		"calebeby/yankwin.nvim",
+		dir = "~/Programming/calebeby/yankwin",
+		config = function()
+			local yankwin = require("yankwin")
+			yankwin.setup()
+
+			vim.keymap.set("n", "<C-w>d", function()
+				yankwin.Delete({ path_type = "relative", with_line_number = false })
+			end, { noremap = true, silent = true, desc = "Delete buffer, yank relative file path" })
+
+			vim.keymap.set("n", "<C-w>gd", function()
+				yankwin.Delete({ path_type = "absolute", with_line_number = false })
+			end, { noremap = true, silent = true, desc = "Delete buffer, yank absolute file path" })
+
+			vim.keymap.set("n", "<C-w>D", function()
+				yankwin.Delete({ path_type = "relative", with_line_number = true })
+			end, { noremap = true, silent = true, desc = "Delete buffer, yank relative file path w/ line" })
+
+			vim.keymap.set("n", "<C-w>gD", function()
+				yankwin.Delete({ path_type = "absolute", with_line_number = true })
+			end, { noremap = true, silent = true, desc = "Delete buffer, yank absolute file path w/ line" })
+
+			vim.keymap.set("t", "<C-w>d", function()
+				yankwin.Delete({ path_type = "terminal" })
+			end, { noremap = true, silent = true, desc = "Delete buffer, yank term #" })
+
+			vim.keymap.set("n", "<C-w>y", function()
+				yankwin.Yank({ path_type = "relative", with_line_number = false })
+			end, { noremap = true, silent = true, desc = "Yank relative file path" })
+
+			vim.keymap.set("n", "<C-w>gy", function()
+				yankwin.Yank({ path_type = "absolute", with_line_number = false })
+			end, { noremap = true, silent = true, desc = "Yank absolute file path" })
+
+			vim.keymap.set("n", "<C-w>Y", function()
+				yankwin.Yank({ path_type = "relative", with_line_number = true })
+			end, { noremap = true, silent = true, desc = "Yank relative file path w/ line" })
+
+			vim.keymap.set("n", "<C-w>gY", function()
+				yankwin.Yank({ path_type = "absolute", with_line_number = true })
+			end, { noremap = true, silent = true, desc = "Yank absolute file path w/ line" })
+
+			vim.keymap.set("t", "<C-w>y", function()
+				yankwin.Yank({ path_type = "terminal" })
+			end, { noremap = true, silent = true, desc = "Yank term #" })
+
+			vim.keymap.set("n", "<C-w>R", function()
+				yankwin.Paste({ edit_command = "edit" })
+			end, { noremap = true, silent = true, desc = "Replace window with yanked path" })
+
+			vim.keymap.set("n", "<C-w>p", function()
+				yankwin.Paste({ edit_command = "rightbelow split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (rightbelow)" })
+
+			vim.keymap.set("n", "<C-w>P", function()
+				yankwin.Paste({ edit_command = "leftabove split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (leftabove)" })
+
+			vim.keymap.set("n", "<C-w>gp", function()
+				yankwin.Paste({ edit_command = "tab split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (new tab)" })
+
+			vim.keymap.set("n", "<C-w>gP", function()
+				local prior_tab = tostring(vim.fn.tabpagenr() - 1)
+				yankwin.Paste({ edit_command = prior_tab .. "tab split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (prior tab)" })
+
+			vim.keymap.set("t", "<C-w>R", function()
+				yankwin.Paste({ edit_command = "edit" })
+			end, { noremap = true, silent = true, desc = "Replace window with yanked term #" })
+
+			vim.keymap.set("t", "<C-w>p", function()
+				yankwin.Paste({ edit_command = "rightbelow split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (rightbelow)" })
+			vim.keymap.set("t", "<C-w>P", function()
+				yankwin.Paste({ edit_command = "leftabove split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (leftabove)" })
+			vim.keymap.set("t", "<C-w>gp", function()
+				yankwin.Paste({ edit_command = "tab split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (new tab)" })
+			vim.keymap.set("t", "<C-w>gP", function()
+				local prior_tab = tostring(vim.fn.tabpagenr() - 1)
+				yankwin.Paste({ edit_command = prior_tab .. "tab split" })
+			end, { noremap = true, silent = true, desc = "Paste window path (prior tab)" })
 		end,
 	},
 	{
