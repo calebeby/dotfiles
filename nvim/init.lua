@@ -94,8 +94,112 @@ vim.opt.signcolumn = "number"
 -- Better diffs in diff mode
 vim.opt.diffopt:append("linematch:50")
 
--- Allow spaces and amperstand & in filenames (for gf) (32 is ascii code for space)
-vim.opt.isfname:append({ "32", "38" })
+local function pos_le(a_row, a_col, b_row, b_col)
+	-- returns true if (a_row,a_col) <= (b_row,b_col)
+	if a_row < b_row then
+		return true
+	end
+	if a_row > b_row then
+		return false
+	end
+	return a_col <= b_col
+end
+
+local function pos_ge(a_row, a_col, b_row, b_col)
+	-- returns true if (a_row,a_col) >= (b_row,b_col)
+	if a_row > b_row then
+		return true
+	end
+	if a_row < b_row then
+		return false
+	end
+	return a_col >= b_col
+end
+
+local function pos_in_range(row, col, rs, cs, re, ce)
+	-- is (row,col) inside the inclusive range [rs,cs] .. [re,ce)?
+	-- treesitter end is exclusive so we treat (re,ce) as exclusive end
+	if not (pos_ge(row, col, rs, cs) and pos_le(row, col, re, ce - 1)) then
+		return false
+	end
+	return true
+end
+
+local function find_embed_above_cursor(opts)
+	opts = opts or {}
+	local max_lines = opts.max_lines or 200
+	local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+
+	-- cursor pos (0-based row for treesitter)
+	local crow, ccol = unpack(vim.api.nvim_win_get_cursor(0))
+	local c_row = crow - 1
+	local c_col = ccol
+
+	local cursor_node = vim.treesitter.get_node({
+		bufnr = bufnr,
+		pos = { c_row, c_col },
+		ignore_injections = false,
+	})
+	if not cursor_node then
+		return nil
+	end
+
+	local start_row = math.max(0, c_row - max_lines)
+	local lines = vim.api.nvim_buf_get_lines(bufnr, start_row, c_row + 1, false)
+
+	local pats = {
+		'embed%s*=%s*"(.-)"',
+		"embed%s*=%s*'(.-)'",
+		"embed%s*=%s*([^%s%}]+)",
+	}
+
+	for i = #lines, 1, -1 do
+		local abs_row = start_row + (i - 1)
+		local line = lines[i]
+		if line and line:find("embed", 1, true) then
+			for _, pat in ipairs(pats) do
+				local s, e, cap = line:find(pat)
+				if cap then
+					local found_col = (s - 1) -- 0-based column where match starts
+
+					-- This returns the "key" node, then we will scan upwards to its block_attribute ancestor,
+					-- then get the div sibling of it.
+					local found_node = vim.treesitter.get_node({
+						bufnr = bufnr,
+						pos = { abs_row, found_col },
+						ignore_injections = false,
+					})
+					while found_node:type() ~= "block_attribute" do
+						found_node = found_node:parent()
+					end
+
+					if
+						found_node and vim.treesitter.is_ancestor(found_node, cursor_node)
+						-- If found_node is the block_attribute, we should check if the div
+						-- (that the attributes are attached to) is the ancestor of the cursor node.
+						or (
+							found_node:next_sibling():type() == "div"
+							and vim.treesitter.is_ancestor(found_node:next_sibling(), cursor_node)
+						)
+					then
+						local path = cap:gsub("[#%?].*$", ""):gsub("^%s*(.-)%s*$", "%1")
+						return path, { row = abs_row, col = found_col, node = found_node }
+					end
+				end
+			end
+		end
+	end
+
+	return nil
+end
+
+-- Allow additional characters in filenames (for gf)
+vim.opt.isfname:append({
+	"32", -- space
+	"35", -- #
+	"38", -- &
+	"63", -- ?
+})
 local function resolve_from(base, rel)
 	rel = vim.fn.expand(rel) -- expand ~ / env
 	if rel:match("^/") or rel:match("^%a:[\\/]") then
@@ -105,14 +209,26 @@ local function resolve_from(base, rel)
 	local joined = base_dir .. "/" .. rel
 	return vim.uv.fs_realpath(joined) or vim.fn.fnamemodify(joined, ":p")
 end
-vim.keymap.set("n", "gf", function()
-	-- What gf normally sees (respects 'isfname')
-	local file = vim.fn.expand("<cfile>")
+local function go_to_file_if_possible(file)
 	-- Trim whitespace
 	file = file:match("^%s*(.-)%s*$")
 	-- Strip leading "- " if present (YAML list items)
 	file = file:gsub("^%-%s+", "")
-	vim.cmd.edit(vim.fn.fnameescape(resolve_from(vim.api.nvim_buf_get_name(0), file)))
+	file = file:gsub("[%?#]+.*$", "")
+	file = resolve_from(vim.api.nvim_buf_get_name(0), file)
+	if vim.fn.filereadable(file) == 1 then
+		vim.cmd.edit(vim.fn.fnameescape(file))
+		return file
+	end
+end
+vim.keymap.set("n", "gf", function()
+	local file = go_to_file_if_possible(vim.fn.expand("<cfile>"))
+	if file == nil and vim.bo[0].filetype == "djot" then
+		local embed_path, info = find_embed_above_cursor({ bufnr = bufnr, max_lines = 400 })
+		if embed_path then
+			go_to_file_if_possible(embed_path)
+		end
+	end
 end, { noremap = true, silent = true })
 
 -- Quit
@@ -368,7 +484,6 @@ local function find_existing_dir()
 	end
 	local dir = vim.fn.expand("%:p:h")
 	while dir ~= "" and dir ~= "/" do
-		print(dir)
 		if vim.fn.isdirectory(dir) == 1 then
 			return dir
 		end
