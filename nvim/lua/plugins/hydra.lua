@@ -19,12 +19,12 @@ return {
 				prev = {
 					virt_text = { { "k", "ModeMsg" } },
 					virt_text_pos = "eol",
-					hl_group = "CursorLine",
+					hl_group = "CETSHJKLNavigation",
 				},
 				next = {
 					virt_text = { { "j", "ModeMsg" } },
 					virt_text_pos = "eol",
-					hl_group = "CursorLine",
+					hl_group = "CETSHJKLNavigation",
 				},
 			},
 		},

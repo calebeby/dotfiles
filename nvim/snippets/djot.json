@@ -96,6 +96,18 @@
     ],
     "prefix": "answer-box"
   },
+  "cetz-figure": {
+    "body": [
+      "```=typ",
+      "#import \"graphs.typ\": cetz, figure",
+      "#show: figure",
+      "#cetz.canvas({",
+      "  cetz.draw$0",
+      "})",
+      "```"
+    ],
+    "prefix": "cetz-figure"
+  },
   "cm": {
     "body": "{% $1 %}$0",
     "prefix": "cm"

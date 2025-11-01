@@ -298,6 +298,7 @@ vim.g.colors_name = "${luaName}"
   // Custom
 
   highlight('CESearchTag', '', mix(0.5, base01, base00))
+  highlight('CETSHJKLNavigation', '', mix(0.4, base01, base00))
 
   return file
 }
