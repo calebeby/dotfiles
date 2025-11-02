@@ -389,7 +389,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		end
 
 		-- if parser already exists and is attached, run immediately
-		local parser = ts.get_parser(buf, "djot")
+		local parser = pcall(ts.get_parser, buf, "djot")
 		if parser then
 			djot_auto_close()
 
