@@ -248,14 +248,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
-vim.o.foldcolumn = "0"
+vim.o.foldcolumn = "8"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.foldtext = ""
 vim.o.fillchars = [[fold: ]]
 vim.keymap.set("n", "<CR>", function()
-	vim.cmd("normal! za")
+	pcall(vim.cmd, "normal! za")
 
 	local fp = require("fold-preview")
 	fp.close_preview()
@@ -358,8 +358,24 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
-local function djot_auto_close(bufnr)
-	ts_close_nodes({ "list_item" }, bufnr)
+local function djot_auto_close()
+	local folded_classes = { solution = true, rubric = true }
+	ts_close_nodes({ "list_item_content", "div" }, function(node)
+		if node:type() ~= "div" then
+			return true
+		end
+
+		local class_fields = node:field("class")
+		if #class_fields == 0 then
+			return false
+		end
+		local class = vim.treesitter.get_node_text(class_fields[1], 0)
+
+		if folded_classes[class] then
+			return true
+		end
+		return false
+	end)
 end
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -375,7 +391,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- if parser already exists and is attached, run immediately
 		local parser = ts.get_parser(buf, "djot")
 		if parser then
-			djot_auto_close(buf)
+			djot_auto_close()
 
 			-- Replace the built-in zx to also call the djot auto-folder
 			vim.keymap.set("n", "zx", function()

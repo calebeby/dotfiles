@@ -6,7 +6,7 @@ end
 --- Close all folds whose node type matches any of the given names.
 ---@param node_types string[] e.g. { "function_declaration", "class_definition" }
 ---@param bufnr integer|nil defaults to current buffer
-function _G.ts_close_nodes(node_types)
+function _G.ts_close_nodes(node_types, filter)
 	local ts = vim.treesitter
 	local view = vim.fn.winsaveview()
 	local parser = ts.get_parser(0)
@@ -35,9 +35,12 @@ function _G.ts_close_nodes(node_types)
 		if not node then
 			return
 		end
-		if wanted[node:type()] then
-			local start_row = node:start()
-			table.insert(closing_lines, 1, start_row + 1)
+		if wanted[node:type()] and (filter == nil or filter(node)) then
+			local start_row = node:start() + 1
+			local end_row = node:end_()
+			if end_row ~= start_row then
+				table.insert(closing_lines, 1, start_row)
+			end
 		end
 		for i = 0, node:child_count() - 1 do
 			visit(node:child(i))
