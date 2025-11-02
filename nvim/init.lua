@@ -68,8 +68,6 @@ vim.opt.undofile = true
 -- Use system clipboard (requires xsel)
 vim.opt.clipboard = "unnamedplus"
 
-vim.wo.foldlevel = 99
--- vim.wo.conceallevel = 2
 vim.wo.conceallevel = 0
 
 -- New windows down and to the right
@@ -256,6 +254,57 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.foldtext = ""
 vim.o.fillchars = [[fold: ]]
+vim.keymap.set("n", "<CR>", function()
+	vim.cmd("normal! za")
+
+	local fp = require("fold-preview")
+	fp.close_preview()
+
+	if vim.fn.foldclosed(".") ~= -1 then
+		fp.show_preview()
+	end
+end)
+
+-- Source: https://github.com/chrisgrieser/nvim-origami/blob/main/lua/origami/features/pause-folds-on-search.lua
+
+-- Disabling search in foldopen has the disadvantage of making search nearly
+-- unusable. Enabling search in foldopen has the disadvantage of constantly
+-- opening all your folds as soon as you search. This snippet fixes this by
+-- pausing folds while searching, but restoring them when you are done
+-- searching.
+--------------------------------------------------------------------------------
+
+-- disable auto-open when searching, since we take care of that in a better way
+vim.opt.foldopen:remove({ "search" })
+
+local ns = vim.api.nvim_create_namespace("origami.autoPauseFolds")
+
+vim.on_key(function(char)
+	if vim.g.scrollview_refreshing then
+		return
+	end -- FIX https://github.com/dstein64/nvim-scrollview/issues/88#issuecomment-1570400161
+
+	local key = vim.fn.keytrans(char)
+	local isCmdlineSearch = vim.fn.getcmdtype():find("[/?]") ~= nil
+	local isNormalMode = vim.api.nvim_get_mode().mode == "n"
+
+	local searchStarted = (key == "/" or key == "?") and isNormalMode
+	local searchConfirmed = (key == "<CR>" and isCmdlineSearch)
+	if not (searchStarted or searchConfirmed or isNormalMode) then
+		return
+	end
+	local foldsArePaused = not (vim.opt.foldenable:get())
+	-- works for RHS, therefore no need to consider remaps
+	local searchMovement = vim.tbl_contains({ "n", "N", "*", "#" }, key)
+	local searchActivity = searchMovement or searchConfirmed or searchStarted
+
+	if searchActivity and not foldsArePaused then
+		vim.opt_local.foldenable = false
+	elseif foldsArePaused and not searchActivity then
+		vim.opt_local.foldenable = true
+		pcall(vim.cmd.foldopen, { bang = true }) -- after closing folds, keep the *current* fold open
+	end
+end, ns)
 
 vim.o.list = true
 vim.o.listchars = [[trail:·,tab:  ]]
@@ -475,8 +524,6 @@ vim.keymap.set("i", "<c-BS>", "<C-W>")
 vim.keymap.set("n", "<c-/>", "gcc", { remap = true })
 vim.keymap.set("v", "<c-/>", "gc gv", { remap = true })
 vim.keymap.set("i", "<c-/>", "<ESC>gcc gi", { remap = true })
-
-vim.keymap.set("n", "<CR>", "r<CR>")
 
 local function find_existing_dir()
 	if vim.fn.filereadable(vim.api.nvim_buf_get_name(0)) == 1 then

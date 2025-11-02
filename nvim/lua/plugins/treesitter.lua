@@ -3,6 +3,57 @@ local highlight_hook = function(update_color)
 	update_color()
 end
 
+--- Close all folds whose node type matches any of the given names.
+---@param node_types string[] e.g. { "function_declaration", "class_definition" }
+---@param bufnr integer|nil defaults to current buffer
+function _G.ts_close_nodes(node_types, bufnr)
+	local ts = vim.treesitter
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+	local parser = ts.get_parser(bufnr)
+	if not parser then
+		return
+	end
+
+	local trees = parser:parse()
+	if not trees or not trees[1] then
+		return
+	end
+	local root = trees[1]:root()
+
+	-- Convert to lookup set
+	local wanted = {}
+	for _, t in ipairs(node_types) do
+		wanted[t] = true
+	end
+
+	-- Save/restore cursor
+	local win = vim.api.nvim_get_current_win()
+	local curpos = vim.api.nvim_win_get_cursor(win)
+
+	local closing_lines = {}
+
+	local function visit(node)
+		if not node then
+			return
+		end
+		if wanted[node:type()] then
+			local start_row = node:start()
+			table.insert(closing_lines, 1, start_row + 1)
+		end
+		for i = 0, node:child_count() - 1 do
+			visit(node:child(i))
+		end
+	end
+
+	visit(root)
+
+	for _, start_row in ipairs(closing_lines) do
+		vim.api.nvim_win_set_cursor(win, { start_row, 0 })
+		vim.cmd("normal! zc")
+	end
+	vim.api.nvim_win_set_cursor(win, curpos)
+end
+
 return {
 	{
 		"Wansmer/treesj",

@@ -257,6 +257,39 @@ return {
 		end,
 	},
 	{
+		"calebeby/fold-preview.nvim",
+		dir = "~/Programming/calebeby/fold-preview.nvim",
+		dependencies = { "anuvyklack/keymap-amend.nvim" },
+		config = function()
+			local fp = require("fold-preview")
+			local map = require("fold-preview").mapping
+			local keymap = vim.keymap
+			keymap.amend = require("keymap-amend")
+			fp.setup({
+				default_keybindings = false,
+				border = { "", "", "", "│", "╯", "─", "╰", "│" },
+			})
+
+			keymap.amend("n", "K", function(original)
+				if not fp.toggle_preview() then
+					original()
+				end
+			end)
+			keymap.amend("n", "<esc>", map.close_preview)
+
+			vim.api.nvim_create_autocmd("CursorMoved", {
+				group = vim.api.nvim_create_augroup("CE-foldpreview", { clear = true }),
+				callback = function()
+					fp.close_preview()
+
+					if vim.fn.foldclosed(".") ~= -1 then
+						fp.show_preview()
+					end
+				end,
+			})
+		end,
+	},
+	{
 		"garymjr/nvim-snippets",
 		event = "InsertEnter",
 		dependencies = {

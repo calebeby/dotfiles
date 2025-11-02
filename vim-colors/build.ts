@@ -212,7 +212,7 @@ vim.g.colors_name = "${luaName}"
   highlight('PMenu', base05, base01)
   highlight('PMenuSel', base01, base05)
   highlight('Todo', base0A, base01)
-  highlight('Folded', base03, base01)
+  highlight('Folded', '', base01)
   highlight('FoldColumn', base03, base00)
   highlight('Conceal', base03, '')
   highlight('NonText', base03, '')
