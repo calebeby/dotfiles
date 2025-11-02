@@ -358,6 +358,53 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+local function djot_auto_close(bufnr)
+	ts_close_nodes({ "list_item" }, bufnr)
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "djot",
+	callback = function(args)
+		local buf = args.buf
+		local ok, ts = pcall(require, "vim.treesitter")
+
+		if not ok or not ts.get_parser then
+			return
+		end
+
+		-- if parser already exists and is attached, run immediately
+		local parser = ts.get_parser(buf, "djot")
+		if parser then
+			djot_auto_close(buf)
+
+			-- Replace the built-in zx to also call the djot auto-folder
+			vim.keymap.set("n", "zx", function()
+				vim.cmd("normal! zx") -- call built-in folds reset
+				djot_auto_close()
+			end, { buffer = buf })
+
+			return
+		end
+
+		-- otherwise, wait until it attaches
+		vim.api.nvim_create_autocmd("User", {
+			pattern = "TSBufAttach",
+			once = true,
+			callback = function(ev)
+				if ev.buf == buf then
+					djot_auto_close(buf)
+				end
+			end,
+		})
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+	pattern = { "*.dj", "*.djot" },
+	group = vim.api.nvim_create_augroup("djot_folder", { clear = true }),
+	callback = function(args) end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "typst", "markdown", "djot" },
 	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),

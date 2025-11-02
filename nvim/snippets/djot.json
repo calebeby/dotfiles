@@ -167,6 +167,10 @@
     ],
     "prefix": "numberline"
   },
+  "okifconsistentwithprevious": {
+    "body": "OK if otherwise consistent with previous.",
+    "prefix": "okifconsistentwithprevious"
+  },
   "practice problem": {
     "body": [
       "{.start-new-page}",

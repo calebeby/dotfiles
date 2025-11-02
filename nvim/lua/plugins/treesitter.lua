@@ -6,10 +6,10 @@ end
 --- Close all folds whose node type matches any of the given names.
 ---@param node_types string[] e.g. { "function_declaration", "class_definition" }
 ---@param bufnr integer|nil defaults to current buffer
-function _G.ts_close_nodes(node_types, bufnr)
+function _G.ts_close_nodes(node_types)
 	local ts = vim.treesitter
-	bufnr = bufnr or vim.api.nvim_get_current_buf()
-	local parser = ts.get_parser(bufnr)
+	local view = vim.fn.winsaveview()
+	local parser = ts.get_parser(0)
 	if not parser then
 		return
 	end
@@ -28,7 +28,6 @@ function _G.ts_close_nodes(node_types, bufnr)
 
 	-- Save/restore cursor
 	local win = vim.api.nvim_get_current_win()
-	local curpos = vim.api.nvim_win_get_cursor(win)
 
 	local closing_lines = {}
 
@@ -49,9 +48,9 @@ function _G.ts_close_nodes(node_types, bufnr)
 
 	for _, start_row in ipairs(closing_lines) do
 		vim.api.nvim_win_set_cursor(win, { start_row, 0 })
-		vim.cmd("normal! zc")
+		pcall(vim.cmd, "normal! zc")
 	end
-	vim.api.nvim_win_set_cursor(win, curpos)
+	vim.fn.winrestview(view)
 end
 
 return {
