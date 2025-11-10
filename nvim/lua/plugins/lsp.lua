@@ -270,11 +270,12 @@ return {
 				border = { "", "", "", "│", "╯", "─", "╰", "│" },
 			})
 
-			keymap.amend("n", "K", function(original)
-				if not fp.toggle_preview() then
-					original()
-				end
-			end)
+			-- Commented out because it messes up using K in lsp to get the LSP popup
+			-- keymap.amend("n", "K", function(original)
+			-- 	if not fp.toggle_preview() then
+			-- 		original()
+			-- 	end
+			-- end)
 			keymap.amend("n", "<esc>", map.close_preview)
 
 			vim.api.nvim_create_autocmd("CursorMoved", {

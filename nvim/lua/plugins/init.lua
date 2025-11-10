@@ -231,6 +231,14 @@ return {
 		end,
 	},
 	{
+		"chrisgrieser/nvim-spider",
+		keys = {
+			{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+			{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+			{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+		},
+	},
+	{
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
 		opts = {},
@@ -584,7 +592,32 @@ return {
 			{
 				"<leader>ogd",
 				function()
-					require("snacks").picker.git_diff()
+					require("snacks").picker.git_diff({
+						focus = "list",
+						tree = true,
+						win = {
+							input = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_preview",
+								},
+							},
+							preview = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_list",
+									["h"] = "focus_list",
+								},
+							},
+							list = {
+								keys = {
+									["<Space>"] = "git_stage",
+									["<Tab>"] = "focus_preview",
+									["l"] = "focus_preview",
+								},
+							},
+						},
+					})
 				end,
 				desc = "Open git diff",
 			},

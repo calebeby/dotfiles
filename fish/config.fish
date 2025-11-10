@@ -83,3 +83,7 @@ end
 # pnpm end
 
 set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; set -gx PATH $HOME/.cabal/bin /home/caleb/.ghcup/bin $PATH # ghcup-env
+
+# begin bilbo completion
+bilbo --completion-fish | source
+# end bilbo completion

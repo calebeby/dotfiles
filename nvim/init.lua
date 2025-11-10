@@ -369,9 +369,9 @@ local function djot_auto_close()
 		if #class_fields == 0 then
 			return false
 		end
-		local class = vim.treesitter.get_node_text(class_fields[1], 0)
+		local class = pcall(vim.treesitter.get_node_text, class_fields[1], 0)
 
-		if folded_classes[class] then
+		if class ~= nil and folded_classes[class] then
 			return true
 		end
 		return false
@@ -542,9 +542,6 @@ end, { desc = "List type definitions", silent = true })
 
 -- Git
 vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
-vim.keymap.set("n", "<leader>gc", ":Neogit commit<CR>", { desc = "Git Commit (Neogit)", silent = true })
-vim.keymap.set("n", "<leader>gP", ":Neogit push<CR>", { desc = "Git Push (Neogit)", silent = true })
-vim.keymap.set("n", "<leader>gp", ":Neogit pull<CR>", { desc = "Git Pull (Neogit)", silent = true })
 vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
 vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
 vim.keymap.set(

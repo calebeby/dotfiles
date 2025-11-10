@@ -23,6 +23,27 @@ return {
 		},
 	},
 	{
+		"chrisgrieser/nvim-tinygit",
+		keys = {
+			{
+				"<leader>gc",
+				mode = "n",
+				function()
+					require("tinygit").smartCommit()
+				end,
+				desc = "git push",
+			},
+			{
+				"<leader>gp",
+				mode = "n",
+				function()
+					require("tinygit").push()
+				end,
+				desc = "git push",
+			},
+		},
+	},
+	{
 		"NeogitOrg/neogit",
 		cmd = { "Neogit" },
 		dependencies = {
