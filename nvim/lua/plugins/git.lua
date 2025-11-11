@@ -1,3 +1,99 @@
+vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
+vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
+vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
+vim.keymap.set(
+	"n",
+	"<leader>gL",
+	":DiffviewFileHistory %<CR>",
+	{ desc = "Git Log Current File (Diffview)", silent = true }
+)
+vim.keymap.set("n", "<leader>gz", function()
+	require("snacks").lazygit.open({
+		config = {
+			git = {
+				paging = {
+					pager = string.format("delta --%s --paging=never", vim.o.background),
+				},
+			},
+		},
+	})
+end, { desc = "Open LazyGit", silent = true })
+
+vim.keymap.set("n", "<leader>ogl", function()
+	require("snacks").picker.git_log()
+end, { desc = "Open git log (snacks)" })
+
+local function close_picker_show_commit_popup(picker)
+	-- picker:focus("list")
+	require("snacks").picker.get()[1]:close()
+	vim.schedule(function()
+		require("tinygit").smartCommit()
+	end)
+end
+
+vim.keymap.set("n", "<leader>ogs", function()
+	require("snacks").picker.git_status({
+		focus = "list",
+		win = {
+			input = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_preview",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+			preview = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_list",
+					["h"] = "focus_list",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+			list = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_preview",
+					["l"] = "focus_preview",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+		},
+	})
+end, { desc = "Open git status (snacks)" })
+
+vim.keymap.set("n", "<leader>ogd", function()
+	require("snacks").picker.git_diff({
+		focus = "list",
+		tree = true,
+		win = {
+			input = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_preview",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+			preview = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_list",
+					["h"] = "focus_list",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+			list = {
+				keys = {
+					["<Space>"] = "git_stage",
+					["<Tab>"] = "focus_preview",
+					["l"] = "focus_preview",
+					["cc"] = close_picker_show_commit_popup,
+				},
+			},
+		},
+	})
+end, { desc = "Open git diff (snacks)" })
+
 return {
 	{
 		"SuperBo/fugit2.nvim",

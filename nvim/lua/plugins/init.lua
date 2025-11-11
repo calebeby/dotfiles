@@ -515,81 +515,11 @@ return {
 				desc = "Select file to open (incl. untracked/ignored)",
 			},
 			{
-				"<leader>ogl",
-				function()
-					require("snacks").picker.git_log()
-				end,
-				desc = "Open git log",
-			},
-			{
-				"<leader>ogs",
-				function()
-					require("snacks").picker.git_status({
-						focus = "list",
-						win = {
-							input = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_preview",
-								},
-							},
-							preview = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_list",
-									["h"] = "focus_list",
-								},
-							},
-							list = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_preview",
-									["l"] = "focus_preview",
-								},
-							},
-						},
-					})
-				end,
-				desc = "Open git status",
-			},
-			{
-				"<leader>ogd",
-				function()
-					require("snacks").picker.git_diff({
-						focus = "list",
-						tree = true,
-						win = {
-							input = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_preview",
-								},
-							},
-							preview = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_list",
-									["h"] = "focus_list",
-								},
-							},
-							list = {
-								keys = {
-									["<Space>"] = "git_stage",
-									["<Tab>"] = "focus_preview",
-									["l"] = "focus_preview",
-								},
-							},
-						},
-					})
-				end,
-				desc = "Open git diff",
-			},
-			{
 				"<leader>oj",
 				function()
 					require("snacks").picker.jumps()
 				end,
-				desc = "Open git diff",
+				desc = "Open jumps",
 			},
 			{
 				"<leader>0",

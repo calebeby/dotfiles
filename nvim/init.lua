@@ -540,28 +540,6 @@ vim.keymap.set("n", "gD", function()
 	require("snacks").picker.lsp_type_definitions()
 end, { desc = "List type definitions", silent = true })
 
--- Git
-vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
-vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
-vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
-vim.keymap.set(
-	"n",
-	"<leader>gL",
-	":DiffviewFileHistory %<CR>",
-	{ desc = "Git Log Current File (Diffview)", silent = true }
-)
-vim.keymap.set("n", "<leader>gz", function()
-	require("snacks").lazygit.open({
-		config = {
-			git = {
-				paging = {
-					pager = string.format("delta --%s --paging=never", vim.o.background),
-				},
-			},
-		},
-	})
-end, { desc = "Open LazyGit", silent = true })
-
 vim.keymap.set(
 	"n",
 	"<leader>kd",
