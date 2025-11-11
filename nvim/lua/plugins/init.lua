@@ -461,43 +461,6 @@ return {
 		end,
 	},
 	{
-		"MagicDuck/grug-far.nvim",
-		keys = {
-			{
-				"<leader>F",
-				function()
-					require("grug-far").open({ windowCreationCommand = "tab split" })
-				end,
-				desc = "Find/Replace in Project",
-			},
-			{
-				"<c-f>",
-				function()
-					require("grug-far").open({
-						prefills = { search = vim.fn.expand("<cword>") },
-						windowCreationCommand = "tab split",
-					})
-				end,
-				desc = "Find/Replace in Project (word under cursor)",
-			},
-			{
-				"<c-f>",
-				mode = { "v" },
-				function()
-					require("grug-far").open({ windowCreationCommand = "tab split" })
-				end,
-				desc = "Find/Replace in Project (selection)",
-			},
-		},
-		opts = {
-			debounceMs = 50,
-			startInInsertMode = false,
-			keymaps = {
-				close = { n = "q", desc = "Quit" },
-			},
-		},
-	},
-	{
 		"chomosuke/typst-preview.nvim",
 		ft = "typst",
 		version = "0.3.*",
@@ -627,12 +590,6 @@ return {
 					require("snacks").picker.jumps()
 				end,
 				desc = "Open git diff",
-			},
-			{
-				"<leader>f",
-				function()
-					require("snacks").picker("grep")
-				end,
 			},
 			{
 				"<leader>0",
