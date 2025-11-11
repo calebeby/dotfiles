@@ -39,6 +39,7 @@ output "Samsung Electric Company SAMSUNG 0x01000600" scale 1.9 pos 0 0
 
 workspace 10 output "HP Inc. HP E24 G5 CN44203K6T" # SVT external display
 workspace 10 output "Samsung Electric Company SAMSUNG 0x01000600" # Home TV
+workspace 10 output "BNQ BenQ GW2480 ETW8K02455SL0" # Home external display
 workspace 11 output "Seiko Epson Corporation EPSON PJ 0x01010101" # SVT Projector
 
 bindsym $mod+i exec firefox
