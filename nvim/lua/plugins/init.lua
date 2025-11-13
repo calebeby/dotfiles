@@ -461,17 +461,6 @@ return {
 		end,
 	},
 	{
-		"chomosuke/typst-preview.nvim",
-		ft = "typst",
-		version = "0.3.*",
-		opts = {
-			open_cmd = "google-chrome --app=%s >/dev/null 2>&1",
-		},
-		build = function()
-			require("typst-preview").update()
-		end,
-	},
-	{
 		"goropikari/front-matter.nvim",
 		opts = {},
 		build = "make setup",
@@ -673,16 +662,7 @@ return {
 					configure = true,
 				},
 				picker = {
-					previewers = {
-						git = {
-							builtin = false,
-							cmd = { "delta" },
-						},
-						diff = {
-							builtin = false,
-							cmd = { "delta" },
-						},
-					},
+					previewers = { diff = { style = "fancy" } },
 					sources = {
 						explorer = {
 							win = {

@@ -397,6 +397,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			vim.keymap.set("n", "zx", function()
 				vim.cmd("normal! zx") -- call built-in folds reset
 				djot_auto_close()
+				vim.cmd("normal! zv") -- open folds enough to show the cursor
 			end, { buffer = buf })
 
 			return

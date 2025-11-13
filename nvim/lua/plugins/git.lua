@@ -24,7 +24,6 @@ vim.keymap.set("n", "<leader>ogl", function()
 end, { desc = "Open git log (snacks)" })
 
 local function close_picker_show_commit_popup(picker)
-	-- picker:focus("list")
 	require("snacks").picker.get()[1]:close()
 	vim.schedule(function()
 		require("tinygit").smartCommit()
