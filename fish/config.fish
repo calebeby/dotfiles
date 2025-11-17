@@ -1,9 +1,6 @@
 set -x EDITOR nvim
 set -x VISUAL nvim
 set -x BROWSER firefox
-# set -x JAVA_HOME /usr/lib/jvm/jre-11
-# set -x JAVA_HOME /usr/lib/jvm/java-openjdk
-set -x JAVA_HOME /usr/lib/jvm/java-11-openjdk
 set -x QT_QPA_PLATFORMTHEME qt5ct
 
 set -x GOPATH $HOME/Programming
@@ -87,3 +84,7 @@ set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; se
 # begin bilbo completion
 bilbo --completion-fish | source
 # end bilbo completion
+
+if status --is-interactive
+  tv init fish | source
+end

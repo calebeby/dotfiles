@@ -232,6 +232,7 @@ return {
 	},
 	{
 		"chrisgrieser/nvim-spider",
+		-- Replaces built-in w/e/b motions
 		keys = {
 			{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
 			{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
@@ -858,6 +859,7 @@ return {
 				log_level = "error",
 				auto_session_suppress_dirs = {},
 				session_lens = {},
+				close_filetypes_on_save = { "checkhealth", "snacks_terminal" },
 			})
 			vim.keymap.set("n", "<leader>op", "<cmd>AutoSession search<cr>", {
 				noremap = true,
