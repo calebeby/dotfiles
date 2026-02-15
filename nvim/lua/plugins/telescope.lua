@@ -101,6 +101,85 @@ return {
 					end
 				end
 
+				local function categorize_schemes(colorscheme_files)
+					local themes = {}
+
+					for _, name in ipairs(colorscheme_files) do
+						vim.cmd("colorscheme " .. name)
+						local group = vim.o.background == "light" and "Light"
+							or vim.o.background == "dark" and "Dark"
+							or "Other"
+						local hl = vim.api.nvim_get_hl(0, { name = "Normal" })
+						local hl_group = "Normal"
+						if hl and (hl.fg or hl.bg) then
+							hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
+							vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
+						end
+						local hex = string.format("#%06x", hl.bg or 0xffffff)
+						local hue, saturation, brightness = hsv_from_hex(hex)
+						table.insert(themes, {
+							name = name,
+							group = group,
+							fg = hl.fg,
+							bg = hl.bg,
+							hue = hue,
+							saturation = saturation,
+							brightness = brightness,
+							hl_group = hl_group,
+						})
+					end
+
+					assign_buckets("brightness", "brightness_bucket", 0.012, themes)
+
+					table.sort(themes, function(a, b)
+						if a.group ~= b.group then
+							return a.group < b.group -- light before dark
+						end
+
+						if a.brightness_bucket ~= b.brightness_bucket then
+							return a.brightness_bucket < b.brightness_bucket
+						end
+
+						local a_neutral = (a.saturation <= 0.2)
+						local b_neutral = (b.saturation <= 0.2)
+						if a_neutral ~= b_neutral then
+							return a_neutral
+						end
+
+						if a_neutral and b_neutral then
+							return a.brightness < b.brightness
+						end
+
+						if math.abs(a.hue - b.hue) > 1 then
+							return a.hue < b.hue
+						end
+
+						return a.brightness < b.brightness
+					end)
+
+					return themes
+				end
+
+				local cache_path = vim.fn.stdpath("data") .. "/theme_cache.json"
+				local function update_theme_cache()
+					local colorscheme_files = vim.fn.getcompletion("", "color")
+					cached_themes = categorize_schemes(colorscheme_files)
+					local file = io.open(cache_path, "w")
+					if file then
+						file:write(vim.json.encode(cached_themes))
+						file:close()
+					end
+				end
+				vim.api.nvim_create_user_command("UpdateColorSchemes", update_theme_cache, {
+					desc = "Re-categorize colorschemes and save to JSON cache",
+				})
+
+				local function format_name(name)
+					return name:gsub("([a-z])([a-z]*)", function(first, rest)
+						return first:upper() .. rest:lower()
+					end):gsub("_", " ")
+				end
+
 				-- Better than built-in because it separates light vs dark themes
 				local function colorscheme_picker()
 					local pickers = require("telescope.pickers")
@@ -112,78 +191,28 @@ return {
 
 					local current_colorscheme = vim.g.colors_name
 
-					local function categorize_schemes(colorscheme_files)
-						local themes = {}
-
-						for _, name in ipairs(colorscheme_files) do
-							vim.cmd("colorscheme " .. name)
-							local group = vim.o.background == "light" and "Light"
-								or vim.o.background == "dark" and "Dark"
-								or "Other"
-							local hl = vim.api.nvim_get_hl(0, { name = "Normal" })
-							local hl_group = "Normal"
-							if hl and (hl.fg or hl.bg) then
-								hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
-								vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
-							end
-							local hex = string.format("#%06x", hl.bg or 0xffffff)
-							local hue, saturation, brightness = hsv_from_hex(hex)
-							table.insert(themes, {
-								name = name,
-								group = group,
-								hue = hue,
-								saturation = saturation,
-								brightness = brightness,
-								hl_group = hl_group,
-							})
-						end
-
-						assign_buckets("brightness", "brightness_bucket", 0.012, themes)
-
-						table.sort(themes, function(a, b)
-							if a.group ~= b.group then
-								return a.group < b.group -- light before dark
-							end
-
-							if a.brightness_bucket ~= b.brightness_bucket then
-								return a.brightness_bucket < b.brightness_bucket
-							end
-
-							local a_neutral = (a.saturation <= 0.2)
-							local b_neutral = (b.saturation <= 0.2)
-							if a_neutral ~= b_neutral then
-								return a_neutral
-							end
-
-							if a_neutral and b_neutral then
-								return a.brightness < b.brightness
-							end
-
-							if math.abs(a.hue - b.hue) > 1 then
-								return a.hue < b.hue
-							end
-
-							return a.brightness < b.brightness
-						end)
-
-						return themes
-					end
-
-					local function format_name(name)
-						return name:gsub("([a-z])([a-z]*)", function(first, rest)
-							return first:upper() .. rest:lower()
-						end):gsub("_", " ")
-					end
-
 					local function launch_picker()
 						local colorscheme_files = vim.fn.getcompletion("", "color")
-						local themes
-						if cached_themes then
-							themes = cached_themes
-						else
-							themes = categorize_schemes(colorscheme_files)
-							cached_themes = themes
+						if not cached_themes then
+							local file = io.open(cache_path, "r")
+							if file then
+								local content = file:read("*all")
+								file:close()
+								cached_themes = vim.json.decode(content)
+
+								for _, hl in ipairs(cached_themes) do
+									if hl and (hl.fg or hl.bg) then
+										hl_group = "ColorSchemePreview_" .. hl.name:gsub("[^%w_]", "_")
+										vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
+									end
+								end
+							end
 						end
+						-- no cache, even in JSON file, run the slow function
+						if not cached_themes then
+							update_theme_cache()
+						end
+						local themes = cached_themes
 
 						local bufnr = vim.api.nvim_get_current_buf()
 						local p = vim.api.nvim_buf_get_name(bufnr)

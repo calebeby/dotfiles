@@ -25,7 +25,6 @@ set --global hydro_symbol_git_dirty "*"
 set --global hydro_symbol_git_behind "⇣"
 set --global hydro_symbol_git_ahead "⇡"
 
-alias n="nvim -S"
 alias nn="nvim"
 
 abbr ns npm start
