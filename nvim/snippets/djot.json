@@ -7,6 +7,15 @@
     "body": "\\$\\$`${1:}`$0",
     "prefix": "$$"
   },
+  "1embed": {
+    "body": [
+      "1. {embed=\"${1:../path/to/file.dj}\"}",
+      "  :::",
+      "  :::",
+      "  $0"
+    ],
+    "prefix": "1embed"
+  },
   ":::": {
     "body": [
       "::: ${1:}",
@@ -129,6 +138,15 @@
     ],
     "prefix": "embed"
   },
+  "embed practice problem": {
+    "body": [
+      "{embed=\"${1:../path/to/file.dj}\"}",
+      "::: practice-problem",
+      ":::",
+      "$0"
+    ],
+    "prefix": "pembed"
+  },
   "float-right + fr": {
     "body": [
       "${1::::} float-right",
@@ -173,17 +191,11 @@
   },
   "practice problem": {
     "body": [
-      "{.start-new-page}",
-      "# Problem ${1:1}",
+      "::::: practice-problem",
       "",
       "${2:}",
       "",
-      "{.start-new-page}",
-      "# Problem $1 Solution",
-      "",
-      "{% Source: ${3:} %}",
-      "",
-      "${4:}"
+      ":::::"
     ],
     "prefix": "practice problem"
   },
@@ -206,6 +218,14 @@
   "pu": {
     "body": "\\$`\\pu{${1:10 m}}`",
     "prefix": "pu"
+  },
+  "python code": {
+    "body": [
+      "```py",
+      "$0",
+      "```"
+    ],
+    "prefix": "python code"
   },
   "reading questions + rq": {
     "body": [
@@ -262,6 +282,10 @@
       "rub"
     ]
   },
+  "show-solutions": {
+    "body": "show-solutions",
+    "prefix": "show-solutions"
+  },
   "sinfo": {
     "body": [
       "::: student-info",
@@ -280,6 +304,10 @@
   "source": {
     "body": "{% Source: $1 %}",
     "prefix": "source"
+  },
+  "swbat": {
+    "body": "Students will be able to ",
+    "prefix": "swbat"
   },
   "ws": {
     "body": [
