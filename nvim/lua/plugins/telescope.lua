@@ -162,6 +162,7 @@ return {
 
 				local cache_path = vim.fn.stdpath("data") .. "/theme_cache.json"
 				local function update_theme_cache()
+					local current_colorscheme = vim.g.colors_name
 					local colorscheme_files = vim.fn.getcompletion("", "color")
 					cached_themes = categorize_schemes(colorscheme_files)
 					local file = io.open(cache_path, "w")
@@ -169,6 +170,7 @@ return {
 						file:write(vim.json.encode(cached_themes))
 						file:close()
 					end
+					vim.cmd("colorscheme " .. current_colorscheme)
 				end
 				vim.api.nvim_create_user_command("UpdateColorSchemes", update_theme_cache, {
 					desc = "Re-categorize colorschemes and save to JSON cache",
