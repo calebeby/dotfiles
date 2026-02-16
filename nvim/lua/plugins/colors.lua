@@ -165,6 +165,7 @@ return {
 					local cursor_pos = vim.api.nvim_win_get_cursor(0)
 					for _, theme in ipairs(cached_themes) do
 						table.insert(items, {
+							text = format_name(theme.name),
 							name = theme.name,
 							hl_group = theme.hl_group,
 							group = theme.group,
@@ -183,7 +184,7 @@ return {
 						format = function(item, _)
 							return {
 								{ string.format("%-7s", "[" .. item.group .. "]"), "Secondary" },
-								{ format_name(item.name), item.hl_group },
+								{ item.text, item.hl_group },
 							}
 						end,
 						on_change = function(_, item)
