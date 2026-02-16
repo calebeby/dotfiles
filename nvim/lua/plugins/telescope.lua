@@ -53,6 +53,7 @@ return {
 
 			do
 				local cached_themes = false
+				local cache_path = vim.fn.stdpath("data") .. "/theme_cache.json"
 
 				local function hsv_from_hex(hex)
 					hex = hex:gsub("#", "")
@@ -160,7 +161,6 @@ return {
 					return themes
 				end
 
-				local cache_path = vim.fn.stdpath("data") .. "/theme_cache.json"
 				local function update_theme_cache()
 					local current_colorscheme = vim.g.colors_name
 					local colorscheme_files = vim.fn.getcompletion("", "color")
