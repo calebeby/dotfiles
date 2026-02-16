@@ -214,6 +214,11 @@ return {
 								vim.cmd("colorscheme " .. current_colorscheme)
 							end
 						end,
+						layout = {
+							preset = "select",
+							layout = { width = 40, min_width = 0 },
+							hidden = { "preview" },
+						},
 					})
 				end
 
