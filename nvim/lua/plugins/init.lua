@@ -929,6 +929,18 @@ return {
 				session_lens = {},
 				close_filetypes_on_save = { "checkhealth", "snacks_terminal" },
 			})
+
+			require("auto-session").setup({
+				save_extra_data = function()
+					return vim.fn.json_encode({ colorscheme = vim.g.colors_name })
+				end,
+				restore_extra_data = function(_, data)
+					local json = vim.fn.json_decode(data)
+					if json.colorscheme then
+						pcall(vim.cmd.colorscheme, json.colorscheme)
+					end
+				end,
+			})
 			vim.keymap.set("n", "<leader>op", "<cmd>AutoSession search<cr>", {
 				noremap = true,
 				desc = "Open project",
