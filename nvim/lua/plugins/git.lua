@@ -144,13 +144,9 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
 		},
 		opts = {
 			graph_style = "unicode",
-			integrations = {
-				telescope = false, -- Use vim.ui.select, which is set to telescope by dressing.nvim
-			},
 			sections = {
 				-- I prefer to show them in the recent commits view
 				unmerged_upstream = {

@@ -84,7 +84,9 @@ return {
 			},
 			{
 				"<leader>n",
-				"<cmd>Telescope aerial<CR>",
+				function()
+					require("aerial").snacks_picker()
+				end,
 				desc = "Symbol Search (Treesitter)",
 			},
 		},

@@ -294,15 +294,6 @@ return {
 		opts = {},
 	},
 	{
-		-- Sets vim.ui.input to a reasonable box
-		-- Sets vim.ui.select to telescope selector
-		-- (example use: LSP rename or LSP code action)
-		-- This is better than telescope-ui-select.nvim because it allows lazy-loading telescope
-		-- and it works with vim.ui.input
-		"stevearc/dressing.nvim",
-		opts = {},
-	},
-	{
 		-- Highlight word/keyword under cursor
 		"RRethy/vim-illuminate",
 		event = "VeryLazy",
@@ -662,7 +653,9 @@ return {
 				lazygit = {
 					configure = true,
 				},
+				input = {}, -- replace default `vim.ui.input`
 				picker = {
+					ui_select = true, -- replace `vim.ui.select` with the snacks picker
 					previewers = { diff = { style = "fancy" } },
 					sources = {
 						explorer = {
@@ -851,9 +844,6 @@ return {
 	},
 	{
 		"rmagatti/auto-session",
-		dependencies = {
-			"nvim-telescope/telescope.nvim",
-		},
 		config = function()
 			require("auto-session").setup({
 				log_level = "error",
