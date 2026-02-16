@@ -187,6 +187,17 @@ return {
 								{ item.text, item.hl_group },
 							}
 						end,
+						on_show = function(picker)
+							local target_value = current_colorscheme
+
+							-- Select current colorscheme when picker opens
+							for i, item in ipairs(picker:items()) do
+								if item.name == current_colorscheme then
+									picker.list:view(i)
+									break
+								end
+							end
+						end,
 						on_change = function(_, item)
 							if item then
 								pcall(vim.cmd, "colorscheme " .. item.name)
