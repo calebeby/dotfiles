@@ -650,9 +650,6 @@ return {
 						return items
 					end
 
-					local mode = vim.api.nvim_get_mode().mode
-					local digraph_seq = (vim.g.digraph_map_sequences or {}).insert or "" -- Default to <C-K>
-
 					Snacks.picker.pick({
 						title = "Digraphs",
 						items = generate_digraphs(),
@@ -670,7 +667,7 @@ return {
 								return
 							end
 							vim.schedule(function()
-								local keys = (get_cursor_col() ~= 0 and "a" or "i") .. digraph_seq .. item.char
+								local keys = (get_cursor_col() ~= 0 and "a" or "i") .. "" .. item.char
 								local termcode = vim.api.nvim_replace_termcodes(keys, true, false, true)
 								vim.api.nvim_feedkeys(termcode, "m", false)
 							end)
