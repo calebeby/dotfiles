@@ -35,14 +35,6 @@ return {
 						},
 					},
 				},
-				pickers = {
-					colorscheme = {
-						enable_preview = true,
-						colors = {
-							before_color = "default",
-						},
-					},
-				},
 				extensions = {
 					aerial = {},
 				},
@@ -84,15 +76,13 @@ return {
 					for _, v in ipairs(items) do
 						local val = v[source_prop]
 						if type(val) == "number" then
-							entries[#entries + 1] = { value = val, item = v }
+							table.insert(entries, { value = val, item = v })
 						end
 					end
 					table.sort(entries, function(a, b)
 						return a.value < b.value
 					end)
-
-					local bucket = 1
-					local last_val = nil
+					local bucket, last_val = 1, nil
 					for _, e in ipairs(entries) do
 						if last_val ~= nil and e.value - last_val >= threshold then
 							bucket = bucket + 1
@@ -184,115 +174,68 @@ return {
 
 				-- Better than built-in because it separates light vs dark themes
 				local function colorscheme_picker()
-					local pickers = require("telescope.pickers")
-					local finders = require("telescope.finders")
-					local previewers = require("telescope.previewers")
-					local actions = require("telescope.actions")
-					local action_state = require("telescope.actions.state")
-					local conf = require("telescope.config").values
-
 					local current_colorscheme = vim.g.colors_name
 
-					local function launch_picker()
-						local colorscheme_files = vim.fn.getcompletion("", "color")
-						if not cached_themes then
-							local file = io.open(cache_path, "r")
-							if file then
-								local content = file:read("*all")
-								file:close()
-								cached_themes = vim.json.decode(content)
+					-- Load Cache
+					if not cached_themes then
+						local file = io.open(cache_path, "r")
+						if file then
+							cached_themes = vim.json.decode(file:read("*all"))
+							file:close()
 
-								for _, hl in ipairs(cached_themes) do
-									if hl and (hl.fg or hl.bg) then
-										hl_group = "ColorSchemePreview_" .. hl.name:gsub("[^%w_]", "_")
-										vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
-									end
+							for _, hl in ipairs(cached_themes) do
+								if hl.fg or hl.bg then
+									vim.api.nvim_set_hl(0, hl.hl_group, { fg = hl.fg, bg = hl.bg })
 								end
 							end
-						end
-						-- no cache, even in JSON file, run the slow function
-						if not cached_themes then
+						else
+							-- no cache, even in JSON file, run the slow function
 							update_theme_cache()
 						end
-						local themes = cached_themes
-
-						local bufnr = vim.api.nvim_get_current_buf()
-						local p = vim.api.nvim_buf_get_name(bufnr)
-
-						-- Find the index of the current colorscheme
-						local default_index = nil
-						for i, entry in ipairs(themes) do
-							if entry.name == current_colorscheme then
-								default_index = i
-								break
-							end
-						end
-
-						pickers
-							.new({}, {
-								prompt_title = "Colorschemes (light/dark)",
-								finder = finders.new_table({
-									results = themes,
-									entry_maker = function(entry)
-										local display = string.format("[%s] %s", entry.group, format_name(entry.name))
-										return {
-											value = entry,
-											display = function()
-												return display,
-													{ { { entry.group:len() + 3, display:len() }, entry.hl_group } }
-											end,
-											ordinal = display,
-										}
-									end,
-								}),
-								sorter = conf.generic_sorter({}),
-								default_selection_index = default_index,
-								previewer = previewers.new_buffer_previewer({
-									get_buffer_by_name = function()
-										return p
-									end,
-									define_preview = function(self, entry)
-										vim.cmd("colorscheme " .. entry.value.name)
-										-- Ensure the buffer exists on disk before proceeding
-										if vim.loop.fs_stat(p) then
-											-- If the file exists, use the buffer previewer maker
-											conf.buffer_previewer_maker(
-												p,
-												self.state.bufnr,
-												{ bufname = self.state.bufname }
-											)
-
-											-- Set filetype to match the current buffer
-											local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-											vim.api.nvim_buf_set_option(self.state.bufnr, "filetype", filetype)
-										else
-											-- If the file does not exist, directly set the content from the current buffer
-											local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-											vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
-										end
-									end,
-								}),
-								attach_mappings = function(_, map)
-									-- When selecting a colorscheme, change it
-									actions.select_default:replace(function()
-										local selection = action_state.get_selected_entry()
-										actions.close(_)
-										vim.cmd("colorscheme " .. selection.value.name)
-									end)
-
-									-- When pressing ESC, reset to the original colorscheme
-									map("i", "<Esc>", function()
-										actions.close(_)
-										vim.cmd("colorscheme " .. current_colorscheme)
-									end)
-
-									return true
-								end,
-							})
-							:find()
 					end
 
-					launch_picker()
+					local items = {}
+					local cursor_pos = vim.api.nvim_win_get_cursor(0)
+					for _, theme in ipairs(cached_themes) do
+						table.insert(items, {
+							name = theme.name,
+							hl_group = theme.hl_group,
+							group = theme.group,
+							file = vim.api.nvim_buf_get_name(0),
+							pos = cursor_pos,
+						})
+					end
+
+					Snacks.picker.pick({
+						source = "custom_colorschemes",
+						finder = function()
+							return items
+						end,
+						sort = false,
+						title = "Colorschemes",
+						format = function(item, _)
+							return {
+								{ string.format("%-7s", "[" .. item.group .. "]"), "Secondary" },
+								{ format_name(item.name), item.hl_group },
+							}
+						end,
+						on_change = function(_, item)
+							if item then
+								pcall(vim.cmd, "colorscheme " .. item.name)
+							end
+						end,
+						confirm = function(picker, item)
+							picker:close()
+							if item then
+								pcall(vim.cmd, "colorscheme " .. item.name)
+							end
+						end,
+						on_close = function()
+							if vim.g.colors_name ~= current_colorscheme then
+								vim.cmd("colorscheme " .. current_colorscheme)
+							end
+						end,
+					})
 				end
 
 				vim.keymap.set("n", "<leader>kt", colorscheme_picker, {
