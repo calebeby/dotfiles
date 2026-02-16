@@ -215,7 +215,7 @@ return {
 							end
 						end,
 						layout = {
-							preset = "select",
+							preset = "left",
 							layout = { width = 40, min_width = 0 },
 							hidden = { "preview" },
 						},
