@@ -599,6 +599,87 @@ return {
 				end,
 				desc = "Toggle Terminal",
 			},
+			{
+				"<c-k><c-k>",
+				function()
+					local function get_cursor_col()
+						return vim.api.nvim_win_get_cursor(0)[2]
+					end
+					local function generate_digraphs()
+						local digraph_doc = vim.fn.expand("$VIMRUNTIME/doc/digraph.txt")
+						local items = {}
+						local table_found = false
+
+						local f = io.open(digraph_doc, "r")
+						if not f then
+							return {}
+						end
+
+						for line in f:lines() do
+							if line:match("digraph%-table%-mbyte") then
+								table_found = true
+							elseif table_found and line:match("official name") then
+							-- skip header
+							elseif table_found and (line == "" or line:match("vim:tw=78")) then
+								-- table ends at footer or empty line
+								if line ~= "" then
+									table_found = false
+								end
+							elseif table_found then
+								-- Match the help doc format: Symbol, char, decimal, hex, name
+								-- Digraph docs use tabs to separate columns
+								local parts = {}
+								for part in line:gmatch("[^\t]+") do
+									local cleaned = part:gsub("^%s*(.-)%s*$", "%1")
+									table.insert(parts, cleaned)
+								end
+
+								if #parts >= 5 then
+									table.insert(items, {
+										symbol = parts[1],
+										char = parts[2],
+										name = parts[5],
+										-- text is used for fuzzy matching
+										text = parts[5] .. " " .. parts[2],
+									})
+								end
+							end
+						end
+						f:close()
+
+						return items
+					end
+
+					local mode = vim.api.nvim_get_mode().mode
+					local digraph_seq = (vim.g.digraph_map_sequences or {}).insert or "" -- Default to <C-K>
+
+					Snacks.picker.pick({
+						title = "Digraphs",
+						items = generate_digraphs(),
+						layout = { preset = "select" },
+						format = function(item)
+							return {
+								{ item.symbol .. " ", "Special" },
+								{ string.format("%-3s ", item.char), "Character" },
+								{ item.name, "Comment" },
+							}
+						end,
+						confirm = function(picker, item)
+							picker:close()
+							if not item then
+								return
+							end
+							vim.schedule(function()
+								local keys = (get_cursor_col() ~= 0 and "a" or "i") .. digraph_seq .. item.char
+								local termcode = vim.api.nvim_replace_termcodes(keys, true, false, true)
+								vim.api.nvim_feedkeys(termcode, "m", false)
+							end)
+						end,
+					})
+				end,
+				desc = "Digraphs",
+				mode = "i",
+			},
 		},
 		init = function()
 			require("snacks").setup({
