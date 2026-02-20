@@ -55,7 +55,7 @@ return {
 
 					local is_dark
 					if vim.o.background == "light" then
-						is_dark = 100
+						is_dark = 20
 					else
 						is_dark = 0
 					end
@@ -69,17 +69,17 @@ return {
 					-- FEATURE VECTOR:
 					local vec = {
 						is_dark,
-						b_hx * 10,
-						b_hy * 10,
-						bs * 10,
+						b_hx * 6,
+						b_hy * 6,
+						bs * 6,
 						bv * 10,
-						f_hx,
-						f_hy,
-						fv,
-						cs,
-						cv,
-						ks,
-						kv,
+						-- f_hx,
+						-- f_hy,
+						-- fv,
+						-- cs,
+						-- cv,
+						-- ks,
+						-- kv,
 					}
 
 					local hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
