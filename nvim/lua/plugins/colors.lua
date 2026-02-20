@@ -59,63 +59,188 @@ return {
 					end
 				end
 
-				local function categorize_schemes(colorscheme_files)
-					local themes = {}
-
-					for _, name in ipairs(colorscheme_files) do
-						vim.cmd("colorscheme " .. name)
-						local group = vim.o.background == "light" and "Light"
-							or vim.o.background == "dark" and "Dark"
-							or "Other"
-						local hl = vim.api.nvim_get_hl(0, { name = "Normal" })
-						local hl_group = "Normal"
-						if hl and (hl.fg or hl.bg) then
-							hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
-							vim.api.nvim_set_hl(0, hl_group, { fg = hl.fg, bg = hl.bg })
-						end
-						local hex = string.format("#%06x", hl.bg or 0xffffff)
-						local hue, saturation, brightness = hsv_from_hex(hex)
-						table.insert(themes, {
-							name = name,
-							group = group,
-							fg = hl.fg,
-							bg = hl.bg,
-							hue = hue,
-							saturation = saturation,
-							brightness = brightness,
-							hl_group = hl_group,
-						})
+				local function get_feature_vector(name)
+					local ok = pcall(vim.cmd, "colorscheme " .. name)
+					if not ok then
+						return nil
 					end
 
-					assign_buckets("brightness", "brightness_bucket", 0.012, themes)
+					local function get_hsv(group, attr)
+						local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+						local hex = string.format("#%06x", hl[attr] or (attr == "bg" and 0x000000 or 0xffffff))
+						return hsv_from_hex(hex)
+					end
 
-					table.sort(themes, function(a, b)
-						if a.group ~= b.group then
-							return a.group < b.group -- light before dark
+					local function get_hsv_full(group, attr)
+						local h, s, v = get_hsv(group, attr)
+						return h / 360, s, v
+					end
+
+					local bh, bs, bv = get_hsv_full("Normal", "bg")
+					local fh, fs, fv = get_hsv_full("Normal", "fg")
+					local ch, cs, cv = get_hsv_full("Comment", "fg")
+					local kh, ks, kv = get_hsv_full("Keyword", "fg")
+					local funh, _, _ = get_hsv_full("Function", "fg")
+					local sh, _, _ = get_hsv_full("String", "fg")
+					local conh, _, _ = get_hsv_full("Constant", "fg")
+
+					local vec = {
+						bh * 2,
+						bs * 2,
+						bv * 10, -- Background
+						fh,
+						fs,
+						fv, -- Foreground
+						ch,
+						cs,
+						cv, -- Comments (High vs Low contrast vibe)
+						kh,
+						ks,
+						kv, -- Keywords (Main accent)
+						funh,
+						sh,
+						conh, -- Secondary Hue signatures
+					}
+
+					local hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
+					local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+					local fg = vim.api.nvim_get_hl(0, { name = "Normal" }).fg
+					vim.api.nvim_set_hl(0, hl_group, { fg = fg, bg = bg })
+
+					return {
+						name = name,
+						group = vim.o.background,
+						vec = vec,
+						hl_group = hl_group,
+						bg = bg,
+						fg = fg,
+					}
+				end
+
+				local function calculate_distance(v1, v2)
+					local sum = 0
+					for i = 1, #v1 do
+						local diff = v1[i] - v2[i]
+						-- Weights: Give background Value and Hue more importance for "vibe"
+						-- local weight = (i == 3) and 10 or 1
+						local weight = 1
+						sum = sum + (diff * diff * weight)
+					end
+					return math.sqrt(sum)
+				end
+
+				local function cluster_and_sort_vectors(themes, num_groups, recurse_limit)
+					if #themes == 0 then
+						return {}
+					end
+					num_groups = math.min(num_groups, #themes)
+
+					-- Initialize centroids (pick random themes as starting points)
+					local centroids = {}
+					for i = 1, num_groups do
+						centroids[i] = { vec = themes[math.random(#themes)].vec }
+					end
+
+					for _ = 1, 100 do
+						for i = 1, num_groups do
+							centroids[i].items = {}
 						end
 
-						if a.brightness_bucket ~= b.brightness_bucket then
-							return a.brightness_bucket < b.brightness_bucket
+						-- Assign themes to closest centroid
+						for _, theme in ipairs(themes) do
+							local best_dist = math.huge
+							local best_idx = 1
+							for i = 1, num_groups do
+								local d = calculate_distance(theme.vec, centroids[i].vec)
+								if d < best_dist then
+									best_dist = d
+									best_idx = i
+								end
+							end
+							table.insert(centroids[best_idx].items, theme)
 						end
 
-						local a_neutral = (a.saturation <= 0.2)
-						local b_neutral = (b.saturation <= 0.2)
-						if a_neutral ~= b_neutral then
-							return a_neutral
+						-- Update centroids (calculate average vector of the bucket)
+						for i = 1, num_groups do
+							if #centroids[i].items > 0 then
+								local avg = {}
+								for j = 1, #themes[1].vec do
+									avg[j] = 0
+								end
+								for _, item in ipairs(centroids[i].items) do
+									for j = 1, #item.vec do
+										avg[j] = avg[j] + item.vec[j]
+									end
+								end
+								for j = 1, #avg do
+									centroids[i].vec[j] = avg[j] / #centroids[i].items
+								end
+							end
 						end
+					end
 
-						if a_neutral and b_neutral then
-							return a.brightness < b.brightness
+					-- 2. Sort the centroids themselves (Darkest to Lightest, then Hue)
+					table.sort(centroids, function(a, b)
+						if a.vec[3] ~= b.vec[3] then
+							return a.vec[3] < b.vec[3]
 						end
-
-						if math.abs(a.hue - b.hue) > 1 then
-							return a.hue < b.hue
-						end
-
-						return a.brightness < b.brightness
+						return a.vec[1] < b.vec[1]
 					end)
 
-					return themes
+					-- 3. Flatten and perform intra-bucket sort
+					local final_list = {}
+					for i, center in ipairs(centroids) do
+						for _, item in ipairs(center.items) do
+							if not item.groupid then
+								item.groupid = "" .. i
+							else
+								item.groupid = item.groupid .. "-" .. i
+							end
+						end
+						if recurse_limit > 1 and #center.items >= 2 then
+							center.items = cluster_and_sort_vectors(center.items, num_groups, recurse_limit - 1)
+						else
+							-- Sort themes inside this bucket by background brightness
+							table.sort(center.items, function(a, b)
+								if math.abs(a.vec[3] - b.vec[3]) > 0.01 then
+									return a.vec[3] < b.vec[3]
+								end
+								return a.vec[1] < b.vec[1]
+							end)
+						end
+
+						for _, item in ipairs(center.items) do
+							table.insert(final_list, item)
+						end
+					end
+
+					return final_list
+				end
+
+				local function cluster_themes(themes)
+					if #themes == 0 then
+						return {}
+					end
+
+					return cluster_and_sort_vectors(themes, 2, 4)
+				end
+
+				local function categorize_schemes(colorscheme_files)
+					local themes = {}
+					local current_colorscheme = vim.g.colors_name
+
+					for _, name in ipairs(colorscheme_files) do
+						local theme_data = get_feature_vector(name)
+						if theme_data and theme_data.vec then
+							table.insert(themes, theme_data)
+						end
+					end
+
+					-- Restore original theme
+					pcall(vim.cmd, "colorscheme " .. current_colorscheme)
+
+					-- Now perform the vector space clustering
+					return cluster_themes(themes)
 				end
 
 				local function update_theme_cache()
@@ -169,6 +294,7 @@ return {
 							name = theme.name,
 							hl_group = theme.hl_group,
 							group = theme.group,
+							groupid = theme.groupid,
 							file = vim.api.nvim_buf_get_name(0),
 							pos = cursor_pos,
 						})
@@ -183,7 +309,10 @@ return {
 						title = "Colorschemes",
 						format = function(item, _)
 							return {
-								{ string.format("%-7s", "[" .. item.group .. "]"), "Secondary" },
+								{
+									string.format("%-7s", "[" .. item.group .. "] [" .. item.groupid .. "] "),
+									"Secondary",
+								},
 								{ item.text, item.hl_group },
 							}
 						end,
