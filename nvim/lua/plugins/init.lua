@@ -927,7 +927,9 @@ return {
 				log_level = "error",
 				auto_session_suppress_dirs = {},
 				session_lens = {},
+				purge_after_minutes = 60 * 24 * 180, -- delete after half a year
 				close_filetypes_on_save = { "checkhealth", "snacks_terminal" },
+				legacy_cmds = false,
 			})
 
 			require("auto-session").setup({
