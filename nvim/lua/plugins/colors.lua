@@ -38,27 +38,6 @@ return {
 					return h, s, v
 				end
 
-				local function assign_buckets(source_prop, dest_prop, threshold, items)
-					local entries = {}
-					for _, v in ipairs(items) do
-						local val = v[source_prop]
-						if type(val) == "number" then
-							table.insert(entries, { value = val, item = v })
-						end
-					end
-					table.sort(entries, function(a, b)
-						return a.value < b.value
-					end)
-					local bucket, last_val = 1, nil
-					for _, e in ipairs(entries) do
-						if last_val ~= nil and e.value - last_val >= threshold then
-							bucket = bucket + 1
-						end
-						e.item[dest_prop] = bucket
-						last_val = e.value
-					end
-				end
-
 				local function get_feature_vector(name)
 					local ok = pcall(vim.cmd, "colorscheme " .. name)
 					if not ok then
