@@ -1,10 +1,10 @@
 vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
 vim.keymap.set("n", "<leader>gd", ":CodeDiff<CR>", { desc = "Git Diff (CodeDiff)", silent = true })
-vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
+vim.keymap.set("n", "<leader>gl", ":CodeDiff history<CR>", { desc = "Git Log (CodeDiff)", silent = true })
 vim.keymap.set(
 	"n",
 	"<leader>gL",
-	":CodeDiff History %<CR>",
+	":CodeDiff history %<CR>",
 	{ desc = "Git Log Current File (CodeDiff)", silent = true }
 )
 vim.keymap.set("n", "<leader>gz", function()
