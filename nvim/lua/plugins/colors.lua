@@ -162,7 +162,6 @@ return {
 						for d = 1, dims do
 							score = score + centered[i][d] * b[d]
 						end
-						theme.groupid = string.format("%.2f", score)
 						theme.pca_score = score
 					end
 
@@ -239,7 +238,6 @@ return {
 							name = theme.name,
 							hl_group = theme.hl_group,
 							group = theme.group,
-							groupid = theme.groupid,
 							file = vim.api.nvim_buf_get_name(0),
 							pos = cursor_pos,
 						})
@@ -254,7 +252,6 @@ return {
 						title = "Colorschemes",
 						format = function(item, _)
 							return {
-								{ string.format("%-12s", "[" .. item.groupid .. "] "), "Secondary" },
 								{ item.text, item.hl_group },
 							}
 						end,
