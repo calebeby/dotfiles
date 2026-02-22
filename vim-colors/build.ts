@@ -5,108 +5,110 @@ import {
   dirname,
   join,
   resolve,
-} from 'https://deno.land/std@0.201.0/path/mod.ts'
-import { expandGlob } from 'https://deno.land/std@0.201.0/fs/mod.ts'
+} from "https://deno.land/std@0.201.0/path/mod.ts";
+import { expandGlob } from "https://deno.land/std@0.201.0/fs/mod.ts";
 import {
   mix as _mix,
+  darken,
+  lighten,
   parseToHsl,
   parseToRgb,
-} from 'https://esm.sh/polished@4.3.1'
+} from "https://esm.sh/polished@4.3.1";
 
 function normalizeColorToHex(color: string) {
-  const { red, green, blue } = parseToRgb(color)
+  const { red, green, blue } = parseToRgb(color);
   return (
-    '#' +
+    "#" +
     [red, green, blue]
-      .map((v) => v.toString(16).padStart(2, '0'))
-      .join('')
+      .map((v) => v.toString(16).padStart(2, "0"))
+      .join("")
       .toLowerCase()
-  )
+  );
 }
 
 function mix(weight: number, colorA: string, colorB: string) {
-  return normalizeColorToHex(_mix(weight, colorA, colorB))
+  return normalizeColorToHex(_mix(weight, colorA, colorB));
 }
 
 interface Colors {
-  base00: string
-  base01: string
-  base02: string
-  base03: string
-  base04: string
-  base05: string
-  base06: string
-  base07: string
-  base08: string
-  base09: string
-  base0A: string
-  base0B: string
-  base0C: string
-  base0D: string
-  base0E: string
-  base0F: string
+  base00: string;
+  base01: string;
+  base02: string;
+  base03: string;
+  base04: string;
+  base05: string;
+  base06: string;
+  base07: string;
+  base08: string;
+  base09: string;
+  base0A: string;
+  base0B: string;
+  base0C: string;
+  base0D: string;
+  base0E: string;
+  base0F: string;
 }
 
 interface ColorScheme {
-  name: string
-  colors: Colors
+  name: string;
+  colors: Colors;
 }
 
-const __filename = fromFileUrl(import.meta.url)
-const __dirname = dirname(__filename)
-const outdir = join(__dirname, 'colors')
+const __filename = fromFileUrl(import.meta.url);
+const __dirname = dirname(__filename);
+const outdir = join(__dirname, "colors");
 
 const isLight = (color: string) => {
-  const { lightness } = parseToHsl(color)
-  return lightness > 0.5
-}
+  const { lightness } = parseToHsl(color);
+  return lightness > 0.5;
+};
 
 async function main(): Promise<void> {
-  const schemePaths: string[] = []
-  for await (const file of expandGlob('colorschemes/**/*.y{a,}ml')) {
-    schemePaths.push(resolve(file.path))
+  const schemePaths: string[] = [];
+  for await (const file of expandGlob("colorschemes/**/*.y{a,}ml")) {
+    schemePaths.push(resolve(file.path));
   }
 
-  await Deno.mkdir(outdir, { recursive: true })
-  await Promise.all(schemePaths.map(processColorScheme))
+  await Deno.mkdir(outdir, { recursive: true });
+  await Promise.all(schemePaths.map(processColorScheme));
 }
 
 async function readColorScheme(filePath: string): Promise<ColorScheme> {
-  const text = await Deno.readTextFile(filePath)
-  let name = ''
-  const colors = {} as Colors
+  const text = await Deno.readTextFile(filePath);
+  let name = "";
+  const colors = {} as Colors;
 
-  for (const rawLine of text.split('\n')) {
+  for (const rawLine of text.split("\n")) {
     const line = rawLine
-      .replace(/^#.*$/g, '')
-      .replace(/\s+#.*$/g, '')
-      .trim()
-    if (!line) continue
+      .replace(/^#.*$/g, "")
+      .replace(/\s+#.*$/g, "")
+      .trim();
+    if (!line) continue;
 
-    const match = line.match(/([\w\d]+)\s*:\s*(.*)$/)
-    if (!match) continue
-    const [, key, val] = match
-    const cleaned = val.replace(/^['"#]*/, '').replace(/['"]$/, '')
+    const match = line.match(/([\w\d]+)\s*:\s*(.*)$/);
+    if (!match) continue;
+    const [, key, val] = match;
+    const cleaned = val.replace(/^['"#]*/, "").replace(/['"]$/, "");
 
-    if (key === 'scheme') {
-      name = cleaned
-    } else if (key.startsWith('base')) {
-      ;(colors as any)[key] = `#${cleaned}`
+    if (key === "scheme") {
+      name = cleaned;
+    } else if (key.startsWith("base")) {
+      (colors as any)[key] = `#${cleaned}`;
     }
   }
 
-  return { name, colors }
+  return { name, colors };
 }
 
 async function processColorScheme(filePath: string): Promise<void> {
-  const { name: rawName, colors } = await readColorScheme(filePath)
+  const { name: rawName, colors } = await readColorScheme(filePath);
   const name = rawName
-    .replace(/[\s-]+/g, '_')
-    .replace(/[^\w\d]/g, '')
-    .toLowerCase()
+    .replace(/[\s-]+/g, "_")
+    .replace(/[^\w\d]/g, "")
+    .toLowerCase();
 
-  const luaTxt = generateLuaTxt({ name: rawName, colors }, name)
-  await Deno.writeTextFile(join(outdir, `${name}.lua`), luaTxt)
+  const luaTxt = generateLuaTxt({ name: rawName, colors }, name);
+  await Deno.writeTextFile(join(outdir, `${name}.lua`), luaTxt);
 }
 
 function generateLuaTxt(scheme: ColorScheme, luaName: string): string {
@@ -125,204 +127,208 @@ function generateLuaTxt(scheme: ColorScheme, luaName: string): string {
     base0D,
     base0E,
     base0F,
-  } = scheme.colors
+  } = scheme.colors;
 
-  const background = isLight(base00) ? 'light' : 'dark'
+  const background = isLight(base00) ? "light" : "dark";
 
   let file = `-- ${scheme.name} color scheme
 -- generated by build.ts
 
 vim.o.background = "${background}"
 vim.g.colors_name = "${luaName}"
-`
+`;
 
   const highlight = (
     group: string,
-    fg = '',
-    bg = '',
+    fg = "",
+    bg = "",
     style: string[] = [],
-    sp = '',
+    sp = "",
   ) => {
-    const attrs: string[] = []
-    if (fg) attrs.push(`fg = "${fg}"`)
-    if (bg) attrs.push(`bg = "${bg}"`)
-    if (sp) attrs.push(`sp = "${sp}"`)
+    const attrs: string[] = [];
+    if (fg) attrs.push(`fg = "${fg}"`);
+    if (bg) attrs.push(`bg = "${bg}"`);
+    if (sp) attrs.push(`sp = "${sp}"`);
     for (const s of style) {
-      attrs.push(`${s} = true`)
+      attrs.push(`${s} = true`);
     }
-    file += `vim.api.nvim_set_hl(0, "${group}", { ${attrs.join(', ')} })\n`
-  }
+    file += `vim.api.nvim_set_hl(0, "${group}", { ${attrs.join(", ")} })\n`;
+  };
 
-  const greenest = findClosest(scheme.colors, '#2cbf24')
-  const reddest = findClosest(scheme.colors, '#aa0306')
+  const greenest = findClosest(scheme.colors, "#2cbf24");
+  const reddest = findClosest(scheme.colors, "#aa0306");
 
   // core highlights
-  highlight('Normal', base05, base00)
-  highlight('Visual', '', base02)
-  highlight('NormalFloat', '', base00)
-  highlight('SnippetTabstop', '', mix(0.5, base01, base00)) // using for tree-climber highlight too
-  highlight('LspReferenceText', '', base01)
-  highlight('LspReferenceRead', '', base01)
-  highlight('LspReferenceWrite', '', base01)
-  highlight('StatusLine', base05, mix(0.5, base02, base00))
-  highlight('StatusLineNC', base03, base01)
-  highlight('LineNr', base03, base00)
-  highlight('CursorLineNr', base04, base00)
-  highlight('Cursor', base00, base05)
-  highlight('CursorLine', '', mix(0.15, base01, base00))
-  highlight('CursorColumn', '', mix(0.15, base01, base00))
-  highlight('ColorColumn', '', mix(0.15, base01, base00))
-  highlight('SignColumn', base05)
-  highlight('NonText', base01)
-  highlight('WinSeparator', mix(0.4, base01, base00), base00)
-  highlight('QuickFixLine', '', base01)
-  highlight('Error', base00, base08)
-  highlight('Underlined', '', '', ['underline'])
-  highlight('Title', base0D, '')
-  highlight('TabLine', base04, base00)
-  highlight('TabLineFill', base03, base00)
-  highlight('TabLineSel', base05, base01, ['bold'])
-  highlight('MatchParen', '', base02)
-  highlight('Directory', base0D)
-  highlight('IncSearch', base01, base09)
-  highlight('Search', base01, base0A)
-  highlight('Comment', base03, '', ['italic'])
-  highlight('Delimiter', mix(0.5, base03, base05))
-  highlight('String', base0B)
-  highlight('Statement', base0E, '')
-  highlight('StorageClass', base0E, '')
-  highlight('Type', base0A, '')
-  highlight('@type.builtin', base0A)
-  highlight('Operator', base0E, '')
-  highlight('Identifier', base08)
-  highlight('Special', base0C)
-  highlight('Constant', base09)
-  highlight('PreProc', base0A)
-  highlight('Function', base0D)
-  highlight('@function.builtin', base0D)
-  highlight('xmlTag', base05)
-  highlight('xmlEndTag', base05)
-  highlight('xmlTagName', base0D)
-  highlight('xmlTagN', base0D)
-  highlight('xmlAttrib', base0F)
-  highlight('SpellBad', '', '', ['undercurl'], reddest)
-  highlight('SpellLocal', '', '', ['undercurl'], base0C)
-  highlight('SpellCap', '', '', ['undercurl'], base0D)
-  highlight('SpellRare', '', '', ['undercurl'], base0E)
-  highlight('PMenu', base05, base01)
-  highlight('PMenuSel', base01, base05)
-  highlight('Todo', base0A, base01)
-  highlight('Folded', '', base01)
-  highlight('FoldColumn', base03, base00)
-  highlight('Conceal', base03, '')
-  highlight('NonText', base03, '')
-  highlight('ModeMsg', base0E)
-  highlight('WarningMsg', base09)
-  highlight('ErrorMsg', reddest)
-  highlight('MoreMsg', base0A)
-  highlight('Question', base0A)
+  highlight("Normal", base05, base00);
+  highlight("Visual", "", base02);
+  highlight("NormalFloat", "", base00);
+  highlight("SnippetTabstop", "", mix(0.5, base01, base00)); // using for tree-climber highlight too
+  highlight("LspReferenceText", "", base01);
+  highlight("LspReferenceRead", "", base01);
+  highlight("LspReferenceWrite", "", base01);
+  highlight("StatusLine", base05, mix(0.5, base02, base00));
+  highlight("StatusLineNC", base03, base01);
+  highlight("LineNr", base03, base00);
+  highlight("CursorLineNr", base04, base00);
+  highlight("Cursor", base00, base05);
+  highlight("CursorLine", "", mix(0.15, base01, base00));
+  highlight("CursorColumn", "", mix(0.15, base01, base00));
+  highlight("ColorColumn", "", mix(0.15, base01, base00));
+  highlight("SignColumn", base05);
+  highlight("NonText", base01);
+  highlight("WinSeparator", mix(0.4, base01, base00), base00);
+  highlight("QuickFixLine", "", base01);
+  highlight("Error", base00, base08);
+  highlight("Underlined", "", "", ["underline"]);
+  highlight("Title", base0D, "");
+  highlight("TabLine", base04, base00);
+  highlight("TabLineFill", base03, base00);
+  highlight("TabLineSel", base05, base01, ["bold"]);
+  highlight("MatchParen", "", base02);
+  highlight("Directory", base0D);
+  highlight("IncSearch", base01, base09);
+  highlight("Search", base01, base0A);
+  highlight("Comment", base03, "", ["italic"]);
+  highlight("Delimiter", mix(0.5, base03, base05));
+  highlight("String", base0B);
+  highlight("Statement", base0E, "");
+  highlight("StorageClass", base0E, "");
+  highlight("Type", base0A, "");
+  highlight("@type.builtin", base0A);
+  highlight("Operator", base0E, "");
+  highlight("Identifier", base08);
+  highlight("Special", base0C);
+  highlight("Constant", base09);
+  highlight("PreProc", base0A);
+  highlight("Function", base0D);
+  highlight("@function.builtin", base0D);
+  highlight("xmlTag", base05);
+  highlight("xmlEndTag", base05);
+  highlight("xmlTagName", base0D);
+  highlight("xmlTagN", base0D);
+  highlight("xmlAttrib", base0F);
+  highlight("SpellBad", "", "", ["undercurl"], reddest);
+  highlight("SpellLocal", "", "", ["undercurl"], base0C);
+  highlight("SpellCap", "", "", ["undercurl"], base0D);
+  highlight("SpellRare", "", "", ["undercurl"], base0E);
+  highlight("PMenu", base05, base01);
+  highlight("PMenuSel", base01, base05);
+  highlight("Todo", base0A, base01);
+  highlight("Folded", "", base01);
+  highlight("FoldColumn", base03, base00);
+  highlight("Conceal", base03, "");
+  highlight("NonText", base03, "");
+  highlight("ModeMsg", base0E);
+  highlight("WarningMsg", base09);
+  highlight("ErrorMsg", reddest);
+  highlight("MoreMsg", base0A);
+  highlight("Question", base0A);
 
   // diagnostics
-  highlight('DiagnosticError', reddest)
-  highlight('DiagnosticUnderlineError', '', '', ['undercurl'], reddest)
-  highlight('DiagnosticWarn', base09)
-  highlight('DiagnosticUnderlineWarn', '', '', ['undercurl'], base09)
-  highlight('DiagnosticHint', base0B)
-  highlight('DiagnosticUnderlineHint', '', '', ['undercurl'], base0B)
-  highlight('DiagnosticInfo', base0D)
-  highlight('DiagnosticUnderlineInfo', '', '', ['undercurl'], base0D)
+  highlight("DiagnosticError", reddest);
+  highlight("DiagnosticUnderlineError", "", "", ["undercurl"], reddest);
+  highlight("DiagnosticWarn", base09);
+  highlight("DiagnosticUnderlineWarn", "", "", ["undercurl"], base09);
+  highlight("DiagnosticHint", base0B);
+  highlight("DiagnosticUnderlineHint", "", "", ["undercurl"], base0B);
+  highlight("DiagnosticInfo", base0D);
+  highlight("DiagnosticUnderlineInfo", "", "", ["undercurl"], base0D);
 
   // diff base
-  const diffAdd = mix(0.2, greenest, base00)
-  const diffDeletedLine = mix(0.2, reddest, base00)
-  const diffChange = mix(0.1, base0D, base00)
-  const diffChangeHighlight = mix(0.3, base0D, base00)
+  const diffAdd = mix(0.1, greenest, base00);
+  const diffDelete = mix(0.1, reddest, base00);
+  const diffChange = mix(0.1, base0D, base00);
+  const diffChangeHighlight = mix(0.3, base0D, base00);
 
-  highlight('DiffAdd', '', diffAdd)
-  highlight('DiffChange', '', diffChange)
-  highlight('DiffDelete', '', diffDeletedLine)
-  highlight('DiffText', '', diffChangeHighlight) // Changed part inside line
+  highlight("DiffAdd", "", diffAdd);
+  highlight("DiffChange", "", diffChange);
+  highlight("DiffDelete", "", diffDelete);
+  highlight("DiffText", "", diffChangeHighlight); // Changed part inside line
+
+  // for codeview.nvim
+  highlight("DiffAddInline", "", mix(0.16, greenest, base00));
+  highlight("DiffDeleteInline", "", mix(0.16, reddest, base00));
 
   // neogit highlights
-  highlight('NeogitDiffContext', '', base00) // Only applies to non-focused chunks
-  highlight('NeogitDiffAdd', greenest, base00)
-  highlight('NeogitDiffDelete', reddest, base00)
-  highlight('NeogitDiffContextHighlight', base05, base00)
-  highlight('NeogitDiffAddHighlight', greenest, base00)
-  highlight('NeogitDiffDeleteHighlight', reddest, base00)
-  highlight('NeogitHunkHeader', base05, base01)
-  highlight('NeogitHunkHeaderHighlight', base05, base01)
-  highlight('NeogitSectionHeader', base0E, '', ['bold'])
-  highlight('NeogitChangeDeleted', reddest, '', ['bold'])
-  highlight('NeogitChangeModified', base0D, '', ['bold'])
-  highlight('NeogitChangeNewFile', greenest, '', ['bold'])
+  highlight("NeogitDiffContext", "", base00); // Only applies to non-focused chunks
+  highlight("NeogitDiffAdd", greenest, base00);
+  highlight("NeogitDiffDelete", reddest, base00);
+  highlight("NeogitDiffContextHighlight", base05, base00);
+  highlight("NeogitDiffAddHighlight", greenest, base00);
+  highlight("NeogitDiffDeleteHighlight", reddest, base00);
+  highlight("NeogitHunkHeader", base05, base01);
+  highlight("NeogitHunkHeaderHighlight", base05, base01);
+  highlight("NeogitSectionHeader", base0E, "", ["bold"]);
+  highlight("NeogitChangeDeleted", reddest, "", ["bold"]);
+  highlight("NeogitChangeModified", base0D, "", ["bold"]);
+  highlight("NeogitChangeNewFile", greenest, "", ["bold"]);
 
-  highlight('gitcommitSummary', base05, '', ['bold'])
-  highlight('gitcommitOverflow', mix(0.7, base04, base05), '', ['bold'])
+  highlight("gitcommitSummary", base05, "", ["bold"]);
+  highlight("gitcommitOverflow", mix(0.7, base04, base05), "", ["bold"]);
 
-  highlight('DiffAdded', greenest, base00)
-  highlight('DiffFile', reddest, base00)
-  highlight('DiffNewFile', greenest, base00)
-  highlight('DiffLine', base0D, base00)
-  highlight('DiffRemoved', reddest, base00)
+  highlight("DiffAdded", greenest, base00);
+  highlight("DiffFile", reddest, base00);
+  highlight("DiffNewFile", greenest, base00);
+  highlight("DiffLine", base0D, base00);
+  highlight("DiffRemoved", reddest, base00);
 
   // signify signs
-  highlight('SignifySignAdd', greenest, diffAdd)
-  highlight('SignifySignChange', base0D, diffChange)
-  highlight('SignifySignDelete', reddest, '', ['underline'])
-  highlight('SignifySignDeleteFirstLine', reddest)
+  highlight("SignifySignAdd", greenest, diffAdd);
+  highlight("SignifySignChange", base0D, diffChange);
+  highlight("SignifySignDelete", reddest, "", ["underline"]);
+  highlight("SignifySignDeleteFirstLine", reddest);
 
-  highlight('SnacksIndent', mix(0.5, base01, base00), '')
+  highlight("SnacksIndent", mix(0.5, base01, base00), "");
 
   // treesitter
-  highlight('@markup.heading', base0D, '', ['bold'])
-  highlight('@markup.list', base08)
-  highlight('@markup.italic', '', '', ['italic'])
-  highlight('@markup.strong', '', '', ['bold'])
-  highlight('@markup.strikethrough', reddest, base00)
-  highlight('@markup.underline', greenest, base00)
-  highlight('@variable', base08)
-  highlight('@module', base08)
-  highlight('@variable.member', base05)
-  highlight('@lsp.type.property', base05)
-  highlight('@lsp.type.class', base08)
+  highlight("@markup.heading", base0D, "", ["bold"]);
+  highlight("@markup.list", base08);
+  highlight("@markup.italic", "", "", ["italic"]);
+  highlight("@markup.strong", "", "", ["bold"]);
+  highlight("@markup.strikethrough", reddest, base00);
+  highlight("@markup.underline", greenest, base00);
+  highlight("@variable", base08);
+  highlight("@module", base08);
+  highlight("@variable.member", base05);
+  highlight("@lsp.type.property", base05);
+  highlight("@lsp.type.class", base08);
 
-  highlight('TreesitterContext', '', mix(0.3, base01, base00))
-  highlight('TreesitterContextLineNumber', base03, mix(0.3, base01, base00))
+  highlight("TreesitterContext", "", mix(0.3, base01, base00));
+  highlight("TreesitterContextLineNumber", base03, mix(0.3, base01, base00));
 
-  highlight('MiniFilesNormal', base05, base00)
-  highlight('MiniFilesBorder', base05, base00)
-  highlight('MiniFilesCursorLine', '', base01)
-  highlight('MiniFilesFile', '', '')
+  highlight("MiniFilesNormal", base05, base00);
+  highlight("MiniFilesBorder", base05, base00);
+  highlight("MiniFilesCursorLine", "", base01);
+  highlight("MiniFilesFile", "", "");
 
   // Custom
 
-  highlight('CESearchTag', '', mix(0.5, base01, base00))
-  highlight('CETSHJKLNavigation', '', mix(0.4, base01, base00))
+  highlight("CESearchTag", "", mix(0.5, base01, base00));
+  highlight("CETSHJKLNavigation", "", mix(0.4, base01, base00));
 
-  return file
+  return file;
 }
 
 function findClosest(colors: Colors, targetColor: string): string {
-  const palette = Object.values(colors).slice(8)
-  const target = parseToHsl(targetColor)
-  let closest = palette[0]
-  let bestDiff = Number.POSITIVE_INFINITY
+  const palette = Object.values(colors).slice(8);
+  const target = parseToHsl(targetColor);
+  let closest = palette[0];
+  let bestDiff = Number.POSITIVE_INFINITY;
 
   for (const col of palette) {
-    const h = parseToHsl(col)
-    let dHue = Math.abs(h.hue - target.hue)
-    if (dHue > 180) dHue = 360 - dHue
-    const dSaturation = h.saturation - target.saturation
-    const dLightness = h.lightness - target.lightness
-    const diff = 0.0001 * dHue ** 2 + 0.0 * dSaturation ** 2 + dLightness ** 2
+    const h = parseToHsl(col);
+    let dHue = Math.abs(h.hue - target.hue);
+    if (dHue > 180) dHue = 360 - dHue;
+    const dSaturation = h.saturation - target.saturation;
+    const dLightness = h.lightness - target.lightness;
+    const diff = 0.0001 * dHue ** 2 + 0.0 * dSaturation ** 2 + dLightness ** 2;
     if (diff < bestDiff) {
-      bestDiff = diff
-      closest = col
+      bestDiff = diff;
+      closest = col;
     }
   }
 
-  return closest
+  return closest;
 }
 
-main().catch(console.error)
+main().catch(console.error);

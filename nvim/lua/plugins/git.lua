@@ -1,11 +1,11 @@
 vim.keymap.set("n", "<leader>gg", ":Neogit<CR>", { desc = "Open Neogit", silent = true })
-vim.keymap.set("n", "<leader>gd", ":DiffviewOpen<CR>", { desc = "Git Diff (Diffview)", silent = true })
+vim.keymap.set("n", "<leader>gd", ":CodeDiff<CR>", { desc = "Git Diff (CodeDiff)", silent = true })
 vim.keymap.set("n", "<leader>gl", ":Neogit log<CR>", { desc = "Git Log (Neogit)", silent = true })
 vim.keymap.set(
 	"n",
 	"<leader>gL",
-	":DiffviewFileHistory %<CR>",
-	{ desc = "Git Log Current File (Diffview)", silent = true }
+	":CodeDiff History %<CR>",
+	{ desc = "Git Log Current File (CodeDiff)", silent = true }
 )
 vim.keymap.set("n", "<leader>gz", function()
 	require("snacks").lazygit.open({
@@ -101,7 +101,6 @@ return {
 			width = 100,
 			libgit2_path = "libgit2.so.1.9",
 			show_patch = true,
-			external_diffview = true, -- tell fugit2 to use diffview.nvim instead of builtin implementation.
 		},
 		dependencies = {
 			"MunifTanjim/nui.nvim",
@@ -126,7 +125,7 @@ return {
 				function()
 					require("tinygit").smartCommit()
 				end,
-				desc = "git push",
+				desc = "git commit",
 			},
 			{
 				"<leader>gp",
@@ -139,11 +138,32 @@ return {
 		},
 	},
 	{
+		"esmuellert/codediff.nvim",
+		config = function()
+			require("codediff").setup({
+				highlights = {
+					char_insert = "DiffAddInline",
+					char_delete = "DiffDeleteInline",
+				},
+				explorer = {
+					view_mode = "tree",
+				},
+			})
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "codediff-explorer",
+				callback = function()
+					vim.keymap.set("n", "cc", function()
+						require("tinygit").smartCommit()
+					end, { buffer = true, desc = "Commit" })
+				end,
+			})
+		end,
+	},
+	{
 		"NeogitOrg/neogit",
 		cmd = { "Neogit" },
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
 		},
 		opts = {
 			graph_style = "unicode",
@@ -158,47 +178,6 @@ return {
 				hunk = { "", "" },
 				item = { "", "" },
 				section = { "", "" },
-			},
-		},
-	},
-	{
-		"sindrets/diffview.nvim",
-		cmd = { "DiffviewOpen", "DiffviewOpen", "DiffviewFileHistory" },
-		opts = {
-			enhanced_diff_hl = true,
-			keymaps = {
-				view = {
-					{ { "n" }, "q", "<Cmd>DiffviewClose<CR>", { desc = "Close" } },
-					{ { "n" }, "c", "<Cmd>Neogit commit<CR>", { desc = "Commit" } },
-				},
-				file_panel = {
-					{ { "n" }, "q", "<Cmd>DiffviewClose<CR>", { desc = "Close" } },
-					{ { "n" }, "c", "<Cmd>Neogit commit<CR>", { desc = "Commit" } },
-					{
-						{ "n" },
-						"<tab>",
-						function()
-							require("diffview.actions").toggle_fold()
-						end,
-						{ desc = "Toggle Fold" },
-					},
-					{
-						{ "n" },
-						"u",
-						function()
-							require("diffview.actions").toggle_stage_entry()
-						end,
-						{ desc = "Toggle Staged" },
-					},
-					{
-						{ "n" },
-						"<c-s>",
-						function()
-							require("diffview.actions").stage_all()
-						end,
-						{ desc = "Stage All" },
-					},
-				},
 			},
 		},
 	},

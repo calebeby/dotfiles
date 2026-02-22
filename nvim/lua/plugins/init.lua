@@ -304,7 +304,6 @@ return {
 					"NeogitStatus",
 					"minifiles",
 					"grug-far",
-					"DiffviewFiles",
 					"djot",
 					"snacks_terminal",
 					"markdown",
