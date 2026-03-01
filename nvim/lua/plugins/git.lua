@@ -148,6 +148,11 @@ return {
 				explorer = {
 					view_mode = "tree",
 				},
+				keymaps = {
+					explorer = {
+						restore = "x", -- (discard)
+					},
+				},
 			})
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "codediff-explorer",
