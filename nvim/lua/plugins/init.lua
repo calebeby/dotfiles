@@ -291,7 +291,9 @@ return {
 	{
 		"echasnovski/mini.bracketed",
 		event = "VeryLazy",
-		opts = {},
+		opts = {
+			comment = { suffix = "", options = {} }, -- ]c and [c conflict with next/prev chunk mappings (gitsigns)
+		},
 	},
 	{
 		-- Highlight word/keyword under cursor
