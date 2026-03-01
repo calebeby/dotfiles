@@ -422,6 +422,58 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 	callback = function(args) end,
 })
 
+local function create_next_variant()
+	local filepath = vim.api.nvim_buf_get_name(0)
+	local directory = filepath:match("(.*[/\\])") or ""
+	local filename = filepath:match("^.+/(.+)$") or filepath
+	local basename = filename:gsub("%.dj$", "")
+
+	vim.cmd("silent! write")
+
+	local next_char, new_basename
+	local _, _, letter = basename:find("Variant (%a)")
+
+	if letter then
+		local current_code = letter:byte()
+		next_char = string.char(current_code + 1)
+		new_basename = basename:gsub("Variant " .. letter, "Variant " .. next_char)
+	else
+		local renamed_current_path = directory .. basename .. " - Variant A.dj"
+
+		local success, err = vim.uv.fs_rename(filepath, renamed_current_path)
+		if not success then
+			vim.notify("Rename failed: " .. (err or "unknown"), vim.log.levels.ERROR)
+			return
+		end
+
+		vim.api.nvim_buf_set_name(0, renamed_current_path)
+		filepath = renamed_current_path
+		new_basename = basename .. " - Variant B"
+	end
+
+	local new_filepath = directory .. new_basename .. ".dj"
+
+	local success, err = vim.uv.fs_copyfile(filepath, new_filepath, 0)
+
+	if success then
+		vim.notify("Created: " .. new_basename .. ".dj", vim.log.levels.INFO)
+		vim.cmd.vsplit(vim.fn.fnameescape(new_filepath))
+	else
+		vim.notify("Copy failed: " .. (err or "check if file exists"), vim.log.levels.ERROR)
+	end
+end
+
+-- Keymap logic
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = { "*.dj", "*.djot" },
+	callback = function()
+		vim.keymap.set("n", "<leader>N", create_next_variant, {
+			buffer = true,
+			desc = "Create next .dj file variant",
+		})
+	end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "typst", "markdown", "djot" },
 	group = vim.api.nvim_create_augroup("prose_only_settings", { clear = true }),
