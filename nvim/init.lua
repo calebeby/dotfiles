@@ -359,22 +359,35 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 local function djot_auto_close()
-	local folded_classes = { solution = true, rubric = true }
-	ts_close_nodes({ "list_item_content", "div" }, function(node)
-		if node:type() ~= "div" then
-			return true
-		end
+	local folded_classes = { solution = true, rubric = true, ["answer-box"] = true }
+	ts_close_nodes({ "div", "code_block", "raw_block" }, function(node)
+		if node:type() == "code_block" or node:type() == "raw_block" then
+			local info = node:field("info")
+			if #info == 0 then
+				return false
+			end
+			local language_fields = info[1]:field("language")
+			if #language_fields == 0 then
+				return false
+			end
+			local err, language = pcall(vim.treesitter.get_node_text, language_fields[1], 0)
+			if language == "typ" then
+				return true
+			end
+			return false
+		elseif node:type() == "div" then
+			local class_fields = node:field("class")
+			if #class_fields == 0 then
+				return false
+			end
+			local err, class = pcall(vim.treesitter.get_node_text, class_fields[1], 0)
 
-		local class_fields = node:field("class")
-		if #class_fields == 0 then
+			if class ~= nil and folded_classes[class] then
+				return true
+			end
 			return false
 		end
-		local class = pcall(vim.treesitter.get_node_text, class_fields[1], 0)
-
-		if class ~= nil and folded_classes[class] then
-			return true
-		end
-		return false
+		return true
 	end)
 end
 

@@ -2,8 +2,14 @@
   (section)
   (code_block)
   (raw_block)
-  (div)
 ] @fold
+
+;; Only fold if it has a class AND at least one other child (content)
+(div
+  class: (class_name)
+  .
+  (_))
+@fold
 
 (list_item
   content: (list_item_content (_)) @fold)
