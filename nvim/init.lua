@@ -358,6 +358,21 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "djot" },
+	callback = function()
+		vim.keymap.set("n", "<leader>O", function()
+			local filepath = vim.fn.expand("%:p")
+			local base_dir = "/home/caleb/Curriculum/"
+			local relative_path = filepath:gsub(base_dir, "")
+			relative_path = relative_path:gsub("%.dj$", ".html")
+			local encoded_path = relative_path:gsub(" ", "%%20")
+			local url = "http://localhost:3000/" .. encoded_path
+			vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+		end, { buffer = true, desc = "Open .dj as .html on localhost" })
+	end,
+})
+
 local function djot_auto_close()
 	local folded_classes = { solution = true, rubric = true, ["answer-box"] = true }
 	ts_close_nodes({ "div", "code_block", "raw_block" }, function(node)
