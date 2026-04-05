@@ -65,7 +65,9 @@ const isLight = (color: string) => {
 
 async function main(): Promise<void> {
   const schemePaths: string[] = [];
-  for await (const file of expandGlob("colorschemes/**/*.y{a,}ml")) {
+  for await (const file of expandGlob("colorschemes/**/*.y{a,}ml", {
+    root: process.cwd(),
+  })) {
     schemePaths.push(resolve(file.path));
   }
 

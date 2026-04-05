@@ -1,52 +1,18 @@
-#!/usr/bin/env -S deno run --allow-net --allow-write --allow-env --allow-read
+#!/usr/bin/env -S deno run --allow-net --allow-write --allow-env --allow-read --allow-sys --allow-run
 
 import prompts from "https://esm.sh/prompts@2.4.2";
 import { join } from "https://deno.land/std@0.177.0/path/mod.ts";
+import puppeteer from "npm:puppeteer";
 
-const extractThemes = (html: string) => {
-  const titleRegex = /<div class="window_title__[^"]+">([^<]+)<\/div>/g;
-  const colorRegex = /--colorscheme-(\S+?):(#[^;"']+)/g;
-
-  const titles = [];
-  const counts: Record<string, number> = {};
-
-  let titleMatch;
-  while ((titleMatch = titleRegex.exec(html)) !== null) {
-    let title = titleMatch[1];
-    if (counts[title]) {
-      title = `${title} ${counts[title]}`;
-      counts[title] += 1;
-    } else {
-      counts[title] = 1;
-    }
-    titles.push({ name: title, index: titleMatch.index });
-  }
-
-  const themes = [];
-  let colorMatch;
-  let currentTheme = { name: titles[0]?.name || "Unknown", colors: {} };
-  let titleIdx = 0;
-
-  while ((colorMatch = colorRegex.exec(html)) !== null) {
-    const currentIndex = colorMatch.index;
-
-    if (titleIdx < titles.length && currentIndex > titles[titleIdx].index) {
-      themes.push(currentTheme);
-      titleIdx++;
-      currentTheme = { name: titles[titleIdx].name, colors: {} };
-    }
-
-    const [_, colorName, colorValue] = colorMatch;
-    currentTheme.colors[colorName] = colorValue.toLowerCase();
-  }
-
-  // Push the last theme
-  themes.push(currentTheme);
-
-  return themes;
+const toTitleCase = (str: string) => {
+  return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
-const toBase16 = (themeName: string, colors: Record<string, string>) => {
+const toBase16 = (
+  schemeName: string,
+  colors: Record<string, string>,
+  author: string,
+) => {
   const mapping = {
     base00: colors.NormalBg,
     base01: colors.StatusLineBg,
@@ -66,34 +32,72 @@ const toBase16 = (themeName: string, colors: Record<string, string>) => {
     base0F: colors.vimLetFg,
   };
 
-  let yaml = `scheme: "${themeName}"\nauthor: "Unknown"\n`;
+  let yaml = `scheme: "${schemeName}"\nauthor: "${author}"\n`;
   for (const [key, value] of Object.entries(mapping)) {
-    yaml += `${key}: "${value}"\n`;
+    if (!value) throw new Error(`Missing: ${key}`);
+    yaml += `${key}: "${value.toLowerCase()}"\n`;
   }
   return yaml;
 };
 
-const { repo } = await prompts({
+const { query } = await prompts({
   type: "text",
-  name: "repo",
-  message: "Enter the theme repo (e.g., dracula/vim):",
+  name: "query",
+  message: "Search for a theme (e.g., iceberg):",
 });
 
-const response = await fetch(`https://vimcolorschemes.com/${repo}`);
-const html = await response.text();
+// Does not work if I use fetch, even if I copy all the headers exactly.
+// Has to be a real browser.
 
-const themes = extractThemes(html);
+const browser = await puppeteer.launch({
+  headless: true, // Set to false if you want to watch it work
+  args: ["--no-sandbox"],
+});
+
+const response = await (await browser.newPage()).goto(
+  `https://vimcolorschemes.com/api/repositories?search=${encodeURIComponent(query)}`,
+);
+const data = await response?.json();
+await browser.close();
+
+const { selectedRepo } = await prompts({
+  type: "select",
+  name: "selectedRepo",
+  message: "Which repository:",
+  choices: data.repositories.map((repo: any) => ({
+    title: `${repo.name} (${repo.owner.name})`,
+    value: repo,
+  })),
+});
+
+if (!selectedRepo) Deno.exit(0);
 
 const { selectedThemes } = await prompts({
   type: "autocompleteMultiselect",
   name: "selectedThemes",
   message: "Select subthemes to export:",
-  choices: themes.map((theme) => ({ title: theme.name, value: theme })),
+  choices: selectedRepo.vimColorSchemes.flatMap((theme: any) => {
+    return Object.entries(theme.data).map(([background, value]) => {
+      const name = toTitleCase(
+        theme.backgrounds.length === 1
+          ? theme.name
+          : `${theme.name} ${background}`,
+      );
+      return {
+        title: name,
+        value: { colors: value, name },
+      };
+    });
+  }),
   min: 1,
 });
 
 for (const theme of selectedThemes) {
-  const yaml = toBase16(theme.name, theme.colors);
+  const yaml = toBase16(
+    theme.name,
+    Object.fromEntries(theme.colors.map((d) => [d.name, d.hexCode])),
+    selectedRepo.owner.name,
+  );
   const filename = join(
     Deno.cwd(),
     "colorschemes",
@@ -104,4 +108,3 @@ for (const theme of selectedThemes) {
 }
 
 await import("./build.ts");
-Deno.exit(0);
