@@ -257,6 +257,7 @@ return {
 				{ "<leader>S", group = "snippets" },
 				{ "<leader>r", group = "refactor" },
 				{ "<leader>g", group = "git" },
+				{ "<leader>gz", group = "git stash" },
 				{ "<leader>h", group = "hunk" },
 				{ "<leader>k", group = "preferences" },
 				{ "<leader>t", group = "toggle" },

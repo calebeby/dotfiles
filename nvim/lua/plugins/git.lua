@@ -143,6 +143,22 @@ return {
 				end,
 				desc = "git push",
 			},
+			{
+				"<leader>gzP",
+				mode = "n",
+				function()
+					require("tinygit").stashPush()
+				end,
+				desc = "git stash push",
+			},
+			{
+				"<leader>gzp",
+				mode = "n",
+				function()
+					require("tinygit").stashPop()
+				end,
+				desc = "git stash pop",
+			},
 		},
 	},
 	{
