@@ -77,7 +77,8 @@ const { selectedThemes } = await prompts({
   name: "selectedThemes",
   message: "Select subthemes to export:",
   choices: selectedRepo.vimColorSchemes.flatMap((theme: any) => {
-    return Object.entries(theme.data).map(([background, value]) => {
+    return Object.entries(theme.data).flatMap(([background, value]) => {
+      if (!value) return [];
       const name = toTitleCase(
         theme.backgrounds.length === 1
           ? theme.name
