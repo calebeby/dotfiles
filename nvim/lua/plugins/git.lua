@@ -128,6 +128,14 @@ return {
 				desc = "git commit",
 			},
 			{
+				"<leader>gC",
+				mode = "n",
+				function()
+					require("tinygit").amendOnlyMsg()
+				end,
+				desc = "git commit --amend",
+			},
+			{
 				"<leader>gp",
 				mode = "n",
 				function()
