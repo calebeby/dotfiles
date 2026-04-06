@@ -7,7 +7,7 @@ vim.keymap.set(
 	":CodeDiff history %<CR>",
 	{ desc = "Git Log Current File (CodeDiff)", silent = true }
 )
-vim.keymap.set("n", "<leader>gz", function()
+vim.keymap.set("n", "<leader>g<space>", function()
 	require("snacks").lazygit.open({
 		config = {
 			git = {
