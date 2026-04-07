@@ -12,13 +12,14 @@ const toBase16 = (
   schemeName: string,
   colors: Record<string, string>,
   author: string,
+  debugURL: string,
 ) => {
   const mapping = {
     base00: colors.NormalBg,
     base01: colors.StatusLineBg,
-    base02: colors.CursorLineBg,
+    base02: colors.CursorLineBg ?? colors.NormalBg,
     base03: colors.vimLineCommentFg,
-    base04: colors.StatusLineFg || colors.LineNrFg,
+    base04: colors.StatusLineFg ?? colors.LineNrFg,
     base05: colors.NormalFg,
     base06: colors.CursorBg,
     base07: colors.CursorFg,
@@ -34,7 +35,7 @@ const toBase16 = (
 
   let yaml = `scheme: "${schemeName}"\nauthor: "${author}"\n`;
   for (const [key, value] of Object.entries(mapping)) {
-    if (!value) throw new Error(`Missing: ${key}`);
+    if (!value) throw new Error(`Missing: ${key} (check ${debugURL})`);
     yaml += `${key}: "${value.toLowerCase()}"\n`;
   }
   return yaml;
@@ -54,9 +55,8 @@ const browser = await puppeteer.launch({
   args: ["--no-sandbox"],
 });
 
-const response = await (await browser.newPage()).goto(
-  `https://vimcolorschemes.com/api/repositories?search=${encodeURIComponent(query)}`,
-);
+const apiURL = `https://vimcolorschemes.com/api/repositories?search=${encodeURIComponent(query)}`;
+const response = await (await browser.newPage()).goto(apiURL);
 const data = await response?.json();
 await browser.close();
 
@@ -98,6 +98,7 @@ for (const theme of selectedThemes) {
     theme.name,
     Object.fromEntries(theme.colors.map((d) => [d.name, d.hexCode])),
     selectedRepo.owner.name,
+    apiURL,
   );
   const filename = join(
     Deno.cwd(),
