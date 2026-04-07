@@ -17,7 +17,7 @@ const toBase16 = (
   const mapping = {
     base00: colors.NormalBg,
     base01: colors.StatusLineBg,
-    base02: colors.CursorLineBg ?? colors.NormalBg,
+    base02: colors.CursorLineBg ?? colors.StatusLineBg,
     base03: colors.vimLineCommentFg,
     base04: colors.StatusLineFg ?? colors.LineNrFg,
     base05: colors.NormalFg,
