@@ -164,6 +164,7 @@ vim.g.colors_name = "${luaName}"
   highlight("Normal", base05, base00);
   highlight("Visual", "", base02);
   highlight("NormalFloat", "", base00);
+  highlight("FloatBorder", base03, "");
   highlight("SnippetTabstop", "", mix(0.5, base01, base00)); // using for tree-climber highlight too
   highlight("LspReferenceText", "", base01);
   highlight("LspReferenceRead", "", base01);
@@ -297,11 +298,7 @@ vim.g.colors_name = "${luaName}"
 
   highlight("TreesitterContext", "", mix(0.3, base01, base00));
   highlight("TreesitterContextLineNumber", base03, mix(0.3, base01, base00));
-
-  highlight("MiniFilesNormal", base05, base00);
-  highlight("MiniFilesBorder", base05, base00);
-  highlight("MiniFilesCursorLine", "", base01);
-  highlight("MiniFilesFile", "", "");
+  highlight("TreesitterContextSeparator", base01, base00);
 
   // Custom
 
