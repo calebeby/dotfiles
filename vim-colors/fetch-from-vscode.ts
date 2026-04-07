@@ -8,16 +8,18 @@ import { parse } from "https://deno.land/std@0.220.1/jsonc/mod.ts";
 const { url } = await prompts({
   type: "text",
   name: "url",
-  message: "VSCode Package URL",
+  message:
+    "VSCode Package URL OR vscodethemes URL OR publisher.package (like RobbOwen.synthwave-vscode)",
 });
 
-// const url =
-//   'https://marketplace.visualstudio.com/items?itemName=RobbOwen.synthwave-vscode'
-
 const match =
-  /^https:\/\/marketplace.visualstudio.com\/items\?itemName=(?<publisher>[^\.]*).(?<pkg>[^\.]*)$/.exec(
+  /^https:\/\/marketplace\.visualstudio\.com\/items\?itemName=(?<publisher>[^\.]*).(?<pkg>[^\.]*)$/.exec(
     url,
-  );
+  ) ??
+  /^https:\/\/vscodethemes\.com\/e\/(?<publisher>[^\.]*).(?<pkg>[^\.]*)\/[^/]*$/.exec(
+    url,
+  ) ??
+  /^(?<publisher>[^\.]*).(?<pkg>[^\.]*)$/.exec(url);
 
 if (!match || !match.groups) throw new Error("unrecognized url");
 const { publisher, pkg } = match.groups;
@@ -53,22 +55,15 @@ for (const themeMetadata of pkgJson?.contributes?.themes) {
     }
   };
 
-  // let allColors = new Set(
-  //   [
-  //     ...Object.values(themeJSON.colors),
-  //     ...themeJSON.tokenColors.map((k) => k.settings.foreground).filter(Boolean),
-  //   ].map(normalize),
-  // )
-
   const getScopeColor = (name: string) => {
-    const v = themeJSON.tokenColors.findLast((s: any) =>
-      Array.isArray(s.scope) ? s.scope?.includes(name) : s.scope === name,
-    )?.settings?.foreground;
+    const v = themeJSON.tokenColors.findLast((s: any) => {
+      if (!s.scope) return false;
+      const arr = Array.isArray(s.scope) ? s.scope : s.scope.split(/\s*,\s*/g);
+      return arr.includes(name);
+    })?.settings?.foreground;
     if (!v) return null;
     return normalize(v);
   };
-
-  // await Deno.writeTextFile('foo.json', JSON.stringify(themeJSON, null, 2))
 
   const base00 = normalize(themeJSON.colors["editor.background"]); // Default Background
   const base01 = normalize(themeJSON.colors["statusBar.background"]); // Lighter Background (Used for status bars line number and folding marks)
@@ -78,7 +73,9 @@ for (const themeMetadata of pkgJson?.contributes?.themes) {
   ); // Selection Background
   const base03 = getScopeColor("comment"); // Comments, Invisibles, Line Highlighting
   const base04 = normalize(
-    themeJSON.colors["statusBar.foreground"] ?? themeJSON.colors["foreground"],
+    themeJSON.colors["statusBar.foreground"] ??
+      themeJSON.colors["foreground"] ??
+      themeJSON.colors["editor.foreground"],
   ); // Dark Foreground (Used for status bars)
   const base05 = normalize(
     themeJSON.colors["editor.foreground"] ?? themeJSON.colors["foreground"],
@@ -88,6 +85,7 @@ for (const themeMetadata of pkgJson?.contributes?.themes) {
   const base08 =
     getScopeColor("entity.name.variable") ??
     getScopeColor("variable") ??
+    getScopeColor("variable.other") ??
     getScopeColor("entity.name.tag"); // Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
   const base09 =
     getScopeColor("constant.numeric") ??
@@ -103,7 +101,9 @@ for (const themeMetadata of pkgJson?.contributes?.themes) {
   const base0C =
     getScopeColor("constant.character.escape") ??
     getScopeColor("string.regexp") ??
-    getScopeColor("variable.language.special"); // Support, Regular Expressions, Escape Characters, Markup Quotes
+    getScopeColor("variable.language.special") ??
+    getScopeColor("support.constant") ??
+    getScopeColor("constant.character"); // Support, Regular Expressions, Escape Characters, Markup Quotes
   const base0D = getScopeColor("entity.name.function"); // Functions, Methods, Attribute IDs, Headings
   const base0E = getScopeColor("keyword"); // Keywords, Storage, Selector, Markup Italic, Diff Changed
   const base0F = getScopeColor("entity.other.attribute-name"); // Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
@@ -153,3 +153,5 @@ ${Object.entries(colors)
 
   await Deno.writeTextFile(filePath, fileText);
 }
+
+await import("./build.ts");
