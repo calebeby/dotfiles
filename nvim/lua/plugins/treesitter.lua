@@ -132,73 +132,111 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-			"nvim-treesitter/nvim-treesitter-context",
-		},
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = {
-					"query", -- for treesitter queries
-					"typescript",
-					"javascript",
-					"tsx",
-					"jsdoc",
-					"regex",
-					"c",
-					"cpp",
-					"rust",
-					"svelte",
-					"html",
-					"css",
-					"json",
-					"astro",
-					"markdown",
-					"lua",
-					"vim",
-					"vimdoc",
-					"yaml",
-					"bash",
-					"sql",
-					"djot",
-					"typst",
-				},
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-				},
-				textobjects = {
-					select = {
-						enable = true,
-						lookahead = true,
-						keymaps = {
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["aF"] = "@call.outer",
-							["iF"] = "@call.inner",
-							["ab"] = "@block.outer",
-							["ib"] = "@block.inner",
-							["aa"] = "@parameter.outer",
-							["ia"] = "@parameter.inner",
-							["ac"] = "@comment.outer",
-							["ic"] = "@comment.inner",
-						},
-					},
-				},
+			require("nvim-treesitter").setup({
+				install_dir = vim.fn.stdpath("data") .. "/site",
+			})
+			require("nvim-treesitter").install({
+				"query", -- for treesitter queries
+				"typescript",
+				"javascript",
+				"tsx",
+				"jsdoc",
+				"regex",
+				"c",
+				"cpp",
+				"rust",
+				"svelte",
+				"html",
+				"css",
+				"json",
+				"astro",
+				"markdown",
+				"lua",
+				"vim",
+				"vimdoc",
+				"yaml",
+				"bash",
+				"sql",
+				"djot",
+				"typst",
 			})
 
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "<filetype>" },
+				callback = function()
+					vim.treesitter.start()
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
+
+			vim.opt.foldmethod = "expr"
+			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
 			require("treesitter-context").setup({
-				enable = true,
-				line_numbers = true,
 				mode = "topline",
 				min_window_height = 15,
 				max_lines = 5,
+				separator = "▔",
 			})
-			vim.opt.foldmethod = "expr"
-			vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		end,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		branch = "main",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		init = function()
+			-- Disable entire built-in ftplugin mappings to avoid conflicts.
+			-- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
+			vim.g.no_plugin_maps = true
+		end,
+		config = function()
+			require("nvim-treesitter-textobjects").setup({
+				select = {
+					lookahead = true,
+					selection_modes = {},
+					include_surrounding_whitespace = false,
+				},
+			})
+
+			vim.keymap.set({ "x", "o" }, "af", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "if", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "aF", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@call.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "iF", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@call.inner", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ab", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@block.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ib", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@block.inner", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "aa", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@parameter.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ia", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@parameter.inner", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ac", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@comment.outer", "textobjects")
+			end)
+			vim.keymap.set({ "x", "o" }, "ic", function()
+				require("nvim-treesitter-textobjects.select").select_textobject("@comment.inner", "textobjects")
+			end)
 		end,
 	},
 }
