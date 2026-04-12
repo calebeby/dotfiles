@@ -30,20 +30,6 @@
     ],
     "prefix": "::::"
   },
-  "AP Question": {
-    "body": [
-      "1. ${2:Question}",
-      "",
-      "  ::: columns-2",
-      "  a. ${3:Option}",
-      "  :::",
-      "",
-      "  {% Solution: ${4:Solution} %}",
-      "  {% Source: College Board: ${1:Name} %}",
-      "$0"
-    ],
-    "prefix": "AP MCQ"
-  },
   "Box Method": {
     "body": [
       "```=typ",
@@ -78,7 +64,7 @@
     ],
     "prefix": "rubric level boolean"
   },
-  "Say hello to the world": {
+  "slide": {
     "body": [
       ":::: slide",
       "${1:}",
@@ -116,6 +102,14 @@
       "```"
     ],
     "prefix": "cetz-figure"
+  },
+  "choices": {
+    "body": [
+      "::: choices",
+      "${1:}",
+      ":::"
+    ],
+    "prefix": "choices"
   },
   "cm": {
     "body": "{% $1 %}$0",
