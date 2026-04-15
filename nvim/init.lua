@@ -452,20 +452,21 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
 
 local function create_next_variant()
 	local filepath = vim.api.nvim_buf_get_name(0)
+	if filepath == "" then
+		vim.notify("Buffer has no name", vim.log.levels.ERROR)
+		return
+	end
+
 	local directory = filepath:match("(.*[/\\])") or ""
-	local filename = filepath:match("^.+/(.+)$") or filepath
+	local filename = filepath:match("([^/\\]+)$") or filepath
 	local basename = filename:gsub("%.dj$", "")
 
 	vim.cmd("silent! write")
 
-	local next_char, new_basename
+	local new_basename
 	local _, _, letter = basename:find("Variant (%a)")
 
-	if letter then
-		local current_code = letter:byte()
-		next_char = string.char(current_code + 1)
-		new_basename = basename:gsub("Variant " .. letter, "Variant " .. next_char)
-	else
+	if not letter then
 		local renamed_current_path = directory .. basename .. " - Variant A.dj"
 
 		local success, err = vim.uv.fs_rename(filepath, renamed_current_path)
@@ -476,18 +477,42 @@ local function create_next_variant()
 
 		vim.api.nvim_buf_set_name(0, renamed_current_path)
 		filepath = renamed_current_path
-		new_basename = basename .. " - Variant B"
+		letter = "A"
+		basename = basename .. " - Variant A"
 	end
 
-	local new_filepath = directory .. new_basename .. ".dj"
+	-- Loop to find the next available letter
+	local current_code = letter:byte()
+	local new_filepath = ""
 
-	local success, err = vim.uv.fs_copyfile(filepath, new_filepath, 0)
+	while true do
+		current_code = current_code + 1
+		local next_char = string.char(current_code)
+		new_basename = basename:gsub("Variant " .. letter, "Variant " .. next_char)
+		new_filepath = directory .. new_basename .. ".dj"
+
+		print(new_filepath)
+		print(vim.inspect(vim.uv.fs_stat(new_filepath)))
+
+		-- Check if file exists (fs_stat returns nil if it doesn't)
+		if not vim.uv.fs_stat(new_filepath) then
+			break
+		end
+
+		if current_code >= 91 then -- Safety break at 'z'
+			vim.notify("Reached Variant Z, stopping for sanity.", vim.log.levels.WARN)
+			return
+		end
+	end
+
+	-- Create the copy
+	local success, err = vim.uv.fs_copyfile(filepath, new_filepath)
 
 	if success then
 		vim.notify("Created: " .. new_basename .. ".dj", vim.log.levels.INFO)
 		vim.cmd.vsplit(vim.fn.fnameescape(new_filepath))
 	else
-		vim.notify("Copy failed: " .. (err or "check if file exists"), vim.log.levels.ERROR)
+		vim.notify("Copy failed: " .. (err or "unknown"), vim.log.levels.ERROR)
 	end
 end
 
