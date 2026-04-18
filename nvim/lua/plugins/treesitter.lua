@@ -149,11 +149,9 @@ return {
 				"c",
 				"cpp",
 				"rust",
-				"svelte",
 				"html",
 				"css",
 				"json",
-				"astro",
 				"markdown",
 				"lua",
 				"vim",
@@ -162,6 +160,7 @@ return {
 				"bash",
 				"sql",
 				"djot",
+				"latex",
 				"typst",
 			})
 
