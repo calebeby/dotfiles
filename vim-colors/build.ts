@@ -305,6 +305,12 @@ vim.g.colors_name = "${luaName}"
   highlight("CESearchTag", "", mix(0.5, base01, base00));
   highlight("CETSHJKLNavigation", "", mix(0.4, base01, base00));
 
+  file += `
+vim.g.base16_colors = { ${Object.values(scheme.colors)
+    .filter((v) => v !== "#undefined")
+    .map((c) => JSON.stringify(c))
+    .join(", ")} }`;
+
   return file;
 }
 

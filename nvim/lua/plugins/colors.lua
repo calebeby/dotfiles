@@ -83,6 +83,7 @@ return {
 					}
 
 					local hl_group = "ColorSchemePreview_" .. name:gsub("[^%w_]", "_")
+					local colors = vim.g.base16_colors
 					local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
 					local bg = normal.bg
 					local fg = normal.fg
@@ -95,6 +96,7 @@ return {
 						hl_group = hl_group,
 						bg = bg,
 						fg = fg,
+						colors = colors,
 					}
 				end
 
@@ -238,10 +240,13 @@ return {
 							name = theme.name,
 							hl_group = theme.hl_group,
 							group = theme.group,
+							colors = theme.colors,
 							file = vim.api.nvim_buf_get_name(0),
 							pos = cursor_pos,
 						})
 					end
+
+					local ns_id = vim.api.nvim_create_namespace("picker_colors")
 
 					Snacks.picker.pick({
 						source = "custom_colorschemes",
@@ -251,9 +256,19 @@ return {
 						sort = false,
 						title = "Colorschemes",
 						format = function(item, _)
-							return {
-								{ item.text, item.hl_group },
-							}
+							local padding_count = 39 - #item.text - #item.colors
+							if padding_count < 0 then
+								padding_count = 0
+							end
+							local gap = string.rep(" ", padding_count)
+
+							local formatted = { { item.text, item.hl_group }, { gap, item.hl_group } }
+							for _, color in ipairs(item.colors) do
+								local hl_name = "TempColor_" .. color:gsub("#", "" .. item.hl_group)
+								vim.api.nvim_set_hl(0, hl_name, { fg = color, bg = item.colors[1] })
+								table.insert(formatted, { "●", hl_name })
+							end
+							return formatted
 						end,
 						on_show = function(picker)
 							for i, item in ipairs(picker:items()) do

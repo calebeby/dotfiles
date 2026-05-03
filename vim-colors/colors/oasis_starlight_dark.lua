@@ -122,3 +122,5 @@ vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", { fg = "#5e7c9a", bg = "#0
 vim.api.nvim_set_hl(0, "TreesitterContextSeparator", { fg = "#111216", bg = "#000000" })
 vim.api.nvim_set_hl(0, "CESearchTag", { bg = "#08090b" })
 vim.api.nvim_set_hl(0, "CETSHJKLNavigation", { bg = "#060708" })
+
+vim.g.base16_colors = { "#000000", "#111216", "#1a283f", "#5e7c9a", "#87ceeb", "#faf7f0", "#f0e68c", "#000000", "#87ceeb", "#ff9633", "#ffc78f", "#ffa0a0", "#87ceeb", "#f3d3a3", "#58b8fd", "#58b8fd" }
