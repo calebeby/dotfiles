@@ -253,7 +253,7 @@ return {
 			wk.add({
 				{ "<leader>c", group = "context" },
 				{ "<leader>o", group = "open" },
-				{ "<leader>d", group = "harpoon" },
+				{ "<leader>t", group = "harpoon" },
 				{ "<leader>S", group = "snippets" },
 				{ "<leader>r", group = "refactor" },
 				{ "<leader>g", group = "git" },
@@ -830,91 +830,91 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 		keys = {
 			{
-				"<leader>dd",
+				"<leader>td",
 				function()
 					require("harpoon"):list():remove()
 				end,
 				desc = "Remove from harpoon list",
 			},
 			{
-				"<leader>da",
+				"<leader>ta",
 				function()
 					require("harpoon"):list():add()
 				end,
 				desc = "Add to harpoon list",
 			},
 			{
-				"<leader>ds",
+				"<leader>ts",
 				function()
 					require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
 				end,
 				desc = "Toggle harpoon list menu",
 			},
 			{
-				"<leader>dj",
+				"<leader>tj",
 				function()
 					require("harpoon"):list():select(1)
 				end,
 				desc = "Select harpoon #1",
 			},
 			{
-				"<leader>dk",
+				"<leader>tk",
 				function()
 					require("harpoon"):list():select(2)
 				end,
 				desc = "Select harpoon #2",
 			},
 			{
-				"<leader>dl",
+				"<leader>tl",
 				function()
 					require("harpoon"):list():select(3)
 				end,
 				desc = "Select harpoon #3",
 			},
 			{
-				"<leader>d;",
+				"<leader>t;",
 				function()
 					require("harpoon"):list():select(4)
 				end,
 				desc = "Select harpoon #4",
 			},
 			{
-				"<leader>du",
+				"<leader>tu",
 				function()
 					require("harpoon"):list():select(5)
 				end,
 				desc = "Select harpoon #5",
 			},
 			{
-				"<leader>di",
+				"<leader>ti",
 				function()
 					require("harpoon"):list():select(6)
 				end,
 				desc = "Select harpoon #6",
 			},
 			{
-				"<leader>do",
+				"<leader>to",
 				function()
 					require("harpoon"):list():select(7)
 				end,
 				desc = "Select harpoon #7",
 			},
 			{
-				"<leader>dp",
+				"<leader>tp",
 				function()
 					require("harpoon"):list():select(8)
 				end,
 				desc = "Select harpoon #8",
 			},
 			{
-				"<leader>dn",
+				"<leader>tn",
 				function()
 					require("harpoon"):list():prev()
 				end,
 				desc = "Go to harpoon previous buffer",
 			},
 			{
-				"<leader>dm",
+				"<leader>tm",
 				function()
 					require("harpoon"):list():next()
 				end,

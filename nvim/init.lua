@@ -516,14 +516,116 @@ local function create_next_variant()
 	end
 end
 
--- Keymap logic
+local function get_doc_structure(lines)
+	local structs = {}
+	local i = 1
+	while i <= #lines do
+		local line = lines[i]
+		local is_blank = line:match("^%s*$") ~= nil
+		local indent = not is_blank and line:match("^(%s*)::: rubric%s*$") or nil
+
+		if indent then
+			local block = { is_rubric = true, lines = { line } }
+			i = i + 1
+			while i <= #lines do
+				table.insert(block.lines, lines[i])
+				if lines[i]:match("^" .. indent .. ":::%s*$") then
+					break
+				end
+				i = i + 1
+			end
+			table.insert(structs, block)
+		elseif is_blank then
+			table.insert(structs, { is_blank = true, line = line })
+		else
+			if #structs > 0 and structs[#structs].is_text then
+				table.insert(structs[#structs].lines, line)
+			else
+				table.insert(structs, { is_text = true, lines = { line } })
+			end
+		end
+		i = i + 1
+	end
+	return structs
+end
+
+local function sync_rubrics()
+	local source_path = vim.api.nvim_buf_get_name(0)
+	local source_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	local source_structs = get_doc_structure(source_lines)
+
+	local dir = vim.fn.fnamemodify(source_path, ":h")
+	local filename = vim.fn.fnamemodify(source_path, ":t")
+	local prefix = filename:match("^(.-)%s*-%s*Variant%s+[A-Z]%.dj$")
+	if not prefix then
+		return
+	end
+
+	for _, f in ipairs(vim.fn.readdir(dir)) do
+		if f:match("^" .. vim.pesc(prefix) .. "%s*-%s*Variant%s+.[^/]*%.dj$") and f ~= filename then
+			local path = dir .. "/" .. f
+			local target_buf = vim.fn.bufadd(path)
+			vim.fn.bufload(target_buf)
+
+			local target_raw = vim.api.nvim_buf_get_lines(target_buf, 0, -1, false)
+
+			local target_text_chunks = {}
+			for _, b in ipairs(get_doc_structure(target_raw)) do
+				if b.is_text then
+					table.insert(target_text_chunks, b.lines)
+				end
+			end
+
+			local new_content = {}
+			local t_chunk_ptr = 1
+			for _, s in ipairs(source_structs) do
+				if s.is_rubric then
+					if #new_content > 0 and new_content[#new_content]:match("%S") then
+						table.insert(new_content, "")
+					end
+					for _, line in ipairs(s.lines) do
+						table.insert(new_content, line)
+					end
+				elseif s.is_blank then
+					table.insert(new_content, s.line)
+				elseif s.is_text then
+					local chunk = target_text_chunks[t_chunk_ptr] or s.lines
+					for _, line in ipairs(chunk) do
+						table.insert(new_content, line)
+					end
+					t_chunk_ptr = t_chunk_ptr + 1
+				end
+			end
+
+			while t_chunk_ptr <= #target_text_chunks do
+				table.insert(new_content, "")
+				for _, line in ipairs(target_text_chunks[t_chunk_ptr]) do
+					table.insert(new_content, line)
+				end
+				t_chunk_ptr = t_chunk_ptr + 1
+			end
+
+			vim.api.nvim_buf_set_lines(target_buf, 0, -1, false, new_content)
+			vim.api.nvim_buf_call(target_buf, function()
+				vim.cmd("silent update")
+			end)
+		end
+	end
+end
+
 vim.api.nvim_create_autocmd("BufEnter", {
 	pattern = { "*.dj", "*.djot" },
 	callback = function()
-		vim.keymap.set("n", "<leader>N", create_next_variant, {
+		vim.keymap.set("n", "<leader>dn", create_next_variant, {
 			buffer = true,
 			desc = "Create next .dj file variant",
 		})
+		vim.keymap.set(
+			"n",
+			"<leader>ds",
+			sync_rubrics,
+			{ buffer = true, desc = "Sync rubrics between .dj file variants" }
+		)
 	end,
 })
 
