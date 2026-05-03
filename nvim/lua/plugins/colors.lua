@@ -248,6 +248,9 @@ return {
 
 					local ns_id = vim.api.nvim_create_namespace("picker_colors")
 
+					vim.api.nvim_set_hl(0, "Bold", { bold = true })
+					vim.fn.sign_define("SnacksCursorSign", { text = "»" })
+
 					Snacks.picker.pick({
 						source = "custom_colorschemes",
 						finder = function()
@@ -277,11 +280,22 @@ return {
 									break
 								end
 							end
+							local ns = vim.api.nvim_create_namespace("MyPickerStyle")
+							vim.api.nvim_set_hl(ns, "CursorLine", { bold = true })
+							vim.api.nvim_win_set_hl_ns(picker.list.win.win, ns)
 						end,
-						on_change = function(_, item)
+						on_change = function(picker, item)
 							if item then
 								pcall(vim.cmd, "colorscheme " .. item.name)
 							end
+							vim.fn.sign_unplace("SnacksCursorGroup", { buffer = picker.list.win.buf })
+							vim.fn.sign_place(
+								0,
+								"SnacksCursorGroup",
+								"SnacksCursorSign",
+								picker.list.win.buf,
+								{ lnum = picker.list:idx2row(picker.list.cursor), priority = 100 }
+							)
 						end,
 						confirm = function(picker, item)
 							picker:close()
@@ -296,8 +310,15 @@ return {
 						end,
 						layout = {
 							preset = "left",
-							layout = { width = 40, min_width = 0 },
+							layout = { width = 43, min_width = 0 },
 							hidden = { "preview" },
+						},
+						win = {
+							list = {
+								wo = {
+									signcolumn = "yes:1",
+								},
+							},
 						},
 					})
 				end
