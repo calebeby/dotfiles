@@ -9,10 +9,9 @@ import {
 import { expandGlob } from "https://deno.land/std@0.201.0/fs/mod.ts";
 import {
   mix as _mix,
-  darken,
-  lighten,
   parseToHsl,
   parseToRgb,
+  rgb,
 } from "https://esm.sh/polished@4.3.1";
 
 function normalizeColorToHex(color: string) {
@@ -114,6 +113,15 @@ async function processColorScheme(filePath: string): Promise<void> {
 }
 
 function generateLuaTxt(scheme: ColorScheme, luaName: string): string {
+  for (const [property, color] of Object.entries(scheme.colors)) {
+    try {
+      scheme.colors[property as keyof typeof scheme.colors] =
+        normalizeColorToHex(color);
+    } catch {
+      console.error(`Error with ${property}: ${color} in ${scheme.name}`);
+    }
+  }
+
   const {
     base00,
     base01,
