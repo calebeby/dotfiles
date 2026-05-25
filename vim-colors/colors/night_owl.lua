@@ -4,7 +4,7 @@
 vim.o.background = "dark"
 vim.g.colors_name = "night_owl"
 vim.api.nvim_set_hl(0, "Normal", { fg = "#abb2bf", bg = "#011627" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#4b6479" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#011627", bg = "#4b6479" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#011627" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#637777" })
 vim.api.nvim_set_hl(0, "SnippetTabstop", { bg = "#0f283d" })

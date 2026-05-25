@@ -4,7 +4,7 @@
 vim.o.background = "light"
 vim.g.colors_name = "solarized_light"
 vim.api.nvim_set_hl(0, "Normal", { fg = "#586e75", bg = "#fdf6e3" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#93a1a1" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#fdf6e3", bg = "#93a1a1" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#fdf6e3" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#839496" })
 vim.api.nvim_set_hl(0, "SnippetTabstop", { bg = "#f5efdc" })

@@ -4,7 +4,7 @@
 vim.o.background = "dark"
 vim.g.colors_name = "pulse_dark_purple"
 vim.api.nvim_set_hl(0, "Normal", { fg = "#cbd5e1", bg = "#0a0a2e" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#8b5cf6" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#0a0a2e", bg = "#8b5cf6" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#0a0a2e" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#94a3b8" })
 vim.api.nvim_set_hl(0, "SnippetTabstop", { bg = "#4a3392" })

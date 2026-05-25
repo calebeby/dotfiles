@@ -4,7 +4,7 @@
 vim.o.background = "dark"
 vim.g.colors_name = "synthwave_84"
 vim.api.nvim_set_hl(0, "Normal", { fg = "#ffffff", bg = "#262335" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#ffffff" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#262335", bg = "#ffffff" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#262335" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#848bbd" })
 vim.api.nvim_set_hl(0, "SnippetTabstop", { bg = "#251f32" })

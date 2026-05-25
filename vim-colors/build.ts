@@ -9,9 +9,9 @@ import {
 import { expandGlob } from "https://deno.land/std@0.201.0/fs/mod.ts";
 import {
   mix as _mix,
+  getContrast,
   parseToHsl,
   parseToRgb,
-  rgb,
 } from "https://esm.sh/polished@4.3.1";
 
 function normalizeColorToHex(color: string) {
@@ -168,9 +168,13 @@ vim.g.colors_name = "${luaName}"
   const greenest = findClosest(scheme.colors, "#2cbf24");
   const reddest = findClosest(scheme.colors, "#aa0306");
 
+  // Some schemes have a very bright base02 (selection) color.
+  // This makes those schemes have dark text on a selection.
+  const visualFg = getContrast(base02, base05) > 3 ? "" : base00;
+
   // core highlights
   highlight("Normal", base05, base00);
-  highlight("Visual", "", base02);
+  highlight("Visual", visualFg, base02);
   highlight("NormalFloat", "", base00);
   highlight("FloatBorder", base03, "");
   highlight("SnippetTabstop", "", mix(0.5, base01, base00)); // using for tree-climber highlight too

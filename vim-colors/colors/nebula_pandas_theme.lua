@@ -4,7 +4,7 @@
 vim.o.background = "dark"
 vim.g.colors_name = "nebula_pandas_theme"
 vim.api.nvim_set_hl(0, "Normal", { fg = "#fcf6ff", bg = "#27273a" })
-vim.api.nvim_set_hl(0, "Visual", { bg = "#94cbf8" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#27273a", bg = "#94cbf8" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#27273a" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#8059a2" })
 vim.api.nvim_set_hl(0, "SnippetTabstop", { bg = "#232535" })
