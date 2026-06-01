@@ -287,11 +287,11 @@ vim.g.colors_name = "${luaName}"
   highlight("DiffLine", base0D, base00);
   highlight("DiffRemoved", reddest, base00);
 
-  // signify signs
-  highlight("SignifySignAdd", greenest, diffAdd);
-  highlight("SignifySignChange", base0D, diffChange);
-  highlight("SignifySignDelete", reddest, "", ["underline"]);
-  highlight("SignifySignDeleteFirstLine", reddest);
+  // Diff gutter signs
+  highlight("DiffAddedGutter", greenest, diffAdd);
+  highlight("DiffModifiedGutter", base0D, diffChange);
+  highlight("DiffRemovedGutter", reddest, "", ["underline"]);
+  highlight("GitSignsTopdelete", reddest);
 
   highlight("SnacksIndent", mix(0.5, base01, base00), "");
 

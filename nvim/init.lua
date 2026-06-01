@@ -491,9 +491,6 @@ local function create_next_variant()
 		new_basename = basename:gsub("Variant " .. letter, "Variant " .. next_char)
 		new_filepath = directory .. new_basename .. ".dj"
 
-		print(new_filepath)
-		print(vim.inspect(vim.uv.fs_stat(new_filepath)))
-
 		-- Check if file exists (fs_stat returns nil if it doesn't)
 		if not vim.uv.fs_stat(new_filepath) then
 			break

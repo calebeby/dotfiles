@@ -518,6 +518,12 @@ return {
 
 					-- Batch get frontmatter for these files
 					local metadata = fm.get(files)
+					for filepath, frontmatter_obj in pairs(metadata) do
+						local file = io.open(filepath, "r")
+						local file_content = file:read("*a")
+						file:close()
+						frontmatter_obj.content = file_content
+					end
 
 					require("snacks").picker({
 						finder = "files",
