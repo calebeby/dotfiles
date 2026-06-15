@@ -64,14 +64,6 @@
     ],
     "prefix": "rubric level boolean"
   },
-  "slide": {
-    "body": [
-      ":::: slide",
-      "${1:}",
-      "::::$0"
-    ],
-    "prefix": "slide"
-  },
   "TODO": {
     "body": "{% TODO: ${1:} %}$0",
     "prefix": "TODO"
@@ -122,6 +114,13 @@
       ":::$0"
     ],
     "prefix": "comment"
+  },
+  "div": {
+    "body": [
+      ":::",
+      ":::"
+    ],
+    "prefix": "div"
   },
   "embed": {
     "body": [
@@ -286,6 +285,14 @@
       ":::"
     ],
     "prefix": "student-info"
+  },
+  "slide": {
+    "body": [
+      ":::: slide",
+      "${1:}",
+      "::::$0"
+    ],
+    "prefix": "slide"
   },
   "solution + sol": {
     "body": [

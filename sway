@@ -41,6 +41,9 @@ output "Samsung Electric Company SAMSUNG 0x01000600" scale 1.1 pos 0 0 resolutio
 # Large TV at SVT in Rm. 6
 output "Mars-Tech Corporation 100150805 Unknown" scale 1.9 pos 0 0
 
+# Large TV at SVT in Rm. 8
+output "BBY INSIGNIA-TV 0x00000001" scale 1.9 pos 0 0 resolution 1920x1080
+
 workspace 10 output "HP Inc. HP E24 G5 CN44203K6T" # SVT external display
 workspace 10 output "Samsung Electric Company SAMSUNG 0x01000600" # Home TV
 workspace 10 output "BNQ BenQ GW2480 ETW8K02455SL0" # Home external display
