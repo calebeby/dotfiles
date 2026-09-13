@@ -355,12 +355,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("djotoptions", { clear = true }),
 	callback = function()
 		vim.opt_local.commentstring = "{% %s %}"
-	end,
-})
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "djot" },
-	callback = function()
 		vim.keymap.set("n", "<leader>O", function()
 			local filepath = vim.fn.expand("%:p")
 			local base_dir = "/home/caleb/Curriculum/"
@@ -636,7 +631,6 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set({ "n", "x" }, "$", "g$", { buffer = true })
 
 		vim.opt_local.linebreak = true
-		vim.opt_local.textwidth = 100 -- Auto-insert line breaks in typed text (while typing in insert mode)
 		vim.opt_local.showbreak = "→ "
 		vim.opt_local.breakindent = true
 		vim.opt_local.spell = true
