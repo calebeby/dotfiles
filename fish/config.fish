@@ -73,8 +73,8 @@ set -px --path PATH ~/.bun/bin
 
 # pnpm
 set -gx PNPM_HOME "/home/caleb/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
 end
 # pnpm end
 

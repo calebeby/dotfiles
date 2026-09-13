@@ -159,10 +159,15 @@ return {
 				"yaml",
 				"bash",
 				"sql",
-				"djot",
+				-- "djot", -- Using local version instead
 				"latex",
 				"typst",
 			})
+
+			vim.treesitter.language.add("djot", {
+				path = "/home/caleb/Programming/calebeby/tree-sitter-djot/djot.so",
+			})
+			vim.treesitter.language.register("djot", { "djot" })
 
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = { "*" },

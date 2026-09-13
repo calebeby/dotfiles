@@ -1,0 +1,1 @@
+/home/caleb/Programming/calebeby/tree-sitter-djot/queries/locals.scm
