@@ -191,7 +191,7 @@ vim.g.colors_name = "${luaName}"
   highlight("ColorColumn", "", mix(0.15, base01, base00));
   highlight("SignColumn", base05);
   highlight("NonText", base01);
-  highlight("WinSeparator", mix(0.4, base01, base00), base00);
+  highlight("WinSeparator", mix(0.8, base00, base05), base00);
   highlight("QuickFixLine", "", base01);
   highlight("Error", base00, base08);
   highlight("Underlined", "", "", ["underline"]);

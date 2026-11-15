@@ -172,6 +172,9 @@ return {
 				explorer = {
 					view_mode = "tree",
 				},
+				history = {
+					date_format = "%b %d, %Y %-I:%M %p",
+				},
 				keymaps = {
 					explorer = {
 						restore = "x", -- (discard)

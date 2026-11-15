@@ -1,7 +1,7 @@
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: "delta --dark --paging=never"
+      command: "delta --dark --paging=never"
       # externalDiffCommand: difft --color=always --display=inline --syntax-highlight=on --context 5
 os:
   shellFunctionsFile: /bin/bash
@@ -55,8 +55,10 @@ customCommands:
         command: >
           if test -z "{{ .Form.msg }}"
 
+
             git commit --amend --no-edit
           else
+
 
             git commit --amend -m '{{ .Form.msg }}'
           end

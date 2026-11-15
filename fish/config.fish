@@ -87,3 +87,8 @@ bilbo --completion-fish | source
 if status --is-interactive
   tv init fish | source
 end
+
+
+# begin bilbo completion
+bilbo --completion-fish | source
+# end bilbo completion
